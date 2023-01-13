@@ -1,0 +1,6 @@
+.DS_STORE
+
+backdjango/approval/migrations/*
+backdjango/buy/migrations/*
+backdjango/order/migrations/*
+backdjango/request/migrations/*
