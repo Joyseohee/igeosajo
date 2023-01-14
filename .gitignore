@@ -6,7 +6,7 @@ backdjango/**/migrations/
 backdjango/**/__pycache__/
 
 # idea config 파일 제외
-backdjango/.idea
+backdjango/.idea/
 
 # 가상환경 파일 제외
 backdjango/venv
