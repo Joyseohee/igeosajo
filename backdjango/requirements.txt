@@ -1,0 +1,6 @@
+django~=4.1.4
+pillow
+psycopg2
+djangorestframework
+markdown
+django-filter
