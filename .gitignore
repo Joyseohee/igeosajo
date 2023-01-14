@@ -1,6 +1,8 @@
 .DS_STORE
 
-backdjango/approval/migrations/*
-backdjango/buy/migrations/*
-backdjango/order/migrations/*
-backdjango/request/migrations/*
+backdjango/approval/migrations
+backdjango/buy/migrations
+backdjango/order/migrations
+backdjango/request/migrations
+backdjango/.idea
+backdjango/venv
