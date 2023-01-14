@@ -1,7 +1,8 @@
 from django.db import models
 
+
 class Cart(models.Model):
-    cartnum = models.CharField(db_column='CARTNUM', primary_key=True, max_length=20)  # Field name made lowercase.
+    cartnum = models.AutoField(db_column='CARTNUM', primary_key=True)  # Field name made lowercase.
     prodnum = models.ForeignKey('Product', models.DO_NOTHING, db_column='PRODNUM')  # Field name made lowercase.
     usernum = models.ForeignKey('User', models.DO_NOTHING, db_column='USERNUM')  # Field name made lowercase.
     cartcount = models.IntegerField(db_column='CARTCOUNT')  # Field name made lowercase.

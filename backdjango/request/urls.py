@@ -6,6 +6,7 @@ app_name = 'request'
 
 router = DefaultRouter()
 router.register('user', views.UserViewSet)
+router.register('reqterm', views.ReqtermViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
