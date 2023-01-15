@@ -3,8 +3,8 @@ from django.db import models
 
 class Cart(models.Model):
     cartnum = models.AutoField(db_column='CARTNUM', primary_key=True)  # Field name made lowercase.
-    prodnum = models.ForeignKey('Product', models.DO_NOTHING, db_column='PRODNUM')  # Field name made lowercase.
-    usernum = models.ForeignKey('User', models.DO_NOTHING, db_column='USERNUM')  # Field name made lowercase.
+    prodnum = models.ForeignKey('Product', models.SET_NULL, null=True, db_column='PRODNUM')  # Field name made lowercase.
+    usernum = models.ForeignKey('User', models.CASCADE, db_column='USERNUM')  # Field name made lowercase.
     cartcount = models.IntegerField(db_column='CARTCOUNT')  # Field name made lowercase.
 
     class Meta:
@@ -24,7 +24,7 @@ class Category1(models.Model):
 
 class Category2(models.Model):
     category2 = models.AutoField(db_column='CATEGORY2', primary_key=True)  # Field name made lowercase.
-    category1 = models.ForeignKey(Category1, models.DO_NOTHING, db_column='CATEGORY1', blank=True, null=True)  # Field name made lowercase.
+    category1 = models.ForeignKey(Category1, models.CASCADE, db_column='CATEGORY1', blank=True, null=True)  # Field name made lowercase.
     category2name = models.CharField(db_column='CATEGORY2NAME', max_length=20)  # Field name made lowercase.
 
     class Meta:
@@ -34,13 +34,13 @@ class Category2(models.Model):
 
 class Doc(models.Model):
     docnum = models.AutoField(db_column='DOCNUM', primary_key=True)  # Field name made lowercase.
-    reqnum = models.ForeignKey('Request', models.DO_NOTHING, db_column='REQNUM')  # Field name made lowercase.
+    reqnum = models.ForeignKey('Request', models.CASCADE, db_column='REQNUM')  # Field name made lowercase.
     docwdate = models.DateField(db_column='DOCWDATE', auto_now_add=True)  # Field name made lowercase.
     docrdate = models.DateField(db_column='DOCRDATE', blank=True, null=True, auto_now=True)  # Field name made lowercase.
     docstate = models.CharField(db_column='DOCSTATE', max_length=20)  # Field name made lowercase.
     docrejectreason = models.CharField(db_column='DOCREJECTREASON', max_length=20, blank=True, null=True)  # Field name made lowercase.
     doccancled = models.IntegerField(db_column='DOCCANCLED', blank=True, null=True)  # Field name made lowercase.
-    usernum = models.ForeignKey('User', models.DO_NOTHING, db_column='USERNUM')  # Field name made lowercase.
+    usernum = models.ForeignKey('User', models.CASCADE, db_column='USERNUM')  # Field name made lowercase.
 
     class Meta:
         managed = False
@@ -50,7 +50,7 @@ class Doc(models.Model):
 
 class Order(models.Model):
     ordernum = models.AutoField(db_column='ORDERNUM', primary_key=True)  # Field name made lowercase.
-    reqnum = models.ForeignKey('Request', models.DO_NOTHING, db_column='REQNUM')  # Field name made lowercase.
+    reqnum = models.ForeignKey('Request', models.CASCADE, db_column='REQNUM')  # Field name made lowercase.
     orderdate = models.DateField(db_column='ORDERDATE', blank=True, null=True, auto_now_add=True)  # Field name made lowercase.
     orderstate = models.CharField(db_column='ORDERSTATE', max_length=20)  # Field name made lowercase.
     orderaddr = models.CharField(db_column='ORDERADDR', max_length=20, blank=True, null=True)  # Field name made lowercase.
@@ -66,7 +66,7 @@ class Product(models.Model):
     prodname = models.CharField(db_column='PRODNAME', max_length=20)  # Field name made lowercase.
     prodprice = models.IntegerField(db_column='PRODPRICE')  # Field name made lowercase.
     prodimg = models.CharField(db_column='PRODIMG', max_length=20)  # Field name made lowercase.
-    category2 = models.ForeignKey(Category2, models.DO_NOTHING, db_column='CATEGORY2')  # Field name made lowercase.
+    category2 = models.ForeignKey(Category2, models.SET_NULL, null=True, db_column='CATEGORY2')  # Field name made lowercase.
 
     class Meta:
         managed = False
@@ -78,7 +78,7 @@ class Reqterm(models.Model):
     termstartdate = models.DateField(db_column='TERMSTARTDATE')  # Field name made lowercase.
     termenddate = models.DateField(db_column='TERMENDDATE')  # Field name made lowercase.
     termavailable = models.IntegerField(db_column='TERMAVAILABLE')  # Field name made lowercase.
-    usernum = models.ForeignKey('User', models.DO_NOTHING, db_column='USERNUM', blank=True, null=True)  # Field name made lowercase.
+    usernum = models.ForeignKey('User', models.CASCADE, db_column='USERNUM', blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
         managed = False
@@ -87,7 +87,7 @@ class Reqterm(models.Model):
 
 class Request(models.Model):
     reqnum = models.AutoField(db_column='REQNUM', primary_key=True)  # Field name made lowercase.
-    prodnum = models.ForeignKey(Product, models.DO_NOTHING, db_column='PRODNUM')  # Field name made lowercase.
+    prodnum = models.ForeignKey(Product, models.CASCADE, db_column='PRODNUM')  # Field name made lowercase.
     reqcount = models.IntegerField(db_column='REQCOUNT')  # Field name made lowercase.
     reqprice = models.IntegerField(db_column='REQPRICE')  # Field name made lowercase.
     reqdate = models.DateField(db_column='REQDATE', auto_now_add=True)  # Field name made lowercase.
@@ -96,8 +96,8 @@ class Request(models.Model):
     reqstaging = models.CharField(db_column='REQSTAGING', max_length=20, blank=True, null=True)  # Field name made lowercase.
     reqrejectreason = models.CharField(db_column='REQREJECTREASON', max_length=20, blank=True, null=True)  # Field name made lowercase.
     reqcancled = models.IntegerField(db_column='REQCANCLED')  # Field name made lowercase.
-    usernum = models.ForeignKey('User', models.DO_NOTHING, db_column='USERNUM')  # Field name made lowercase.
-    termyearmonth = models.ForeignKey(Reqterm, models.DO_NOTHING, db_column='TERMYEARMONTH')  # Field name made lowercase.
+    usernum = models.ForeignKey('User', models.CASCADE, db_column='USERNUM')  # Field name made lowercase.
+    termyearmonth = models.ForeignKey(Reqterm, models.CASCADE, db_column='TERMYEARMONTH')  # Field name made lowercase.
 
     class Meta:
         managed = False
