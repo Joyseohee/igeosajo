@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'order',
     'request',
     'rest_framework',
+    'drf_yasg',
 ]
 
 MIDDLEWARE = [
