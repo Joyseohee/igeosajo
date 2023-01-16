@@ -23,11 +23,7 @@ schema_view = get_schema_view(
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('request/', include('request.urls', 'api')),
-    path('approval/', include('approval.urls')),
-    path('buy/', include('buy.urls')),
-    path('order/', include('order.urls')),
-    path('common/', include('common.urls')),
+    path('api/', include('api.urls', 'api')),
 ]
 
 if settings.DEBUG:
