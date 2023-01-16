@@ -27,6 +27,7 @@ urlpatterns = [
     path('approval/', include('approval.urls')),
     path('buy/', include('buy.urls')),
     path('order/', include('order.urls')),
+    path('common/', include('common.urls')),
 ]
 
 if settings.DEBUG:

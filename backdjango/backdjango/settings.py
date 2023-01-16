@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'buy',
     'order',
     'request',
+    'common',
     'rest_framework',
     'drf_yasg',
 ]
