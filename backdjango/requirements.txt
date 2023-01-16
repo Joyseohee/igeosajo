@@ -5,3 +5,5 @@ djangorestframework
 markdown
 django-filter
 drf_yasg
+psycopg2-binary
+django-cors-headers
