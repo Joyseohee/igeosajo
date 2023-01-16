@@ -35,11 +35,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'approval',
-    'buy',
-    'order',
-    'request',
-    'common',
+    'api',
     'rest_framework',
     'drf_yasg',
 ]
