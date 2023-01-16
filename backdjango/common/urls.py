@@ -5,7 +5,7 @@ from . import views
 app_name = 'common'
 
 router = DefaultRouter()
-router.register('user', views.UserViewSet)
+# router.register('user', views.UserViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
