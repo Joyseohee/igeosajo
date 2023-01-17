@@ -12,6 +12,8 @@ router.register('request', views.RequestViewSet)
 router.register('category2', views.Category2ViewSet)
 router.register('category1', views.Category1ViewSet)
 router.register('order', views.OrderViewSet)
+router.register('cart', views.CartViewSet)
+router.register('doc', views.DocViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
