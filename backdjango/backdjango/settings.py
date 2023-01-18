@@ -36,9 +36,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'api',
-    'rest_framework',
-    'drf_yasg',
-    'django_filters',
 ]
 
 MIDDLEWARE = [
@@ -80,10 +77,10 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'postgres',
-        'USER': 'team2',
-        'PASSWORD': 'qwerasdf',
-        'HOST': 'team2.czbriguucdwp.ap-northeast-2.rds.amazonaws.com',
-        'PORT': '5432',
+        'USER': 'postgres',
+        'PASSWORD': 'xxxxxxAt22cc',
+        'HOST': 'kosa7.iptime.org',
+        'PORT': '55432',
     }
 }
 
