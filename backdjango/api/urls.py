@@ -1,4 +1,4 @@
-from django.urls import include, path
+from django.urls import include, path, re_path
 from . import views
 
 app_name = 'api'
@@ -6,6 +6,8 @@ app_name = 'api'
 urlpatterns = [
     # path('user/', views.UserView),
     path('request', views.request_view),
-    path('reqterm/<int:pk>', views.reqterm_view),
+    path('request/<int:pk>', views.request_pk_view),
+    path('reqterm', views.reqterm_view),
+    path('reqterm/<int:pk>', views.reqterm_pk_view),
 ]
 
