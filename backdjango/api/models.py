@@ -2,16 +2,14 @@ from django.db import models
 
 
 class Cart(models.Model):
-    cartnum = models.AutoField(db_column='CARTNUM', primary_key=True)  # Field name made lowercase.
-    prodnum = models.ForeignKey('Product', models.CASCADE, db_column='PRODNUM')  # Field name made lowercase.
-    usernum = models.ForeignKey('User', models.CASCADE, db_column='USERNUM')  # Field name made lowercase.
+    prodnum = models.OneToOneField('Product', models.DO_NOTHING, db_column='PRODNUM', primary_key=True)  # Field name made lowercase.
+    usernum = models.ForeignKey('User', models.DO_NOTHING, db_column='USERNUM')  # Field name made lowercase.
     cartcount = models.IntegerField(db_column='CARTCOUNT')  # Field name made lowercase.
 
     class Meta:
         managed = False
         db_table = 'CART'
-        unique_together = (('cartnum', 'prodnum'),)
-
+        unique_together = (('prodnum', 'usernum'),)
 
 class Category1(models.Model):
     category1code = models.AutoField(db_column='CATEGORY1CODE', primary_key=True)  # Field name made lowercase.
@@ -20,7 +18,6 @@ class Category1(models.Model):
     class Meta:
         managed = False
         db_table = 'CATEGORY1'
-
 
 class Category2(models.Model):
     category2code = models.AutoField(db_column='CATEGORY2CODE', primary_key=True)  # Field name made lowercase.
@@ -46,7 +43,6 @@ class Doc(models.Model):
         managed = False
         db_table = 'DOC'
         unique_together = (('docnum', 'reqnum'),)
-
 
 class Order(models.Model):
     ordernum = models.AutoField(db_column='ORDERNUM', primary_key=True)  # Field name made lowercase.
@@ -74,7 +70,6 @@ class Product(models.Model):
         managed = False
         db_table = 'PRODUCT'
 
-
 class Reqterm(models.Model):
     termyearmonth = models.IntegerField(db_column='TERMYEARMONTH', primary_key=True)  # Field name made lowercase.
     termstartdate = models.DateField(db_column='TERMSTARTDATE')  # Field name made lowercase.
@@ -85,7 +80,6 @@ class Reqterm(models.Model):
     class Meta:
         managed = False
         db_table = 'REQTERM'
-
 
 class Request(models.Model):
     reqnum = models.AutoField(db_column='REQNUM', primary_key=True)  # Field name made lowercase.
@@ -105,7 +99,6 @@ class Request(models.Model):
         managed = False
         db_table = 'REQUEST'
 
-
 class User(models.Model):
     usernum = models.AutoField(db_column='USERNUM', primary_key=True)  # Field name made lowercase.
     userid = models.CharField(db_column='USERID', max_length=30)  # Field name made lowercase.
@@ -119,14 +112,12 @@ class User(models.Model):
         managed = False
         db_table = 'USER'
 
-
 class AuthGroup(models.Model):
     name = models.CharField(unique=True, max_length=150)
 
     class Meta:
         managed = False
         db_table = 'auth_group'
-
 
 class AuthGroupPermissions(models.Model):
     id = models.BigAutoField(primary_key=True)
@@ -138,7 +129,6 @@ class AuthGroupPermissions(models.Model):
         db_table = 'auth_group_permissions'
         unique_together = (('group', 'permission'),)
 
-
 class AuthPermission(models.Model):
     name = models.CharField(max_length=255)
     content_type = models.ForeignKey('DjangoContentType', models.DO_NOTHING)
@@ -148,7 +138,6 @@ class AuthPermission(models.Model):
         managed = False
         db_table = 'auth_permission'
         unique_together = (('content_type', 'codename'),)
-
 
 class AuthUser(models.Model):
     password = models.CharField(max_length=128)
@@ -166,7 +155,6 @@ class AuthUser(models.Model):
         managed = False
         db_table = 'auth_user'
 
-
 class AuthUserGroups(models.Model):
     id = models.BigAutoField(primary_key=True)
     user = models.ForeignKey(AuthUser, models.DO_NOTHING)
@@ -177,7 +165,6 @@ class AuthUserGroups(models.Model):
         db_table = 'auth_user_groups'
         unique_together = (('user', 'group'),)
 
-
 class AuthUserUserPermissions(models.Model):
     id = models.BigAutoField(primary_key=True)
     user = models.ForeignKey(AuthUser, models.DO_NOTHING)
@@ -187,7 +174,6 @@ class AuthUserUserPermissions(models.Model):
         managed = False
         db_table = 'auth_user_user_permissions'
         unique_together = (('user', 'permission'),)
-
 
 class DjangoAdminLog(models.Model):
     action_time = models.DateTimeField()
@@ -202,7 +188,6 @@ class DjangoAdminLog(models.Model):
         managed = False
         db_table = 'django_admin_log'
 
-
 class DjangoContentType(models.Model):
     app_label = models.CharField(max_length=100)
     model = models.CharField(max_length=100)
@@ -211,7 +196,6 @@ class DjangoContentType(models.Model):
         managed = False
         db_table = 'django_content_type'
         unique_together = (('app_label', 'model'),)
-
 
 class DjangoMigrations(models.Model):
     id = models.BigAutoField(primary_key=True)
@@ -222,7 +206,6 @@ class DjangoMigrations(models.Model):
     class Meta:
         managed = False
         db_table = 'django_migrations'
-
 
 class DjangoSession(models.Model):
     session_key = models.CharField(primary_key=True, max_length=40)

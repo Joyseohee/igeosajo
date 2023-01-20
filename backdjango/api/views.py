@@ -15,17 +15,6 @@ def dictfetchall(cursor):
 
 @csrf_exempt
 def OrderView(request):
-    if request.method == 'GET':
-        return getOrderView(request)
-    if request.method == 'POST':
-        return putOrderView(request)
-
-
-
-
-
-@csrf_exempt
-def OrderView(request):
     if request.method == 'POST':
         return postOrderView(request)
     if request.method == 'GET':
