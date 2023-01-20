@@ -1,3 +1,4 @@
+
 # from django.views.decorators.http import require_http_methods
 import bcrypt
 import jwt
@@ -353,3 +354,4 @@ def accesstoken(request):
     pw_hash = bcrypt.hashpw(pw.encode('utf-8'), bcrypt.gensalt())
 
     pw_hash = pw_hash.decode('utf-8')
+

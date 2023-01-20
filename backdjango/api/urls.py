@@ -12,5 +12,4 @@ urlpatterns = [
     path('delete_request', views.delete_request),
     path('login/', views.login),
     path('token/', views.accesstoken),
-
 ]
