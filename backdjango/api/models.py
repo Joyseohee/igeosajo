@@ -14,7 +14,7 @@ class Cart(models.Model):
 
 
 class Category1(models.Model):
-    category1 = models.AutoField(db_column='CATEGORY1', primary_key=True)  # Field name made lowercase.
+    category1code = models.AutoField(db_column='CATEGORY1CODE', primary_key=True)  # Field name made lowercase.
     category1name = models.CharField(db_column='CATEGORY1NAME', max_length=20)  # Field name made lowercase.
 
     class Meta:
@@ -23,8 +23,8 @@ class Category1(models.Model):
 
 
 class Category2(models.Model):
-    category2 = models.AutoField(db_column='CATEGORY2', primary_key=True)  # Field name made lowercase.
-    category1 = models.ForeignKey(Category1, models.CASCADE, db_column='CATEGORY1', blank=True, null=True)  # Field name made lowercase.
+    category2code = models.AutoField(db_column='CATEGORY2CODE', primary_key=True)  # Field name made lowercase.
+    category1code = models.ForeignKey('Category1', models.CASCADE, db_column='CATEGORY1CODE', blank=True, null=True)  # Field name made lowercase.
     category2name = models.CharField(db_column='CATEGORY2NAME', max_length=20)  # Field name made lowercase.
 
     class Meta:
@@ -68,7 +68,7 @@ class Product(models.Model):
     prodname = models.CharField(db_column='PRODNAME', max_length=20)  # Field name made lowercase.
     prodprice = models.IntegerField(db_column='PRODPRICE')  # Field name made lowercase.
     prodimg = models.CharField(db_column='PRODIMG', max_length=500)  # Field name made lowercase.
-    category2 = models.ForeignKey(Category2, models.CASCADE, db_column='CATEGORY2')  # Field name made lowercase.
+    category2code = models.ForeignKey('Category2', models.CASCADE, db_column='CATEGORY2CODE')  # Field name made lowercase.
 
     class Meta:
         managed = False

@@ -32,9 +32,10 @@ class RequestSerializer(serializers.ModelSerializer):
 
 
 class ProductSerializer(serializers.ModelSerializer):
+    # category1code = serializers.ReadOnlyField(source='category2code.category1code')
     class Meta:
         model = Product
-        fields = '__all__'
+        fields = ['prodnum', 'prodname', 'prodprice', 'prodimg', 'category2code', ]
 
 
 class Category2Serializer(serializers.ModelSerializer):
