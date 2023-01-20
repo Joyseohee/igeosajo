@@ -1,12 +1,15 @@
 # from django.views.decorators.http import require_http_methods
 import json
-
+import jwt
+import time
+import bcrypt
 from django.http import HttpResponse, JsonResponse
 from django.db import connection
 from django.views.decorators.csrf import csrf_exempt
 from datetime import datetime
 
-def index(request):
+
+def index(self):
     pass
 
 
@@ -21,54 +24,128 @@ def dictfetchall(cursor):
 # ---------------------------------------------------------------
 # ---------------------------------------------------------------
 # ---------------------------------------------------------------
-@csrf_exempt
-def login(request):
-    if request.method == "GET":
-        # 처음 로그인 화면 띄우기
-        response = HttpResponse("로그인 화면")
-        # return render(request, 'users/main.html')
-        return response
 
-    elif request.method == "POST":
-        username = request.POST['username']
-        password = request.POST['password']
-        user = authenticate(request, username=username, password=password)
+def accesstoken(request):
+    pw = '1234'
+    pw_hash = bcrypt.hashpw(pw.encode('utf-8'), bcrypt.gensalt())
 
-        if user is not None:
-                login(request, user)
-                # Redirect to a success page.
-                # return HttpResponseRedirect(reverse('posts:index'))
-                response = HttpResponse("성공")
-                return response
-        else:
-            # Return an 'invalid login' error message.
-            # return render(request, 'users/main.html')
-            response = HttpResponse("실패")
-            return response
+    pw_hash = pw_hash.decode('utf-8')
+
+
+
+
+
+
+
+
+# ---------------------------------------------------------------
+# ---------------------------------------------------------------
 
 @csrf_exempt
-def doc_find(request):
+def login(self):
     """
     GET
-    state 조회 - 상태 별 조회
-    func 조회 - 결재 문서 수 조회
-    데이터 아무것도 없을 시 - 전체 조회
+    처음 로그인 화면 띄우기
+    login/
+    
+    POST
+    json 파일을 받아 조회 후
+    값이 있으면 토큰 해석
+    없으면
+    id, password 입력 받아 조회 후
+    토큰 받아 전송
+    login/
+    
+    [
+        {
+            "userid":"id2",
+            "userpwd":"pwd"
+            }
+    ]
+    
+    [
+        {
+            "token":"생성된 토큰"
+        }
+    ]
+    """
+
+    if self.method == "GET":
+        response = HttpResponse("로그인 화면")
+
+    elif self.method == "POST":
+
+        data = json.loads(self.body)
+        
+        print(data[0])
+        
+        try :
+            # 토큰 해석
+            data = data[0]["token"]
+            public_key = 'very_secret'
+            decoded = jwt.decode(data, public_key, algorithms='HS256')
+            print(decoded)
+            response = HttpResponse("토큰 해석 성공")
+
+        except:
+            # 토큰 생성
+            userid = '\'' + data[0]["userid"] + '\''
+            userpwd = '\'' + data[0]["userpwd"] + '\''
+
+            cursor = connection.cursor()
+
+            # 로그인 판단
+            query = 'select "USERNUM" from "USER" ' \
+                    'where "USERID" =' + userid + 'and "USERPWD" =' + userpwd
+
+            cursor.execute(query)
+
+            judge = cursor.fetchall()
+
+            if judge:
+                key = 'very_secret'
+                now = int(time.time())
+                exp = now + 10000
+                jwt_payload = {'userid': userid, 'start_at': now, 'exp': exp}
+                encoded = jwt.encode(jwt_payload, key, 'HS256')
+
+                encoded = json.loads('[{"secretcode": "' + encoded + '"}]')
+            else:
+                encoded = json.loads('[{"secretcode": ""}]')
+            response = HttpResponse(encoded)
+
+    return response
+
+
+@csrf_exempt
+def doc_find(self):
+    """
+    GET
+    state 조회 - 상태 별 조회 -- document/?state={상태}
+    func 조회 - 구매 대기 상태인 문서 조회 -- document/?func=DISTINCTDOCNUM
+    func 조회 - 구매 대기 상태인 문서 상세 조회 -- document/?func=DISTINCTDOCNUM&REQNUMGET={docnum}
+    데이터 아무것도 없을 시 - 전체 조회 -- document/
 
     POST
     결재 문서 요청
+    document/
     [
         {
     "id":[2,4,6]
         }
     ]
+    
+    PUT
+    docordered 상태를 1로 만든다
+    구매 했다는 것을 1로 표시 한다
     """
 
     cursor = connection.cursor()
 
-    if request.method == 'GET':
+    if self.method == 'GET':
 
-        data = request.GET.get('state')
-        func = request.GET.get('func')
+        data = self.GET.get('state')
+        func = self.GET.get('func')
 
         if data:
             docstate = '\'' + data + '\''
@@ -76,7 +153,11 @@ def doc_find(request):
 
         elif func:
             if (func == 'DISTINCTDOCNUM'):
-                query = 'SELECT DISTINCT "DOCNUM" FROM "DOC"'
+                query = 'SELECT DISTINCT "DOCNUM","DOCORDERED","DOCRDATE" FROM "DOC" WHERE "DOCSTATE" = \'승인\' and "DOCORDERED" = 0'
+                
+            elif func == 'REQNUMGET':
+                docnum = self.GET.get('docnum')
+                query = 'SELECT "REQNUM" FROM "DOC" WHERE "DOCNUM" =\'' + docnum + '\''
 
         else:
             query = 'SELECT * FROM "DOC"'
@@ -86,9 +167,9 @@ def doc_find(request):
         data = dictfetchall(cursor)
         response = JsonResponse(data, safe=False)
 
-    elif request.method == 'POST':
+    elif self.method == 'POST':
 
-        data = json.loads(request.body)
+        data = json.loads(self.body)
 
         # 마지막 문서 번호 가져오기
         query = 'select "DOCNUM" from "DOC" order by "DOCNUM" desc limit 1'
@@ -120,17 +201,29 @@ def doc_find(request):
         connection.close()
 
         response = HttpResponse("성공")
+
+    elif self.method == 'PUT':
+        request = json.loads(self.body)
+        docnum = request['DOCNUM']
+        ordernum = 1
+        query = 'update "DOC" set "DOCORDERED" = %s WHERE "DOCNUM" = %s'
+        val = (ordernum, docnum)
+        cursor.execute(query, val)
+        response = HttpResponse("성공")
+
     return response
 
 
 @csrf_exempt
-def doc_detail(request, DOCNUM):
+def doc_detail(self, DOCNUM):
     """
     GET
+    document/{docnum}
     결재문서 상세 조회
     작성일자, 상품명, 상품코드, 신청수량,신청가격 ,진행 현황 ,반려이유
 
     PATCH
+    document/{docnum}
     결재문서 상태 변경
     [
         {
@@ -145,7 +238,7 @@ def doc_detail(request, DOCNUM):
     """
     cursor = connection.cursor()
 
-    if request.method == 'GET':
+    if self.method == 'GET':
 
         query = 'select "DOCWDATE","PRODNAME", R."PRODNUM", "REQCOUNT", "REQPRICE", "DOCSTATE", "DOCREJECTREASON"' \
                 'from "REQUEST" R join "DOC" D on R."REQNUM" = D."REQNUM" ' \
@@ -155,7 +248,7 @@ def doc_detail(request, DOCNUM):
         data = dictfetchall(cursor)
         response = JsonResponse(data, safe=False)
 
-    elif request.method == 'PATCH':
+    elif self.method == 'PATCH':
 
         query = 'select "REQNUM" from "DOC" where "DOCNUM"=' + str(DOCNUM)
         cursor.execute(query)
@@ -165,7 +258,7 @@ def doc_detail(request, DOCNUM):
         date = datetime.today().strftime("%Y-%m-%d")
         date = '\'' + str(date) + '\''
 
-        data = json.loads(request.body)
+        data = json.loads(self.body)
 
         docstate = '\'' + data[0]['state'] + '\''
 
@@ -183,7 +276,7 @@ def doc_detail(request, DOCNUM):
 
         response = HttpResponse("성공")
 
-    elif request.method == 'DELETE':
+    elif self.method == 'DELETE':
         query = 'select "REQNUM" from "DOC" where "DOCNUM"=' + str(DOCNUM)
         cursor.execute(query)
 
