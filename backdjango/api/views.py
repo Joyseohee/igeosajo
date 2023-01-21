@@ -110,14 +110,11 @@ def login(self):
 
         data = json.loads(self.body)
 
-        print(data[0])
-
         try:
             # 토큰 해석
             data = data[0]["token"]
             public_key = 'very_secret'
             decoded = jwt.decode(data, public_key, algorithms='HS256')
-            print(decoded)
             response = HttpResponse("토큰 해석 성공")
 
         except:
@@ -166,8 +163,6 @@ def get_cart2(self):
     token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyaWQiOiInaWQnIiwic3RhcnRfYXQiOjE2NzQxOTgwMTAsImV4cCI6MTY3NDIwODAxMH0.P9Gh3dxTHvWiryYajjLdc1XJVNOKCS_SZy_4gGGeSIM"
     public_key = 'very_secret'
     decoded = jwt.decode(token, public_key, algorithms='HS256')
-    print(decoded)
-    print(decoded["userid"])
     userid = decoded["userid"]
     query = 'SELECT "USERNUM" FROM "USER" WHERE "USERID" = ' +userid
     cursor.execute(query)
@@ -178,7 +173,6 @@ def get_cart2(self):
     cursor.execute(query, val)
     data = dictfetchall(cursor)
     response = JsonResponse(data, safe=False)
-    print(response)
     return response
 
 def post_cart(self):
@@ -192,7 +186,6 @@ def post_cart(self):
                 'values  (%s, %s, %s)'
         val = (prodnum, usernum, cartcount)
         cursor.execute(query, val)
-        print(req)
     response = HttpResponse("성공")
     return response
 
@@ -335,7 +328,6 @@ def patch_reqterm_pk(self, pk):
 
 def get_order_view(self):
     func = self.GET.get('func')
-    print(self.GET)
     cursor = connection.cursor()
     if (func == 'ALLSELECT'):
         query = 'SELECT * FROM "ORDER"'
@@ -359,13 +351,11 @@ def post_order_view(self):
     orderaddr = request['ORDERADDR'],
     ordertel = request['ORDERTEL'],
     ordermeno = request['ORDERMEMO']
-
     cursor = connection.cursor()
     query = 'SELECT Max("ORDERNUM") FROM "ORDER"'
     cursor.execute(query)
     orderdata = dictfetchall(cursor)
     ordernum = orderdata[0]['max'] + 1
-
     query = 'SELECT "REQNUM" FROM "DOC" WHERE "DOCNUM" = %s'
     cursor.execute(query, docnum)
     reqdata = dictfetchall(cursor)
@@ -572,7 +562,6 @@ def doc_detail(self, DOCNUM):
         reqnum = cursor.fetchall()
 
         for i in reqnum:
-            print(i)
             query = 'delete from "DOC" where "DOCNUM"=' + str(DOCNUM) + 'and "REQNUM"=' + str(i[0])
             cursor.execute(query)
 
