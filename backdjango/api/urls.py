@@ -10,7 +10,7 @@ urlpatterns = [
     path('reqterm/<int:pk>', views.reqterm_pk_view),
     path('cart', views.cart_view),
     path('product', views.product_view),
+    path('order/', views.order_view),
     path('login/', views.login),
     path('token/', views.accesstoken),
 ]
-

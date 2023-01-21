@@ -53,6 +53,17 @@ def reqterm_pk_view(self, pk):
     if self.method == 'PATCH':
         return patch_reqterm_pk(self, pk)
 
+
+@csrf_exempt
+def order_view(request):
+    if request.method == 'POST':
+        return post_order_view(request)
+    if request.method == 'GET':
+        return get_order_view(request)
+    if request.method == 'PATCH':
+        return patch_order_view(request)
+
+
 def get_cart(self):
     usernum = self.GET.get('usernum', None)
     cursor = connection.cursor()
@@ -149,10 +160,6 @@ def get_product(self):
         val = (category2code, '%'+prodname+'%')
         cursor.execute(query, val)
 
-
-    data = dictfetchall(cursor)
-    response = JsonResponse(data, safe=False)
-    return response
 
 @csrf_exempt
 def login(self):
@@ -323,6 +330,78 @@ def get_reqterm_pk(self, pk):
 def patch_reqterm_pk(self, pk):
     return reqterm_update_query(self, str(pk))
 
+def get_order_view(self):
+    func = self.GET.get('func')
+    cursor = connection.cursor()
+    if (func == 'ALLSELECT'):
+        query = 'SELECT * FROM "ORDER"'
+        cursor.execute(query)
+    elif (func == 'DISTINCTORDERNUM'):
+        query = 'SELECT DISTINCT "ORDERNUM" FROM "ORDER"'
+        cursor.execute(query)
+    elif (func == 'REQNUMGET'):
+        ordernum = self.GET.get('ordernum')
+        query = 'SELECT "REQNUM" FROM "ORDER" WHERE "ORDERNUM" = %s'
+        cursor.execute(query, ordernum)
+    data = dictfetchall(cursor)
+    response = JsonResponse(data, safe=False)
+    return response
+
+def post_order_view(self):
+    request = json.loads(self.body)
+    docnum = request['DOCNUM'],
+    orderdate = request['ORDERDATE'],
+    orderstate = request['ORDERSTATE'],
+    orderaddr = request['ORDERADDR'],
+    ordertel = request['ORDERTEL'],
+    ordermeno = request['ORDERMEMO']
+
+    cursor = connection.cursor()
+    query = 'SELECT Max("ORDERNUM") FROM "ORDER"'
+    cursor.execute(query)
+    orderdata = dictfetchall(cursor)
+    ordernum = orderdata[0]['max'] + 1
+
+    query = 'SELECT "REQNUM" FROM "DOC" WHERE "DOCNUM" = %s'
+    cursor.execute(query, docnum)
+    reqdata = dictfetchall(cursor)
+    templen = len(reqdata)
+
+    for i in range(0, templen):
+        reqnum = reqdata[i]['REQNUM']
+
+        query = 'INSERT INTO "ORDER" ("ORDERNUM","REQNUM","ORDERDATE", "ORDERSTATE", "ORDERADDR", "ORDERTEL", "ORDERMEMO") ' \
+                'VALUES (%s,%s, %s, %s, %s, %s,%s)'
+
+        val = (ordernum, reqnum, orderdate, orderstate, orderaddr, ordertel, ordermeno)
+        cursor.execute(query, val)
+
+    response = HttpResponse("성공")
+    return response
+
+def patch_order_view(self):
+    request = json.loads(self.body)
+    ordernum = request['ORDERNUM']
+    orderstate = request['ORDERSTATE']
+    cursor = connection.cursor()
+    query = 'update "ORDER" set "ORDERSTATE" = %s WHERE "ORDERNUM" = %s'
+    val = (orderstate, ordernum)
+    cursor.execute(query, val)
+
+    if (orderstate == "불출 완료"):
+        query = 'SELECT "REQNUM" FROM "ORDER" WHERE "ORDERNUM" = %s'
+        cursor.execute(query, str(ordernum))
+        data = dictfetchall(cursor)
+        templen = len(data)
+        for i in range(0, templen):
+            reqnum = data[i]['REQNUM']
+            query = 'update "REQUEST" set "REQSTAGING" = %s WHERE "REQNUM" = %s'
+            val = ("처리완료", str(reqnum))
+            cursor.execute(query, val)
+
+    response = HttpResponse("성공")
+    return response
+
 # request 테이블 select query 묶음
 def request_select_query(columns):
     cursor = connection.cursor()
@@ -392,4 +471,4 @@ def reqterm_update_query(self, pk):
     val = (termavailable,pk, usernum)
     cursor.execute(query, val)
     response = HttpResponse("성공")
-    return response
+
