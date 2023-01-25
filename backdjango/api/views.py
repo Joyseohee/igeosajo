@@ -12,6 +12,11 @@ def dictfetchall(cursor):
     return [dict(zip([col[0] for col in desc], row)) for row in cursor.fetchall()]
 
 @csrf_exempt
+def user_view(self):
+    if self.method == 'GET':
+        return get_user(self)
+
+@csrf_exempt
 def cart_view(self):
     if self.method == 'GET':
         return get_cart(self)
@@ -37,8 +42,8 @@ def request_view(self):
 def request_pk_view(self, pk):
     if self.method == 'GET':
         return get_request_pk(self, pk)
-    if self.method == 'PATCH':
-        return patch_request_pk(self, pk)
+    if self.method == 'PUT':
+        return put_request_pk(self, pk)
 
 @csrf_exempt
 def reqterm_view(self):
@@ -51,8 +56,8 @@ def reqterm_view(self):
 def reqterm_pk_view(self, pk):
     if self.method == 'GET':
         return get_reqterm_pk(self, pk)
-    if self.method == 'PATCH':
-        return patch_reqterm_pk(self, pk)
+    if self.method == 'PUT':
+        return put_reqterm_pk(self, pk)
 
 
 @csrf_exempt
@@ -73,6 +78,20 @@ def accesstoken(request):
 
 # ---------------------------------------------------------------
 # ---------------------------------------------------------------
+
+def get_user(self):
+    usernum = self.GET.get('usernum', None)
+        
+    cursor = connection.cursor()
+    query=''
+    if usernum is not None:
+        query = 'SELECT * FROM "USER" WHERE "USERNUM"='+usernum
+    else :
+        query = 'SELECT * FROM "USER"'
+    cursor.execute(query)
+    data = dictfetchall(cursor)
+    response = JsonResponse(data, safe=False)
+    return response
 
 @csrf_exempt
 def login(self):
@@ -279,7 +298,7 @@ def get_request_pk(self, pk):
         params['U."USERNUM"'] = usernum
     return request_select_query(params)
 
-def patch_request_pk(self, pk):
+def put_request_pk(self, pk):
     return request_update_query(self, str(pk))
 
 def delete_request(self):
@@ -323,7 +342,7 @@ def get_reqterm_pk(self, pk):
     if usernum is not None:
         params['"USERNUM"'] = usernum
     return reqterm_select_query(params)
-def patch_reqterm_pk(self, pk):
+def put_reqterm_pk(self, pk):
     return reqterm_update_query(self, str(pk))
 
 def get_order_view(self):
