@@ -1,0 +1,48 @@
+.header {
+  width: 100vw;
+  background: white;
+}
+
+.header-wrapper {
+  height: 60px;
+  padding: 0 20px;
+}
+
+.bar-wrapper {
+  color: white;
+  background-color: rgb(52, 152, 219);
+  padding: 5px 20px;
+}
+
+.container {
+  padding: 0 20px;
+}
+.logout {
+  display: flex;
+  justify-content: flex-start;
+  align-self: center;
+}
+
+.bar {
+  text-align: start;
+}
+.logo-wrapper,
+.profile {
+  display: flex;
+  justify-content: flex-start;
+  align-self: center;
+  /* border: 1px red solid; */
+}
+.logo {
+  font-weight: 900;
+  font-size: larger;
+  text-align: start;
+  color: rgb(52, 152, 219);
+}
+
+.photo {
+  padding: 0;
+  background-image: url("https://www.flaticon.com/free-icon-font/user_3917711?related_id=3917711");
+  background: no-repeat;
+  background-size: 10%;
+}

@@ -1,0 +1,21 @@
+.sidebar-wrapper {
+  width: 200px;
+  height: 100vh;
+  background-color: rgb(224, 224, 224);
+}
+
+
+.sidebar {
+  flex: 2;
+  padding: 20px;
+}
+.menu-wrapper {
+  margin-bottom: 10px;
+}
+.menu1 {
+  margin-bottom: 5px;
+}
+.menu2 {
+  margin-bottom: 5px;
+  margin-left: 20px;
+}

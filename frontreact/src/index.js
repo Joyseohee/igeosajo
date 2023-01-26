@@ -5,6 +5,11 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import {BrowserRouter} from 'react-router-dom';
 
+import 'bootstrap/dist/css/bootstrap.min.css';
+
+<script src="https://cdn.jsdelivr.net/npm/react/umd/react.production.min.js" crossOrigin></script>
+
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <BrowserRouter>
