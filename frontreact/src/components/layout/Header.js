@@ -19,9 +19,9 @@ class Header extends Component {
     });
     const data = await response.json();
     this.setState({
-      username: data[0].USERNAME,
-      userdept: data[0].USERDEPT,
-      userposition: data[0].USERPOSITION,
+      username: data[0].username,
+      userdept: data[0].userdept,
+      userposition: data[0].userposition,
     });
   }
 

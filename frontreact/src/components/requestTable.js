@@ -55,15 +55,15 @@ class requestTable extends Component {
 
         const list = this.state.items.map((list, idx) => (
             <tbody>
-            <tr key={list.REQNUM}>
+            <tr key={list.reqnum}>
                 <td>{idx + 1}</td>
-                    <td><Form.Check aria-label="option 1" name={"select"} value={list.REQNUM} onChange={(e) => {
+                    <td><Form.Check aria-label="option 1" name={"select"} value={list.reqnum} onChange={(e) => {
                         this.choiceUnit(e.target.checked, e.target.value);
                     }}/></td>
-                <td>{list.PRODNAME}</td>
-                <td>{list.REQCOUNT}</td>
-                <td>{list.REQAPVDATE}</td>
-                <td>{list.USERNAME}</td>
+                <td>{list.prodname}</td>
+                <td>{list.reqcount}</td>
+                <td>{list.reqapvdate}</td>
+                <td>{list.username}</td>
             </tr>
             </tbody>
         ))
