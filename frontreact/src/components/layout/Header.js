@@ -19,9 +19,9 @@ class Header extends Component {
     });
     const data = await response.json();
     this.setState({
-      username: data[0].USERNAME,
-      userdept: data[0].USERDEPT,
-      userposition: data[0].USERPOSITION,
+      username: data[0].username,
+      userdept: data[0].userdept,
+      userposition: data[0].userposition,
     });
   }
 
@@ -30,19 +30,24 @@ class Header extends Component {
     const { userdept } = this.state;
     const { userposition } = this.state;
     const { pagename } = this.props;
-    console.log(pagename);
+
     return (
       <div className="header">
         <Row className="header-wrapper">
-          <Col lg="8" md="8" className="logo-wrapper">
+          <Col sm="8" className="logo-wrapper">
             <div className="logo">Office</div>
           </Col>
-          <Col lg="3" md="3" className="profile">
+          <Col sm="3" className="profile">
             <Row>
-              <Col lg="3" md="3">
+              <Col sm="3">
                 <div className="photo">사진</div>
               </Col>
-              <Col lg="9" md="9" className="info">
+              <Col sm="9" className="info">
+                <Row>
+                  <Col>
+                    <div className="name">{username}</div>
+                  </Col>
+                </Row>
                 <Row>
                   <Col>
                     <div className="dept">
@@ -50,15 +55,10 @@ class Header extends Component {
                     </div>
                   </Col>
                 </Row>
-                <Row>
-                  <Col>
-                    <div className="name">{username}</div>
-                  </Col>
-                </Row>
               </Col>
             </Row>
           </Col>
-          <Col lg="1" md="1" className="logout">
+          <Col sm="1" className="logout">
             <div>로그아웃</div>
           </Col>
         </Row>
