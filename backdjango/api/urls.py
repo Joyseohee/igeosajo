@@ -12,8 +12,8 @@ urlpatterns = [
     path('cart', views.cart_view),
     path('product', views.product_view),
     path('order', views.order_view),
-    path('document', views.doc_find),
-    path('document/<int:DOCNUM>', views.doc_detail),
-    path('login', views.login),
+    path('document', views.doc_view),
+    path('document/<int:DOCNUM>', views.doc_detail_view),
+    path('login', views.login_view),
     path('token', views.accesstoken),
 ]
