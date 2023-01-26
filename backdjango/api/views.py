@@ -12,6 +12,10 @@ def dictfetchall(cursor):
     desc = cursor.description
     return [dict(zip([col[0] for col in desc], row)) for row in cursor.fetchall()]
 
+@csrf_exempt
+def user_view(self):
+    if self.method == 'GET':
+        return get_user(self)
 
 @csrf_exempt
 def login_view(self):
@@ -94,7 +98,7 @@ def doc_view(self):
 def doc_detail_view(self, DOCNUM):
     if self.method == 'GET':
         return get_doc_detail(self, DOCNUM)
-    elif self.method == 'PATCH':
+    elif self.method == 'PUT':
         return patch_doc_detail(self, DOCNUM)
     elif self.method == 'DELETE':
         return delete_doc_detail(self, DOCNUM)
@@ -108,6 +112,22 @@ def accesstoken(request):
 
 # ---------------------------------------------------------------
 # ---------------------------------------------------------------
+
+def get_user(self):
+    usernum = self.GET.get('usernum', None)
+
+    cursor = connection.cursor()
+    query = ''
+    if usernum is not None:
+        query = 'SELECT * FROM "USER" WHERE "USERNUM"=' + usernum
+    else:
+        query = 'SELECT * FROM "USER"'
+    cursor.execute(query)
+    data = dictfetchall(cursor)
+    response = JsonResponse(data, safe=False)
+    return response
+
+
 def get_login(self):
     """
     GET
@@ -573,7 +593,7 @@ def get_doc_detail(self, DOCNUM):
 @csrf_exempt
 def patch_doc_detail(self, DOCNUM):
     """
-    PATCH
+    PUT
     document/{docnum}
     결재문서 상태 변경
     [

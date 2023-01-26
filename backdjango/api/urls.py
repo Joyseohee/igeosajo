@@ -4,6 +4,7 @@ from . import views
 app_name = 'api'
 
 urlpatterns = [
+    path('user', views.user_view),
     path('request', views.request_view),
     path('request/<int:pk>', views.request_pk_view),
     path('reqterm', views.reqterm_view),
