@@ -539,7 +539,7 @@ def post_doc(self):
     lastnum = cursor.fetchall()[0][0] + 1
     lastnum = str(lastnum) + ','
 
-    reqnum = data[0]['id']
+    reqnum = data['id']
 
     date = datetime.today().strftime("%Y-%m-%d")
     date = '\'' + str(date) + '\'' + ','
@@ -554,8 +554,13 @@ def post_doc(self):
         wait = '\'대기\''
         query = 'insert into doc values (' + lastnum + reqnumword + date + 'null,' + wait + ', null,' + str(
             0) + ',' + str(usernum) + ',' + str(0) + ')'
-        connection.commit()
+
         cursor.execute(query)
+
+        query = 'update request set reqstaging = \'처리중\' where reqnum = ' + str(i)
+        cursor.execute(query)
+        
+        connection.commit()
 
     connection.close()
 
