@@ -1,14 +1,24 @@
 import React, {Component} from "react";
-import {Route, Routes} from "react-router-dom";
+import Layouts from "../components/layout/Layouts";
+import Requestmain from "../components/reqterm/Requestmain";
 
-class App extends Component {
+class Reqterm extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            usernum: "2",
+            pagename: "신청 기간 페이지",
+        };
+    }
+
     render() {
+        const {pagename, usernum} = this.state;
         return (
-            <div>
-                왔다
+            <div className="page-top">
+                <Layouts pagename={pagename} usernum={usernum}><Requestmain /></Layouts>
             </div>
         );
     }
 }
 
-export default App;
+export default Reqterm;

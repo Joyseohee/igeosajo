@@ -6,11 +6,12 @@ import "bootstrap/dist/css/bootstrap.css";
 
 class App extends Component {
     render() {
+
         return (
             <div>
                 <Routes>
-                    <Route path="/" element={<Home/>}/>
-                    <Route path="/aa" element={<Reqterm/>}/>
+                    <Route path="/" element={<Home />}/>
+                    <Route path="/reqterm" element={<Reqterm/>}/>
                 </Routes>
             </div>
         );
