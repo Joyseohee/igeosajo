@@ -10,6 +10,20 @@ import RequestTable from "../components/requestTable";
 import "../styled/DocRequestCss.css"
 
 class DocRequest extends Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            reqSend: false
+        };
+    }
+
+    reqSendClick = (fromChild) => {
+        console.log(fromChild, "parent");
+
+        this.setState({reqSend: fromChild});
+    }
+
     render() {
         return (
             <div>
@@ -19,9 +33,10 @@ class DocRequest extends Component {
                     <div className={"writeRequest"}>
                         <div className={"commentDiv"}>
                             <Goal comment={"전자 결재 작성"}/>
-                            <span><RequestSendButton/></span>
+                            <span><RequestSendButton reqSend={this.state.reqSend}
+                                                     reqSendClick={this.reqSendClick}/></span>
                         </div>
-                        <RequestTable/>
+                        <RequestTable reqSend={this.state.reqSend} reqSendClick={this.reqSendClick}/>
                     </div>
                 </div>
             </div>
