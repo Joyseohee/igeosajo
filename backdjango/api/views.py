@@ -12,7 +12,6 @@ def dictfetchall(cursor):
     desc = cursor.description
     return [dict(zip([col[0] for col in desc], row)) for row in cursor.fetchall()]
 
-
 @csrf_exempt
 def user_view(self):
     if self.method == 'GET':
@@ -207,10 +206,12 @@ def post_login(self):
 def get_cart(self):
     usernum = self.GET.get('usernum', None)
     cursor = connection.cursor()
+
     query = 'SELECT *, (SELECT prodname FROM product WHERE prodnum = cartinfo.prodnum),' \
             '(SELECT prodimg FROM product WHERE prodnum = cartinfo.prodnum), ' \
             '(SELECT prodprice FROM product WHERE prodnum = cartinfo.prodnum) ' \
             'FROM cart AS cartinfo WHERE usernum = %s ORDER BY prodnum DESC'
+
     val = usernum,
     cursor.execute(query, val)
     data = dictfetchall(cursor)
@@ -555,6 +556,17 @@ def post_doc(self):
         query = 'insert into doc values (' + lastnum + reqnumword + date + 'null,' + wait + ', null,' + str(
             0) + ',' + str(usernum) + ',' + str(0) + ')'
 
+    # 삽입
+    for i in reqnum:
+        query = 'select usernum from request where reqnum =' + str(i)
+        cursor.execute(query)
+        usernum = cursor.fetchall()[0][0]
+
+        reqnumword = str(i) + ','
+        wait = '\'대기\''
+        query = 'insert into doc values (' + lastnum + reqnumword + date + 'null,' + wait + ', null,' + str(
+            0) + ',' + str(usernum) + ',' + str(0) + ')'
+        connection.commit()
         cursor.execute(query)
 
         query = 'update request set reqstaging = \'처리중\' where reqnum = ' + str(i)
@@ -579,7 +591,9 @@ def put_doc(self):
     cursor = connection.cursor()
     request = json.loads(self.body)
     docnum = request['docnum']
+
     print(docnum)
+
     ordernum = 1
     query = 'update doc set docordered = %s WHERE docnum = %s'
     val = (ordernum, docnum)
@@ -601,6 +615,7 @@ def get_doc_detail(self, DOCNUM):
     query = 'select docwdate, prodname, R.prodnum, reqcount, reqprice, docstate, docrejectreason' \
             ' from request R join doc D on R.reqnum = D.reqnum' \
             ' join product P on P.prodnum = R.prodnum where docnum=' + str(DOCNUM) + 'order by docwdate'
+
 
     cursor.execute(query)
     data = dictfetchall(cursor)

@@ -1,5 +1,4 @@
 django~=4.1.4
-pillow
 psycopg2
 markdown
 psycopg2-binary
