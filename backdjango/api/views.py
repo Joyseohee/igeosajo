@@ -57,8 +57,8 @@ def request_view(self):
 def request_pk_view(self, pk):
     if self.method == 'GET':
         return get_request_pk(self, pk)
-    if self.method == 'PATCH':
-        return patch_request_pk(self, pk)
+    if self.method == 'PUT':
+        return put_request_pk(self, pk)
 
 
 @csrf_exempt
@@ -73,8 +73,8 @@ def reqterm_view(self):
 def reqterm_pk_view(self, pk):
     if self.method == 'GET':
         return get_reqterm_pk(self, pk)
-    if self.method == 'PATCH':
-        return patch_reqterm_pk(self, pk)
+    if self.method == 'PUT':
+        return put_reqterm_pk(self, pk)
 
 
 @csrf_exempt
@@ -83,8 +83,8 @@ def order_view(request):
         return post_order_view(request)
     if request.method == 'GET':
         return get_order_view(request)
-    if request.method == 'PATCH':
-        return patch_order_view(request)
+    if request.method == 'PUT':
+        return put_order_view(request)
 
 
 @csrf_exempt
@@ -172,6 +172,7 @@ def post_login(self):
         data = data[0]["token"]
         public_key = 'very_secret'
         decoded = jwt.decode(data, public_key, algorithms='HS256')
+        print(decoded)
         response = HttpResponse("토큰 해석 성공")
 
     except:
@@ -206,10 +207,12 @@ def post_login(self):
 def get_cart(self):
     usernum = self.GET.get('usernum', None)
     cursor = connection.cursor()
+
     query = 'SELECT *, (SELECT prodname FROM product WHERE prodnum = cartinfo.prodnum),' \
             '(SELECT prodimg FROM product WHERE prodnum = cartinfo.prodnum), ' \
             '(SELECT prodprice FROM product WHERE prodnum = cartinfo.prodnum) ' \
             'FROM cart AS cartinfo WHERE usernum = %s ORDER BY prodnum DESC'
+
     val = usernum,
     cursor.execute(query, val)
     data = dictfetchall(cursor)
@@ -236,21 +239,6 @@ def get_cart2(self):
     return response
 
 
-# def post_cart(self):
-#     cartcount = str(self.GET.get('usernum', None))
-#     request = json.loads(self.body)
-#     for req in request:
-#         prodnum = req['prodnum']
-#         usernum = req['usernum']
-#         cartcount = req['cartcount']
-#         cursor = connection.cursor()
-#         query = 'insert into cart (prodnum, usernum, cartcount)' \
-#                 'values  (%s, %s, %s)'
-#         val = (prodnum, usernum, cartcount)
-#         cursor.execute(query, val)
-#     response = HttpResponse("성공")
-#     return response
-
 def post_cart(self):
     request = json.loads(self.body)
     prodnum = request['prodnum']
@@ -261,7 +249,8 @@ def post_cart(self):
     cursor = connection.cursor()
 
     for num, count in zip(prodnum, cartcount):
-        query = 'insert into cart (usernum, prodnum, cartcount) values ('+str(usernum)+', '+str(num)+', '+str(count)+')'
+        query = 'insert into cart (usernum, prodnum, cartcount) values (' + str(usernum) + ', ' + str(num) + ', ' + str(
+            count) + ')'
         cursor.execute(query)
 
     response = HttpResponse("성공")
@@ -275,7 +264,6 @@ def delete_cart(self):
     print("prodnum:" + prodnum)
     print("usernum:" + usernum)
     cursor = connection.cursor()
-
 
     for i in prodnum:
         query = 'DELETE FROM cart WHERE usernum=' + str(usernum) + ' and prodnum=' + str(i[0])
@@ -372,7 +360,7 @@ def get_request_pk(self, pk):
     return request_select_query(params)
 
 
-def patch_request_pk(self, pk):
+def put_request_pk(self, pk):
     return request_update_query(self, str(pk))
 
 
@@ -406,8 +394,8 @@ def post_reqterm(self):
     termavailable = request['termavailable']
     usernum = request['usernum']
     cursor = connection.cursor()
-    query = 'insert into reqterm' \
-            'values  (%s, %s, %s, %s, %s)'
+    query = 'insert into reqterm ' \
+            'values (%s, %s, %s, %s, %s)'
     val = (termyearmonth, termstartdate, termenddate, termavailable, usernum)
     cursor.execute(query, val)
     response = HttpResponse("성공")
@@ -423,7 +411,7 @@ def get_reqterm_pk(self, pk):
     return reqterm_select_query(params)
 
 
-def patch_reqterm_pk(self, pk):
+def put_reqterm_pk(self, pk):
     return reqterm_update_query(self, str(pk))
 
 
@@ -476,7 +464,7 @@ def post_order_view(self):
     return response
 
 
-def patch_order_view(self):
+def put_order_view(self):
     request = json.loads(self.body)
     ordernum = request['ordernum']
     orderstate = request['orderstate']
@@ -561,7 +549,7 @@ def post_doc(self):
     lastnum = cursor.fetchall()[0][0] + 1
     lastnum = str(lastnum) + ','
 
-    reqnum = data[0]['id']
+    reqnum = data['id']
 
     date = datetime.today().strftime("%Y-%m-%d")
     date = '\'' + str(date) + '\'' + ','
@@ -576,8 +564,24 @@ def post_doc(self):
         wait = '\'대기\''
         query = 'insert into doc values (' + lastnum + reqnumword + date + 'null,' + wait + ', null,' + str(
             0) + ',' + str(usernum) + ',' + str(0) + ')'
+
+    # 삽입
+    for i in reqnum:
+        query = 'select usernum from request where reqnum =' + str(i)
+        cursor.execute(query)
+        usernum = cursor.fetchall()[0][0]
+
+        reqnumword = str(i) + ','
+        wait = '\'대기\''
+        query = 'insert into doc values (' + lastnum + reqnumword + date + 'null,' + wait + ', null,' + str(
+            0) + ',' + str(usernum) + ',' + str(0) + ')'
         connection.commit()
         cursor.execute(query)
+
+        query = 'update request set reqstaging = \'처리중\' where reqnum = ' + str(i)
+        cursor.execute(query)
+
+        connection.commit()
 
     connection.close()
 
@@ -596,6 +600,9 @@ def put_doc(self):
     cursor = connection.cursor()
     request = json.loads(self.body)
     docnum = request['docnum']
+
+    print(docnum)
+
     ordernum = 1
     query = 'update doc set docordered = %s WHERE docnum = %s'
     val = (ordernum, docnum)
@@ -615,8 +622,8 @@ def get_doc_detail(self, DOCNUM):
     cursor = connection.cursor()
 
     query = 'select docwdate, prodname, R.prodnum, reqcount, reqprice, docstate, docrejectreason' \
-            'from request R join doc D on R.reqnum = D.reqnum' \
-            'join product P on P.prodnum = R.prodnum where docnum=' + str(DOCNUM) + 'order by docwdate'
+            ' from request R join doc D on R.reqnum = D.reqnum' \
+            ' join product P on P.prodnum = R.prodnum where docnum=' + str(DOCNUM) + 'order by docwdate'
 
     cursor.execute(query)
     data = dictfetchall(cursor)

@@ -102,11 +102,11 @@ class Product extends Component {
             <tr key={list.prodnum}>
                 <td>{idx + 1}</td>
                 <td><Form.Check aria-label="option 1" name={"select"}
-                                value={{value1: list.prodnum, value2: list.prodprice}}
+                                value={[ list.prodnum ,  list.prodprice]}
                                 onChange={(e) => {
-                                    this.choiceUnit(e.target.checked, e.target.value.value1, e.target.value.value2);
-                                    console.log("value1:" + e.target.value.value1)
-                                    console.log("value2:" + e.target.value.value2)
+                                    this.choiceUnit(e.target.checked, e.target.value[1], e.target.value[2]);
+                                    console.log("value1:" + e.target.value[1])
+                                    console.log("value2:" + e.target.value[2])
                                 }}/></td>
                 <td>{list.prodname}</td>
                 <td>{list.prodnum}</td>
