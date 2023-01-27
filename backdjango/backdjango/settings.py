@@ -33,6 +33,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'api',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
@@ -76,7 +77,7 @@ DATABASES = {
         'NAME': 'postgres',
         'USER': 'postgres',
         'PASSWORD': 'xxxxxxAt22cc',
-        'HOST': 'kosa7.iptime.org',
+        'HOST': '112.221.225.165',
         'PORT': '55432',
     }
 }

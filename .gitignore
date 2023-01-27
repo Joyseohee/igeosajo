@@ -2,6 +2,7 @@
 
 # migration 파일 제외
 backdjango/**/migrations/
+
 # 컴파일 파일 제외
 backdjango/**/__pycache__/
 
@@ -10,4 +11,7 @@ backdjango/.idea/
 .idea
 
 # 가상환경 파일 제외
-backdjango/venv
+backdjango/venv/
+
+# node_modules 제외
+frontreact/node_modules/

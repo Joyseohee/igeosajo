@@ -10,6 +10,6 @@ urlpatterns = [
     # path('test3/<int:usernum>/', views.CartDeleteView),
     path('post_request', views.post_request),
     path('delete_request', views.delete_request),
-    path('login/', views.login),
+
     path('token/', views.accesstoken),
 ]
