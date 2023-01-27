@@ -29,14 +29,14 @@ def getOrderView(self):
     cursor = connection.cursor()
 
     if (func == 'ALLSELECT'):
-        query = 'SELECT * FROM "ORDER"'
+        query = 'SELECT * FROM "ORDER" ORDER BY "ORDERNUM" desc '
         cursor.execute(query)
     elif (func == 'DISTINCTORDERNUM'):
-        query = 'SELECT DISTINCT "ORDERNUM" FROM "ORDER"'
+        query = 'SELECT DISTINCT "ORDERNUM" FROM "ORDER" ORDER BY "ORDERNUM" desc'
         cursor.execute(query)
     elif (func == 'REQNUMGET'):
         ordernum = self.GET.get('ordernum')
-        query = 'SELECT "REQNUM" FROM "ORDER" WHERE "ORDERNUM" = %s'
+        query = 'SELECT "REQNUM" FROM "ORDER" WHERE "ORDERNUM" = %s '
         cursor.execute(query, ordernum)
 
     data = dictfetchall(cursor)
@@ -54,7 +54,7 @@ def patchOrderView(self):
     cursor.execute(query, val)
 
     if (orderstate == "불출 완료"):
-        query = 'SELECT "REQNUM" FROM "ORDER" WHERE "ORDERNUM" = %s'
+        query = 'SELECT "REQNUM" FROM "ORDER" WHERE "ORDERNUM" = %s '
         cursor.execute(query, str(ordernum))
         data = dictfetchall(cursor)
         templen = len(data)
