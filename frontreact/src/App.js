@@ -2,6 +2,8 @@ import React, {Component} from "react";
 import {Route, Routes} from "react-router-dom";
 import Home from "./pages/Home";
 import Reqterm from "./pages/Reqterm";
+import Login from "./components/Login";
+
 import "bootstrap/dist/css/bootstrap.css";
 
 import DocRequest from "./pages/DocRequest";
@@ -13,6 +15,7 @@ class App extends Component {
             <div>
                 <Routes>
                     <Route path="/" element={<Home/>}/>
+                    <Route path={"login/"} element={<Login/>}/>
                     <Route path="/reqterm" element={<Reqterm/>}/>
                     <Route path={"docrequest/"} element={<DocRequest></DocRequest>}></Route>
                 </Routes>

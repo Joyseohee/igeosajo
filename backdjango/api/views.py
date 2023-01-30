@@ -165,6 +165,7 @@ def post_login(self):
     """
 
     data = json.loads(self.body)
+    print(data)
 
     try:
         # 토큰 해석
@@ -176,8 +177,10 @@ def post_login(self):
 
     except:
         # 토큰 생성
-        userid = '\'' + data[0]["userid"] + '\''
-        userpwd = '\'' + data[0]["userpwd"] + '\''
+        # userid = '\'' + data[0]["userid"] + '\''
+
+        userid = '\'' + data["userid"] + '\''
+        userpwd = '\'' + data["userpwd"] + '\''
 
         cursor = connection.cursor()
 
@@ -196,10 +199,11 @@ def post_login(self):
             jwt_payload = {'userid': userid, 'start_at': now, 'exp': exp}
             encoded = jwt.encode(jwt_payload, key, 'HS256')
 
-            encoded = json.loads('[{"secretcode": "' + encoded + '"}]')
+            encoded = json.loads('{"secretcode": "' + encoded + '"}')
         else:
-            encoded = json.loads('[{"secretcode": ""}]')
-        response = HttpResponse(encoded)
+            encoded = json.loads('{"secretcode": "0"}')
+
+        response = JsonResponse(encoded, safe=False)
     return response
 
 

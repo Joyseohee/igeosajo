@@ -14,7 +14,7 @@ class modal1 extends Component {
     render() {
         return (
             <div>
-                <Button variant="primary" onClick={ () => {
+                <Button variant="primary" onClick={ (e) => {
                     this.state.show = true;
                 } }>
                     Launch static backdrop modal
@@ -22,7 +22,7 @@ class modal1 extends Component {
 
                 <Modal
                     show={this.state.show}
-                    onHide={ () => {this.state.show = false;} }
+                    onHide={ (e) => {this.state.show = false;} }
                     backdrop="static"
                     keyboard={false}
                 >
@@ -34,7 +34,7 @@ class modal1 extends Component {
                         escape key.
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button variant="secondary" onClick={() => {this.state.show = false;}}>
+                        <Button variant="secondary" onClick={(e) => {this.state.show = false;}}>
                             Close
                         </Button>
                         <Button variant="primary">Understood</Button>
