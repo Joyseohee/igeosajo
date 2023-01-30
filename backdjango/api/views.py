@@ -166,18 +166,22 @@ def post_login(self):
     """
 
     data = json.loads(self.body)
+    print(data)
 
     try:
         # 토큰 해석
         data = data[0]["token"]
         public_key = 'very_secret'
         decoded = jwt.decode(data, public_key, algorithms='HS256')
+        print(decoded)
         response = HttpResponse("토큰 해석 성공")
 
     except:
         # 토큰 생성
-        userid = '\'' + data[0]["userid"] + '\''
-        userpwd = '\'' + data[0]["userpwd"] + '\''
+        # userid = '\'' + data[0]["userid"] + '\''
+
+        userid = '\'' + data["userid"] + '\''
+        userpwd = '\'' + data["userpwd"] + '\''
 
         cursor = connection.cursor()
 
@@ -196,17 +200,23 @@ def post_login(self):
             jwt_payload = {'userid': userid, 'start_at': now, 'exp': exp}
             encoded = jwt.encode(jwt_payload, key, 'HS256')
 
-            encoded = json.loads('[{"secretcode": "' + encoded + '"}]')
+            encoded = json.loads('{"secretcode": "' + encoded + '"}')
         else:
-            encoded = json.loads('[{"secretcode": ""}]')
-        response = HttpResponse(encoded)
+            encoded = json.loads('{"secretcode": "0"}')
+
+        response = JsonResponse(encoded, safe=False)
     return response
 
 
 def get_cart(self):
     usernum = self.GET.get('usernum', None)
     cursor = connection.cursor()
-    query = 'SELECT * FROM cart WHERE usernum = %s'
+
+    query = 'SELECT *, (SELECT prodname FROM product WHERE prodnum = cartinfo.prodnum),' \
+            '(SELECT prodimg FROM product WHERE prodnum = cartinfo.prodnum), ' \
+            '(SELECT prodprice FROM product WHERE prodnum = cartinfo.prodnum) ' \
+            'FROM cart AS cartinfo WHERE usernum = %s ORDER BY prodnum DESC'
+
     val = usernum,
     cursor.execute(query, val)
     data = dictfetchall(cursor)
@@ -236,9 +246,9 @@ def get_cart2(self):
 def post_cart(self):
     request = json.loads(self.body)
     for req in request:
-        prodnum = req['PRODNUM']
-        usernum = req['USERNUM']
-        cartcount = req['CARTCOUNT']
+        prodnum = req['prodnum']
+        usernum = req['usernum']
+        cartcount = req['cartcount']
         cursor = connection.cursor()
         query = 'insert into cart (prodnum, usernum, cartcount)' \
                 'values  (%s, %s, %s)'
@@ -297,6 +307,10 @@ def get_product(self):
         query = 'SELECT * FROM product WHERE category2code= %s and prodname like %s'
         val = (category2code, '%' + prodname + '%')
         cursor.execute(query, val)
+
+    data = dictfetchall(cursor)
+    response = JsonResponse(data, safe=False)
+    return response
 
 
 def get_request(self):
@@ -446,7 +460,7 @@ def post_order_view(self):
     return response
 
 
-def patch_order_view(self):
+def put_order_view(self):
     request = json.loads(self.body)
     ordernum = request['ordernum']
     orderstate = request['orderstate']
@@ -531,7 +545,7 @@ def post_doc(self):
     lastnum = cursor.fetchall()[0][0] + 1
     lastnum = str(lastnum) + ','
 
-    reqnum = data[0]['id']
+    reqnum = data['id']
 
     date = datetime.today().strftime("%Y-%m-%d")
     date = '\'' + str(date) + '\'' + ','
@@ -546,8 +560,24 @@ def post_doc(self):
         wait = '\'대기\''
         query = 'insert into doc values (' + lastnum + reqnumword + date + 'null,' + wait + ', null,' + str(
             0) + ',' + str(usernum) + ',' + str(0) + ')'
+
+    # 삽입
+    for i in reqnum:
+        query = 'select usernum from request where reqnum =' + str(i)
+        cursor.execute(query)
+        usernum = cursor.fetchall()[0][0]
+
+        reqnumword = str(i) + ','
+        wait = '\'대기\''
+        query = 'insert into doc values (' + lastnum + reqnumword + date + 'null,' + wait + ', null,' + str(
+            0) + ',' + str(usernum) + ',' + str(0) + ')'
         connection.commit()
         cursor.execute(query)
+
+        query = 'update request set reqstaging = \'처리중\' where reqnum = ' + str(i)
+        cursor.execute(query)
+
+        connection.commit()
 
     connection.close()
 
@@ -566,6 +596,9 @@ def put_doc(self):
     cursor = connection.cursor()
     request = json.loads(self.body)
     docnum = request['docnum']
+
+    print(docnum)
+
     ordernum = 1
     query = 'update doc set docordered = %s WHERE docnum = %s'
     val = (ordernum, docnum)
@@ -585,8 +618,8 @@ def get_doc_detail(self, DOCNUM):
     cursor = connection.cursor()
 
     query = 'select docwdate, prodname, R.prodnum, reqcount, reqprice, docstate, docrejectreason' \
-            'from request R join doc D on R.reqnum = D.reqnum' \
-            'join product P on P.prodnum = R.prodnum where docnum=' + str(DOCNUM) + 'order by docwdate'
+            ' from request R join doc D on R.reqnum = D.reqnum' \
+            ' join product P on P.prodnum = R.prodnum where docnum=' + str(DOCNUM) + 'order by docwdate'
 
     cursor.execute(query)
     data = dictfetchall(cursor)

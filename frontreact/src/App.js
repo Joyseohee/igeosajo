@@ -5,10 +5,9 @@ import Reqterm from "./pages/Reqterm";
 import "bootstrap/dist/css/bootstrap.css";
 import Layouts from "./components/layout/Layouts";
 import Request from "./pages/Request";
+import Login from "./components/Login";
 
-// let pagename="";
 class App extends Component {
-
     constructor() {
         super();
         this.state = {
@@ -84,10 +83,11 @@ class App extends Component {
     render() {
         return (
             <div>
+                <Routes><Route path="/" element={<Login/>}/></Routes>
                 {(this.state.userathority !== 3 && this.state.menus !== 1) &&
                     <Layouts userinfo={this.state} pagename={this.state.pagename}>
                         <Routes>
-                            <Route path="/" element={<Home setpagename={this.setpagename}/>}/>
+                            <Route exact path="/home" element={<Home setpagename={this.setpagename}/>}/>
                             <Route exact path="/reqterm" element={<Reqterm setpagename={this.setpagename}/>}/>
                             <Route exact path="/request" element={<Request setpagename={this.setpagename}/>}/>
                         </Routes>

@@ -1,0 +1,26 @@
+.loginDiv{
+    display: flex;
+    height: 100vh;
+    flex-direction: column;
+    align-items: center;
+}
+
+.loginDiv img {
+    width: 8rem;
+    margin-bottom: 3rem;
+    margin-top: 10rem;
+}
+
+.mb-3{
+    width: 20rem;
+}
+
+.d-grid{
+    width: 18.5rem;
+}
+
+Form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}

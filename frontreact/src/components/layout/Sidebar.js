@@ -11,6 +11,7 @@ class Sidebar extends Component {
             <div className="sidebar-wrapper">
                 <div className="sidebar">
                     <div className="menu-wrapper">
+
                         {menus.map((menu) => {
                             return (
                                 <>
