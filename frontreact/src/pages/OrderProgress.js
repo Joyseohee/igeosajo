@@ -1,26 +1,10 @@
 import React, {Component} from 'react';
-import {Route, Routes} from 'react-router-dom';
-import companyLogo from '../img/headerimage.png';
-import all from '../img/allicon.png'
-import deliver from '../img/iconsdeliver.png'
-import finish from '../img/iconsfinish.png'
-import parchase from '../img/iconsparchase.png'
-import dot from '../img/icondot.png'
 import '../css/header.css'
-import Card from 'react-bootstrap/Card';
 import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import Form from 'react-bootstrap/Form';
-import Table from 'react-bootstrap/Table';
-import InputGroup from 'react-bootstrap/InputGroup';
-import Button from 'react-bootstrap/Button';
-
-import Headertitle from '../components/OrderProgress/headerTitle'
-import DateSetting from '../components/OrderProgress/dateSetting'
-import OrderSearch from '../components/OrderProgress/orderSearch'
-import OrderTable from '../components/OrderProgress/orderTable'
-import OrderView from '../components/OrderProgress/orderView'
+import Headertitle from '../components/orderProgress/HeaderTitle'
+import DateSetting from '../components/orderProgress/DateSetting'
+import OrderSearch from '../components/orderProgress/OrderSearch'
+import OrderView from '../components/orderProgress/OrderView'
 
 
 

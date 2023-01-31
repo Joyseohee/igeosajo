@@ -1,12 +1,12 @@
 import React, {Component} from 'react';
-import OrderTable from "./orderTable";
+import OrderTable from "./OrderTable";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Card from "react-bootstrap/Card";
 import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import Table from "react-bootstrap/Table";
-import TotalPrice from "./totalPrice";
+import TotalPrice from "./TotalPrice";
 
 let orderstate = ""
 let sdate

@@ -16,11 +16,11 @@ import Table from 'react-bootstrap/Table';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Button from 'react-bootstrap/Button';
 
-import Headertitle from '../components/OrderProgress/headerTitle'
-import DateSetting from '../components/OrderProgress/dateSetting'
-import OrderSearch from '../components/OrderProgress/orderSearch'
-import OrderTable from '../components/OrderProgress/orderTable'
-import OrderView from '../components/OrderProgress/orderView'
+import Headertitle from '../components/orderProgress/headerTitle'
+import DateSetting from '../components/orderProgress/dateSetting'
+import OrderSearch from '../components/orderProgress/orderSearch'
+import OrderTable from '../components/orderProgress/OrderTable'
+import OrderView from '../components/orderProgress/orderView'
 
 
 class OrderProgress extends Component {

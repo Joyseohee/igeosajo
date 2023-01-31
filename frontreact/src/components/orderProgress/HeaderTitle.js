@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import '../../css/header.css'
-import OrderProgress from "../../pages/OrderProgress";
+// import OrderProgress from "../../pages/OrderProgress";
 
 let title = ''
 class HeaderTitle extends Component {
