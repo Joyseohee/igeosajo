@@ -15,6 +15,7 @@ class Product extends Component {
             title: '',
             body: ''
         };
+        this.props.setpagename("상품목록");
 
     }
 

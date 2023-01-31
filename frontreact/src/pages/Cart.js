@@ -11,6 +11,10 @@ let reqpriceList = []
 let usernum = '1';
 
 class Hello extends Component {
+    constructor(props) {
+        super(props);
+        this.props.setpagename("장바구니");
+    }
     state = {
         items: [],
         select: "False",

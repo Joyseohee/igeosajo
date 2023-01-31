@@ -68,7 +68,6 @@ def reqterm_view(self):
     if self.method == 'POST':
         return post_reqterm(self)
 
-
 @csrf_exempt
 def reqterm_pk_view(self, pk):
     if self.method == 'GET':
@@ -166,6 +165,7 @@ def post_login(self):
     """
 
     data = json.loads(self.body)
+    print(data)
 
     try:
         # 토큰 해석
@@ -173,18 +173,21 @@ def post_login(self):
         public_key = 'very_secret'
         decoded = jwt.decode(data, public_key, algorithms='HS256')
         print(decoded)
-        response = HttpResponse("토큰 해석 성공")
+
+        response = JsonResponse(decoded)
 
     except:
         # 토큰 생성
-        userid = '\'' + data[0]["userid"] + '\''
-        userpwd = '\'' + data[0]["userpwd"] + '\''
+        # userid = '\'' + data[0]["userid"] + '\''
+        # userid = '\'' + data["userid"] + '\''
+        userid = data["userid"]
+        userpwd = '\'' + data["userpwd"] + '\''
 
         cursor = connection.cursor()
 
         # 로그인 판단
         query = 'select usernum from users ' \
-                'where userid =' + userid + 'and userpwd =' + userpwd
+                'where userid = \'' + userid + '\' and userpwd =' + userpwd
 
         cursor.execute(query)
 
@@ -194,13 +197,14 @@ def post_login(self):
             key = 'very_secret'
             now = int(time.time())
             exp = now + 10000
-            jwt_payload = {'userid': userid, 'start_at': now, 'exp': exp}
+            jwt_payload = {'userid': userid, 'usernum': judge[0][0],'start_at': now, 'exp': exp}
             encoded = jwt.encode(jwt_payload, key, 'HS256')
 
-            encoded = json.loads('[{"secretcode": "' + encoded + '"}]')
+            encoded = json.loads('{"secretcode": "' + encoded + '"}')
         else:
-            encoded = json.loads('[{"secretcode": ""}]')
-        response = HttpResponse(encoded)
+            encoded = json.loads('{"secretcode": "0"}')
+
+        response = JsonResponse(encoded, safe=False)
     return response
 
 
@@ -241,6 +245,7 @@ def get_cart2(self):
 
 def post_cart(self):
     request = json.loads(self.body)
+
     prodnum = request['prodnum']
     cartcount = request['cartcount']
     usernum = request['usernum']
@@ -264,6 +269,7 @@ def post_cart(self):
             query = 'insert into cart (usernum, prodnum, cartcount) values (' + str(usernum) + ', ' + str(
                 num) + ', ' + str(count) + ')'
             cursor.execute(query)
+
 
     response = HttpResponse("성공")
     return response
@@ -336,6 +342,7 @@ def get_request(self):
     termyearmonth = self.GET.get('termyearmonth', None)
     reqstaging = self.GET.get('reqstaging', None)
     reqstate = self.GET.get('reqstate', None)
+    reqorder = self.GET.get('reqorder', None)
     usernum = self.GET.get('usernum', None)
     params = {}
     if usernum is not None:
@@ -346,6 +353,8 @@ def get_request(self):
         params['r.reqstaging'] = reqstaging
     if reqstate is not None:
         params['r.reqstate'] = reqstate
+    if reqorder is not None:
+        params['r.reqorder'] = reqorder
     return request_select_query(params)
 
 
@@ -740,20 +749,21 @@ def request_select_query(columns):
     response = JsonResponse(data, safe=False)
     return response
 
-    # request 테이블 update query
-
-
+# request 테이블 update query
 def request_update_query(self, pk):
     request = json.loads(self.body)
+    print(request['reqstate'])
     reqstate = request['reqstate']
     reqstaging = request['reqstaging']
     reqrejectreason = request['reqrejectreason']
-    usernum = request['usernum']
+    # usernum = request['usernum']
     cursor = connection.cursor()
     query = 'UPDATE request ' \
             'SET reqstate = %s, reqapvdate = CURRENT_DATE, reqstaging = %s, reqrejectreason = %s  ' \
-            'WHERE reqnum = %s and usernum = %s'
-    val = (reqstate, reqstaging, reqrejectreason, pk, usernum)
+            'WHERE reqnum = %s'
+            # 'WHERE reqnum = %s and usernum = %s'
+    # val = (reqstate, reqstaging, reqrejectreason, pk, usernum)
+    val = (reqstate, reqstaging, reqrejectreason, pk)
     cursor.execute(query, val)
     response = HttpResponse("성공")
     return response

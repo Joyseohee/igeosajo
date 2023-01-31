@@ -17,6 +17,7 @@ class RequestUser extends Component {
             title: '',
             body: ''
         };
+        this.props.setpagename("신청목록");
 
     }
 
