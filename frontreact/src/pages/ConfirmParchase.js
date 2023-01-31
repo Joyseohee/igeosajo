@@ -16,11 +16,11 @@ import Table from 'react-bootstrap/Table';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Button from 'react-bootstrap/Button';
 
-import Headertitle from '../Components/OrderProgress/HeaderTitle'
-import DateSetting from '../Components/OrderProgress/DateSetting'
-import OrderSearch from '../Components/OrderProgress/OrderSearch'
-import StateChangeBtn from '../Components/OrderProgress/StateChangeBtn'
-import OrderView from '../Components/OrderProgress/OrderView'
+import Headertitle from '../components/OrderProgress/headerTitle'
+import DateSetting from '../components/OrderProgress/dateSetting'
+import OrderSearch from '../components/OrderProgress/orderSearch'
+import OrderTable from '../components/OrderProgress/orderTable'
+import OrderView from '../components/OrderProgress/orderView'
 
 
 class OrderProgress extends Component {
@@ -50,7 +50,7 @@ class OrderProgress extends Component {
                     <Headertitle title="구매 요청 목록"></Headertitle>
                     <DateSetting></DateSetting>
                     <OrderSearch></OrderSearch>
-                    <StateChangeBtn></StateChangeBtn>
+                    <OrderTable></OrderTable>
                     <OrderView></OrderView>
                     <OrderView></OrderView>
                 </Container>

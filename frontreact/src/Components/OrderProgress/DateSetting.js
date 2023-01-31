@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
-import HeaderTitle from "./HeaderTitle";
+import HeaderTitle from "./headerTitle";
 
 
 
@@ -12,7 +12,7 @@ class DateSetting extends Component {
    constructor(props) {
         super(props);
         this.state = {
-            posts: [],
+
             startyear: this.props.date[0],
             startmonth: this.props.date[1],
             endyear: this.props.date[2],
@@ -23,11 +23,7 @@ class DateSetting extends Component {
     }
     
     componentDidMount() {
-        fetch('http://127.0.0.1:8000/api/order/?func=REQNUMGET&ordernum=3')
-            .then(res => res.json())
-            .then(data => this.setState({
-                posts: data
-            }));
+
     }
     dateValueClear(startyeartar,startmonthtar,endyeartar,endmonthtar){
         startyeartar.value = ""
@@ -52,14 +48,18 @@ class DateSetting extends Component {
          let endmonth = document.getElementById("endmonth").value
 
          let now = new Date();
-
+         console.log(startyear)
+         console.log(startmonth)
+         console.log(endyear)
+         console.log(endmonth)
          if (startyear == "" | startmonth == ""|endyear == ""|endmonth == ""){console.log("시작일과 마감일을 정확하게 입력해주세요.")}
-         else if((startyear>endyear)|startmonth < 1 | startmonth>12 | endmonth < 1 | endmonth>12){console.log("시작일과 마감일을 정확하게 입력해주세요.")}
+         if((startyear>endyear)|startmonth < 1 | startmonth>12 | endmonth < 1 | endmonth>12){console.log("시작일과 마감일을 정확하게 입력해주세요.")}
          else{
              this.setState({startyear: startyear});
              this.setState({startmonth: startmonth});
              this.setState({endyear: endyear});
              this.setState({endmonth: endmonth});
+            this.props.datesetting(startyear,startmonth,endyear,endmonth)
              console.log("조회기간이 설정되었습니다.")
          }
 

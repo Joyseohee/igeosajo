@@ -18,13 +18,12 @@ import Button from 'react-bootstrap/Button';
 
 import Headertitle from '../components/OrderProgress/headerTitle'
 import DateSetting from '../components/OrderProgress/dateSetting'
-import OrderSearch from '../components/OrderProgress/orderSearch'
-import OrderTable from '../components/OrderProgress/orderTable'
-import OrderView from '../components/OrderProgress/orderView'
+import OrderReqSearch from '../components/OrderRequestList/orderReqSearch'
+import OrderReqTable from "../components/OrderRequestList/orderReqTable";
 
 
 
-let  defaultstate = 'allselect'
+let  defaultstate = 'prevparchase'
 
 class OrderProgress extends Component {
     constructor(props) {
@@ -37,7 +36,7 @@ class OrderProgress extends Component {
 
         this.state = {
             posts: [],
-            orderstate: defaultstate,
+            orderdocstate: defaultstate,
             startyear: now.getFullYear(),
             startmonth: now.getMonth() + 1,
             endyear: now.getFullYear(),
@@ -55,9 +54,9 @@ class OrderProgress extends Component {
         //     }));
     }
 
-    ordersearchstate = (state) => {
-
-        this.setState({orderstate: state});
+    orderdocsearchstate = (state) => {
+        this.setState({orderdocstate: state});
+        console.log(state)
         this.forceUpdate();
     };
 
@@ -126,8 +125,7 @@ class OrderProgress extends Component {
 
     render() {
         const {
-            posts,
-            orderstate,
+            orderdocstate,
             startyear,
             startmonth,
             endyear,
@@ -136,18 +134,14 @@ class OrderProgress extends Component {
             enddate
         } = this.state;
         const date = [startyear, startmonth, endyear, endmonth]
-        const postsList = posts.map((post) => (
-            <div key={post.REQNUM} id={post.REQNUM}>
-                <h4>{post.REQNUM}</h4>
-            </div>
-        ));
+
         return (
             <div>
                 <Container fluid style={{margin: 0, padding: 0}}>
-                    <Headertitle title="구매 진행 현황"></Headertitle>
+                    <Headertitle title="구매 신청 목록"></Headertitle>
                     <DateSetting date={date} datesetting={this.datesetting}></DateSetting>
-                    <OrderSearch orderstate={this.ordersearchstate} startdate={startdate} enddate={enddate}></OrderSearch>
-                    <OrderView orderstate={orderstate} startdate={startdate} enddate={enddate}></OrderView>
+                    <OrderReqSearch orderdocsearchstate={this.orderdocsearchstate} startdate={startdate} enddate={enddate}></OrderReqSearch>
+                    <OrderReqTable orderdocstate={orderdocstate} startdate={startdate} enddate={enddate}></OrderReqTable>
                 </Container>
             </div>
         );
