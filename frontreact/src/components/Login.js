@@ -2,6 +2,10 @@ import React, {Component} from 'react';
 import {Container, Row, Col, Button, Form} from "react-bootstrap";
 import "../styled/LoginCss.css"
 
+import Header from "./layout/Header";
+import {Link} from "react-router-dom";
+
+
 class Login extends Component {
 
     constructor(props) {
@@ -11,6 +15,11 @@ class Login extends Component {
             userPwd: "",
         };
     }
+
+    nav = () => {
+
+    }
+
     loginClick = () => {
 
         let data;
@@ -29,24 +38,30 @@ class Login extends Component {
                     userid: this.state.userId,
                     userpwd: this.state.userPwd
                 }),
-            }).then((response) => response.json())
-                .then((response) => {
-                    data = response["secretcode"]
-                    if (data === "0") {
-                        alert("아이디 또는 비밀번호가 맞지 않습니다.")
-                    } else {
-                        alert("성공")
-                        localStorage.setItem("secretcode", data);
-                    }
-                });
+            }).then((response) => {
+                return response.json()
+            }).then((response) => {
+                let data = response["secretcode"];
+                console.log(data);
+                if (data === "0") {
+                    alert("아이디 또는 비밀번호가 맞지 않습니다.")
+                } else {
+                    alert("성공");
+                    localStorage.setItem("secretcode", data);
+                    window.location.assign('http://localhost:3000/home');
+                    // this.history.push('/request');
+                }
+            });
         }
     }
 
     render() {
         return (
             <div className={"loginDiv"}>
+                <Header pagename="로그인" userinfo=" "/>
                 <img src={"/user.png"}/>
                 <Container className="panel">
+
                     <Form>
                         <Form.Group as={Row} className="mb-3" controlId="formPlaintextPassword">
                             <Col sm>
@@ -67,7 +82,7 @@ class Login extends Component {
                         <br/>
 
                         <div className="d-grid gap-1">
-                            <Button style={{backgroundColor: "rgb(82, 150, 213)", border:"none"}} onClick={(e) => {
+                            <Button style={{backgroundColor: "rgb(82, 150, 213)", border: "none"}} onClick={(e) => {
                                 this.loginClick();
                             }}>
                                 Sign In

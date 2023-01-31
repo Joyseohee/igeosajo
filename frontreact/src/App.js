@@ -1,13 +1,18 @@
 import React, {Component} from "react";
-import {Route, Routes} from "react-router-dom";
+import {Route, Router, Routes} from "react-router-dom";
 import Home from "./pages/Home";
+import Product from "./pages/Product";
 import Reqterm from "./pages/Reqterm";
+import RequestUser from "./pages/RequestUser";
+
+import Hello from "./pages/Cart";
 import "bootstrap/dist/css/bootstrap.css";
 import Layouts from "./components/layout/Layouts";
 import Request from "./pages/Request";
 import Login from "./components/Login";
 import DocRequest from "./pages/DocRequest";
 import DocReqDetail from "./pages/DocReqDetail";
+import jwt_decode from "jwt-decode";
 
 class App extends Component {
     constructor() {
@@ -31,7 +36,11 @@ class App extends Component {
     }
 
     async componentDidMount() {
-        const response = await fetch("http://127.0.0.1:8000/api/user?usernum=" + this.state.usernum, {
+        const token = localStorage.getItem('secretcode');
+        const decoded = jwt_decode(token);
+        const usernum = decoded.usernum;
+        console.log(usernum);
+        const response = await fetch("http://127.0.0.1:8000/api/user?usernum=" + usernum, {
             method: "GET",
         });
         const data = await response.json();
@@ -63,10 +72,10 @@ class App extends Component {
                         name: "사무용품 신청 관리",
                         menu2: [{name: "신청기간 설정", path: "/reqterm"}, {name: "신청 관리", path: "/request"}]
                     }, {
-                        name: "전자결재", path: "/",
+                        name: "전자결재",
                         menu2: [{name: "전자 결재 작성", path: "/"}, {name: "전자 결재 목록", path: "/"}]
                     }, {
-                        name: "사무용품 구매", path: "/",
+                        name: "사무용품 구매",
                         menu2: [{name: "구매 신청", path: "/"}, {name: "구매 진행 현황", path: "/"}]
                     }]
                 });
@@ -74,7 +83,6 @@ class App extends Component {
                 this.setState({
                     menus: [{
                         name: "사무용품 구매",
-                        path: "/",
                         menu2: [{name: "물품보기", path: "/"}, {name: "장바구니", path: "/"}]
                     }, {name: "사무용품 신청 내역", path: "/"}]
                 });
@@ -82,23 +90,31 @@ class App extends Component {
         }
     }
 
+
     render() {
         return (
             <div>
-                <Routes><Route path="/" element={<Login/>}/></Routes>
+
+                <Routes><Route path="/" element={<Login setpagename={this.setpagename}/>}/></Routes>
                 {(this.state.userathority !== 3 && this.state.menus !== 1) &&
                     <Layouts userinfo={this.state} pagename={this.state.pagename}>
                         <Routes>
-                            <Route exact path="/home" element={<Home setpagename={this.setpagename}/>}/>
-                            <Route exact path="/reqterm" element={<Reqterm setpagename={this.setpagename}/>}/>
-                            <Route exact path="/request" element={<Request setpagename={this.setpagename}/>}/>
+                            <Route path="/home/*" element={<Home setpagename={this.setpagename}/>}/>
+                            <Route path="/cart/:usernum" element={<Hello setpagename={this.setpagename}/>}/>
+                            <Route path="/product" element={<Product setpagename={this.setpagename}/>}/>
+                            <Route path="/requestuser" element={<RequestUser setpagename={this.setpagename}/>}/>
+                            <Route path="/reqterm/*" element={<Reqterm setpagename={this.setpagename}/>}/>
+                            <Route path="/request/*" element={<Request setpagename={this.setpagename}/>}/>
                             <Route exact path="/docrequest" element={<DocRequest setpagename={this.setpagename}/>}/>
                             <Route exact path="/docreqdetail" element={<DocReqDetail setpagename={this.setpagename}/>}/>
                         </Routes>
-                    </Layouts>}
+                    </Layouts>
+                }
+
             </div>
         );
     }
 }
 
 export default App;
+

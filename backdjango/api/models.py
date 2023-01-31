@@ -31,7 +31,7 @@ class Category2(models.Model):
 
 class Doc(models.Model):
     docnum = models.AutoField(db_column='DOCNUM', primary_key=True)  # Field name made lowercase.
-    reqnum = models.ForeignKey('Request', models.CASCADE, db_column='REQNUM')  # Field name made lowercase.
+    reqnum = models.ForeignKey('RequestUser', models.CASCADE, db_column='REQNUM')  # Field name made lowercase.
     docwdate = models.DateField(db_column='DOCWDATE', auto_now_add=True)  # Field name made lowercase.
     docrdate = models.DateField(db_column='DOCRDATE', blank=True, null=True, auto_now=True)  # Field name made lowercase.
     docstate = models.CharField(db_column='DOCSTATE', max_length=20, default="대기")  # Field name made lowercase.
@@ -46,7 +46,7 @@ class Doc(models.Model):
 
 class Order(models.Model):
     ordernum = models.AutoField(db_column='ORDERNUM', primary_key=True)  # Field name made lowercase.
-    reqnum = models.ForeignKey('Request', models.CASCADE, db_column='REQNUM')  # Field name made lowercase.
+    reqnum = models.ForeignKey('RequestUser', models.CASCADE, db_column='REQNUM')  # Field name made lowercase.
     orderdate = models.DateField(db_column='ORDERDATE', auto_now_add=True)  # Field name made lowercase.
     orderstate = models.CharField(db_column='ORDERSTATE', max_length=20, default="구매대기")  # Field name made lowercase.
     orderaddr = models.CharField(db_column='ORDERADDR', max_length=300)  # Field name made lowercase.

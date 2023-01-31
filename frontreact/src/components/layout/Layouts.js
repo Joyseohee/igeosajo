@@ -4,9 +4,6 @@ import Sidebar from "./Sidebar";
 import "../../styled/Layouts.css"
 
 class Layouts extends Component {
-    constructor(props) {
-        super(props);
-    }
 
     render() {
         return (
