@@ -173,20 +173,20 @@ def post_login(self):
         public_key = 'very_secret'
         decoded = jwt.decode(data, public_key, algorithms='HS256')
         print(decoded)
-        response = HttpResponse("토큰 해석 성공")
+        response = JsonResponse(decoded)
 
     except:
         # 토큰 생성
         # userid = '\'' + data[0]["userid"] + '\''
-
-        userid = '\'' + data["userid"] + '\''
+        # userid = '\'' + data["userid"] + '\''
+        userid = data["userid"]
         userpwd = '\'' + data["userpwd"] + '\''
 
         cursor = connection.cursor()
 
         # 로그인 판단
         query = 'select usernum from users ' \
-                'where userid =' + userid + 'and userpwd =' + userpwd
+                'where userid = \'' + userid + '\' and userpwd =' + userpwd
 
         cursor.execute(query)
 

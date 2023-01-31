@@ -1,11 +1,12 @@
 import React, {Component} from "react";
-import {Route, Routes} from "react-router-dom";
+import {Route, Router, Routes} from "react-router-dom";
 import Home from "./pages/Home";
 import Reqterm from "./pages/Reqterm";
 import "bootstrap/dist/css/bootstrap.css";
 import Layouts from "./components/layout/Layouts";
 import Request from "./pages/Request";
 import Login from "./components/Login";
+import jwt_decode from "jwt-decode";
 
 class App extends Component {
     constructor() {
@@ -29,7 +30,11 @@ class App extends Component {
     }
 
     async componentDidMount() {
-        const response = await fetch("http://127.0.0.1:8000/api/user?usernum=" + this.state.usernum, {
+        const token = localStorage.getItem('secretcode');
+        const decoded = jwt_decode(token);
+        const usernum = decoded.usernum;
+        console.log(usernum);
+        const response = await fetch("http://127.0.0.1:8000/api/user?usernum=" + usernum, {
             method: "GET",
         });
         const data = await response.json();
@@ -86,11 +91,12 @@ class App extends Component {
                 {(this.state.userathority !== 3 && this.state.menus !== 1) &&
                     <Layouts userinfo={this.state} pagename={this.state.pagename}>
                         <Routes>
-                            <Route exact path="/home" element={<Home setpagename={this.setpagename}/>}/>
-                            <Route exact path="/reqterm" element={<Reqterm setpagename={this.setpagename}/>}/>
-                            <Route exact path="/request" element={<Request setpagename={this.setpagename}/>}/>
+                            <Route path="/home/*" element={<Home setpagename={this.setpagename}/>}/>
+                            <Route path="/reqterm/*" element={<Reqterm setpagename={this.setpagename}/>}/>
+                            <Route path="/request/*" element={<Request setpagename={this.setpagename}/>}/>
                         </Routes>
-                    </Layouts>}
+                    </Layouts>
+                }
             </div>
         );
     }
