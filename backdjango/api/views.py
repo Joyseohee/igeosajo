@@ -249,24 +249,39 @@ def post_cart(self):
     cursor = connection.cursor()
 
     for num, count in zip(prodnum, cartcount):
-        query = 'insert into cart (usernum, prodnum, cartcount) values (' + str(usernum) + ', ' + str(num) + ', ' + str(
-            count) + ')'
+        query = 'select usernum, prodnum, cartcount from cart where usernum= ' + str(usernum) + ' and prodnum =' + str(num)
         cursor.execute(query)
+        data = dictfetchall(cursor)
+       
+        if data:
+            print(data[0].get('cartcount'))
+            cartcountprev = data[0].get('cartcount')
+            count += cartcountprev
+            print(count)
+            query = 'update cart set cartcount=' + str(count) + ' where prodnum = ' + str(num) + 'and usernum = '+str(usernum)
+            cursor.execute(query)
+        else:
+            query = 'insert into cart (usernum, prodnum, cartcount) values (' + str(usernum) + ', ' + str(
+                num) + ', ' + str(count) + ')'
+            cursor.execute(query)
 
     response = HttpResponse("성공")
     return response
 
 
 def delete_cart(self):
-    prodnum = str(self.GET.get('prodnum', None))
+    prodnum = self.GET.get('prodnum', None)
+    prodnumList = prodnum.split(',')
+    # prodnum = [10, 2]
     usernum = str(self.GET.get('usernum', None))
 
-    print("prodnum:" + prodnum)
+    print("prodnum:" + str(prodnum))
+    print("prodnumList:" + str(prodnumList))
     print("usernum:" + usernum)
     cursor = connection.cursor()
 
-    for i in prodnum:
-        query = 'DELETE FROM cart WHERE usernum=' + str(usernum) + ' and prodnum=' + str(i[0])
+    for i in prodnumList:
+        query = 'DELETE FROM cart WHERE usernum=' + str(usernum) + ' and prodnum=' + str(i)
         cursor.execute(query)
 
     response = HttpResponse("성공")
@@ -336,17 +351,21 @@ def get_request(self):
 
 def post_request(self):
     request = json.loads(self.body)
-    for req in request:
-        prodnum = req['prodnum']
-        reqcount = req['reqcount']
-        reqprice = req['reqprice']
-        usernum = req['usernum']
-        termyearmonth = req['termyearmonth']
-        cursor = connection.cursor()
+
+    prodnum = request['prodnum']
+    reqcount = request['reqcount']
+    reqprice = request['reqprice']
+    usernum = request['usernum']
+    termyearmonth = request['termyearmonth']
+    cursor = connection.cursor()
+
+    for num, count, price in zip(prodnum, reqcount, reqprice):
         query = 'insert into request (prodnum, reqcount, reqprice, usernum, termyearmonth)' \
-                'values  (%s, %s, %s, %s, %s)'
-        val = (prodnum, reqcount, reqprice, usernum, termyearmonth)
-        cursor.execute(query, val)
+                'values  (' + str(num) + ', ' + str(count) + ',' \
+                + str(price) + ',' + str(usernum) + ' , ' + str(termyearmonth) + ')'
+
+        cursor.execute(query)
+
     response = HttpResponse("성공")
     return response
 
@@ -366,10 +385,12 @@ def put_request_pk(self, pk):
 
 def delete_request(self):
     reqnum = str(self.GET.get('reqnum', None))
+    reqnumList = reqnum.split(',')
+    # usernum = str(self.GET.get('usernum', None))
     cursor = connection.cursor()
-    query = 'DELETE FROM request WHERE reqnum = %s'
-    val = reqnum,
-    cursor.execute(query, val)
+    for i in reqnumList:
+        query = 'DELETE FROM request WHERE reqnum=' + str(i)
+        cursor.execute(query)
     response = HttpResponse("성공")
     return response
 

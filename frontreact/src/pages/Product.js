@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import Form from "react-bootstrap/Form";
 import Table from "react-bootstrap/Table";
 
-let requestList = []
+let prodnumList = []
 let cartcountList = []
 
 
@@ -12,7 +12,6 @@ class Product extends Component {
         super(props);
         this.state = {
             items: [],
-
             title: '',
             body: ''
         };
@@ -21,23 +20,18 @@ class Product extends Component {
 
 
     async handleClick() {
-        const usernum = 7
-
-        const prodnum = requestList
-        const cartcount = cartcountList
+        const usernum = 1
 
         const response = await fetch('http://127.0.0.1:8000/api/cart', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            // body: JSON.stringify(requestList)
-
-            body: {
-                "prodnum": prodnum,
+            body: JSON.stringify({
+                "prodnum": prodnumList,
                 "usernum": usernum,
-                "cartcount": cartcount
-            },
+                "cartcount": cartcountList
+            }),
         });
         // const body = await response.json();
 
@@ -48,23 +42,18 @@ class Product extends Component {
 
     async componentDidMount() {
         try {
-
-            console.log('dsd');
             const res = await fetch('http://127.0.0.1:8000/api/product');
-
             const items = await res.json();
             this.setState({
                 items
             });
-
         } catch (e) {
             console.log(e);
-            console.log('dsd');
         }
     }
 
     choiceAll() {
-        requestList = []
+        prodnumList = []
         cartcountList = []
 
         const checkboxes = document.getElementsByName('select');
@@ -72,25 +61,31 @@ class Product extends Component {
 
         checkboxes.forEach((checkbox) => {
             checkbox.checked = selectAll[0].checked;
-
             if (selectAll[0].checked) {
-                requestList.push(checkbox.value);
-
-
+                prodnumList.push(checkbox.value);
             }
         })
-
-        console.log(requestList.prodnum);
+        console.log(prodnumList.prodnum);
     }
 
-    choiceUnit(check, val1, val2) {
+    choiceUnit(check, val) {
+
         if (check) {
-            requestList.push(val1);
-            cartcountList.push(val2);
+            var valSplit = val.split(',');
+            console.log(valSplit[0]);
+            console.log(valSplit[1]);
+
+            prodnumList.push(parseInt(valSplit[0]));
+            cartcountList.push(parseInt(valSplit[1]));
         } else {
-            requestList.pop(val1);
+             for (let i = 0; i < prodnumList.length; i++) {
+                if (prodnumList[i] == val) {
+                    prodnumList.splice(i, 1);
+                    break;
+                }
+            }
         }
-        console.log(requestList);
+        console.log(prodnumList);
         console.log(cartcountList);
     }
 
@@ -102,11 +97,9 @@ class Product extends Component {
             <tr key={list.prodnum}>
                 <td>{idx + 1}</td>
                 <td><Form.Check aria-label="option 1" name={"select"}
-                                value={[ list.prodnum ,  list.prodprice]}
+                                value={[list.prodnum, list.prodprice]}
                                 onChange={(e) => {
-                                    this.choiceUnit(e.target.checked, e.target.value[1], e.target.value[2]);
-                                    console.log("value1:" + e.target.value[1])
-                                    console.log("value2:" + e.target.value[2])
+                                    this.choiceUnit(e.target.checked, e.target.value);
                                 }}/></td>
                 <td>{list.prodname}</td>
                 <td>{list.prodnum}</td>
@@ -123,7 +116,6 @@ class Product extends Component {
                     <button className="btn btn-primary" onClick={this.handleClick}>장바구니 담기
                     </button>
 
-
                 </div>
                 <Table striped>
                     <thead>
@@ -138,7 +130,6 @@ class Product extends Component {
                     </thead>
                     {list}
                 </Table>
-
 
             </div>
         );
