@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import {Container, Row, Col, Button, Form} from "react-bootstrap";
 import "../styled/LoginCss.css"
-import {Link, Navigate} from "react-router-dom";
 
 class Login extends Component {
 
@@ -52,7 +51,7 @@ class Login extends Component {
                         <Form.Group as={Row} className="mb-3" controlId="formPlaintextPassword">
                             <Col sm>
                                 <Form.Control className={"userid"} type="text" placeholder="UserID" onChange={(e) => {
-                                    this.state.userId = e.target.value;
+                                    this.setState({userId: e.target.value});
                                 }}/>
                             </Col>
                         </Form.Group>
@@ -61,7 +60,7 @@ class Login extends Component {
                             <Col sm>
                                 <Form.Control className={"userpwd"} type="password" placeholder="Password"
                                               onChange={(e) => {
-                                                  this.state.userPwd = e.target.value;
+                                                  this.setState({userPwd: e.target.value});
                                               }}/>
                             </Col>
                         </Form.Group>

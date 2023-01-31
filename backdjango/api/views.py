@@ -166,7 +166,6 @@ def post_login(self):
     """
 
     data = json.loads(self.body)
-    print(data)
 
     try:
         # 토큰 해석
@@ -174,7 +173,8 @@ def post_login(self):
         public_key = 'very_secret'
         decoded = jwt.decode(data, public_key, algorithms='HS256')
         print(decoded)
-        response = HttpResponse("토큰 해석 성공")
+        response = JsonResponse(decoded, safe=False)
+        # response = HttpResponse(decoded)
 
     except:
         # 토큰 생성
@@ -549,17 +549,6 @@ def post_doc(self):
 
     date = datetime.today().strftime("%Y-%m-%d")
     date = '\'' + str(date) + '\'' + ','
-
-    # 삽입
-    for i in reqnum:
-        query = 'select usernum from request where reqnum =' + str(i)
-        cursor.execute(query)
-        usernum = cursor.fetchall()[0][0]
-
-        reqnumword = str(i) + ','
-        wait = '\'대기\''
-        query = 'insert into doc values (' + lastnum + reqnumword + date + 'null,' + wait + ', null,' + str(
-            0) + ',' + str(usernum) + ',' + str(0) + ')'
 
     # 삽입
     for i in reqnum:

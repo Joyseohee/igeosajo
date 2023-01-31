@@ -6,6 +6,8 @@ import "bootstrap/dist/css/bootstrap.css";
 import Layouts from "./components/layout/Layouts";
 import Request from "./pages/Request";
 import Login from "./components/Login";
+import DocRequest from "./pages/DocRequest";
+import DocReqDetail from "./pages/DocReqDetail";
 
 class App extends Component {
     constructor() {
@@ -90,6 +92,8 @@ class App extends Component {
                             <Route exact path="/home" element={<Home setpagename={this.setpagename}/>}/>
                             <Route exact path="/reqterm" element={<Reqterm setpagename={this.setpagename}/>}/>
                             <Route exact path="/request" element={<Request setpagename={this.setpagename}/>}/>
+                            <Route exact path="/docrequest" element={<DocRequest setpagename={this.setpagename}/>}/>
+                            <Route exact path="/docreqdetail" element={<DocReqDetail setpagename={this.setpagename}/>}/>
                         </Routes>
                     </Layouts>}
             </div>
