@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 
 import Goal from "../components/Goal";
-import RequestSendButton from "../components/docreq/requestSendButton";
-import RequestTable from "../components/docreq/requestTable";
+import RequestSendButton from "../components/docreq/RequestSendButton";
+import RequestTable from "../components/docreq/RequestTable";
 
 import "../styled/DocRequestCss.css"
 

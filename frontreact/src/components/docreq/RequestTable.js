@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import Table from 'react-bootstrap/Table';
 import Form from 'react-bootstrap/Form';
-import Modal1 from "../layout/modal1";
+import Modal1 from "../layout/Modal1";
 
 let requestList = [];
 let check = true;

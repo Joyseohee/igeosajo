@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import Button from 'react-bootstrap/Button';
 
 import "../../styled/DocRequestCss.css"
-import Modal1 from "../layout/modal1";
+import Modal1 from "../layout/Modal1";
 
 class requestSendButton extends Component {
     constructor(props) {

@@ -7,26 +7,26 @@ import all from "../../img/allicon.png";
 import parchase from "../../img/iconsparchase.png";
 import deliver from "../../img/iconsdeliver.png";
 import finish from "../../img/iconsfinish.png";
-import DateSetting from "../../components/OrderProgress/dateSetting";
+import DateSetting from "./DateSetting";
 
 
-class OrderReqSearch extends Component {
+class OrderSearch extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
             allcnt:0,
             parchasecnt: 0,
-            prevparchasecnt: 0,
+            delivercnt: 0,
+            finishcnt: 0,
             startdate: this.props.startdate,
             enddate:this.props.enddate,
         }
         this.statechange = this.statechange.bind(this);
     }
-
+    
     statechange = (e,state) => {
-        this.props.orderdocsearchstate(state);
-        console.log(state)
+        this.props.orderstate(state);
     }
 
     componentDidMount() {
@@ -40,10 +40,20 @@ class OrderReqSearch extends Component {
             .then(data => {
                 this.setState({parchasecnt: data.length})
             })
+        fetch('http://127.0.0.1:8000/api/order?func=distinctordernum&orderstate=deliver&startdate='+this.props.startdate+'&enddate='+this.props.enddate)
+            .then(res => res.json())
+            .then(data => {
+                this.setState({delivercnt: data.length})
+            });
+        fetch('http://127.0.0.1:8000/api/order?func=distinctordernum&orderstate=finish&startdate='+this.props.startdate+'&enddate='+this.props.enddate)
+            .then(res => res.json())
+            .then(data => {
+                this.setState({finishcnt: data.length})
+            });
     }
 
     render() {
-        const {allcnt,prevparchasecnt,parchasecnt} = this.state
+        const {allcnt,parchasecnt,delivercnt,finishcnt} = this.state
         return (
             <div className="containermargin">
 
@@ -51,30 +61,13 @@ class OrderReqSearch extends Component {
                     <Col>
                         <div className="cardcontain">
                             <Card style={{width: '95%'}}>
-                                <Card.Body   onClick={(e) => {this.statechange(e,"all")}}>
+                                <Card.Body   onClick={(e) => {this.statechange(e,"allselect")}}>
                                     <Card.Text className=" cardtitletext">전체</Card.Text>
                                     <Card.Text>
                                         <Container>
                                             <Row>
                                                 <Col className="cardtext">{allcnt}</Col>
                                                 <Col> <img src={all} alt="logo"/></Col>
-                                            </Row>
-                                        </Container>
-                                    </Card.Text>
-                                </Card.Body>
-                            </Card>
-                        </div>
-                    </Col>
-                    <Col>
-                        <div className="cardcontain">
-                            <Card style={{width: '95%'}}>
-                                <Card.Body  onClick={(e) => {this.statechange(e,"prevparchase")}}>
-                                    <Card.Text className="cardtitletext">구매전</Card.Text>
-                                    <Card.Text>
-                                        <Container>
-                                            <Row>
-                                                <Col className="cardtext">{parchasecnt}</Col>
-                                                <Col> <img src={parchase} alt="logo"/></Col>
                                             </Row>
                                         </Container>
                                     </Card.Text>
@@ -99,6 +92,40 @@ class OrderReqSearch extends Component {
                             </Card>
                         </div>
                     </Col>
+                    <Col>
+                        <div className="cardcontain">
+                            <Card style={{width: '95%'}}>
+                                <Card.Body  onClick={(e) => {this.statechange(e,"deliver")}}>
+                                    <Card.Text className="cardtitletext">배송완료</Card.Text>
+                                    <Card.Text>
+                                        <Container>
+                                            <Row>
+                                                <Col className="cardtext">{delivercnt}</Col>
+                                                <Col> <img src={deliver} alt="logo"/></Col>
+                                            </Row>
+                                        </Container>
+                                    </Card.Text>
+                                </Card.Body>
+                            </Card>
+                        </div>
+                    </Col>
+                    <Col>
+                        <div className="cardcontain">
+                            <Card style={{width: '95%'}}>
+                                <Card.Body  onClick={(e) => {this.statechange(e,"finish")}}>
+                                    <Card.Text className="cardtitletext">불출완료</Card.Text>
+                                    <Card.Text>
+                                        <Container>
+                                            <Row>
+                                                <Col className="cardtext">{finishcnt}</Col>
+                                                <Col> <img src={finish} alt="logo"/></Col>
+                                            </Row>
+                                        </Container>
+                                    </Card.Text>
+                                </Card.Body>
+                            </Card>
+                        </div>
+                    </Col>
                 </Row>
 
             </div>
@@ -106,4 +133,4 @@ class OrderReqSearch extends Component {
     }
 }
 
-export default OrderReqSearch;
+export default OrderSearch;
