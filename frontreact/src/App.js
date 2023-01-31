@@ -61,10 +61,10 @@ class App extends Component {
                         name: "사무용품 신청 관리",
                         menu2: [{name: "신청기간 설정", path: "/reqterm"}, {name: "신청 관리", path: "/request"}]
                     }, {
-                        name: "전자결재", path: "/",
+                        name: "전자결재",
                         menu2: [{name: "전자 결재 작성", path: "/"}, {name: "전자 결재 목록", path: "/"}]
                     }, {
-                        name: "사무용품 구매", path: "/",
+                        name: "사무용품 구매",
                         menu2: [{name: "구매 신청", path: "/"}, {name: "구매 진행 현황", path: "/"}]
                     }]
                 });
@@ -72,7 +72,6 @@ class App extends Component {
                 this.setState({
                     menus: [{
                         name: "사무용품 구매",
-                        path: "/",
                         menu2: [{name: "물품보기", path: "/"}, {name: "장바구니", path: "/"}]
                     }, {name: "사무용품 신청 내역", path: "/"}]
                 });
@@ -83,7 +82,7 @@ class App extends Component {
     render() {
         return (
             <div>
-                <Routes><Route path="/" element={<Login/>}/></Routes>
+                <Routes><Route path="/" element={<Login setpagename={this.setpagename}/>}/></Routes>
                 {(this.state.userathority !== 3 && this.state.menus !== 1) &&
                     <Layouts userinfo={this.state} pagename={this.state.pagename}>
                         <Routes>

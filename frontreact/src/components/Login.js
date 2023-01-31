@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Container, Row, Col, Button, Form} from "react-bootstrap";
 import "../styled/LoginCss.css"
-import {Link, Navigate} from "react-router-dom";
+import Header from "./layout/Header";
 
 class Login extends Component {
 
@@ -46,8 +46,10 @@ class Login extends Component {
     render() {
         return (
             <div className={"loginDiv"}>
+                <Header pagename="로그인" userinfo=" " />
                 <img src={"/user.png"}/>
                 <Container className="panel">
+
                     <Form>
                         <Form.Group as={Row} className="mb-3" controlId="formPlaintextPassword">
                             <Col sm>

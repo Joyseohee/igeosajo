@@ -40,10 +40,10 @@ class Reqbox extends Component {
         })
             .then(res => {
                 console.log(res)
-                return res.json();
+                return res;
             })
             .then(res => {
-                console.log(res);
+                console.log(res.status);
             });
     }
 
@@ -60,7 +60,7 @@ class Reqbox extends Component {
         })
             .then(res => {
                 console.log(res)
-                return res.json();
+                return res;
             })
             .then(res => {
                 console.log(res);
@@ -80,7 +80,7 @@ class Reqbox extends Component {
         })
             .then(res => {
                 console.log(res)
-                return res.json();
+                return res;
             })
             .then(res => {
                 console.log(res);

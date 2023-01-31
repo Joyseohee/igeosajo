@@ -1,11 +1,8 @@
 import React, { Component } from "react";
-import {Container, Row, Col, NavbarBrand} from "react-bootstrap";
-import {Link, NavLink} from "react-router-dom";
+import {Row, Col} from "react-bootstrap";
+import {Link} from "react-router-dom";
 
 class Header extends Component {
-  constructor(props) {
-    super(props);
-  }
 
   render() {
     const {username, userdept, userposition} = this.props.userinfo;
@@ -15,7 +12,7 @@ class Header extends Component {
       <div className="header">
         <Row className="header-wrapper">
           <Col sm="8" className="logo-wrapper">
-            <div className="logo"><Link to="/">Office</Link></div>
+            <div className="logo"><Link to="/home">Office</Link></div>
           </Col>
           <Col sm="3" className="profile">
             <Row>
