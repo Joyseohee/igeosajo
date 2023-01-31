@@ -197,7 +197,7 @@ def post_login(self):
             key = 'very_secret'
             now = int(time.time())
             exp = now + 10000
-            jwt_payload = {'userid': userid, 'start_at': now, 'exp': exp}
+            jwt_payload = {'userid': userid, 'usernum': judge[0][0],'start_at': now, 'exp': exp}
             encoded = jwt.encode(jwt_payload, key, 'HS256')
 
             encoded = json.loads('{"secretcode": "' + encoded + '"}')
