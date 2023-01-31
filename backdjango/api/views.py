@@ -1,3 +1,4 @@
+
 from django.views.decorators.csrf import csrf_protect, csrf_exempt
 from django.http import HttpResponse, JsonResponse
 from django.db import connection
@@ -67,7 +68,6 @@ def reqterm_view(self):
         return get_reqterm(self)
     if self.method == 'POST':
         return post_reqterm(self)
-
 
 @csrf_exempt
 def reqterm_pk_view(self, pk):
@@ -150,14 +150,12 @@ def post_login(self):
     id, password 입력 받아 조회 후
     토큰 받아 전송
     login/
-
     [
         {
             "userid":"id2",
             "userpwd":"pwd"
             }
     ]
-
     [
         {
             "token":"생성된 토큰"
@@ -172,18 +170,21 @@ def post_login(self):
         data = data[0]["token"]
         public_key = 'very_secret'
         decoded = jwt.decode(data, public_key, algorithms='HS256')
-        response = HttpResponse("토큰 해석 성공")
+        print(decoded)
+        response = JsonResponse(decoded)
 
     except:
         # 토큰 생성
-        userid = '\'' + data[0]["userid"] + '\''
-        userpwd = '\'' + data[0]["userpwd"] + '\''
+        # userid = '\'' + data[0]["userid"] + '\''
+        # userid = '\'' + data["userid"] + '\''
+        userid = data["userid"]
+        userpwd = '\'' + data["userpwd"] + '\''
 
         cursor = connection.cursor()
 
         # 로그인 판단
         query = 'select usernum from users ' \
-                'where userid =' + userid + 'and userpwd =' + userpwd
+                'where userid = \'' + userid + '\' and userpwd =' + userpwd
 
         cursor.execute(query)
 
@@ -193,20 +194,26 @@ def post_login(self):
             key = 'very_secret'
             now = int(time.time())
             exp = now + 10000
-            jwt_payload = {'userid': userid, 'start_at': now, 'exp': exp}
+            jwt_payload = {'userid': userid, 'usernum': judge[0][0],'start_at': now, 'exp': exp}
             encoded = jwt.encode(jwt_payload, key, 'HS256')
 
-            encoded = json.loads('[{"secretcode": "' + encoded + '"}]')
+            encoded = json.loads('{"secretcode": "' + encoded + '"}')
         else:
-            encoded = json.loads('[{"secretcode": ""}]')
-        response = HttpResponse(encoded)
+            encoded = json.loads('{"secretcode": "0"}')
+
+        response = JsonResponse(encoded, safe=False)
     return response
 
 
 def get_cart(self):
     usernum = self.GET.get('usernum', None)
     cursor = connection.cursor()
-    query = 'SELECT * FROM cart WHERE usernum = %s'
+
+    query = 'SELECT *, (SELECT prodname FROM product WHERE prodnum = cartinfo.prodnum),' \
+            '(SELECT prodimg FROM product WHERE prodnum = cartinfo.prodnum), ' \
+            '(SELECT prodprice FROM product WHERE prodnum = cartinfo.prodnum) ' \
+            'FROM cart AS cartinfo WHERE usernum = %s ORDER BY prodnum DESC'
+
     val = usernum,
     cursor.execute(query, val)
     data = dictfetchall(cursor)
@@ -235,26 +242,48 @@ def get_cart2(self):
 
 def post_cart(self):
     request = json.loads(self.body)
-    for req in request:
-        prodnum = req['PRODNUM']
-        usernum = req['USERNUM']
-        cartcount = req['CARTCOUNT']
-        cursor = connection.cursor()
-        query = 'insert into cart (prodnum, usernum, cartcount)' \
-                'values  (%s, %s, %s)'
-        val = (prodnum, usernum, cartcount)
-        cursor.execute(query, val)
+    prodnum = request['prodnum']
+    cartcount = request['cartcount']
+    usernum = request['usernum']
+    print(prodnum)
+
+    cursor = connection.cursor()
+
+    for num, count in zip(prodnum, cartcount):
+        query = 'select usernum, prodnum, cartcount from cart where usernum= ' + str(usernum) + ' and prodnum =' + str(num)
+        cursor.execute(query)
+        data = dictfetchall(cursor)
+       
+        if data:
+            print(data[0].get('cartcount'))
+            cartcountprev = data[0].get('cartcount')
+            count += cartcountprev
+            print(count)
+            query = 'update cart set cartcount=' + str(count) + ' where prodnum = ' + str(num) + 'and usernum = '+str(usernum)
+            cursor.execute(query)
+        else:
+            query = 'insert into cart (usernum, prodnum, cartcount) values (' + str(usernum) + ', ' + str(
+                num) + ', ' + str(count) + ')'
+            cursor.execute(query)
     response = HttpResponse("성공")
     return response
 
 
 def delete_cart(self):
-    prodnum = str(self.GET.get('prodnum', None))
+    prodnum = self.GET.get('prodnum', None)
+    prodnumList = prodnum.split(',')
+    # prodnum = [10, 2]
     usernum = str(self.GET.get('usernum', None))
+
+    print("prodnum:" + str(prodnum))
+    print("prodnumList:" + str(prodnumList))
+    print("usernum:" + usernum)
     cursor = connection.cursor()
-    query = 'DELETE FROM cart WHERE prodnum = %s and usernum = %s'
-    val = (prodnum, usernum)
-    cursor.execute(query, val)
+
+    for i in prodnumList:
+        query = 'DELETE FROM cart WHERE usernum=' + str(usernum) + ' and prodnum=' + str(i)
+        cursor.execute(query)
+
     response = HttpResponse("성공")
     return response
 
@@ -298,11 +327,16 @@ def get_product(self):
         val = (category2code, '%' + prodname + '%')
         cursor.execute(query, val)
 
+    data = dictfetchall(cursor)
+    response = JsonResponse(data, safe=False)
+    return response
+
 
 def get_request(self):
     termyearmonth = self.GET.get('termyearmonth', None)
     reqstaging = self.GET.get('reqstaging', None)
     reqstate = self.GET.get('reqstate', None)
+    reqorder = self.GET.get('reqorder', None)
     usernum = self.GET.get('usernum', None)
     params = {}
     if usernum is not None:
@@ -313,22 +347,27 @@ def get_request(self):
         params['r.reqstaging'] = reqstaging
     if reqstate is not None:
         params['r.reqstate'] = reqstate
+    if reqorder is not None:
+        params['r.reqorder'] = reqorder
     return request_select_query(params)
-
 
 def post_request(self):
     request = json.loads(self.body)
-    for req in request:
-        prodnum = req['prodnum']
-        reqcount = req['reqcount']
-        reqprice = req['reqprice']
-        usernum = req['usernum']
-        termyearmonth = req['termyearmonth']
-        cursor = connection.cursor()
+
+    prodnum = request['prodnum']
+    reqcount = request['reqcount']
+    reqprice = request['reqprice']
+    usernum = request['usernum']
+    termyearmonth = request['termyearmonth']
+    cursor = connection.cursor()
+
+    for num, count, price in zip(prodnum, reqcount, reqprice):
         query = 'insert into request (prodnum, reqcount, reqprice, usernum, termyearmonth)' \
-                'values  (%s, %s, %s, %s, %s)'
-        val = (prodnum, reqcount, reqprice, usernum, termyearmonth)
-        cursor.execute(query, val)
+                'values  (' + str(num) + ', ' + str(count) + ',' \
+                + str(price) + ',' + str(usernum) + ' , ' + str(termyearmonth) + ')'
+
+        cursor.execute(query)
+
     response = HttpResponse("성공")
     return response
 
@@ -348,10 +387,12 @@ def put_request_pk(self, pk):
 
 def delete_request(self):
     reqnum = str(self.GET.get('reqnum', None))
+    reqnumList = reqnum.split(',')
+    # usernum = str(self.GET.get('usernum', None))
     cursor = connection.cursor()
-    query = 'DELETE FROM request WHERE reqnum = %s'
-    val = reqnum,
-    cursor.execute(query, val)
+    for i in reqnumList:
+        query = 'DELETE FROM request WHERE reqnum=' + str(i)
+        cursor.execute(query)
     response = HttpResponse("성공")
     return response
 
@@ -399,16 +440,36 @@ def put_reqterm_pk(self, pk):
 
 def get_order_view(self):
     func = self.GET.get('func')
+    startdate = self.GET.get('startdate')
+    enddate = self.GET.get('enddate') 
+    orderstate = self.GET.get('orderstate')
+    
+    
     cursor = connection.cursor()
-    if (func == 'ALLSELECT'):
-        query = 'SELECT * FROM order'
-        cursor.execute(query)
-    elif (func == 'DISTINCTORDERNUM'):
-        query = 'SELECT DISTINCT ordernum FROM order'
-        cursor.execute(query)
-    elif (func == 'REQNUMGET'):
+    if (func == 'allselect'):
+        query = 'SELECT * FROM "order"  WHERE "orderdate" > %s AND "orderdate" < %s AND "orderstate" = %s'
+        val = ("2023-01-10","2023-12-31","불출 완료")
+        cursor.execute(query,val)
+    elif (func == 'distinctordernum'):
+        if(orderstate=='allselect'):
+            query = 'SELECT DISTINCT ordernum,orderdate,orderstate FROM "order" WHERE "orderdate" > %s AND "orderdate" < %s ORDER BY "ordernum" DESC'
+            val = (startdate, enddate)
+            cursor.execute(query,val)
+        elif(orderstate=='parchase'):
+            query = 'SELECT DISTINCT ordernum,orderdate,orderstate FROM "order" WHERE "orderdate" > %s AND "orderdate" < %s AND "orderstate" = %s ORDER BY "ordernum" DESC'
+            val = (startdate, enddate, "구매 완료")
+            cursor.execute(query, val)
+        elif (orderstate == 'deliver'):
+            query = 'SELECT DISTINCT ordernum,orderdate,orderstate FROM "order" WHERE "orderdate" > %s AND "orderdate" < %s AND "orderstate" = %s ORDER BY "ordernum" DESC'
+            val = (startdate, enddate, "배송 완료")
+            cursor.execute(query, val)
+        elif (orderstate == 'finish'):
+            query = 'SELECT DISTINCT ordernum,orderdate,orderstate FROM "order" WHERE "orderdate" > %s AND "orderdate" < %s AND "orderstate" = %s ORDER BY "ordernum" DESC'
+            val = (startdate, enddate, "불출 완료")
+            cursor.execute(query, val)
+    elif (func == 'reqnumget'):
         ordernum = self.GET.get('ordernum')
-        query = 'SELECT reqnum FROM order WHERE ordernum = %s'
+        query = 'SELECT reqnum FROM "order" WHERE "ordernum" = %s'
         cursor.execute(query, ordernum)
     data = dictfetchall(cursor)
     response = JsonResponse(data, safe=False)
@@ -446,25 +507,62 @@ def post_order_view(self):
     return response
 
 
-def patch_order_view(self):
-    request = json.loads(self.body)
-    ordernum = request['ordernum']
-    orderstate = request['orderstate']
-    cursor = connection.cursor()
-    query = 'update order set orderstate = %s WHERE ordernum = %s'
-    val = (orderstate, ordernum)
-    cursor.execute(query, val)
+def put_order_view(self):
 
-    if (orderstate == "불출 완료"):
-        query = 'SELECT reqnum FROM order WHERE ordernum = %s'
-        cursor.execute(query, str(ordernum))
+    request = json.loads(self.body)
+    orderstate = request['orderstate']
+    ordernum = request['ordernum']
+    print(ordernum)
+    print(orderstate)
+    templen = len(ordernum)
+    print(templen)
+    cursor = connection.cursor()
+    for i in range(0, templen):
+
+        query = 'SELECT DISTINCT orderstate FROM "order" WHERE ordernum = %s'
+        cursor.execute(query, ordernum[i])
         data = dictfetchall(cursor)
-        templen = len(data)
-        for i in range(0, templen):
-            reqnum = data[i]['reqnum']
-            query = 'update request set reqstaging = %s WHERE reqnum = %s'
-            val = ("처리완료", str(reqnum))
-            cursor.execute(query, val)
+        searchstate = data[0]['orderstate']
+        print(searchstate)
+        if(orderstate == "deliver"):
+             if(searchstate == "구매 완료"):
+                query = 'update "order" set orderstate = %s WHERE ordernum = %s'
+                val = ("배송 완료", ordernum[i])
+                cursor.execute(query, val)
+
+        elif(orderstate == "finish"):
+             if (searchstate == "배송 완료"):
+                query = 'update "order" set orderstate = %s WHERE ordernum = %s'
+                val = ("불출 완료", ordernum[i])
+                cursor.execute(query, val)
+
+                query = 'SELECT reqnum FROM "order" WHERE ordernum = %s'
+                cursor.execute(query, ordernum[i])
+                reqdata = dictfetchall(cursor)
+                reqtemplen = len(reqdata)
+                for i in range(0, reqtemplen):
+                    reqnum = reqdata[i]['reqnum']
+                    query = 'update "request" set reqstaging = %s WHERE reqnum = %s'
+                    val = ("처리완료", str(reqnum))
+                    cursor.execute(query, val)
+            
+
+
+    # cursor = connection.cursor()
+    # query = 'update order set orderstate = %s WHERE ordernum = %s'
+    # val = (orderstate, ordernum)
+    # cursor.execute(query, val)
+
+    # if (orderstate == "불출 완료"):
+    #     query = 'SELECT reqnum FROM order WHERE ordernum = %s'
+    #     cursor.execute(query, str(ordernum))
+    #     data = dictfetchall(cursor)
+    #     templen = len(data)
+    #     for i in range(0, templen):
+    #         reqnum = data[i]['reqnum']
+    #         query = 'update request set reqstaging = %s WHERE reqnum = %s'
+    #         val = ("처리완료", str(reqnum))
+    #         cursor.execute(query, val)
 
     response = HttpResponse("성공")
     return response
@@ -483,7 +581,11 @@ def get_doc(self):
 
     data = self.GET.get('state')
     func = self.GET.get('func')
-
+    startdate = self.GET.get('startdate')
+    enddate = self.GET.get('enddate')
+    state = self.GET.get('docstate')
+    print(startdate)
+    print(enddate)
     if data:
         docstate = '\'' + data + '\''
         query = 'select * from doc where docstate=' + docstate + ' order by docnum'
@@ -492,9 +594,16 @@ def get_doc(self):
         if (func == 'DISTINCTDOCNUM'):
             query = 'SELECT DISTINCT docnum,docordered,docrdate FROM doc WHERE docstate = \'승인\' and docordered = 0'
 
-        elif func == 'REQNUMGET':
-            docnum = self.GET.get('docnum')
-            query = 'SELECT reqnum FROM doc WHERE docnum =\'' + docnum + '\' order by reqnum'
+        elif func == 'reqnumget':
+            docstate = '\'' + "승인" + '\''
+            startdate = '\'' + startdate + '\''
+            enddate = '\'' + enddate + '\''
+            if (state == 'all'):
+                query = 'SELECT reqnum FROM doc WHERE docstate =' + docstate + '  and docrdate >' + startdate + ' and docrdate <' + enddate + ' order by reqnum'
+            elif (state == 'prevparchase'):
+                query = 'SELECT reqnum FROM doc WHERE docstate =' + docstate + ' and docordered = 0 and docrdate >' + startdate + ' and docrdate <' + enddate + ' order by reqnum'
+            elif (state == 'parchase'):
+                query = 'SELECT reqnum FROM doc WHERE docstate =' + docstate + ' and docordered = 1 and docrdate >' + startdate + ' and docrdate <' + enddate + ' order by reqnum'
 
     else:
         query = 'SELECT * FROM doc order by docnum'
@@ -531,7 +640,7 @@ def post_doc(self):
     lastnum = cursor.fetchall()[0][0] + 1
     lastnum = str(lastnum) + ','
 
-    reqnum = data[0]['id']
+    reqnum = data['id']
 
     date = datetime.today().strftime("%Y-%m-%d")
     date = '\'' + str(date) + '\'' + ','
@@ -546,8 +655,24 @@ def post_doc(self):
         wait = '\'대기\''
         query = 'insert into doc values (' + lastnum + reqnumword + date + 'null,' + wait + ', null,' + str(
             0) + ',' + str(usernum) + ',' + str(0) + ')'
+
+    # 삽입
+    for i in reqnum:
+        query = 'select usernum from request where reqnum =' + str(i)
+        cursor.execute(query)
+        usernum = cursor.fetchall()[0][0]
+
+        reqnumword = str(i) + ','
+        wait = '\'대기\''
+        query = 'insert into doc values (' + lastnum + reqnumword + date + 'null,' + wait + ', null,' + str(
+            0) + ',' + str(usernum) + ',' + str(0) + ')'
         connection.commit()
         cursor.execute(query)
+
+        query = 'update request set reqstaging = \'처리중\' where reqnum = ' + str(i)
+        cursor.execute(query)
+
+        connection.commit()
 
     connection.close()
 
@@ -566,6 +691,9 @@ def put_doc(self):
     cursor = connection.cursor()
     request = json.loads(self.body)
     docnum = request['docnum']
+
+    print(docnum)
+
     ordernum = 1
     query = 'update doc set docordered = %s WHERE docnum = %s'
     val = (ordernum, docnum)
@@ -585,8 +713,8 @@ def get_doc_detail(self, DOCNUM):
     cursor = connection.cursor()
 
     query = 'select docwdate, prodname, R.prodnum, reqcount, reqprice, docstate, docrejectreason' \
-            'from request R join doc D on R.reqnum = D.reqnum' \
-            'join product P on P.prodnum = R.prodnum where docnum=' + str(DOCNUM) + 'order by docwdate'
+            ' from request R join doc D on R.reqnum = D.reqnum' \
+            ' join product P on P.prodnum = R.prodnum where docnum=' + str(DOCNUM) + 'order by docwdate'
 
     cursor.execute(query)
     data = dictfetchall(cursor)
@@ -682,20 +810,21 @@ def request_select_query(columns):
     response = JsonResponse(data, safe=False)
     return response
 
-    # request 테이블 update query
-
-
+# request 테이블 update query
 def request_update_query(self, pk):
     request = json.loads(self.body)
+    print(request['reqstate'])
     reqstate = request['reqstate']
     reqstaging = request['reqstaging']
     reqrejectreason = request['reqrejectreason']
-    usernum = request['usernum']
+    # usernum = request['usernum']
     cursor = connection.cursor()
     query = 'UPDATE request ' \
             'SET reqstate = %s, reqapvdate = CURRENT_DATE, reqstaging = %s, reqrejectreason = %s  ' \
-            'WHERE reqnum = %s and usernum = %s'
-    val = (reqstate, reqstaging, reqrejectreason, pk, usernum)
+            'WHERE reqnum = %s'
+            # 'WHERE reqnum = %s and usernum = %s'
+    # val = (reqstate, reqstaging, reqrejectreason, pk, usernum)
+    val = (reqstate, reqstaging, reqrejectreason, pk)
     cursor.execute(query, val)
     response = HttpResponse("성공")
     return response
@@ -732,4 +861,7 @@ def reqterm_update_query(self, pk):
     val = (termavailable, pk, usernum)
     cursor.execute(query, val)
     response = HttpResponse("성공")
+
     return response
+
+

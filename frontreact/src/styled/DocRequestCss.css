@@ -1,0 +1,30 @@
+tr {
+    text-align: center;
+}
+th{
+    font-size: 1.2rem;
+}
+td{
+    font-size: 1.1rem;
+}
+
+.sidebarDisplay{
+    display: flex;
+}
+
+.writeRequest{
+    width: 100%;
+}
+
+.commentDiv span{
+    float: right;
+    width: 15rem;
+    text-align: center;
+    /*border: 1px solid black;*/
+}
+
+.sendButton{
+    height: 3rem;
+    margin-bottom: 1rem;
+}
+
