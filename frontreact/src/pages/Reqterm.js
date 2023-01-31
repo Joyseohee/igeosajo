@@ -1,21 +1,21 @@
 import React, {Component} from "react";
-import Layouts from "../components/layout/Layouts";
-import Requestmain from "../components/reqterm/Requestmain";
+import Reqbox from "../components/reqterm/Reqbox";
 
 class Reqterm extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            usernum: "2",
-            pagename: "신청 기간 페이지",
-        };
+        this.props.setpagename("사무용품 신청 관리");
     }
 
     render() {
-        const {pagename, usernum} = this.state;
         return (
             <div className="page-top">
-                <Layouts pagename={pagename} usernum={usernum}><Requestmain /></Layouts>
+                <div className="reqterm-wrapper">
+                    <div>타이틀</div>
+                    <Reqbox type="reqterm-fix"/>
+                    <Reqbox type="reqterm-set"/>
+                </div>
+                <div></div>
             </div>
         );
     }

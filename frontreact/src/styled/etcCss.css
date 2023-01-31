@@ -1,0 +1,8 @@
+.goalDiv {
+    border-left: 0.5rem solid rgb(82, 150, 213);
+    font-size: 1.6rem;
+    font-weight: bold;
+
+    width: 13rem;
+    text-align: center;
+}
