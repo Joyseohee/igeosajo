@@ -4,7 +4,7 @@ import Reqbox from "../components/reqterm/Reqbox";
 class Reqterm extends Component {
     constructor(props) {
         super(props);
-        this.props.setpagename("사무용품 신청 관리");
+        this.props.changePagename("신청 기간 설정");
     }
 
     render() {
@@ -12,8 +12,8 @@ class Reqterm extends Component {
             <div className="page-top">
                 <div className="reqterm-wrapper">
                     <div>타이틀</div>
-                    <Reqbox type="reqterm-fix"/>
-                    <Reqbox type="reqterm-set"/>
+                    <Reqbox type="reqterm-fix" usernum={this.props.usernum}/>
+                    <Reqbox type="reqterm-set" usernum={this.props.usernum}/>
                 </div>
                 <div></div>
             </div>
