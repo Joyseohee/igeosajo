@@ -27,8 +27,8 @@ class RequestUser extends Component {
 
         // const prodnum = requestList
         // const cartcount = cartcountList
-        // console.log("pp:"+prodnum)
-        // console.log("cc:"+cartcount)
+        // console.login("pp:"+prodnum)
+        // console.login("cc:"+cartcount)
         const response = await fetch('http://127.0.0.1:8000/api/cart', {
             method: 'POST',
             headers: {

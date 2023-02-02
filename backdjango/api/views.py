@@ -817,13 +817,10 @@ def request_update_query(self, pk):
     reqstate = request['reqstate']
     reqstaging = request['reqstaging']
     reqrejectreason = request['reqrejectreason']
-    # usernum = request['usernum']
     cursor = connection.cursor()
     query = 'UPDATE request ' \
             'SET reqstate = %s, reqapvdate = CURRENT_DATE, reqstaging = %s, reqrejectreason = %s  ' \
             'WHERE reqnum = %s'
-            # 'WHERE reqnum = %s and usernum = %s'
-    # val = (reqstate, reqstaging, reqrejectreason, pk, usernum)
     val = (reqstate, reqstaging, reqrejectreason, pk)
     cursor.execute(query, val)
     response = HttpResponse("성공")
@@ -855,10 +852,9 @@ def reqterm_select_query(columns):
 def reqterm_update_query(self, pk):
     request = json.loads(self.body)
     termavailable = request['termavailable']
-    usernum = request['usernum']
     cursor = connection.cursor()
-    query = 'UPDATE reqterm SET termavailable = %s WHERE termyearmonth=%s AND usernum=%s'
-    val = (termavailable, pk, usernum)
+    query = 'UPDATE reqterm SET termavailable = %s WHERE termyearmonth=%s'
+    val = (termavailable, pk)
     cursor.execute(query, val)
     response = HttpResponse("성공")
 

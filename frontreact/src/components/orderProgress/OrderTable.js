@@ -15,15 +15,15 @@ class OrderTable extends Component {
             .then(res => res.json())
             .then(data => {
                 {
-                     // console.log({data})
+                     // console.login({data})
 
                     data && data.map((num, i) => (
                         fetch('http://127.0.0.1:8000/api/request/' + num.reqnum)
                             .then(res => res.json())
                             .then(data => {
-                                    // console.log(totalprice)
-                                    // console.log(data)
-                                    // console.log(i)
+                                    // console.login(totalprice)
+                                    // console.login(data)
+                                    // console.login(i)
                                     let totalprice = 0
                                     this.setState({reqnum: this.state.reqnum.concat(...data)})
                                     {data && data.map((num, i) => (
