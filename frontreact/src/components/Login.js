@@ -3,7 +3,6 @@ import {Container, Row, Col, Button, Form} from "react-bootstrap";
 import "../styled/LoginCss.css"
 import {withRouter} from "react-router-dom";
 
-
 class Login extends Component {
     constructor(props) {
         super(props);

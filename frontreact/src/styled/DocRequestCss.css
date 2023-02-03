@@ -8,6 +8,15 @@ td{
     font-size: 1.1rem;
 }
 
+.docPaymentTable{
+    margin-top: 3rem;
+}
+
+.docPaymentTable tr{
+    min-height: 4rem;
+    max-height: max-content;
+}
+
 .sidebarDisplay{
     display: flex;
 }
@@ -26,5 +35,23 @@ td{
 .sendButton{
     height: 3rem;
     margin-bottom: 1rem;
+}
+
+.docPaymentDiv{
+    display: inline-block;
+    float: right;
+}
+
+.docPaymentBtn{
+    height: 3rem;
+    width: 8rem;
+}
+.docPaymentDetailDiv{
+    display: inline-block;
+    width: 100%;
+}
+
+.docPaymentDetailDiv Button:nth-child(2){
+    float: right;
 }
 

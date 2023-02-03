@@ -10,6 +10,9 @@ import RequestUser from "./pages/RequestUser";
 import Cart from "./pages/Cart";
 import Main from "./pages/Main";
 import Request from "./pages/Request";
+import DocRequest from "./pages/DocRequest";
+import DocReqDetail from "./pages/DocReqDetail";
+import DocPaymentDetail from "./pages/DocPaymentDetail";
 import OrderReq from "./pages/OrderReq";
 import OrderParchase from "./pages/OrderParchase";
 import Order from "./pages/Order";
@@ -71,7 +74,6 @@ class App extends Component {
         }
     }
 
-
     render() {
         const {pagename, usernum} = this.state;
         return (
@@ -113,6 +115,15 @@ class App extends Component {
                                 </Route>
                                 <Route exact path="/orderparchase">
                                     <OrderParchase usernum={usernum} setpagename={this.setpagename}/>
+                                </Route>
+                                <Route exact path="/docrequest">
+                                    <DocRequest usernum={usernum} setpagename={this.setpagename}/>
+                                </Route>
+                                <Route exact path="/docreqdetail">
+                                    <DocReqDetail usernum={usernum} setpagename={this.setpagename}/>
+                                </Route>
+                                <Route exact path="/docpaydetail">
+                                    <DocPaymentDetail usernum={usernum} setpagename={this.setpagename}/>
                                 </Route>
                             </>
                         }

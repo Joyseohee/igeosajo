@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import Table from 'react-bootstrap/Table';
 import Form from 'react-bootstrap/Form';
 import Modal1 from "../layout/Modal1";
+import {withRouter} from "react-router-dom";
 
 let requestList = [];
 let check = true;
@@ -14,15 +15,13 @@ class requestTable extends Component {
             items: [],
             isLoaded: false,
             reqList: [],
-            open: false
+            modalopen: false,
+            modalKind: false,
+            outcomeState: false
         }
         this.choiceAll = this.choiceAll.bind(this);
         this.choiceUnit = this.choiceUnit.bind(this);
         this.openState = this.openState.bind(this);
-    }
-
-    openState() {
-        this.setState({open: true});
     }
 
     async componentDidMount() {
@@ -33,36 +32,21 @@ class requestTable extends Component {
 
     async componentDidUpdate(prevProps) {
         if (this.props.reqSend && !prevProps.reqSend) {
-
             if (this.state.reqList.length === 0) {
-                this.openState();
+                this.setState({modalKind: false});
             } else {
-                fetch("http://127.0.0.1:8000/api/document", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({
-                        id: this.state.reqList
-                    }),
-                })
-
-                this.props.reqSendClick(false)
-                check = true;
+                this.setState({modalKind: true});
             }
-
-            if (check) {
-                fetch('http://127.0.0.1:8000/api/request?reqstaging=처리전&reqstate=승인')
-                    .then(response => response.json())
-                    .then(response => this.setState({items: response, isLoaded: true}))
-
-                check = false;
-
-                // 여기에 새로 고침을 넣어야 할까?
-
-
-            }
+            this.openState(); // 모달 창 연다
         }
+    }
+
+    reqSendClick = (e) => {
+        this.props.reqSendClick(e)
+    }
+
+    async componentWillUnmount(){
+        this.reqSendClick(false)
     }
 
     choiceAll() {
@@ -95,8 +79,41 @@ class requestTable extends Component {
         this.setState({reqList: requestList});
     }
 
+    openState() {
+        this.setState({modalopen: true});
+    }
+
     changeModalState = (e) => {
-        this.setState({open: e})
+        this.setState({modalopen: e})
+    }
+
+    outcomeState = (e) => {
+
+        this.setState({outcomeState: e})
+
+        if (e === 1) {
+            fetch("http://127.0.0.1:8000/api/document", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    id: this.state.reqList
+                }),
+            })
+            check = true;
+
+            if (check) {
+                fetch('http://127.0.0.1:8000/api/request?reqstaging=처리전&reqstate=승인')
+                    .then(response => response.json())
+                    .then(response => this.setState({items: response, isLoaded: true}))
+                check = false;
+            }
+            // this.props.history.push("/docreqdetail");
+            window.location.assign("http://localhost:3000/docreqdetail");
+        } else {
+            window.location.reload();
+        }
     }
 
     render() {
@@ -140,15 +157,19 @@ class requestTable extends Component {
                     </tbody>
                 </Table>
                 {
-                    this.state.open
-                        ? <Modal1 open={this.state.open} ment = {"선택한 목록이 없습니다."}
-                                    changeModalState={this.changeModalState}
-                                    modalkind = {false}></Modal1>
-                        : <span></span>
+                    this.state.modalKind
+                        ? <Modal1 open={this.state.modalopen} ment={"선택한 목록으로 작성 하시겠습니까?"}
+                                  changeModalState={this.changeModalState}
+                                  outcomeState={this.outcomeState} modalKind={this.state.modalKind}></Modal1>
+                        : <Modal1 open={this.state.modalopen} ment={"선택한 목록이 없습니다."}
+                                  changeModalState={this.changeModalState}
+                                  outcomeState={this.outcomeState}
+                                  modalKind={this.state.modalKind}></Modal1>
                 }
+
             </div>
         );
     }
 }
 
-export default requestTable;
+export default withRouter(requestTable);

@@ -22,28 +22,22 @@ class DocRequest extends Component {
         this.setState({reqSend: fromChild});
     }
 
-    async componentDidUpdate() {
-
-        // window.location.reload();
-
-        // 아싸리 새로고침을 할까?
-    }
-
     render() {
 
         return (
             <div>
-                    <div className={"sidebarDisplay"}>
-                        <div className={"writeRequest"}>
-                            <div className={"commentDiv"}>
-                                <Goal comment={"전자 결재 작성"}/>
+                <div className={"sidebarDisplay"}>
+                    <div className={"writeRequest"}>
+                        <div className={"commentDiv"}>
+                            <Goal comment={"전자 결재 작성"}/>
 
-                                <span><RequestSendButton reqSend={this.state.reqSend}
-                                                         reqSendClick={this.reqSendClick}/></span>
-                            </div>
-                            <RequestTable reqSend={this.state.reqSend} reqSendClick={this.reqSendClick}/>
+                            <span><RequestSendButton reqSend={this.state.reqSend}
+                                                     reqSendClick={this.reqSendClick}
+                                                     btnMent={"전자 결재 작성"}/></span>
                         </div>
+                        <RequestTable reqSend={this.state.reqSend} reqSendClick={this.reqSendClick}/>
                     </div>
+                </div>
             </div>
         );
     }

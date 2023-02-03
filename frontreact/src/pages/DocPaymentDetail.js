@@ -1,15 +1,15 @@
 import React, {Component} from 'react';
 import Goal from "../components/Goal";
-import DocPayment from "../components/docreq/DocPayment";
-import DocPaymentBtn from "../components/docreq/DocPaymentBtn";
+import DocPaymentTable from "../components/docreq/DocPaymentTable";
+import DocPaymentDetailBtn from "../components/docreq/DocPaymentDetailBtn";
 
-class DocReqDetail extends Component {
+class DocPaymentDetail extends Component {
 
     constructor(props) {
         super(props);
         this.props.setpagename("전자 결재");
         this.state = {
-            reqSend: null
+            reqSend: false
         };
     }
 
@@ -23,9 +23,9 @@ class DocReqDetail extends Component {
                 <div>
                     <div>
                         <div className={"commentDiv"}>
-                            <Goal comment={"전자 결재 신청"}/>
-                            <DocPayment reqSend={this.state.reqSend} reqSendClick={this.reqSendClick}/>
-                            <DocPaymentBtn reqSend={this.state.reqSend} reqSendClick={this.reqSendClick}/>
+                            <Goal comment={"결재 문서"}/>
+                            <DocPaymentTable reqSend={this.state.reqSend} reqSendClick={this.reqSendClick}/>
+                            <DocPaymentDetailBtn reqSend={this.state.reqSend} reqSendClick={this.reqSendClick}/>
                         </div>
                     </div>
                 </div>
@@ -34,4 +34,4 @@ class DocReqDetail extends Component {
     }
 }
 
-export default DocReqDetail;
+export default DocPaymentDetail;

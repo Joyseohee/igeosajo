@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import {Link} from "react-router-dom";
 
 class modal1 extends Component {
 
@@ -13,11 +12,8 @@ class modal1 extends Component {
         this.props.changeModalState(false)
     }
 
-    clickbtn = () => {
-        this.props.outcomeState(true);
-        this.changeModalState();
-        // window.location.replace("http://localhost:3000/docreqdetail");
-        // document.location.href("http://localhost:3000/docreqdetail");
+    outcomeState = (e) => {
+        this.reqSendClick(e);
     }
 
     render() {
@@ -37,25 +33,21 @@ class modal1 extends Component {
                     <Modal.Footer>
 
                         {
-                            this.props.modalkind
+                            this.props.modalKind
                                 ?
                                 <div>
                                 <Button style={{backgroundColor: "rgb(110, 117, 124)", border:"none", marginRight: "1rem"}} onClick={(e) => {
-                                this.changeModalState();
+                                    this.props.outcomeState(0);
+                                    this.changeModalState();
                                 }}> 취소 </Button>
                                 <Button style={{backgroundColor: "rgb(82, 150, 213)", border:"none"}} onClick={ (e) =>{
-                                    // this.props.outcomeState(true);
-                                    // this.changeModalState();
-                                    // // window.location.replace("http://localhost:3000/docreqdetail");
-                                    // document.location.href("http://localhost:3000/docreqdetail");
-                                    console.log(1234)
-                                    this.clickbtn();
+                                    this.props.outcomeState(1);
+                                    this.changeModalState();
                                 } } >확인</Button>
                                 </div>
                                 : <Button style={{backgroundColor: "rgb(82, 150, 213)", border:"none"}} onClick={ () =>{
-                                    console.log(123)
+                                    this.props.outcomeState(2);
                                     this.changeModalState();
-                                    window.location.reload();
                                 } } >확인</Button>
                         }
                     </Modal.Footer>
