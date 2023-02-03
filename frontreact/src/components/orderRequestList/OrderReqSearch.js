@@ -5,9 +5,7 @@ import Card from "react-bootstrap/Card";
 import Container from "react-bootstrap/Container";
 import all from "../../img/allicon.png";
 import parchase from "../../img/iconsparchase.png";
-import deliver from "../../img/iconsdeliver.png";
-import finish from "../../img/iconsfinish.png";
-import DateSetting from "../orderProgress/DateSetting";
+
 
 
 class OrderReqSearch extends Component {
@@ -18,8 +16,7 @@ class OrderReqSearch extends Component {
             allcnt:0,
             parchasecnt: 0,
             prevparchasecnt: 0,
-            startdate: this.props.startdate,
-            enddate:this.props.enddate,
+            reqterm: this.props.reqterm
         }
         this.statechange = this.statechange.bind(this);
     }
@@ -28,24 +25,23 @@ class OrderReqSearch extends Component {
         this.props.orderdocsearchstate(state);
         console.log(state)
     }
-
     componentDidMount() {
-        fetch('http://127.0.0.1:8000/api/order?func=distinctordernum&orderstate=allselect&startdate='+this.props.startdate+'&enddate='+this.props.enddate)
+        console.log(this.state.reqterm)
+        fetch('http://127.0.0.1:8000/api/request?reqstaging=처리중&termyearmonth='+this.state.reqterm)
             .then(res => res.json())
-            .then(data => {
-                this.setState({allcnt: data.length})
-            })
-        fetch('http://127.0.0.1:8000/api/order?func=distinctordernum&orderstate=parchase&startdate='+this.props.startdate+'&enddate='+this.props.enddate)
+            .then(data => {this.setState({allcnt:data.length})})
+        fetch('http://127.0.0.1:8000/api/request?reqstaging=처리중&reqorder=구매전&termyearmonth='+this.state.reqterm)
             .then(res => res.json())
-            .then(data => {
-                this.setState({parchasecnt: data.length})
-            })
+            .then(data => {this.setState({prevparchasecnt:data.length})})
+        fetch('http://127.0.0.1:8000/api/request?reqstaging=처리중&reqorder=구매완료&termyearmonth='+this.state.reqterm)
+            .then(res => res.json())
+            .then(data => {this.setState({parchasecnt:data.length})})
     }
 
     render() {
         const {allcnt,prevparchasecnt,parchasecnt} = this.state
         return (
-            <div className="containermargin">
+            <div>
 
                 <Row style={{width: '100%'}}>
                     <Col>
@@ -73,7 +69,7 @@ class OrderReqSearch extends Component {
                                     <Card.Text>
                                         <Container>
                                             <Row>
-                                                <Col className="cardtext">{parchasecnt}</Col>
+                                                <Col className="cardtext">{prevparchasecnt}</Col>
                                                 <Col> <img src={parchase} alt="logo"/></Col>
                                             </Row>
                                         </Container>

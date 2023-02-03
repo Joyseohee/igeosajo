@@ -10,6 +10,9 @@ import RequestUser from "./pages/RequestUser";
 import Cart from "./pages/Cart";
 import Main from "./pages/Main";
 import Request from "./pages/Request";
+import OrderReq from "./pages/OrderReq";
+import OrderParchase from "./pages/OrderParchase";
+import Order from "./pages/Order";
 
 
 class App extends Component {
@@ -101,6 +104,15 @@ class App extends Component {
                                 </Route>
                                 <Route exact path="/reqterm">
                                     <Reqterm usernum={usernum} setpagename={this.setpagename}/>
+                                </Route>
+                                <Route exact path="/order">
+                                    <Order usernum={usernum} setpagename={this.setpagename}/>
+                                </Route>
+                                <Route exact path="/orderreq">
+                                    <OrderReq usernum={usernum} setpagename={this.setpagename}/>
+                                </Route>
+                                <Route exact path="/orderparchase">
+                                    <OrderParchase usernum={usernum} setpagename={this.setpagename}/>
                                 </Route>
                             </>
                         }

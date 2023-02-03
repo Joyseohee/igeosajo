@@ -7,43 +7,25 @@ class OrderTable extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            reqnum: [],
+            ordernum: this.props.ordernum,
+            reqdata: [],
         }
-
-        ordernum = this.props.ordernum
-        fetch('http://127.0.0.1:8000/api/order?func=reqnumget&ordernum=' + ordernum)
-            .then(res => res.json())
-            .then(data => {
-                {
-                     // console.login({data})
-
-                    data && data.map((num, i) => (
-                        fetch('http://127.0.0.1:8000/api/request/' + num.reqnum)
-                            .then(res => res.json())
-                            .then(data => {
-                                    // console.login(totalprice)
-                                    // console.login(data)
-                                    // console.login(i)
-                                    let totalprice = 0
-                                    this.setState({reqnum: this.state.reqnum.concat(...data)})
-                                    {data && data.map((num, i) => (
-                                        totalprice = totalprice + num.reqprice
-                                    ))}
-
-                                }
-                            )))
-                }
-
-                })
-
     }
     componentDidMount() {
-
+        fetch('http://127.0.0.1:8000/api/order?ordernum=' + this.state.ordernum + '&func=reqdataget')
+                .then(res => res.json())
+                .then(data => {
+                    this.setState({reqdata: data})
+                     console.log(data)})
     }
+    componentDidUpdate(prevProps) {
+         if (this.props.ordernum !== prevProps.ordernum) {
+            this.setState({ordernum : this.props.ordernum});
+        }
+    }
+
     render() {
-
-        const {reqnum} = this.state
-
+        const {reqdata} = this.state
         return (
 
             <Table striped>
@@ -58,7 +40,7 @@ class OrderTable extends Component {
                 </tr>
                 </thead>
                 <tbody>
-                {reqnum && reqnum.map((num, i) => (
+                {reqdata && reqdata.map((num, i) => (
                     <tr>
                         <td> {i+1} </td>
                         <td>{num.prodnum}</td>
