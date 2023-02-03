@@ -4,7 +4,7 @@ import Reqbox from "../components/reqterm/Reqbox";
 class Reqterm extends Component {
     constructor(props) {
         super(props);
-        this.props.changePagename("신청 기간 설정");
+        this.props.setpagename("신청 기간 설정");
     }
 
     render() {

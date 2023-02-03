@@ -12,7 +12,7 @@ class Login extends Component {
             userPwd: "",
             logined:'N',
         };
-        this.props.changePagename("로그인");
+        this.props.setpagename("로그인");
     }
 
     loginClick = () => {

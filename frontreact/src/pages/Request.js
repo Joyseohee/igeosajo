@@ -7,7 +7,7 @@ import {Link} from "react-router-dom";
 class Request extends Component {
     constructor(props) {
         super(props);
-        this.props.changePagename("신청 관리");
+        this.props.setpagename("신청 관리");
         this.state = {
             items: [],
             checkedRequest: [],
