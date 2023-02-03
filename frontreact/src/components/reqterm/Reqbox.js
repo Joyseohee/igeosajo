@@ -7,11 +7,11 @@ class Reqbox extends Component {
         super(props);
         this.state = {
             type: props.type,
-            termyearmonth: "",
-            termstartdate: "",
-            termenddate: "",
+            termyearmonth: null,
+            termstartdate: null,
+            termenddate: null,
             termavailable: 0,
-            usernum: 2,
+            usernum: this.props.usernum,
         };
     }
 
@@ -24,7 +24,6 @@ class Reqbox extends Component {
     handleSubmit = (e) => {
         let termyearmonth = this.state.termstartdate.slice(0, 4);
         termyearmonth += this.state.termstartdate.slice(5, 7);
-        console.log(termyearmonth);
         fetch("http://127.0.0.1:8000/api/reqterm", {
             method: "POST",
             headers: {
@@ -39,12 +38,8 @@ class Reqbox extends Component {
             })
         })
             .then(res => {
-                console.log(res)
                 return res;
             })
-            .then(res => {
-                console.log(res.status);
-            });
     }
 
     handleStart = (e) => {
@@ -55,16 +50,11 @@ class Reqbox extends Component {
             },
             body: JSON.stringify({
                 "termavailable": 1,
-                "usernum": this.state.usernum,
             })
         })
             .then(res => {
-                console.log(res)
                 return res;
             })
-            .then(res => {
-                console.log(res);
-            });
     }
 
     handleEnd = (e) => {
@@ -75,16 +65,11 @@ class Reqbox extends Component {
             },
             body: JSON.stringify({
                 "termavailable": 0,
-                "usernum": this.state.usernum,
             })
         })
             .then(res => {
-                console.log(res)
                 return res;
             })
-            .then(res => {
-                console.log(res);
-            });
     }
 
     async componentDidMount() {
@@ -107,22 +92,8 @@ class Reqbox extends Component {
             termavailable: data[0].termavailable,
             usernum: data[0].usernum,
         });
-
-        console.log(this.state.termyearmonth);
     }
 
-
-    // componentDidUpdate(prevProps, prevState) {
-    //     if (prevState.termavailable !== this.state.termavailable) {
-    //         this.setState({
-    //             termyearmonth: this.state.termyearmonth,
-    //             termstartdate: this.state.termstartdate,
-    //             termenddate: this.state.termenddate,
-    //             termavailable: this.state.termavailable,
-    //             usernum: this.state.usernum,
-    //         })
-    //     }
-    // }
 
     render() {
         return (
@@ -131,7 +102,6 @@ class Reqbox extends Component {
                     {this.state.menuname}
                     <div>
                         {this.state.type === "reqterm-fix" &&
-                            // <Form onSubmit={(e) => this.handleSubmit(e)}>
                             <Form>
                                 <br/>
                                 <Form.Group className="mb-3" controlId="formBasicEmail">

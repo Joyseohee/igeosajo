@@ -237,7 +237,7 @@ class Cart extends Component {
     render() {
         const {select} = this.state;
         // const usernum = this.props.usernum;
-        //console.log(usernum);
+        //console.login(usernum);
 
         const list = this.state.items.map((list, idx) => (
             <tbody>

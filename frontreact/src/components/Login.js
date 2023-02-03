@@ -1,29 +1,22 @@
 import React, {Component} from 'react';
 import {Container, Row, Col, Button, Form} from "react-bootstrap";
 import "../styled/LoginCss.css"
-
-import Header from "./layout/Header";
-import {Link} from "react-router-dom";
+import {withRouter} from "react-router-dom";
 
 
 class Login extends Component {
-
     constructor(props) {
         super(props);
         this.state = {
             userId: "",
             userPwd: "",
+            logined:'N',
         };
-    }
-
-    nav = () => {
-
+        this.props.setpagename("로그인");
     }
 
     loginClick = () => {
-
         let data;
-
         if (!this.state.userId) {
             alert("아이디를 입력하세요")
         } else if (!this.state.userPwd) {
@@ -42,57 +35,68 @@ class Login extends Component {
                 return response.json()
             }).then((response) => {
                 let data = response["secretcode"];
-                console.log(data);
                 if (data === "0") {
                     alert("아이디 또는 비밀번호가 맞지 않습니다.")
                 } else {
                     alert("성공");
                     localStorage.setItem("secretcode", data);
-                    window.location.assign('http://localhost:3000/home');
-                    // this.history.push('/request');
+                    this.setState({
+                        logined:'Y',
+                    })
                 }
             });
         }
     }
 
+    componentDidUpdate(preState) {
+        console.log(preState)
+        console.log(this.state)
+        console.log(this.state.logined)
+        if(preState.logined !== this.state.logined && this.state.logined === 'Y'){
+            this.props.changeLogined('Y');
+            this.props.history.push('/main');
+        }
+    }
+
     render() {
-        return (
-            <div className={"loginDiv"}>
-                <Header pagename="로그인" userinfo=" "/>
-                <img src={"/user.png"}/>
-                <Container className="panel">
+        console.log(this.state.logined);
+            return (
+                <div className={"loginDiv"}>
+                    <img src={"/user.png"}/>
+                    <Container className="panel">
 
-                    <Form>
-                        <Form.Group as={Row} className="mb-3" controlId="formPlaintextPassword">
-                            <Col sm>
-                                <Form.Control className={"userid"} type="text" placeholder="UserID" onChange={(e) => {
-                                    this.setState({userId: e.target.value});
-                                }}/>
-                            </Col>
-                        </Form.Group>
+                        <Form>
+                            <Form.Group as={Row} className="mb-3" controlId="formPlaintextId">
+                                <Col sm>
+                                    <Form.Control className={"userid"} type="text" placeholder="UserID"
+                                                  onChange={(e) => {
+                                                      this.setState({userId: e.target.value});
+                                                  }}/>
+                                </Col>
+                            </Form.Group>
 
-                        <Form.Group as={Row} className="mb-3" controlId="formPlaintextPassword">
-                            <Col sm>
-                                <Form.Control className={"userpwd"} type="password" placeholder="Password"
-                                              onChange={(e) => {
-                                                  this.setState({userPwd: e.target.value});
-                                              }}/>
-                            </Col>
-                        </Form.Group>
-                        <br/>
+                            <Form.Group as={Row} className="mb-3" controlId="formPlaintextPassword">
+                                <Col sm>
+                                    <Form.Control className={"userpwd"} type="password" placeholder="Password"
+                                                  onChange={(e) => {
+                                                      this.setState({userPwd: e.target.value});
+                                                  }}/>
+                                </Col>
+                            </Form.Group>
+                            <br/>
 
-                        <div className="d-grid gap-1">
-                            <Button style={{backgroundColor: "rgb(82, 150, 213)", border: "none"}} onClick={(e) => {
-                                this.loginClick();
-                            }}>
-                                Sign In
-                            </Button>
-                        </div>
-                    </Form>
-                </Container>
-            </div>
-        );
+                            <div className="d-grid gap-1">
+                                <Button style={{backgroundColor: "rgb(82, 150, 213)", border: "none"}} onClick={(e) => {
+                                    this.loginClick();
+                                }}>
+                                    Sign In
+                                </Button>
+                            </div>
+                        </Form>
+                    </Container>
+                </div>
+            );
     }
 }
 
-export default Login;
+export default withRouter(Login);
