@@ -17,11 +17,11 @@ class App extends Component {
             pagename: "username",
             logined: 'N',
         }
-        this.changePagename = this.changePagename.bind(this);
+        this.setpagename = this.setpagename.bind(this);
         this.changeLogined = this.changeLogined.bind(this);
     }
 
-    changePagename(pagename) {
+    setpagename(pagename) {
         this.setState({
             pagename: pagename,
         });
@@ -75,20 +75,20 @@ class App extends Component {
                         {this.state.usernum === "fakenum" &&
                             <>
                                 <Route exact path="/">
-                                    <Login changePagename={this.changePagename} changeLogined={this.changeLogined}/>
+                                    <Login setpagename={this.setpagename} changeLogined={this.changeLogined}/>
                                 </Route>
                             </>
                         }
                         {this.state.usernum !== "fakenum" &&
                             <>
                                 <Route exact path="/main">
-                                    <Main usernum={usernum} changePagename={this.changePagename}/>
+                                    <Main usernum={usernum} setpagename={this.setpagename}/>
                                 </Route>
                                 <Route exact path="/request">
-                                    <Request usernum={usernum} changePagename={this.changePagename}/>
+                                    <Request usernum={usernum} setpagename={this.setpagename}/>
                                 </Route>
                                 <Route exact path="/reqterm">
-                                    <Reqterm usernum={usernum} changePagename={this.changePagename}/>
+                                    <Reqterm usernum={usernum} setpagename={this.setpagename}/>
                                 </Route>
                             {/*  일반 페이지 라우팅  */}
                             </>
