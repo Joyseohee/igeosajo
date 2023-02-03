@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import Form from "react-bootstrap/Form";
 import Table from "react-bootstrap/Table";
+import jwt_decode from "jwt-decode";
 
 let requestList = []
 let requestList2 = ''
@@ -15,7 +16,8 @@ class RequestUser extends Component {
             items: [],
 
             title: '',
-            body: ''
+            body: '',
+            usernum: '',
         };
         this.props.setpagename("신청목록");
 
@@ -49,7 +51,7 @@ class RequestUser extends Component {
 
     }
 
-   //delete
+    //delete
     async handleClick2() {
         // const usernum = '3'
         const reqnum = requestList
@@ -64,8 +66,17 @@ class RequestUser extends Component {
     }
 
     async componentDidMount() {
+
+        const token = localStorage.getItem('secretcode');
+        const decoded = jwt_decode(token);
+        const usernum = decoded.usernum;
+        this.setState({
+            usernum: usernum
+        })
+        console.log(usernum)
+
         try {
-            const usernum = '1'
+
 
             const res = await fetch('http://127.0.0.1:8000/api/request?usernum=' + usernum);
 
@@ -107,7 +118,7 @@ class RequestUser extends Component {
             requestList.push(val);
 
         } else {
-           requestList.pop(val);
+            requestList.pop(val);
         }
         console.log(requestList);
 

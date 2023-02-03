@@ -272,7 +272,7 @@ def post_cart(self):
 def delete_cart(self):
     prodnum = self.GET.get('prodnum', None)
     prodnumList = prodnum.split(',')
-    # prodnum = [10, 2]
+    # prodnum = [10, 2]6
     usernum = str(self.GET.get('usernum', None))
 
     print("prodnum:" + str(prodnum))
@@ -365,6 +365,10 @@ def post_request(self):
         query = 'insert into request (prodnum, reqcount, reqprice, usernum, termyearmonth)' \
                 'values  (' + str(num) + ', ' + str(count) + ',' \
                 + str(price) + ',' + str(usernum) + ' , ' + str(termyearmonth) + ')'
+
+        cursor.execute(query)
+
+        query = 'DELETE FROM cart WHERE usernum=' + str(usernum) + ' and prodnum=' + str(num)
 
         cursor.execute(query)
 
