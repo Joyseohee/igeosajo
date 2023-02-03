@@ -1,6 +1,6 @@
-.page-top {
-    height: 100vh;
-}
+/*.page-top {*/
+/*    height: 200%;*/
+/*}*/
 
 a:link, a:visited, a:hover {
     color: inherit;
@@ -69,10 +69,9 @@ a:link, a:visited, a:hover {
 
 /* 사이드바 */
 .sidebar-wrapper {
-    display: inline-block;
     flex: 2;
     min-width: 200px;
-    height: 100vh;
+    min-height: 100vh;
     background-color: rgb(224, 224, 224);
 }
 

@@ -12,46 +12,33 @@ let orderstate = ""
 let sdate
 let edate
 let checklist = []
+
 class OrderView extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            ordernum: [],
-            reqnum:[],
-            orderstate : this.props.orderstate,
-            startdate: this.props.startdate,
-            enddate: this.props.enddate,
-
+            ordernum: this.props.ordernum,
         }
-       orderstate=this.props.orderstate
-        sdate = this.props.startdate
-         edate = this.props.enddate
-
         this.checkindividal = this.checkindividal.bind(this);
         this.checkall = this.checkall.bind(this);
         this.checkclear = this.checkclear.bind(this);
         this.checkenable = this.checkenable.bind(this);
         this.changeorderstate = this.changeorderstate.bind(this);
+
     }
     componentDidMount() {
-        fetch('http://127.0.0.1:8000/api/order?func=distinctordernum&orderstate=' + orderstate +'&startdate='+sdate+'&enddate='+edate)
-            .then(res => res.json())
-            .then(data => {this.setState({
-                ordernum: data
-            })
-            });
+            console.log(this.state.ordernum)
     }
+
     componentDidUpdate(prevProps) {
-        if (this.props.orderstate !== prevProps.orderstate) {this.setState({orderstate : this.props.orderstate});}
-        if (this.props.startdate !== prevProps.startdate) {this.setState({startdate : this.props.startdate});}
-        if (this.props.enddate !== prevProps.enddate) {this.setState({enddate : this.props.enddate});}
-        if (this.props.orderstate !== prevProps.orderstate | this.props.startdate !== prevProps.startdate |this.props.enddate !== prevProps.enddate) {
-            fetch('http://127.0.0.1:8000/api/order?func=distinctordernum&orderstate=' + this.props.orderstate +'&startdate='+this.props.startdate+'&enddate='+this.props.enddate)
-            .then(res => res.json())
-            .then(data => {this.setState({ordernum: data})});
+        if (this.props.ordernum !== prevProps.ordernum) {
+            this.setState({ordernum : this.props.ordernum});
+            console.log(this.props.ordernum)
         }
         this.checkclear()
     }
+
+
     changeorderstate(state){
         console.log(JSON.stringify(checklist))
         if(checklist.length ===0){
@@ -63,7 +50,7 @@ class OrderView extends Component {
                 fetch("http://127.0.0.1:8000/api/order" , {
               method: "PUT",
               headers: {
-                "Content-Type": "application/jso    n",
+                "Content-Type": "application/json",
               },
               body: JSON.stringify({
                 orderstate: state,
@@ -78,7 +65,7 @@ class OrderView extends Component {
                 fetch("http://127.0.0.1:8000/api/order" , {
               method: "PUT",
               headers: {
-                "Content-Type": "application/jso    n",
+                "Content-Type": "application/json",
               },
               body: JSON.stringify({
                 orderstate: state,
@@ -93,7 +80,7 @@ class OrderView extends Component {
         this.forceUpdate()
     }
     checkenable(state,ordernum){
-        if(state=="불출 완료") {
+        if(state=="불출완료") {
             return (
                 <Col><Form.Check className="ordercardtext" inline label={"문서번호 : " + ordernum} name="check"
                                  id={ordernum} onChange={(e) => {
@@ -140,9 +127,8 @@ class OrderView extends Component {
         }
     }
 
-
     render() {
-        const { ordernum, orderstate } = this.state
+        const { ordernum, orderstate,reqdata } = this.state
 
         return (
             <div>
@@ -166,7 +152,7 @@ class OrderView extends Component {
                                             <Col xs lg="2"><span className="ordercardtext">{num.orderstate}</span></Col>
                                         </Row>
                                     </Container>
-                                    <OrderTable ordernum={num.ordernum} key="{num.ordernum}"/>
+                                    <OrderTable ordernum={num.ordernum} />
                                     <TotalPrice ordernum={num.ordernum} key="{num.ordernum}"/>
                                 </Card.Body>
                             </Card>
