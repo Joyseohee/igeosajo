@@ -2,11 +2,14 @@ import React, {Component} from "react";
 import {Route, Switch} from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.css";
 import jwt_decode from "jwt-decode";
+import Layouts from "./components/layout/Layouts";
+import Login from "./components/Login";
+import Product from "./pages/Product";
+import Reqterm from "./pages/Reqterm";
+import RequestUser from "./pages/RequestUser";
+import Cart from "./pages/Cart";
 import Main from "./pages/Main";
 import Request from "./pages/Request";
-import Reqterm from "./pages/Reqterm";
-import Login from "./components/Login";
-import Layouts from "./components/layout/Layouts";
 
 
 class App extends Component {
@@ -84,13 +87,21 @@ class App extends Component {
                                 <Route exact path="/main">
                                     <Main usernum={usernum} setpagename={this.setpagename}/>
                                 </Route>
+                                <Route exact path="/cart">
+                                    <Cart usernum={usernum} setpagename={this.setpagename}/>
+                                </Route>
+                                 <Route exact path="/product">
+                                    <Product usernum={usernum} setpagename={this.setpagename}/>
+                                </Route>
+                                 <Route exact path="/requestuser">
+                                    <RequestUser usernum={usernum} setpagename={this.setpagename}/>
+                                </Route>
                                 <Route exact path="/request">
                                     <Request usernum={usernum} setpagename={this.setpagename}/>
                                 </Route>
                                 <Route exact path="/reqterm">
                                     <Reqterm usernum={usernum} setpagename={this.setpagename}/>
                                 </Route>
-                            {/*  일반 페이지 라우팅  */}
                             </>
                         }
                     </Switch>
@@ -99,6 +110,5 @@ class App extends Component {
         );
     }
 }
-
 export default App;
 
