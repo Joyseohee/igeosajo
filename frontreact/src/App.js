@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Route, Router, Routes} from "react-router-dom";
+import {Route, Switch} from "react-router-dom";
 import Home from "./pages/Home";
 import Product from "./pages/Product";
 import Reqterm from "./pages/Reqterm";
@@ -14,6 +14,7 @@ import Login from "./components/Login";
 import DocRequest from "./pages/DocRequest";
 import DocReqDetail from "./pages/DocReqDetail";
 import jwt_decode from "jwt-decode";
+import DocPaymentDetail from "./pages/DocPaymentDetail";
 
 
 class App extends Component {
@@ -66,7 +67,7 @@ class App extends Component {
                     menus: [{
                         name: "전자결재",
                         path: "/docrequest",
-                    }]
+                    }],
                 });
             } else if (this.state.userathority === 1) {
                 this.setState({
@@ -97,21 +98,22 @@ class App extends Component {
         console.log(this.state.userathority);
         return (
             <div>
-                <Routes><Route path="/" element={<Login setpagename={this.setpagename}/>}/></Routes>
+                <Switch><Route path="/" element={<Login setpagename={this.setpagename}/>}/></Switch>
                 {(this.state.userathority !== 3 && this.state.menus !== 1) &&
                     <Layouts userinfo={this.state} pagename={this.state.pagename}>
-                        <Routes>
-                            <Route path="/home/*" element={<Home setpagename={this.setpagename}/>}/>
-                            <Route path="/cart/:usernum" element={<Hello setpagename={this.setpagename}/>}/>
-                            <Route path="/product" element={<Product setpagename={this.setpagename}/>}/>
-                            <Route path="/requestuser" element={<RequestUser setpagename={this.setpagename}/>}/>
-                            <Route path="/reqterm/*" element={<Reqterm setpagename={this.setpagename}/>}/>
-                            <Route path="/request/*" element={<Request setpagename={this.setpagename}/>}/>
-                            <Route exact path="/docrequest" element={<DocRequest setpagename={this.setpagename}/>}/>
-                            <Route exact path="/docreqdetail" element={<DocReqDetail setpagename={this.setpagename}/>}/>
-                            <Route exact path="/order" element={<Order setpagename={this.setpagename}/>}/>
-                            <Route path="/orderreq" element={<OrderReq setpagename={this.setpagename}/>}/>
-                        </Routes>
+                        <Switch>
+                            <Route path="/home/*" render={(props) =><Home setpagename={this.setpagename}/>}/>
+                            <Route path="/cart/:usernum" render={(props) =><Hello setpagename={this.setpagename}/>}/>
+                            <Route path="/product" render={(props) =><Product setpagename={this.setpagename}/>}/>
+                            <Route path="/requestuser" render={(props) =><RequestUser setpagename={this.setpagename}/>}/>
+                            <Route path="/reqterm/*" render={(props) =><Reqterm setpagename={this.setpagename}/>}/>
+                            <Route path="/request/*" render={(props) =><Request setpagename={this.setpagename}/>}/>
+                            <Route exact path="/docrequest" render={(props) =><DocRequest setpagename={this.setpagename}/>}/>
+                            <Route exact path="/docreqdetail" render={(props) =><DocReqDetail setpagename={this.setpagename}/>}/>
+                            <Route exact path="/docpaydetail" render={(props) =><DocPaymentDetail setpagename={this.setpagename}/>}/>
+                            <Route exact path="/order" render={(props) =><Order setpagename={this.setpagename}/>}/>
+                            <Route path="/orderreq" render={(props) =><OrderReq setpagename={this.setpagename}/>}/>
+                        </Switch>
                     </Layouts>
                 }
 

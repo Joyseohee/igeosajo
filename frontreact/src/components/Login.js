@@ -3,8 +3,6 @@ import {Container, Row, Col, Button, Form} from "react-bootstrap";
 import "../styled/LoginCss.css"
 
 import Header from "./layout/Header";
-import {Link} from "react-router-dom";
-
 
 class Login extends Component {
 
@@ -14,10 +12,6 @@ class Login extends Component {
             userId: "",
             userPwd: "",
         };
-    }
-
-    nav = () => {
-
     }
 
     loginClick = () => {
