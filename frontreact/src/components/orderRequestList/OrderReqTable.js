@@ -9,26 +9,26 @@ class OrderTable extends Component {
         super(props);
         this.state = {
             reqdata: [],
-            docstate:this.props.orderdocstate,
-            startdate: this.props.startdate,
-            enddate: this.props.enddate,
+            // docstate:this.props.orderdocstate,
+            // startdate: this.props.startdate,
+            // enddate: this.props.enddate,
         }
     }
     componentDidMount() {
-            fetch('http://127.0.0.1:8000/api/document?func=reqnumget&startdate='+this.props.startdate+'&enddate='+this.props.enddate+'&docstate='+this.props.orderdocstate)
-            .then(res => res.json())
-            .then(data => {
-                {
-                     // console.login({data})
-                    data && data.map((num, i) => (
-                        fetch('http://127.0.0.1:8000/api/request/' + num.reqnum)
-                            .then(res => res.json())
-                            .then(data => {
-                                    this.setState({reqdata: this.state.reqdata.concat(...data)})
-                                }
-                            )))
-                }
-                })
+            // fetch('http://127.0.0.1:8000/api/document?func=reqnumget&startdate='+this.props.startdate+'&enddate='+this.props.enddate+'&docstate='+this.props.orderdocstate)
+            // .then(res => res.json())
+            // .then(data => {
+            //     {
+            //          // console.login({data})
+            //         data && data.map((num, i) => (
+            //             fetch('http://127.0.0.1:8000/api/request/' + num.reqnum)
+            //                 .then(res => res.json())
+            //                 .then(data => {
+            //                         this.setState({reqdata: this.state.reqdata.concat(...data)})
+            //                     }
+            //                 )))
+            //     }
+            //     })
     }
     render() {
 
@@ -70,6 +70,5 @@ class OrderTable extends Component {
         )
     }
 }
-
 
 export default OrderTable;

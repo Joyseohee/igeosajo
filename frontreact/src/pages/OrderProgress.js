@@ -1,26 +1,24 @@
 import React, {Component} from 'react';
 import '../css/header.css'
 import Container from 'react-bootstrap/Container';
+
 import Headertitle from '../components/orderProgress/HeaderTitle'
 import DateSetting from '../components/orderProgress/DateSetting'
 import OrderSearch from '../components/orderProgress/OrderSearch'
 import OrderView from '../components/orderProgress/OrderView'
 
-
-
 let  defaultstate = 'allselect'
-
 class OrderProgress extends Component {
     constructor(props) {
         super(props);
 
         let now = new Date();
-        let startdate = now.getFullYear() + "-" + now.getMonth() + 1+"-"+"01"
-        let day = new Date(now.getFullYear(),now.getMonth()+1,0).getDate()
-        let enddate = now.getFullYear() + "-" + now.getMonth() + 1+"-"+day
+        let startdate = now.getFullYear() + "-" + (now.getMonth() + 1)+"-"+"01"
+        let day = new Date(now.getFullYear(),(now.getMonth()+1),0).getDate()
+        let enddate = now.getFullYear() + "-" + (now.getMonth() + 1)+"-"+ day
 
         this.state = {
-            posts: [],
+            ordernum: [],
             orderstate: defaultstate,
             startyear: now.getFullYear(),
             startmonth: now.getMonth() + 1,
@@ -28,22 +26,24 @@ class OrderProgress extends Component {
             endmonth: now.getMonth() + 1,
             startdate: startdate,
             enddate: enddate,
+            reqdata:[],
         }
+        this.ordernumdata = this.ordernumdata.bind(this)
     }
 
     componentDidMount() {
-        // fetch('http://127.0.0.1:8000/api/order/?func=REQNUMGET&ordernum=3')
-        //     .then(res => res.json())
-        //     .then(data => this.setState({
-        //         posts: data
-        //     }));
+        this.ordernumdata(this.state.orderstate,this.state.startdate,this.state.enddate)
     }
-
-    ordersearchstate = (state) => {
-
-        this.setState({orderstate: state});
-        this.forceUpdate();
-    };
+    componentDidUpdate(prevProps, prevState, snapshot) {
+         if (this.state.orderstate !== prevState.orderstate) {
+            this.setState({orderstate : this.state.orderstate});
+            console.log(this.state.orderstate)
+        }
+         if (this.state.ordernum !== prevState.ordernum) {
+            this.setState({ordernum : this.state.ordernum});
+            console.log(this.state.ordernum)
+        }
+    }
 
     datesetting = (startyear, startmonth, endyear, endmonth) => {
 
@@ -104,13 +104,27 @@ class OrderProgress extends Component {
 
         this.setState({startdate: strsdate});
         this.setState({enddate: stredate});
+        //console.log(this.state.orderstate)
+        this.ordernumdata(this.state.orderstate,strsdate,stredate)
+    };
 
-        this.forceUpdate();
+    ordersearchstate = (state) => {
+        this.setState({orderstate: state});
+        this.ordernumdata(state,this.state.startdate,this.state.enddate)
+    };
+
+    ordernumdata (state,startdate,enddate){
+        fetch('http://127.0.0.1:8000/api/order?func=distinctordernum&orderstate=' + state +'&startdate='+startdate+'&enddate='+enddate)
+            .then(res => res.json())
+            .then(data => {
+                this.setState({ordernum: data})
+                console.log(this.state.ordernum)
+            });
     };
 
     render() {
         const {
-            posts,
+            ordernum,
             orderstate,
             startyear,
             startmonth,
@@ -120,23 +134,17 @@ class OrderProgress extends Component {
             enddate
         } = this.state;
         const date = [startyear, startmonth, endyear, endmonth]
-        const postsList = posts.map((post) => (
-            <div key={post.REQNUM} id={post.REQNUM}>
-                <h4>{post.REQNUM}</h4>
-            </div>
-        ));
+
         return (
             <div>
                 <Container fluid style={{margin: 0, padding: 0}}>
                     <Headertitle title="구매 진행 현황"></Headertitle>
                     <DateSetting date={date} datesetting={this.datesetting}></DateSetting>
                     <OrderSearch orderstate={this.ordersearchstate} startdate={startdate} enddate={enddate}></OrderSearch>
-                    <OrderView orderstate={orderstate} startdate={startdate} enddate={enddate}></OrderView>
+                    <OrderView ordernum={ordernum} ></OrderView>
                 </Container>
             </div>
         );
     }
 }
-
-
 export default OrderProgress;

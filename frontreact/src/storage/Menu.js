@@ -50,13 +50,18 @@ export default class Menu {
             menu2: [
                 {
                     index: "depth2-5",
-                    name: "구매 신청 목록",
+                    name: "구매 신청",
                     path: "/orderreq"
                 },
                 {
                     index: "depth2-6",
                     name: "구매 진행 현황",
                     path: "/order"
+                },
+                {
+                    index: "depth2-7",
+                    name: "과거 구매 신청",
+                    path: "/orderparchase"
                 }
             ]
         }
@@ -69,12 +74,12 @@ export default class Menu {
             name: "사무용품 구매",
             menu2: [
                 {
-                    index: "depth2-7",
+                    index: "depth2-8",
                     name: "물품보기",
                     path: "/product"
                 },
                 {
-                    index: "depth2-8",
+                    index: "depth2-9",
                     name: "장바구니",
                     path: "/cart"
                 }
