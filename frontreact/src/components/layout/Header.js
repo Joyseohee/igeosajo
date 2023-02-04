@@ -26,7 +26,7 @@ class Header extends Component {
                     <Col sm="3" className="profile">
                         <Row>
                             <Col sm="3">
-                                {usernum !== "fakenum" && <div className="photo">사진</div>}
+                                {usernum !== "fakenum" && <div className="photo"><img src={"/userprofile.png"} width={"35px"}/></div>}
                                 {usernum === "fakenum" && <div className="photo"></div>}
                             </Col>
                             <Col sm="9" className="info">
