@@ -1,4 +1,5 @@
 import React, {Component} from "react";
+import {Form} from "react-bootstrap";
 
 class ReqListTbody extends Component {
     constructor(props) {
@@ -17,8 +18,9 @@ class ReqListTbody extends Component {
                         {item.reqnum}
                     </td>
                     <td>
-                        <input type="checkbox" name="check" value={item.reqnum}
-                               onChange={(e) => this.props.handleCheck(e)}/>
+                        <Form.Check type={"checkbox"} name="check" value={item.reqnum}
+                                    onChange={(e) => this.props.handleCheck(e)}
+                                    checked={this.props.checkedRequest.includes(item.reqnum.toString())||this.props.checkedAll}/>
                     </td>
                     <td>
                         {item.prodname}

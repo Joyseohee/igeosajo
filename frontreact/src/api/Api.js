@@ -1,6 +1,6 @@
-import React from "react";
+import React, {Component} from "react";
 
-export default class Api {
+export default class Api extends Component {
     fetchData = (table, params, pk, method) => {
         let api = '';
         if (table === 'request') {
@@ -28,6 +28,18 @@ export default class Api {
     read = (table, params, pk) => {
         return this.fetchData(table, params, pk, 'GET');
     };
+    //
+    // read = (table, params, pk, stateName) => {
+    //     this.fetchData(table, params, pk, 'GET').then((response) => {
+    //         return response.json();
+    //     }).then((response) => {
+    //         console.log(response);
+    //         this.setState({
+    //             [stateName]: response,
+    //         })
+    //     })
+    // };
+    //
 
     update = (table, params, pk) => {
         return this.fetchData(table, params, pk, 'PUT');
@@ -83,7 +95,7 @@ export default class Api {
     };
 
     user = (params) => {
-        let api = "http://127.0.0.1:8000/api/user?usernum="+params.usernum;
+        let api = "http://127.0.0.1:8000/api/user?usernum=" + params.usernum;
         return api;
     }
 }

@@ -8,9 +8,12 @@ class ReqList extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            checkedItems: [],
+            requestlist: [],
+            checkedAll: false,
         }
         this.handleCheck = this.handleCheck.bind(this);
+        this.handleCheckAll = this.handleCheckAll.bind(this);
+        this.getlist = this.getlist.bind(this);
     }
 
     async componentDidMount() {
@@ -30,8 +33,10 @@ class ReqList extends Component {
                 console.error(e);
             }
         }
-        if(prevProps.checkedRequest !== this.props.checkedRequest) {
-            setTimeout(()=>{
+
+        if (this.props.checkedRequest.length === 0 && prevProps.checkedRequest !== this.props.checkedRequest) {
+            console.log(this.props.checkedRequest);
+            setTimeout(() => {
                 this.getlist("request", {termyearmonth: this.props.termyearmonth}, null, "requestlist");
             }, 500);
         }
@@ -43,43 +48,34 @@ class ReqList extends Component {
         }).then((response) => {
             this.setState({
                 [stateName]: response,
+                checkedAll: false,
             })
         })
     }
 
     handleCheckAll(checked) {
-        this.setState({
-            checkedAll: checked,
+        let arr = [];
+        this.state.requestlist.map((request) => {
+            arr.push(request.reqnum);
         })
-        checked ? this.props.storeChecked(this.state.requestlist) : this.props.storeChecked([]);
+        this.setState({
+            checkedAll: !this.state.checkedAll,
+        })
+        if(checked) {
+            this.props.storeChecked(arr);
+        } else {
+            this.props.storeChecked([]);
+        }
     }
 
     handleCheck(e) {
-        let arr = this.state.checkedItems;
-        console.log(arr);
+        let arr = this.props.checkedRequest;
         let check = arr.findIndex(item => item === e.target.value);
-        if (check === -1) {
-            arr.push(e.target.value);
-            this.setState((state) => ({
-                checkedItems: state.checkedItems,
-            }))
-        } else {
-            if (check > -1) arr.splice(check, 1);
-            this.setState((state) => ({
-                checkedItems: state.checkedItems,
-            }))
-        }
-        console.log(arr);
+        if (check === -1) arr.push(e.target.value);
+        else arr.splice(check, 1);
         this.props.storeChecked(arr);
     }
 
-    componentDidUpdate(prevProps, prevState, snapshot) {
-        if (prevProps.requestlist !== this.props.requestlist) {
-            this.setState((props) => ({
-                requestlist: props.requestlist,
-            }));
-        }
-    }
 
     render() {
         const requestlist = this.state.requestlist;
@@ -92,7 +88,8 @@ class ReqList extends Component {
                         <th>reqnum</th>
                         <th>
                             <Form.Check type={"checkbox"} name="checkedRequest" value={requestlist}
-                                        onChange={(e) => this.handleCheckAll(e.target.checked)}/>
+                                        onChange={(e) => this.handleCheckAll(e.target.checked)}
+                                        checked={this.state.checkedAll}/>
                         </th>
                         <th>품목명</th>
                         <th>수량</th>
