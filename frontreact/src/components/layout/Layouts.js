@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import Header from "./Header";
 import "../../styled/Layouts.css"
 import Sidebar from "./Sidebar";
+import Api from "../../api/Api";
 
 class Layouts extends Component {
     constructor(props) {
@@ -17,7 +18,8 @@ class Layouts extends Component {
     async componentDidMount() {
         if (this.props.usernum !== "fakenum") {
             try {
-                const response = await fetch("http://127.0.0.1:8000/api/user?usernum=" + this.props.usernum);
+                const params = {usernum: this.props.usernum};
+                const response = await new Api().read("user", params, null);
                 const data = await response.json();
                 await this.setState({
                     username: data[0].username,
@@ -33,7 +35,8 @@ class Layouts extends Component {
 
     async componentDidUpdate(prevProps, prevState) {
         if (prevProps.usernum !== this.props.usernum && this.props.usernum !== "fakenum") {
-            const response = await fetch("http://127.0.0.1:8000/api/user?usernum=" + this.props.usernum);
+            const params = {usernum: this.props.usernum};
+            const response = await new Api().read("user", params, null);
             const data = await response.json();
             await this.setState({
                 username: data[0].username,
@@ -62,4 +65,3 @@ class Layouts extends Component {
 }
 
 export default Layouts;
-// <div className="page-top">

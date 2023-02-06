@@ -7,6 +7,8 @@ export default class Api {
             api = this.request(params, pk);
         } else if (table === 'reqterm') {
             api = this.reqterm(params, pk);
+        } else if (table === 'user') {
+            api = this.user(params, pk);
         }
 
         const options = {method};
@@ -16,7 +18,7 @@ export default class Api {
             };
             options.body = JSON.stringify(params);
         }
-
+        console.log(api);
         return fetch(api, options);
     };
 
@@ -80,4 +82,9 @@ export default class Api {
 
         return api;
     };
+
+    user = (params) => {
+        let api = "http://127.0.0.1:8000/api/user?usernum="+params.usernum;
+        return api;
+    }
 }

@@ -94,7 +94,7 @@ class Request extends Component {
                 <div className="title">타이틀</div>
                 <div className="reqterms">
                     <div className="reqterm">신청기간</div>
-                    <SelectReqterm handleSelect={this.handleSelect} requestlist={requestlist}></SelectReqterm>
+                    {/*<SelectReqterm handleSelect={this.handleSelect} requestlist={requestlist}></SelectReqterm>*/}
                 </div>
                 <div className="filter"><ReqFilter/></div>
                 <div className="approve"><Button onClick={this.approve}>승인</Button></div>
