@@ -51,7 +51,6 @@ class Layouts extends Component {
         const {usernum, pagename} = this.props;
         const userinfo = this.state;
         const {userathority} = this.state;
-        console.log(userathority);
         return (
             <>
                 <Header pagename={pagename} usernum={usernum} userinfo={userinfo}/>

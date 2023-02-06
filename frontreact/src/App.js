@@ -17,7 +17,6 @@ import OrderReq from "./pages/OrderReq";
 import OrderParchase from "./pages/OrderParchase";
 import Order from "./pages/Order";
 
-
 class App extends Component {
     constructor() {
         super();
