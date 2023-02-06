@@ -3,12 +3,10 @@ import React, {Component} from "react";
 class ReqListTbody extends Component {
     constructor(props) {
         super(props);
-        console.log();
     }
 
     render() {
         const item = this.props.item;
-
         return (
             <>
                 <tr>

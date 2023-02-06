@@ -1,6 +1,83 @@
-//
-// getReqterm(termyearmonth)
-// {
-//     return fetch("http://127.0.0.1:8000/api/request?reqstate=대기&termyearmonth=" + termyearmonth);
-// }
-//
+import React from "react";
+
+export default class Api {
+    fetchData = (table, params, pk, method) => {
+        let api = '';
+        if (table === 'request') {
+            api = this.request(params, pk);
+        } else if (table === 'reqterm') {
+            api = this.reqterm(params, pk);
+        }
+
+        const options = {method};
+        if (method === 'POST' || method === 'PUT') {
+            options.headers = {
+                'Content-Type': 'application/json; charset=utf-8',
+            };
+            options.body = JSON.stringify(params);
+        }
+
+        return fetch(api, options);
+    };
+
+    create = (table, params, pk) => {
+        return this.fetchData(table, params, pk, 'POST');
+    };
+
+    read = (table, params, pk) => {
+        return this.fetchData(table, params, pk, 'GET');
+    };
+
+    update = (table, params, pk) => {
+        return this.fetchData(table, params, pk, 'PUT');
+    };
+
+    request = (params, pk) => {
+        let api = 'http://127.0.0.1:8000/api/request';
+        if (pk !== null) api += `/${pk}`;
+        if (params !== null) {
+            const arrayParamKeys = Object.keys(params);
+            if (arrayParamKeys.length > 0) {
+                api += '?';
+                api += arrayParamKeys
+                    .map((param) => {
+                        if (param === 'usernum') {
+                            return `usernum=${params.usernum}`;
+                        } else if (param === 'reqstate') {
+                            return `reqstate=${params.reqstate}`;
+                        } else if (param === 'termyearmonth') {
+                            return `termyearmonth=${params.termyearmonth}`;
+                        }
+                        return '';
+                    })
+                    .filter((str) => str !== '')
+                    .join('&');
+            }
+        }
+
+        return api;
+    };
+
+    reqterm = (params, pk) => {
+        let api = 'http://127.0.0.1:8000/api/reqterm';
+        if (pk !== null) api += `/${pk}`;
+
+        if (params !== null) {
+            const arrayParamKeys = Object.keys(params);
+            if (arrayParamKeys.length > 0) {
+                api += '?';
+                api += arrayParamKeys
+                    .map((param) => {
+                        if (param === 'usernum') {
+                            return `usernum=${params.usernum}`;
+                        }
+                        return '';
+                    })
+                    .filter((str) => str !== '')
+                    .join('&');
+            }
+        }
+
+        return api;
+    };
+}

@@ -9,13 +9,10 @@ class Reqterm extends Component {
 
     render() {
         return (
-            <div className="page-top">
-                <div className="reqterm-wrapper">
-                    <div>타이틀</div>
-                    <Reqbox type="reqterm-fix" usernum={this.props.usernum}/>
-                    <Reqbox type="reqterm-set" usernum={this.props.usernum}/>
-                </div>
-                <div></div>
+            <div className="page-top reqterm-wrapper">
+                <div className="reqterm-title">타이틀</div>
+                <Reqbox type="reqterm-fix" usernum={this.props.usernum}/>
+                <Reqbox type="reqterm-set" usernum={this.props.usernum}/>
             </div>
         );
     }

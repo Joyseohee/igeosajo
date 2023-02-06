@@ -1,74 +1,65 @@
 import React, {Component} from "react";
 import ReqFilter from "../components/request/ReqFilter";
 import ReqList from "../components/request/ReqList";
-import {Button} from "react-bootstrap";
-import {Link} from "react-router-dom";
+import {Button, FormSelect} from "react-bootstrap";
+import Api from "../api/Api";
+import SelectReqterm from "../components/request/SelectReqterm";
 
 class Request extends Component {
     constructor(props) {
         super(props);
         this.props.setpagename("신청 관리");
         this.state = {
-            items: [],
+            requestlist: [],
             checkedRequest: [],
             reqtermlist: [],
             pickedReqterm: null,
         }
+        this.storeChecked = this.storeChecked.bind(this);
+        this.handleSelect = this.handleSelect.bind(this);
+        this.approve = this.approve.bind(this);
+        this.reject = this.reject.bind(this)
     }
 
-    componentDidMount() {
-        this.getlist("202310");
-        this.getReqtermList();
-    }
-
-    componentDidUpdate(prevProps, prevState, snapshot) {
-        if(prevState.pickedReqterm !== this.state.pickedReqterm){
-            this.getlist(this.state.pickedReqterm);
+    async componentDidMount() {
+        try {
+            const [requestRes, reqtermRes] = await Promise.all([
+                new Api().read("request", null, null),
+                new Api().read("reqterm", {usernum: this.props.usernum}, null)
+            ]);
+            const [requestData, reqtermData] = await Promise.all([requestRes.json(), reqtermRes.json()]);
+            this.setState({
+                requestlist: requestData,
+                reqtermlist: reqtermData,
+            });
+        } catch (e) {
+            console.error(e);
         }
-
     }
 
-    getlist = (termyearmonth) => {
-        console.log(termyearmonth);
-        fetch("http://127.0.0.1:8000/api/request?reqstate=대기&termyearmonth=" + termyearmonth, {
-            method: "GET",
-        }).then(res => {
-            return res.json();
-        }).then(res => {
-            this.setState({
-                items: res,
-            })
-        })
+    async componentDidUpdate(prevProps, prevState, snapshot) {
+        if (prevState.pickedReqterm !== this.state.pickedReqterm) {
+            try {
+                const params = {termyearmonth: this.state.pickedReqterm, usernum: this.props.usernum};
+                const response = await new Api().read("request", params, null);
+                const data = await response.json();
+                this.setState({
+                    requestlist: data,
+                });
+            } catch (e) {
+                console.error(e);
+            }
+        }
+        if (prevState.checkedRequest !== this.state.checkedRequest) {
+            this.setState((state) => ({
+                checkedRequest: state.checkedRequest,
+            }));
+        }
     }
-    getReqtermList = () => {
-        fetch("http://127.0.0.1:8000/api/reqterm?usernum=" + this.props.usernum, {
-            method: "GET",
-        }).then(res => {
-            return res.json();
-        }).then(res => {
-            this.setState({
-                reqtermlist: res,
-            })
-        })
-    }
+
     updateList = (reqstate, reqstaging, reqrejectreason) => {
-        this.state.checkedRequest.map((pk) => {
-            fetch("http://127.0.0.1:8000/api/request?reqstate=대기" + pk, {
-                method: "PUT",
-                headers: {               //데이터 타입 지정
-                    "Content-Type": "application/json; charset=utf-8"
-                },
-                body: JSON.stringify({
-                    "reqstate": reqstate,
-                    "reqstaging": reqstaging,
-                    "reqrejectreason": reqrejectreason,
-                    "usernum": this.props.usernum,
-                })
-            }).then(() => {
-                    this.getlist()
-                }
-            );
-        })
+        const requestparam = {"reqstate": reqstate, "reqstaging": reqstaging, "reqrejectreason": reqrejectreason};
+        new Api().update("request", requestparam, 1);
     }
 
     approve = () => {
@@ -80,9 +71,11 @@ class Request extends Component {
     }
 
     storeChecked = (reqnum) => {
+        console.log(reqnum);
         this.setState({
             checkedRequest: reqnum,
         })
+        console.log(this.state.checkedRequest);
     }
 
     handleSelect(e) {
@@ -95,24 +88,18 @@ class Request extends Component {
     }
 
     render() {
+        const requestlist = this.state.requestlist;
         return (
-            <div className="wrapper">
+            <div className="page-top request-wrapper">
                 <div className="title">타이틀</div>
                 <div className="reqterms">
                     <div className="reqterm">신청기간</div>
-                    <select onChange={(e) => {
-                        this.handleSelect(e)
-                    }}>
-                        {this.state.reqtermlist.map((reqterm) => {
-                            return (
-                                <option key={reqterm.termyearmonth}
-                                    value={reqterm.termyearmonth}>{reqterm.termyearmonth.toString().slice(0, 4)}년 {reqterm.termyearmonth.toString().slice(4, 7)}월</option>)
-                        })}
-                    </select></div>
+                    <SelectReqterm handleSelect={this.handleSelect} requestlist={requestlist}></SelectReqterm>
+                </div>
                 <div className="filter"><ReqFilter/></div>
-                <div className="approve"><Button onClick={() => this.approve()}>승인</Button></div>
-                <div className="deny"><Button onClick={() => this.reject()}>반려</Button></div>
-                <div className="list"><ReqList storeChecked={this.storeChecked} items={this.state.items}/></div>
+                <div className="approve"><Button onClick={this.approve}>승인</Button></div>
+                <div className="deny"><Button onClick={this.reject}>반려</Button></div>
+                <div className="list"><ReqList storeChecked={this.storeChecked} requestlist={requestlist}/></div>
             </div>
         );
     }
