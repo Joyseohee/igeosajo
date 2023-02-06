@@ -13,69 +13,50 @@ class Request extends Component {
             reqtermList: [],
             pickedReqterm: null,
             checkedRequest: [],
-            reqtermlist: [],
-            pickedReqterm: null,
         }
         this.storeChecked = this.storeChecked.bind(this);
         this.handleSelect = this.handleSelect.bind(this);
+        this.updateList = this.updateList.bind(this);
+        this.getlist = this.getlist.bind(this);
         this.approve = this.approve.bind(this);
     }
 
     async componentDidMount() {
         try {
-            const [requestRes, reqtermRes] = await Promise.all([
-                new Api().read("request", null, null),
-                new Api().read("reqterm", {usernum: this.props.usernum}, null)
-            ]);
-            const [requestData, reqtermData] = await Promise.all([requestRes.json(), reqtermRes.json()]);
-            this.setState({
-                requestlist: requestData,
-                reqtermlist: reqtermData,
-            });
+            this.getlist("reqterm", {usernum: this.props.usernum}, null, "reqtermList");
         } catch (e) {
             console.error(e);
         }
     }
 
-    async componentDidUpdate(prevProps, prevState, snapshot) {
-        if (prevState.pickedReqterm !== this.state.pickedReqterm) {
-            try {
-                const params = {termyearmonth: this.state.pickedReqterm, usernum: this.props.usernum};
-                const response = await new Api().read("request", params, null);
-                const data = await response.json();
-                this.setState({
-                    requestlist: data,
-                });
-            } catch (e) {
-                console.error(e);
-            }
-        }
-        if (prevState.checkedRequest !== this.state.checkedRequest) {
-            this.setState((state) => ({
-                checkedRequest: state.checkedRequest,
-            }));
-        }
+    getlist = (table, params, pk, stateName) => {
+        new Api().read(table, params, pk).then((response) => {
+            return response.json();
+        }).then((response) => {
+            this.setState({
+                [stateName]: response,
+            })
+        })
     }
-
-    updateList = (reqstate, reqstaging, reqrejectreason) => {
+    async updateList(reqstate, reqstaging, reqrejectreason) {
         const requestparam = {"reqstate": reqstate, "reqstaging": reqstaging, "reqrejectreason": reqrejectreason};
-        new Api().update("request", requestparam, 1);
+        await this.state.checkedRequest.map((request) => {
+            new Api().update("request", requestparam, request)
+        })
     }
 
     approve = () => {
-        this.updateList("승인", "처리중", null);
-    }
-
-    reject = () => {
-        this.updateList("반려", "처리전", "구매 예산 초과");
+        this.updateList("승인", "처리중", null).then(() => {
+            this.setState({
+                checkedRequest: [],
+            })
+        })
     }
 
     storeChecked = (reqnum) => {
-        console.log(reqnum);
         this.setState({
             checkedRequest: reqnum,
         })
-        console.log(this.state.checkedRequest);
     }
 
     handleSelect(e) {
@@ -88,15 +69,20 @@ class Request extends Component {
     }
 
     render() {
-        const requestlist = this.state.requestlist;
+        const reqtermList = this.state.reqtermList;
+        const pickedReqterm = this.state.pickedReqterm;
+        const checkedRequest = this.state.checkedRequest;
+        const usernum = this.props.usernum;
         return (
             <div className="page-top request-wrapper">
                 <div className="title">타이틀</div>
                 <div className="reqterms">
                     <div className="reqterm">신청기간</div>
-                    {/*<SelectReqterm handleSelect={this.handleSelect} requestlist={requestlist}></SelectReqterm>*/}
+                    {reqtermList.length > 0 &&
+                        <SelectReqterm handleSelect={this.handleSelect} reqtermList={reqtermList}/>}
                 </div>
                 <ReqFilter/>
+                <Button onClick={this.approve}>승인</Button>
                 {pickedReqterm !== null && <ReqList storeChecked={this.storeChecked} termyearmonth={pickedReqterm}
                                                     usernum={usernum} checkedRequest={checkedRequest}/>}
             </div>
@@ -105,3 +91,4 @@ class Request extends Component {
 }
 
 export default Request;
+
