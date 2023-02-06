@@ -5,6 +5,7 @@ import {Button, FormSelect} from "react-bootstrap";
 import Api from "../api/Api";
 import SelectReqterm from "../components/request/SelectReqterm";
 import ReqReject from "../components/request/ReqReject";
+import "../styled/Request.css";
 
 class Request extends Component {
     constructor(props) {
@@ -16,6 +17,7 @@ class Request extends Component {
             checkedRequest: [],
             showRejectModal: false,
             reqRejectReason: null,
+            filter: null,
         }
         this.storeChecked = this.storeChecked.bind(this);
         this.handleSelect = this.handleSelect.bind(this);
@@ -25,6 +27,7 @@ class Request extends Component {
         this.handleClose = this.handleClose.bind(this);
         this.setReqRejectReason = this.setReqRejectReason.bind(this);
         this.confirmReject = this.confirmReject.bind(this);
+        this.setReqState = this.setReqState.bind(this);
     }
 
     async componentDidMount() {
@@ -105,12 +108,25 @@ class Request extends Component {
         })
     }
 
+    setReqState(param) {
+        console.log(param);
+        let filter = "";
+        if (param === 'all') filter = null;
+        if (param === 'approved') filter = '승인';
+        if (param === 'rejected') filter = '반려';
+        if (param === 'waiting') filter = '대기';
+
+        this.setState({
+            filter: filter,
+        })
+    }
+
     render() {
         const reqtermList = this.state.reqtermList;
         const pickedReqterm = this.state.pickedReqterm;
         const checkedRequest = this.state.checkedRequest;
         const usernum = this.props.usernum;
-        console.log(checkedRequest);
+        console.log(this.state.filter);
         return (
             <div className="page-top request-wrapper">
                 <div className="title">타이틀</div>
@@ -119,12 +135,16 @@ class Request extends Component {
                     {reqtermList.length > 0 &&
                         <SelectReqterm handleSelect={this.handleSelect} reqtermList={reqtermList}/>}
                 </div>
-                <ReqFilter/>
+                <ReqFilter setReqState={this.setReqState}/>
                 <Button onClick={this.approve}>승인</Button>
                 <Button onClick={this.reject}>반려</Button>
-                {pickedReqterm !== null && <ReqList storeChecked={this.storeChecked} termyearmonth={pickedReqterm}
-                                                    usernum={usernum} checkedRequest={checkedRequest}/>}
-                <ReqReject show={this.state.showRejectModal} handleClose={this.handleClose}
+                {pickedReqterm !== null && <ReqList storeChecked={this.storeChecked}
+                                                    termyearmonth={pickedReqterm}
+                                                    usernum={usernum}
+                                                    filter={this.state.filter}
+                                                    checkedRequest={checkedRequest}/>}
+                <ReqReject show={this.state.showRejectModal}
+                           handleClose={this.handleClose}
                            setReqRejectReason={this.setReqRejectReason}
                            confirmReject={this.confirmReject}/>
             </div>

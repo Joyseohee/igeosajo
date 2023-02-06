@@ -19,16 +19,24 @@ class ReqList extends Component {
     async componentDidMount() {
         try {
             console.log(this.props.termyearmonth);
-            this.getlist("request", {termyearmonth: this.props.termyearmonth}, null, "requestlist");
+            if (this.props.filter !== null) this.getlist("request", {
+                termyearmonth: this.props.termyearmonth,
+                reqstate: this.props.filter
+            }, null, "requestlist");
+            else this.getlist("request", {termyearmonth: this.props.termyearmonth}, null, "requestlist");
         } catch (e) {
             console.error(e);
         }
     }
 
     async componentDidUpdate(prevProps, prevState, snapshot) {
-        if (prevProps.termyearmonth !== this.props.termyearmonth) {
+        if (prevProps.termyearmonth !== this.props.termyearmonth || prevProps.filter !== this.props.filter) {
             try {
-                this.getlist("request", {termyearmonth: this.props.termyearmonth}, null, "requestlist");
+                if (this.props.filter !== null) this.getlist("request", {
+                    termyearmonth: this.props.termyearmonth,
+                    reqstate: this.props.filter
+                }, null, "requestlist");
+                else this.getlist("request", {termyearmonth: this.props.termyearmonth}, null, "requestlist");
             } catch (e) {
                 console.error(e);
             }
@@ -61,7 +69,7 @@ class ReqList extends Component {
         this.setState({
             checkedAll: !this.state.checkedAll,
         })
-        if(checked) {
+        if (checked) {
             this.props.storeChecked(arr);
         } else {
             this.props.storeChecked([]);
