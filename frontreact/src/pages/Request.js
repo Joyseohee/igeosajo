@@ -10,7 +10,8 @@ class Request extends Component {
         super(props);
         this.props.setpagename("신청 관리");
         this.state = {
-            requestlist: [],
+            reqtermList: [],
+            pickedReqterm: null,
             checkedRequest: [],
             reqtermlist: [],
             pickedReqterm: null,
@@ -18,7 +19,6 @@ class Request extends Component {
         this.storeChecked = this.storeChecked.bind(this);
         this.handleSelect = this.handleSelect.bind(this);
         this.approve = this.approve.bind(this);
-        this.reject = this.reject.bind(this)
     }
 
     async componentDidMount() {
@@ -96,10 +96,9 @@ class Request extends Component {
                     <div className="reqterm">신청기간</div>
                     {/*<SelectReqterm handleSelect={this.handleSelect} requestlist={requestlist}></SelectReqterm>*/}
                 </div>
-                <div className="filter"><ReqFilter/></div>
-                <div className="approve"><Button onClick={this.approve}>승인</Button></div>
-                <div className="deny"><Button onClick={this.reject}>반려</Button></div>
-                <div className="list"><ReqList storeChecked={this.storeChecked} requestlist={requestlist}/></div>
+                <ReqFilter/>
+                {pickedReqterm !== null && <ReqList storeChecked={this.storeChecked} termyearmonth={pickedReqterm}
+                                                    usernum={usernum} checkedRequest={checkedRequest}/>}
             </div>
         );
     }

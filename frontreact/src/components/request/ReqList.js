@@ -1,6 +1,8 @@
 import React, {Component} from "react";
 import ReqListTbody from "./ReqListTbody";
-import {Table} from "react-bootstrap";
+import {Form, Table} from "react-bootstrap";
+import Api from "../../api/Api";
+import request from "../../pages/Request";
 
 class ReqList extends Component {
     constructor(props) {
@@ -11,15 +13,45 @@ class ReqList extends Component {
         this.handleCheck = this.handleCheck.bind(this);
     }
 
-    handleCheckAll(e) {
-        let checks = e.target.value;
-        console.log(checks[0]);
-        checks.map((check) => {
-            console.log(check.reqnum);
+    async componentDidMount() {
+        try {
+            console.log(this.props.termyearmonth);
+            this.getlist("request", {termyearmonth: this.props.termyearmonth}, null, "requestlist");
+        } catch (e) {
+            console.error(e);
+        }
+    }
+
+    async componentDidUpdate(prevProps, prevState, snapshot) {
+        if (prevProps.termyearmonth !== this.props.termyearmonth) {
+            try {
+                this.getlist("request", {termyearmonth: this.props.termyearmonth}, null, "requestlist");
+            } catch (e) {
+                console.error(e);
+            }
+        }
+        if(prevProps.checkedRequest !== this.props.checkedRequest) {
+            setTimeout(()=>{
+                this.getlist("request", {termyearmonth: this.props.termyearmonth}, null, "requestlist");
+            }, 500);
+        }
+    }
+
+    getlist = (table, params, pk, stateName) => {
+        new Api().read(table, params, pk).then((response) => {
+            return response.json();
+        }).then((response) => {
             this.setState({
-                checkedItems: check.reqnum,
+                [stateName]: response,
             })
         })
+    }
+
+    handleCheckAll(checked) {
+        this.setState({
+            checkedAll: checked,
+        })
+        checked ? this.props.storeChecked(this.state.requestlist) : this.props.storeChecked([]);
     }
 
     handleCheck(e) {
@@ -50,6 +82,7 @@ class ReqList extends Component {
     }
 
     render() {
+        const requestlist = this.state.requestlist;
         return (
             <div className="wrapper">
                 <Table>
@@ -57,8 +90,10 @@ class ReqList extends Component {
                     <tr>
                         <th>번호</th>
                         <th>reqnum</th>
-                        <th><input type="checkbox" name="check" value={this.props.requestlist}
-                                   onChange={(e) => this.handleCheckAll(e)}/></th>
+                        <th>
+                            <Form.Check type={"checkbox"} name="checkedRequest" value={requestlist}
+                                        onChange={(e) => this.handleCheckAll(e.target.checked)}/>
+                        </th>
                         <th>품목명</th>
                         <th>수량</th>
                         <th>요청일자</th>
@@ -67,37 +102,12 @@ class ReqList extends Component {
                     </tr>
                     </thead>
                     <tbody>
-                    {this.props.requestlist.map((item, i) => {
+                    {requestlist.map((request, i) => {
                         return (
-                            <ReqListTbody item={item} key={item.reqnum} i={i} handleCheck={this.handleCheck}/>
-                            // <tr>
-                            //     <td>
-                            //         {i + 1}
-                            //     </td>
-                            //     <td>
-                            //         {item.reqnum}
-                            //     </td>
-                            //     <td>
-                            //         <input type="checkbox" name="check" value={item.reqnum}
-                            //                onChange={(e) => this.handleCheck(e)}/>
-                            //     </td>
-                            //     <td>
-                            //         {item.prodname}
-                            //     </td>
-                            //     <td>
-                            //         {item.reqcount}
-                            //     </td>
-                            //     <td>
-                            //         {item.reqdate}
-                            //     </td>
-                            //     <td>
-                            //         {item.username}
-                            //     </td>
-                            //     <td>
-                            //         {item.reqstate}
-                            //     </td>
-                            // </tr>
-
+                            <ReqListTbody request={request} key={request.reqnum} i={i}
+                                          handleCheck={this.handleCheck}
+                                          checkedAll={this.state.checkedAll}
+                                          checkedRequest={this.props.checkedRequest}/>
                         );
                     })}
                     </tbody>

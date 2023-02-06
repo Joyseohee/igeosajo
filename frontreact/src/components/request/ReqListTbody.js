@@ -6,7 +6,7 @@ class ReqListTbody extends Component {
     }
 
     render() {
-        const item = this.props.item;
+        const item = this.props.request;
         return (
             <>
                 <tr>

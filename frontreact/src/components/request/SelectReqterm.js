@@ -9,6 +9,7 @@ class SelectReqterm extends Component {
 
     render() {
         return (
+            // <select>
             <select onChange={(e) => {
                 this.props.handleSelect(e)
             }}>

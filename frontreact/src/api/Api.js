@@ -18,7 +18,6 @@ export default class Api {
             };
             options.body = JSON.stringify(params);
         }
-        console.log(api);
         return fetch(api, options);
     };
 
