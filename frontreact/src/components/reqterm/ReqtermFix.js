@@ -48,11 +48,11 @@ class ReqtermFix extends Component {
                     <br/>
                     <Form.Group className="mb-3" controlId="formStartDate">
                         <Form.Label>시작일</Form.Label>
-                        <Form.Control type="date" name="termstartdate" onBlur={(e) => this.setValue(e)}/>
+                        <Form.Control type="date" name="termstartdate" onChange={(e) => this.setValue(e)}/>
                     </Form.Group>
                     <Form.Group className="mb-3" controlId="formEndDate">
                         <Form.Label>마감일</Form.Label>
-                        <Form.Control type="date" name="termenddate" onBlur={(e) => this.setValue(e)} disabled={this.state.disabled}/>
+                        <Form.Control type="date" name="termenddate" onChange={(e) => this.setValue(e)} disabled={this.state.disabled}/>
                     </Form.Group>
                     <Button onClick={(e) => this.handleSubmit(e)}
                             style={{backgroundColor: "rgb(82, 150, 213)", borderColor: "rgb(82, 150, 213)"}}>

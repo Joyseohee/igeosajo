@@ -7,6 +7,7 @@ class Reqterm extends Component {
         this.props.setpagename("신청 기간 설정");
     }
 
+
     render() {
         return (
             <div className="page-top reqterm-wrapper">

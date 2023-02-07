@@ -4,7 +4,6 @@ import {FormSelect} from "react-bootstrap";
 class SelectReqterm extends Component {
     constructor(props) {
         super(props);
-        console.log(this.props);
     }
 
     render() {

@@ -13,10 +13,10 @@ class ReqFilter extends Component {
     render() {
         return (
             <div className="wrapper">
-                <ReqFilterBox filter='all' setReqState={this.props.setReqState}/>
-                <ReqFilterBox filter='approved' setReqState={this.props.setReqState}/>
-                <ReqFilterBox filter='rejected' setReqState={this.props.setReqState}/>
-                <ReqFilterBox filter='waiting' setReqState={this.props.setReqState}/>
+                <ReqFilterBox filter='전체' setReqState={this.props.setReqState} requestList={this.props.requestList}/>
+                <ReqFilterBox filter='승인' setReqState={this.props.setReqState} requestList={this.props.requestList}/>
+                <ReqFilterBox filter='반려' setReqState={this.props.setReqState} requestList={this.props.requestList}/>
+                <ReqFilterBox filter='대기' setReqState={this.props.setReqState} requestList={this.props.requestList}/>
             </div>
         );
     }

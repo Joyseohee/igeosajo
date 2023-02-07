@@ -1,69 +1,21 @@
 import React, {Component} from "react";
 import ReqListTbody from "./ReqListTbody";
 import {Form, Table} from "react-bootstrap";
-import Api from "../../api/Api";
-import request from "../../pages/Request";
 
 class ReqList extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            requestlist: [],
             checkedAll: false,
         }
         this.handleCheck = this.handleCheck.bind(this);
         this.handleCheckAll = this.handleCheckAll.bind(this);
-        this.getlist = this.getlist.bind(this);
-    }
-
-    async componentDidMount() {
-        try {
-            console.log(this.props.termyearmonth);
-            if (this.props.filter !== null) this.getlist("request", {
-                termyearmonth: this.props.termyearmonth,
-                reqstate: this.props.filter
-            }, null, "requestlist");
-            else this.getlist("request", {termyearmonth: this.props.termyearmonth}, null, "requestlist");
-        } catch (e) {
-            console.error(e);
-        }
-    }
-
-    async componentDidUpdate(prevProps, prevState, snapshot) {
-        if (prevProps.termyearmonth !== this.props.termyearmonth || prevProps.filter !== this.props.filter) {
-            try {
-                if (this.props.filter !== null) this.getlist("request", {
-                    termyearmonth: this.props.termyearmonth,
-                    reqstate: this.props.filter
-                }, null, "requestlist");
-                else this.getlist("request", {termyearmonth: this.props.termyearmonth}, null, "requestlist");
-            } catch (e) {
-                console.error(e);
-            }
-        }
-
-        if (this.props.checkedRequest.length === 0 && prevProps.checkedRequest !== this.props.checkedRequest) {
-            console.log(this.props.checkedRequest);
-            setTimeout(() => {
-                this.getlist("request", {termyearmonth: this.props.termyearmonth}, null, "requestlist");
-            }, 500);
-        }
-    }
-
-    getlist = (table, params, pk, stateName) => {
-        new Api().read(table, params, pk).then((response) => {
-            return response.json();
-        }).then((response) => {
-            this.setState({
-                [stateName]: response,
-                checkedAll: false,
-            })
-        })
     }
 
     handleCheckAll(checked) {
+        const requestList = this.props.requestList;
         let arr = [];
-        this.state.requestlist.map((request) => {
+        requestList.map((request) => {
             arr.push(request.reqnum);
         })
         this.setState({
@@ -84,19 +36,29 @@ class ReqList extends Component {
         this.props.storeChecked(arr);
     }
 
+    componentDidUpdate(prevProps) {
+        if (prevProps.checkedRequest !== this.props.checkedRequest && this.props.checkedRequest.length === 0 ) {
+            console.log(prevProps.checkedRequest)
+            console.log(this.props.checkedRequest)
+            console.log(this.props.checkedRequest.length)
+            this.setState({
+                checkedAll: false,
+            })
+        }
+    }
 
     render() {
-        const requestlist = this.state.requestlist;
+        const requestList = this.props.requestList;
         return (
             <div className="wrapper">
-                <div>요청 수 : {requestlist.length}</div>
+                <div>요청 수 : {requestList.length}</div>
                 <Table>
                     <thead>
                     <tr>
                         <th>번호</th>
                         <th>reqnum</th>
                         <th>
-                            <Form.Check type={"checkbox"} name="checkedRequest" value={requestlist}
+                            <Form.Check type={"checkbox"} name="checkedRequest" value={requestList}
                                         onChange={(e) => this.handleCheckAll(e.target.checked)}
                                         checked={this.state.checkedAll}/>
                         </th>
@@ -108,7 +70,7 @@ class ReqList extends Component {
                     </tr>
                     </thead>
                     <tbody>
-                    {requestlist.map((request, i) => {
+                    {requestList.map((request, i) => {
                         return (
                             <ReqListTbody request={request} key={request.reqnum} i={i}
                                           handleCheck={this.handleCheck}

@@ -1,4 +1,4 @@
-import React, {Component, useState} from 'react';
+import React, {Component} from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import {Form} from "react-bootstrap";
@@ -8,8 +8,12 @@ class ReqReject extends Component {
         super(props);
     }
 
+    handleConfirm(e){
+        console.log(e.target.value);
+        this.props.handleConfirm(e.target.value);
+    }
+
     render() {
-        console.log(this.props.show);
         return (
             <>
                 <Modal
@@ -35,7 +39,7 @@ class ReqReject extends Component {
                         <Button variant="secondary" onClick={this.props.handleClose}>
                             취소
                         </Button>
-                        <Button variant="primary" onClick={this.props.confirmReject}>반려</Button>
+                        <Button variant="primary" value={"반려확인"} onClick={(e) => {this.handleConfirm(e)}}>반려</Button>
                     </Modal.Footer>
                 </Modal>
             </>

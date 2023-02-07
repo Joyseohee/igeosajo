@@ -7,7 +7,9 @@ class ReqListTbody extends Component {
     }
 
     render() {
-        const item = this.props.request;
+        const request = this.props.request;
+        const checkedRequest = this.props.checkedRequest;
+        const checkedAll = this.props.checkedAll;
         return (
             <>
                 <tr>
@@ -15,27 +17,27 @@ class ReqListTbody extends Component {
                         {this.props.i + 1}
                     </td>
                     <td>
-                        {item.reqnum}
+                        {request.reqnum}
                     </td>
                     <td>
-                        <Form.Check type={"checkbox"} name="check" value={item.reqnum}
+                        <Form.Check type={"checkbox"} name="check" value={request.reqnum}
                                     onChange={(e) => this.props.handleCheck(e)}
-                                    checked={this.props.checkedRequest.includes(item.reqnum.toString())||this.props.checkedAll}/>
+                                    checked={checkedRequest.includes(request.reqnum.toString())||checkedAll}/>
                     </td>
                     <td>
-                        {item.prodname}
+                        {request.prodname}
                     </td>
                     <td>
-                        {item.reqcount}
+                        {request.reqcount}
                     </td>
                     <td>
-                        {item.reqdate}
+                        {request.reqdate}
                     </td>
                     <td>
-                        {item.username}
+                        {request.username}
                     </td>
                     <td>
-                        {item.reqstate}
+                        {request.reqstate}
                     </td>
                 </tr>
             </>
