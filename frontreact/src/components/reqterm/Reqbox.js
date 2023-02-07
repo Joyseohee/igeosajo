@@ -17,9 +17,9 @@ class Reqbox extends Component {
             <div className="reqterm-box-wrapper">
                 <div>
                     <div>{menuname}</div>
-                    {this.props.type === "reqterm-fix" && <ReqtermFix usernum = {this.props.usernum}/>}
-                    {this.props.type === "reqterm-set" && <ReqtermSet usernum = {this.props.usernum}/>}
-                    {this.props.type === "reqterm-list" && <ReqtermList usernum = {this.props.usernum}/>}
+                    {this.props.type === "reqterm-fix" && <ReqtermFix usernum = {this.props.usernum} termlist={this.props.termlist}/>}
+                    {this.props.type === "reqterm-set" && <ReqtermSet usernum = {this.props.usernum}  termlist={this.props.termlist}/>}
+                    {this.props.type === "reqterm-list" && <ReqtermList usernum = {this.props.usernum}  termlist={this.props.termlist}/>}
                 </div>
             </div>
         );

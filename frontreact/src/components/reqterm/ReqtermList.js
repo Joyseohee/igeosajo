@@ -1,31 +1,13 @@
 import React, {Component} from "react";
-import {Button, Form, Table} from "react-bootstrap";
-import Api from "../../api/Api";
+import {Table} from "react-bootstrap";
 
 class ReqtermList extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            termlist: [],
-        }
-        this.setBasicReqterm = this.setBasicReqterm.bind(this);
-    }
-
-    async componentDidMount() {
-        this.setBasicReqterm();
-    }
-
-    async setBasicReqterm() {
-        let date = new Date()
-        const response = await new Api().read("reqterm", null, null);
-        const data = await response.json();
-        await this.setState({
-            termlist: data,
-        })
     }
 
     render() {
-        const termlist = this.state.termlist;
+        const termlist = this.props.termlist;
         return (
             <>
                 <Table>
@@ -44,7 +26,7 @@ class ReqtermList extends Component {
                                 <td>{term.termyearmonth}</td>
                                 <td>{term.termstartdate}</td>
                                 <td>{term.termenddate}</td>
-                                <td>{term.termavailable}</td>
+                                <td>{term.termavailable===0?"신청 불가 기간":"신청 가능 기간"}</td>
                             </tr>
                         )
                     })}

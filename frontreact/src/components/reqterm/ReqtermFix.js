@@ -38,6 +38,8 @@ class ReqtermFix extends Component {
         };
         new Api().create("reqterm", param, null).then((response)=>{
              if(response.status === 500) alert("이미 해당 월에 기록이 있습니다.");
+             else if(response.status === 200) alert("새로운 신청기간이 등록됐습니다.");
+
         });
     }
 
