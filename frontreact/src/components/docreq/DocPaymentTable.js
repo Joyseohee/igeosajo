@@ -3,6 +3,7 @@ import Table from 'react-bootstrap/Table';
 
 import "../../styled/DocRequestCss.css"
 import Modal1 from "../layout/Modal1";
+import {withRouter} from "react-router-dom";
 
 class DocPaymentTable extends Component {
 
@@ -11,26 +12,24 @@ class DocPaymentTable extends Component {
         this.state = {
             items: [],
             isLoaded: false,
-            preAddr: "",
-            reqnum: [],
             words: "",
-            reqSend: false
+            modalopen: false
         };
 
         this.printArr = this.printArr.bind(this);
+        this.changeModalState = this.changeModalState.bind(this);
+        this.outcomeState = this.outcomeState.bind(this);
     }
 
     async componentDidMount() {
-        fetch('http://127.0.0.1:8000/api/document?state=요청상세')
+        fetch('http://127.0.0.1:8000/api/document?state=요청상세&docDetail=' + this.props.location.document.detailDocNum)
             .then(response => response.json())
             .then(response => this.setState({items: response, isLoaded: true}))
-            .then(response => this.setState({reqnum: this.state.items["reqnum"]}))
             .then(response => this.printArr())
-
-        this.setState({preAddr: document.referrer})
     };
 
     printArr() {
+
         let word = "";
 
         for (let i = 0; i < this.state.items["prodname"].length; i++) {
@@ -40,6 +39,39 @@ class DocPaymentTable extends Component {
         }
 
         this.setState({words: word})
+    }
+
+
+    componentDidUpdate(prevProps) {
+        if (prevProps.reqSend !== this.props.reqSend && this.props.reqSend) {
+            this.reqSendClick(false)
+            this.setState({modalopen: true})
+        }
+    }
+
+    reqSendClick = (e) => {
+        this.props.reqSendClick(e)
+    }
+
+    changeModalState() {
+        this.setState({modalopen: false})
+    }
+
+    outcomeState(e) {
+        if (e === 1) {
+
+            fetch("http://127.0.0.1:8000/api/document?docDetail=" + this.props.location.document.detailDocNum.toString(), {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    reqnum: this.state.items.reqnum
+                }),
+            }).then(
+                this.props.history.push("/docpaylist")
+            )
+        }
     }
 
     render() {
@@ -58,6 +90,10 @@ class DocPaymentTable extends Component {
                         <td>비품 구매 결재 요청</td>
                     </tr>
                     <tr>
+                        <td>작성일자</td>
+                        <td>{this.state.items["wdate"]}</td>
+                    </tr>
+                    <tr>
                         <td>기안자</td>
                         <td>성은 기 이름은 안자 이름하여 기안자</td>
                     </tr>
@@ -66,11 +102,6 @@ class DocPaymentTable extends Component {
                         <td>김해 결씨 재자 돌림으로 재자 이름하여 결재자</td>
                     </tr>
                     <tr>
-                        <td>작성일자</td>
-                        <td>{this.state.items["wdate"]}</td>
-                    </tr>
-
-                    <tr>
                         <td>상품명</td>
                         <td>{this.state.words}</td>
                     </tr>
@@ -78,20 +109,31 @@ class DocPaymentTable extends Component {
                         <td>금액 총합</td>
                         <td>{this.state.items["sum"]}원</td>
                     </tr>
+                    <tr>
+                        <td>진행 현황</td>
+                        <td>{this.state.items["docstate"]}</td>
+                    </tr>
+                    <tr>
+                        <td>반려이유</td>
+                        {
+                            this.state.items["rejectreason"] === "None"
+                                ? (<td></td>)
+                                : (<td>{this.state.items["rejectreason"]}</td>)
+                        }
+
+                    </tr>
+
                     </tbody>
                 </Table>
 
-                {
-                    this.state.checkState
-                        ? <Modal1 open={this.state.modalopen} ment={"취소 하시겠습니까?"}
-                                  changeModalState={this.changeModalState}
-                                  outcomeState={this.outcomeState}
-                                  modalKind={false}></Modal1>
-                        : <span></span>
-                }
+                <Modal1 open={this.state.modalopen} ment={"상신을 취소하면 되돌릴 수 없습니다. 취소 하시겠습니까?"}
+                        changeModalState={this.changeModalState}
+                        outcomeState={this.outcomeState}
+                        modalKind={true}></Modal1>
+
             </div>
         );
     }
 }
 
-export default DocPaymentTable;
+export default withRouter(DocPaymentTable);

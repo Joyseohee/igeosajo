@@ -1,7 +1,9 @@
 import React, {Component} from 'react';
 import Button from 'react-bootstrap/Button';
+import {withRouter} from "react-router-dom";
 
 import "../../styled/DocRequestCss.css"
+
 
 class DocPaymentDetailBtn extends Component {
     constructor(props) {
@@ -9,16 +11,14 @@ class DocPaymentDetailBtn extends Component {
     }
 
     reqSendClick = (e) => {
-        this.props.reqSendClick(e)
+        this.props.reqSendClick(e);
     }
 
     render() {
         return(
             <div className={"docPaymentDetailDiv"}>
                 <Button className={"docPaymentBtn cancleBtn"} style={{backgroundColor: "rgb(110, 117, 124)", border:"none"}} onClick={(e) => {
-                    window.location.reload()
-                    // window.location.assign("")
-                    // 목록 돌아가는 경로 삽입
+                    this.props.history.push('/docpaylist');
                 }}> 목록 </Button>
 
                 <Button className={"docPaymentBtn"} style={{backgroundColor: "rgb(214, 87, 69)", border:"none"}} onClick={ (e) =>{
@@ -29,4 +29,4 @@ class DocPaymentDetailBtn extends Component {
     }
 }
 
-export default DocPaymentDetailBtn;
+export default withRouter(DocPaymentDetailBtn);

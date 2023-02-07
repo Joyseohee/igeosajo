@@ -3,6 +3,7 @@ import Table from 'react-bootstrap/Table';
 
 import "../../styled/DocRequestCss.css"
 import Modal1 from "../layout/Modal1";
+import {withRouter} from "react-router-dom";
 
 class DocPayment extends Component {
 
@@ -11,12 +12,13 @@ class DocPayment extends Component {
         this.state = {
             items: [],
             isLoaded: false,
-            reqnum : [],
-            words : "",
+            reqnum: [],
+            words: "",
             reqSend: false,
             checkState: null,
             outcomeState: null,
-            modalopen: false
+            modalopen: false,
+            docNum: 0
         };
 
         this.printArr = this.printArr.bind(this);
@@ -30,26 +32,26 @@ class DocPayment extends Component {
             .then(response => this.printArr())
     };
 
-    printArr(){
+    printArr() {
         let word = "";
 
-        for(let i = 0; i < this.state.items["prodname"].length; i++) {
-            word += i+1 + ". "
+        for (let i = 0; i < this.state.items["prodname"].length; i++) {
+            word += i + 1 + ". "
             word += this.state.items["prodname"][i];
             word += " -> " + this.state.items["prodcount"][i] + "개 \n";
         }
 
-        this.setState({words : word})
+        this.setState({words: word})
     }
 
     async componentDidUpdate(prevProps) {
-        if(this.props.reqSend){
+        if (this.props.reqSend) {
             this.changeCheckState(true)
             this.reqSendClick(null)
             this.openState();
 
             // this.props.reqSend 여거 상태 다시 변경 해줘야 해
-        }else if (this.props.reqSend === false){
+        } else if (this.props.reqSend === false) {
             this.changeCheckState(false)
             this.reqSendClick(null)
             this.openState();
@@ -58,7 +60,7 @@ class DocPayment extends Component {
     }
 
     changeCheckState = (e) => {
-        this.setState({checkState:e})
+        this.setState({checkState: e})
     }
 
     reqSendClick = (e) => {
@@ -78,21 +80,34 @@ class DocPayment extends Component {
         this.setState({outcomeState: e})
         this.changeCheckState(null)
 
-        if(e === 2){
+        if (e === 2) {
             // 확인 버튼 눌렀을 시
-            // window.location.reload();
-            window.location.assign("http://localhost:3000/docpaydetail");
-            // 경로 이동 해야 함
 
-        }else if(e === 1){
+            fetch('http://127.0.0.1:8000/api/document?docNum=' + this.state.reqnum[0].toString())
+                .then(response => response.json())
+                .then(response => {
+                    this.props.history.push({
+                        pathname: '/docpaydetail',
+                        document: {detailDocNum: response[0].docnum},
+                    })
+                }
+            )
+
+        } else if (e === 1) {
             // 취소 버튼 누른 후 확인 눌렀을 시
             fetch("http://127.0.0.1:8000/api/document", {
                 method: "DELETE",
             })
 
-            window.location.assign("http://localhost:3000/docrequest");
-        }else {
+            this.props.history.push({
+                pathname: '/docrequest'
+            })
+        } else {
             // 취소 버튼 누르고 다시 취소 버튼 눌렀을 시
+            // this.props.history.push({
+            //     pathname: '/docreqdetail'
+            // })
+
             window.location.reload();
         }
 
@@ -108,7 +123,7 @@ class DocPayment extends Component {
         return (
             <div className={"docPaymentTable"}>
                 <Table striped="columns">
-                    <tbody >
+                    <tbody>
                     <tr>
                         <td>제목</td>
                         <td>비품 구매 결재 요청</td>
@@ -139,18 +154,18 @@ class DocPayment extends Component {
 
                 {
                     this.state.checkState
-                        ?<Modal1 open={this.state.modalopen} ment={"결재신청이 완료 되었습니다."}
-                                 changeModalState={this.changeModalState}
-                                 outcomeState={this.outcomeState}
-                                 modalKind={false}></Modal1>
-                        :<Modal1 open={this.state.modalopen} ment={"취소 하시겠습니까?"}
-                                 changeModalState={this.changeModalState}
-                                 outcomeState={this.outcomeState}
-                                 modalKind={true}></Modal1>
+                        ? <Modal1 open={this.state.modalopen} ment={"결재신청이 완료 되었습니다."}
+                                  changeModalState={this.changeModalState}
+                                  outcomeState={this.outcomeState}
+                                  modalKind={false}></Modal1>
+                        : <Modal1 open={this.state.modalopen} ment={"취소 하시겠습니까?"}
+                                  changeModalState={this.changeModalState}
+                                  outcomeState={this.outcomeState}
+                                  modalKind={true}></Modal1>
                 }
             </div>
         );
     }
 }
 
-export default DocPayment;
+export default withRouter(DocPayment);

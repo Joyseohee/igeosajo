@@ -11,9 +11,10 @@ class DocPaymentDetail extends Component {
         this.state = {
             reqSend: false
         };
+        this.reqSendClick = this.reqSendClick.bind(this);
     }
 
-    reqSendClick = (e) => {
+    reqSendClick(e){
         this.setState({reqSend: e});
     }
 
