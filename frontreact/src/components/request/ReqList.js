@@ -89,6 +89,7 @@ class ReqList extends Component {
         const requestlist = this.state.requestlist;
         return (
             <div className="wrapper">
+                <div>요청 수 : {requestlist.length}</div>
                 <Table>
                     <thead>
                     <tr>

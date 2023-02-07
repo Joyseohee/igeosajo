@@ -10,6 +10,7 @@ class ReqtermFix extends Component {
             "termstartdate": null,
             "termenddate": null,
             "termavailable": null,
+            disabled: true,
         }
     }
 
@@ -17,13 +18,17 @@ class ReqtermFix extends Component {
         this.setState({
             [e.target.name]: e.target.value,
         })
+        if(e.target.name === "termstartdate") {
+            this.setState({
+                disabled: false,
+            });
+        }
     }
 
     handleSubmit = (e) => {
         e.preventDefault();
         let termyearmonth = this.state.termstartdate.slice(0, 4);
         termyearmonth += this.state.termstartdate.slice(5, 7);
-        console.log(this.props.usernum);
         const param = {
             "termyearmonth": termyearmonth,
             "termstartdate": this.state.termstartdate,
@@ -31,7 +36,9 @@ class ReqtermFix extends Component {
             "termavailable": 0,
             "usernum": this.props.usernum,
         };
-        new Api().create("reqterm", param, null);
+        new Api().create("reqterm", param, null).then((response)=>{
+             if(response.status === 500) alert("이미 해당 월에 기록이 있습니다.");
+        });
     }
 
     render() {
@@ -45,7 +52,7 @@ class ReqtermFix extends Component {
                     </Form.Group>
                     <Form.Group className="mb-3" controlId="formEndDate">
                         <Form.Label>마감일</Form.Label>
-                        <Form.Control type="date" name="termenddate" onBlur={(e) => this.setValue(e)}/>
+                        <Form.Control type="date" name="termenddate" onBlur={(e) => this.setValue(e)} disabled={this.state.disabled}/>
                     </Form.Group>
                     <Button onClick={(e) => this.handleSubmit(e)}
                             style={{backgroundColor: "rgb(82, 150, 213)", borderColor: "rgb(82, 150, 213)"}}>

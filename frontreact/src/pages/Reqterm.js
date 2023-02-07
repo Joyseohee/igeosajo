@@ -13,6 +13,7 @@ class Reqterm extends Component {
                 <div className="reqterm-title">타이틀</div>
                 <Reqbox type="reqterm-fix" usernum={this.props.usernum}/>
                 <Reqbox type="reqterm-set" usernum={this.props.usernum}/>
+                <Reqbox type="reqterm-list" usernum={this.props.usernum}/>
             </div>
         );
     }
