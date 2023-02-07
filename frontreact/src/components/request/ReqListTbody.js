@@ -1,42 +1,27 @@
 import React, {Component} from "react";
+import {Form} from "react-bootstrap";
 
 class ReqListTbody extends Component {
     constructor(props) {
         super(props);
-        console.log();
     }
 
     render() {
-        const item = this.props.item;
+        const {request, checkedRequest, checkedAll} = this.props;
+        const disabled = this.props.filter==='대기'?false:true;
 
         return (
             <>
                 <tr>
-                    <td>
-                        {this.props.i + 1}
-                    </td>
-                    <td>
-                        {item.reqnum}
-                    </td>
-                    <td>
-                        <input type="checkbox" name="check" value={item.reqnum}
-                               onChange={(e) => this.props.handleCheck(e)}/>
-                    </td>
-                    <td>
-                        {item.prodname}
-                    </td>
-                    <td>
-                        {item.reqcount}
-                    </td>
-                    <td>
-                        {item.reqdate}
-                    </td>
-                    <td>
-                        {item.username}
-                    </td>
-                    <td>
-                        {item.reqstate}
-                    </td>
+                    <td>{this.props.i + 1}</td>
+                    <td>{request.reqnum}</td>
+                    <td><Form.Check type={"checkbox"} name="check" value={request.reqnum} onChange={(e) => this.props.handleCheck(e)} disabled={disabled}
+                                    checked={checkedRequest.includes(request.reqnum.toString())||checkedAll}/></td>
+                    <td>{request.prodname}</td>
+                    <td>{request.reqcount}</td>
+                    <td>{request.reqdate}</td>
+                    <td>{request.username}</td>
+                    <td>{request.reqstate}</td>
                 </tr>
             </>
         );

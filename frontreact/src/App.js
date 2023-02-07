@@ -16,7 +16,7 @@ import DocPaymentDetail from "./pages/DocPaymentDetail";
 import OrderReq from "./pages/OrderReq";
 import OrderParchase from "./pages/OrderParchase";
 import Order from "./pages/Order";
-
+import DocPaymentList from "./pages/DocPaymentList";
 
 class App extends Component {
     constructor() {
@@ -127,6 +127,9 @@ class App extends Component {
                                 </Route>
                                 <Route exact path="/docpaydetail">
                                     <DocPaymentDetail usernum={usernum} setpagename={this.setpagename}/>
+                                </Route>
+                                <Route exact path="/docpaylist">
+                                    <DocPaymentList usernum={usernum} setpagename={this.setpagename}/>
                                 </Route>
                             </>
                         }

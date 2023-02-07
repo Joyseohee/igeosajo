@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 
-class Counter extends Component {
+class RefuseModal extends Component {
     state = {
         counter: 0,
         data: ''
@@ -45,4 +45,4 @@ class Counter extends Component {
     }
 }
 
-export default Counter;
+export default RefuseModal;

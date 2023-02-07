@@ -94,7 +94,11 @@ def doc_view(self):
     elif self.method == 'POST':
         return post_doc(self)
     elif self.method == 'PUT':
-        return put_doc(self)
+        docDetail = self.GET.get('docDetail')
+        if docDetail:
+            return put_put_doc(self)
+        else:
+            return put_doc(self)
     elif self.method == 'DELETE':
         return delete_doc(self)
 
@@ -621,6 +625,7 @@ def get_doc(self):
     """
     GET
     state 조회 - 상태 별 조회 -- document/?state={상태}
+    checkDetail - 중복 결재번호 걸러내고 조회 - document/?checkDetail=1
     func 조회 - 구매 대기 상태인 문서 조회 -- document/?func=DISTINCTDOCNUM
     func 조회 - 구매 대기 상태인 문서 상세 조회 -- document/?func=DISTINCTDOCNUM&REQNUMGET={docnum}
     데이터 아무것도 없을 시 - 전체 조회 -- document/
@@ -633,15 +638,25 @@ def get_doc(self):
     startdate = self.GET.get('startdate')
     enddate = self.GET.get('enddate')
     state = self.GET.get('docstate')
+    docNum = self.GET.get('docNum')
+
     print(startdate)
     print(enddate)
     if data:
         if data == '요청상세':
-            query = 'select docnum,D.reqnum , docwdate ,prodname, R.prodnum, reqcount, reqprice, docstate, docrejectreason ' \
-                    ' from request R join doc D on R.reqnum = D.reqnum ' \
-                    ' join product P on P.prodnum = R.prodnum' \
-                    ' where docnum = (select docnum from doc order by docnum desc limit 1) ' \
-                    ' order by docnum desc'
+            docDetail = self.GET.get('docDetail')
+
+            if docDetail:
+                query = 'select docnum,D.reqnum , docwdate ,prodname, R.prodnum, reqcount, reqprice, docstate, docrejectreason ' \
+                        ' from request R join doc D on R.reqnum = D.reqnum ' \
+                        ' join product P on P.prodnum = R.prodnum' \
+                        ' where doccancled = 0 and docnum =' + docDetail
+            else:
+                query = 'select docnum,D.reqnum , docwdate ,prodname, R.prodnum, reqcount, reqprice, docstate, docrejectreason ' \
+                        ' from request R join doc D on R.reqnum = D.reqnum ' \
+                        ' join product P on P.prodnum = R.prodnum' \
+                        ' where docnum = (select docnum from doc order by docnum desc limit 1) ' \
+                        ' order by docnum desc'
             cursor.execute(query)
 
             docreq = cursor.fetchall()
@@ -665,16 +680,30 @@ def get_doc(self):
             prodList = str(prodList).replace('\'', '\"')
 
             passString = '{"reqnum": ' + str(docreqList) + ', "wdate" : "' + str(wdate) + '", "prodname":' + str(
-                prodList) + ', "prodcount":' + str(prodCount) + ', "sum":' + str(sum) + '}'
+                prodList) + ', "prodcount":' + str(prodCount) + ', "sum":' + str(sum) + ', "docstate": "'\
+                        + str(docreq[0][7]) + '", "rejectreason": "' + str(docreq[0][8]) + '"}'
             data = json.loads(passString)
             response = JsonResponse(data, safe=False)
 
         else:
-            docstate = '\'' + data + '\''
-            query = 'select * from doc where docstate=' + docstate + ' order by docnum'
-            cursor.execute(query)
+            checkDetail = self.GET.get('checkDetail')
+
+            if checkDetail:
+                docstate = '\'' + data + '\''
+                query = 'select distinct docnum, docstate, docwdate from doc where doccancled = 0 and docstate=' + docstate + ' order by docnum'
+                cursor.execute(query)
+            else:
+                docstate = '\'' + data + '\''
+                query = 'select * from doc where doccancled = 0 and docstate=' + docstate + ' order by docnum'
+                cursor.execute(query)
             data = dictfetchall(cursor)
             response = JsonResponse(data, safe=False)
+
+    elif docNum:
+        query = 'select distinct docnum from doc where reqnum=' + docNum + 'order by docnum desc  limit 1';
+        cursor.execute(query)
+        data = dictfetchall(cursor)
+        response = JsonResponse(data, safe=False)
 
     elif func:
         if (func == 'distinctdocnum'):
@@ -696,8 +725,13 @@ def get_doc(self):
             elif (state == 'parchase'):
                 # query = 'SELECT reqnum FROM doc WHERE docstate =' + docstate + ' and docordered = 1 and docrdate >' + startdate + ' and docrdate <' + enddate + ' order by reqnum'
                 query = 'SELECT r.reqnum FROM request r JOIN doc d ON r.reqnum = d.reqnum WHERE d.docstate =' + docstate + ' and reqorder = 1 and d.docrdate >' + startdate + ' and d.docrdate <' + enddate + ' order by r.reqnum'
+
     else:
-        query = 'SELECT * FROM doc order by docnum'
+        checkDetail = self.GET.get('checkDetail')
+        if checkDetail:
+            query = 'SELECT distinct docnum, docstate, docwdate FROM doc where doccancled = 0 order by docnum'
+        else:
+            query = 'SELECT * FROM doc order by docnum'
         cursor.execute(query)
         data = dictfetchall(cursor)
         response = JsonResponse(data, safe=False)
@@ -732,17 +766,6 @@ def post_doc(self):
 
     date = datetime.today().strftime("%Y-%m-%d")
     date = '\'' + str(date) + '\'' + ','
-
-    # 삽입
-    for i in reqnum:
-        query = 'select usernum from request where reqnum =' + str(i)
-        cursor.execute(query)
-        usernum = cursor.fetchall()[0][0]
-
-        reqnumword = str(i) + ','
-        wait = '\'대기\''
-        query = 'insert into doc values (' + lastnum + reqnumword + date + 'null,' + wait + ', null,' + str(
-            0) + ',' + str(usernum) + ',' + str(0) + ')'
 
     # 삽입
     for i in reqnum:
@@ -789,6 +812,26 @@ def put_doc(self):
     response = HttpResponse("성공")
     return response
 
+
+# 결재문서 삭제하며 처리중을 처리 전으로 바꾸면 됨 그리고 그 전 경로로 이동 하면 됨
+
+@csrf_exempt
+def put_put_doc(self):
+    cursor = connection.cursor()
+    docDetail = self.GET.get('docDetail')
+    data = json.loads(self.body)
+
+    query = 'update doc set doccancled = 1 where docnum =' + str(docDetail)
+    cursor.execute(query)
+
+    docarr = data["reqnum"]
+
+    for i in docarr:
+        query = 'update request set reqstaging = \'처리전\' where reqstate = \'승인\' and reqnum =' + str(i)
+        cursor.execute(query)
+
+    response = HttpResponse("성공")
+    return response
 
 @csrf_exempt
 def delete_doc(self):

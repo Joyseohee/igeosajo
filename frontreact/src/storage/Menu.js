@@ -40,7 +40,7 @@ export default class Menu {
                 {
                     index: "depth2-4",
                     name: "전자 결재 목록",
-                    path: "/"
+                    path: "/docpaylist"
                 }
             ]
         },
@@ -86,6 +86,7 @@ export default class Menu {
             ]
         },
         {
+            index: "depth1-6",
             name: "사무용품 신청 내역",
             path: "/requestuser"
         }

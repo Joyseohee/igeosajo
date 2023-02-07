@@ -4,7 +4,7 @@ import Table from "react-bootstrap/Table";
 import jwt_decode from "jwt-decode";
 
 let requestList = []
-let requestList2 = ''
+//let requestList2 = ''
 let cartcountList = []
 
 
@@ -131,11 +131,11 @@ class RequestUser extends Component {
             <tbody>
             <tr key={list.reqnum}>
                 <td>{idx + 1}</td>
-                <td><Form.Check aria-label="option 1" name={"select"}
+                <td>{list.reqstate == "대기" ? <Form.Check aria-label="option 1" name={"select"}
                                 value={[list.reqnum]}
                                 onChange={(e) => {
                                     this.choiceUnit(e.target.checked, e.target.value);
-                                }} disabled={list.reqstate == "대기" ? false : true}/></td>
+                                }} />: null}</td>
                 <td>{list.reqdate}</td>
                 <td>{list.prodname}</td>
                 <td>{list.reqcount}</td>
