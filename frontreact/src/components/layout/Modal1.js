@@ -17,9 +17,7 @@ class modal1 extends Component {
     }
 
     render() {
-
         const open = this.props.open;
-
         return (
             <div>
                 <Modal
@@ -31,7 +29,6 @@ class modal1 extends Component {
                         {this.props.ment}
                     </Modal.Body>
                     <Modal.Footer>
-
                         {
                             this.props.modalKind
                                 ?
