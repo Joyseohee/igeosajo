@@ -18,7 +18,6 @@ import OrderParchase from "./pages/OrderParchase";
 import Order from "./pages/Order";
 import DocPaymentList from "./pages/DocPaymentList";
 
-
 class App extends Component {
     constructor() {
         super();

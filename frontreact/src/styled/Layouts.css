@@ -55,10 +55,9 @@ a:link, a:visited, a:hover {
 }
 
 .header .photo {
-    padding: 0;
-    background-image: url("https://www.flaticon.com/free-icon-font/user_3917711?related_id=3917711");
-    background: no-repeat;
-    background-size: 10%;
+    display: flex;
+    justify-content: flex-start;
+    align-self: center;
 }
 
 /* 사이드바와 컨텐츠 탑 컴포 */
