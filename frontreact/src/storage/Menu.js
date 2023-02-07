@@ -40,7 +40,7 @@ export default class Menu {
                 {
                     index: "depth2-4",
                     name: "전자 결재 목록",
-                    path: "/"
+                    path: "/docpaylist"
                 }
             ]
         },

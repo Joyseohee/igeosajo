@@ -42,6 +42,10 @@ td{
     float: right;
 }
 
+.listSearchDiv{
+    margin: 2.1rem;
+}
+
 .docPaymentBtn{
     height: 3rem;
     width: 8rem;
