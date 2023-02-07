@@ -1,45 +1,100 @@
 import React, {Component} from 'react';
 import Table from "react-bootstrap/Table";
 import Form from "react-bootstrap/Form";
-
+import Col from "react-bootstrap/Col";
+import Button from "react-bootstrap/Button";
+import { withRouter } from "react-router-dom";
 let ordernum
-
+let checklist = []
 class OrderTable extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            reqdata: [],
-            // docstate:this.props.orderdocstate,
-            // startdate: this.props.startdate,
-            // enddate: this.props.enddate,
+            reqdata: this.props.reqdata,
         }
+        this.checkindividal = this.checkindividal.bind(this);
+        this.checkall = this.checkall.bind(this);
+        this.checkclear = this.checkclear.bind(this);
+        this.checkenable = this.checkenable.bind(this);
+
     }
     componentDidMount() {
-            // fetch('http://127.0.0.1:8000/api/document?func=reqnumget&startdate='+this.props.startdate+'&enddate='+this.props.enddate+'&docstate='+this.props.orderdocstate)
-            // .then(res => res.json())
-            // .then(data => {
-            //     {
-            //          // console.login({data})
-            //         data && data.map((num, i) => (
-            //             fetch('http://127.0.0.1:8000/api/request/' + num.reqnum)
-            //                 .then(res => res.json())
-            //                 .then(data => {
-            //                         this.setState({reqdata: this.state.reqdata.concat(...data)})
-            //                     }
-            //                 )))
-            //     }
-            //     })
+
     }
+    componentDidUpdate(prevProps) {
+    if (this.props.reqdata !== prevProps.reqdata) {
+            this.setState({reqdata : this.props.reqdata});
+        }
+    }
+    checkenable(state,reqnum){
+        if(state=="구매완료") {
+            return (
+                <td><Form.Check className="ordercardtext"  name="check" id={reqnum} onChange={(e) => {this.checkindividal(e.target.checked, e.target.id)}}disabled/></td>
+            )
+        }
+        else {
+            return(
+           <td><Form.Check className="ordercardtext"  name="check" id={reqnum} onChange={(e) => {this.checkindividal(e.target.checked, e.target.id)}}/></td>
+            )
+        }
+    }
+
+    checkclear(state){
+        checklist = []
+        const check = document.getElementsByName('check');
+        const checkall = document.getElementsByName('checkall');
+        check.forEach((state) => {state.checked = false})
+        checkall.forEach((state)=>{state.checked = false})
+    }
+    checkall(){
+        checklist = []
+        const check = document.getElementsByName('check');
+        let checkall = document.getElementsByName('checkall');
+        check.forEach((state) => {
+            if(state.disabled == false) {
+                state.checked = checkall[0].checked
+                 if(checkall[0].checked){
+                checklist.push(state.id)
+                 }
+            }
+        })
+    }
+    checkindividal(check, num) {
+        if (check){
+            checklist.push(num);
+        }else{
+            checklist = checklist.filter((element)=>element !== num)
+        }
+    }
+    // clickLink(){
+    //     <Link to={`/OrderParchase`} state={{ ckeck: checklist }}> Profile </Link>
+    // }
+
     render() {
-
         const {reqdata} = this.state
-
         return (
-
+            <div>
+              <div className="subtitle">
+                  <div className="dotmargin"></div>
+                  <div style={{width:'64%',fontWeight:"bold",fontSize:"21px",paddingTop:"4px",paddingLeft:"10px"}}>목록</div>
+                  <div className="subtitle" style={{width:'25%'}}>
+                      <Button style={{width:"100%"}} onClick={() =>
+                          this.props.history.push({
+                              pathname : "/OrderParchase",
+                              state : {
+                                  data : checklist
+                              },
+                          })
+                      }>
+                          구매하기
+                      </Button>
+                  </div>
+              </div>
+           <div className="searchdatemargin">
             <Table striped>
                 <thead>
                 <tr>
-                    <th><Form.Check className="ordercardtext" name="checkall" id={ordernum} /></th>
+                    <th><Form.Check className="ordercardtext" name="checkall" id={ordernum} onClick={this.checkall} /></th>
                     <th>No</th>
                     <th>상품명</th>
                     <th>수량</th>
@@ -53,22 +108,24 @@ class OrderTable extends Component {
 
                 {reqdata && reqdata.map((num, i) => (
                     <tr>
-                        <td><Form.Check className="ordercardtext"  name="check" id={num.reqnum} /></td>
+                        {this.checkenable(num.reqorder,num.reqnum)}
                         <td>{i+1}</td>
                         <td>{num.prodname}</td>
                         <td>{num.reqcount}</td>
                         <td>{num.reqprice}</td>
                         <td>{num.reqdate}</td>
                         <td>{num.username}</td>
-                        <td>처리전</td>
+                        <td>{num.reqorder}</td>
                     </tr>
                 ))}
                 </tbody>
             </Table>
 
+        </div>
+        </div>
 
         )
     }
 }
 
-export default OrderTable;
+export default withRouter(OrderTable);

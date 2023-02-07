@@ -500,32 +500,62 @@ def get_order_view(self):
 
 def post_order_view(self):
     request = json.loads(self.body)
-    docnum = request['DOCNUM'],
-    orderdate = request['ORDERDATE'],
-    orderstate = request['ORDERSTATE'],
-    orderaddr = request['ORDERADDR'],
-    ordertel = request['ORDERTEL'],
-    ordermeno = request['ORDERMEMO']
+    reqdata = request['data']
     cursor = connection.cursor()
-    query = 'SELECT Max(ordernum) FROM order'
-    cursor.execute(query)
-    orderdata = dictfetchall(cursor)
-    ordernum = orderdata[0]['max'] + 1
-    query = 'SELECT reqnum FROM doc WHERE docnum = %s'
-    cursor.execute(query, docnum)
-    reqdata = dictfetchall(cursor)
-    templen = len(reqdata)
+    data ={}
+    resultdata = []
+    if reqdata:
+        print(reqdata)
+        datalen = len(reqdata)
+        print(datalen)
+        for i in range(0, datalen-1):
+            reqnum = reqdata[i]
+            query = 'SELECT r.reqnum,r.prodnum,p.prodname,r.reqcount,r.reqprice,u.username FROM request r JOIN users u on u.usernum = r.usernum JOIN product p on p.prodnum = r.prodnum WHERE reqnum = ' + str(
+                reqnum)
+            cursor.execute(query)
+            reqtemp = dictfetchall(cursor)
+            if data.get(str(reqtemp[0]['prodnum'])):
+                temparr = data.get(str(reqtemp[0]['prodnum']))
+                temparr[2] += reqtemp[0]['reqcount']
+                temparr[3] += reqtemp[0]['reqprice'] 
+                data[(str(reqtemp[0]['prodnum']))] = temparr
+                print(data)
+            else:
+                temparr = [reqtemp[0]['prodnum'],reqtemp[0]['prodname'],reqtemp[0]['reqcount'],reqtemp[0]['reqprice']]
+                data[str(reqtemp[0]['prodnum'])] = temparr
+                print(data)
+        for value in data.values():
+            resultdata.append(value)
+        print(resultdata)
+   
 
-    for i in range(0, templen):
-        reqnum = reqdata[i]['REQNUM']
-
-        query = 'INSERT INTO order (ordernum,reqnum,orderdate, orderstate, orderaddr, ordertel, ordermemo) ' \
-                'VALUES (%s,%s, %s, %s, %s, %s,%s)'
-
-        val = (ordernum, reqnum, orderdate, orderstate, orderaddr, ordertel, ordermeno)
-        cursor.execute(query, val)
-
-    response = HttpResponse("성공")
+    # else:
+    # docnum = request['DOCNUM'],
+    # orderdate = request['ORDERDATE'],
+    # orderstate = request['ORDERSTATE'],
+    # orderaddr = request['ORDERADDR'],
+    # ordertel = request['ORDERTEL'],
+    # ordermeno = request['ORDERMEMO']
+    # cursor = connection.cursor()
+    # query = 'SELECT Max(ordernum) FROM order'
+    # cursor.execute(query)
+    # orderdata = dictfetchall(cursor)
+    # ordernum = orderdata[0]['max'] + 1
+    # query = 'SELECT reqnum FROM doc WHERE docnum = %s'
+    # cursor.execute(query, docnum)
+    # reqdata = dictfetchall(cursor)
+    # templen = len(reqdata)
+    # 
+    # for i in range(0, templen):
+    #     reqnum = reqdata[i]['REQNUM']
+    # 
+    #     query = 'INSERT INTO order (ordernum,reqnum,orderdate, orderstate, orderaddr, ordertel, ordermemo) ' \
+    #                 'VALUES (%s,%s, %s, %s, %s, %s,%s)'
+    # 
+    #     val = (ordernum, reqnum, orderdate, orderstate, orderaddr, ordertel, ordermeno)
+    #     cursor.execute(query, val)
+    # 
+    response = JsonResponse(resultdata, safe=False)
     return response
 
 

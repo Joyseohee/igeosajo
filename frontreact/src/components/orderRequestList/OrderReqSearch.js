@@ -49,14 +49,14 @@ class OrderReqSearch extends Component {
                             <Card style={{width: '95%'}}>
                                 <Card.Body   onClick={(e) => {this.statechange(e,"all")}}>
                                     <Card.Text className=" cardtitletext">전체</Card.Text>
-                                    <Card.Text>
+
                                         <Container>
                                             <Row>
                                                 <Col className="cardtext">{allcnt}</Col>
                                                 <Col> <img src={all} alt="logo"/></Col>
                                             </Row>
                                         </Container>
-                                    </Card.Text>
+
                                 </Card.Body>
                             </Card>
                         </div>
@@ -66,14 +66,14 @@ class OrderReqSearch extends Component {
                             <Card style={{width: '95%'}}>
                                 <Card.Body  onClick={(e) => {this.statechange(e,"prevparchase")}}>
                                     <Card.Text className="cardtitletext">구매전</Card.Text>
-                                    <Card.Text>
+
                                         <Container>
                                             <Row>
                                                 <Col className="cardtext">{prevparchasecnt}</Col>
                                                 <Col> <img src={parchase} alt="logo"/></Col>
                                             </Row>
                                         </Container>
-                                    </Card.Text>
+
                                 </Card.Body>
                             </Card>
                         </div>
@@ -83,14 +83,14 @@ class OrderReqSearch extends Component {
                             <Card style={{width: '95%'}}>
                                 <Card.Body  onClick={(e) => {this.statechange(e,"parchase")}}>
                                     <Card.Text className="cardtitletext">구매완료</Card.Text>
-                                    <Card.Text>
+
                                         <Container>
                                             <Row>
                                                 <Col className="cardtext">{parchasecnt}</Col>
                                                 <Col> <img src={parchase} alt="logo"/></Col>
                                             </Row>
                                         </Container>
-                                    </Card.Text>
+
                                 </Card.Body>
                             </Card>
                         </div>

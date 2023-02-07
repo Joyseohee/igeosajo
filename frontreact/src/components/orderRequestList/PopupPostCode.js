@@ -1,5 +1,6 @@
 import React from 'react';
 import DaumPostcode from "react-daum-postcode";
+import Button from "react-bootstrap/Button";
 
 const PopupPostCode = (props) => {
 	// 우편번호 검색 후 주소 클릭 시 실행될 함수, data callback 용
@@ -32,11 +33,14 @@ const PopupPostCode = (props) => {
       };
 
     return(
+
         <div>
-            <DaumPostcode style={postCodeStyle} onComplete={handlePostCode} />
+            <DaumPostcode style={postCodeStyle} onComplete={handlePostCode}/>
             // 닫기 버튼 생성
-            <button type='button' onClick={() => {props.onClose()}} className='postCode_btn'>닫기</button>
+             <button type='button' onClick={() => {props.onClose()}} className='postCode_btn'>닫기</button>
+
         </div>
+
     )
 }
 
