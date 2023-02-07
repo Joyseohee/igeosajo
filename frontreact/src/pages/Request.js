@@ -40,6 +40,7 @@ class Request extends Component {
             })
         })
     }
+
     getReqtermList = () => {
         fetch("http://127.0.0.1:8000/api/reqterm?usernum=" + this.props.usernum, {
             method: "GET",
