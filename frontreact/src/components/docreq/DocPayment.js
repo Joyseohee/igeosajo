@@ -47,14 +47,12 @@ class DocPayment extends Component {
             this.changeCheckState(true)
             this.reqSendClick(null)
             this.openState();
-
             // this.props.reqSend 여거 상태 다시 변경 해줘야 해
         }else if (this.props.reqSend === false){
             this.changeCheckState(false)
             this.reqSendClick(null)
             this.openState();
         }
-
     }
 
     changeCheckState = (e) => {

@@ -1,6 +1,5 @@
 import React, {Component} from "react";
 import "../styled/Layouts.css"
-import {Link} from "react-router-dom";
 
 class Main extends Component {
     constructor(props) {
@@ -12,8 +11,7 @@ class Main extends Component {
         return (
             <>
                 <div className="page-top">
-                    <div>여기?</div>
-                    <Link to='/request'>request</Link>
+                    <div>메인페이지 최상위 컴포넌트</div>
                 </div>
             </>
         );

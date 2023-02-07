@@ -1,0 +1,10 @@
+.reqfilter-box-wrapper {
+    margin-top: 30px;
+    padding: 20px;
+    background-color: rgb(224, 224, 224);
+    border-radius: 5px / 5px;
+    display: inline-block;
+    margin-left: 20px;
+    width: 200px;
+    height: 150px;
+}
