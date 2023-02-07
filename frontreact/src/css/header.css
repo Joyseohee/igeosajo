@@ -24,7 +24,7 @@
 }
 
 .containermargin{
-    margin-bottom: 40px;
+    margin-bottom: 5px;
 }
 .btndivmargin{
     margin-right: 20px;
@@ -46,6 +46,11 @@
     margin:30px;
     margin-bottom: 30px;
     text-align: left;
+}
+.subtitle{
+    display: flex;
+    text-align: left;
+    margin-left: 30px;
 }
 .dotmargin{
     margin : auto;
@@ -132,3 +137,48 @@
     font-weight: bold;
 
 }
+.orderdelivercard{
+    margin-left: 30px;
+    margin-bottom: 20px;
+}
+.orderdelivercardborder{
+    border-color: rgb(52,152,219);
+    width: 95%;
+}
+.orderdeliverinputbordertop{
+    border-color: rgb(52,152,219);
+    border-width: 1px;
+    border-bottom: none;
+    width: 95%;
+}
+
+
+.orderdelivercardside{
+    font-Size:18px;
+    font-Weight: bold;
+    color:white;
+    background-Color:rgb(52,152,219);
+}
+.orderdelivercardsideline{
+    border-Color:white;
+    border-Style:solid;
+    border-Width:1px;
+}
+.orderdelivertable{
+    background: rgb(52,152,219);
+    text-align: center;
+
+}
+.orderdelivertablebe{
+    background-color: cornsilk;
+    font-size: 15px;
+    font-weight: bold;
+
+}
+
+.orderdelivertablefont{
+    font-weight: bold;
+    font-size: 15px;
+    color: white;
+}
+

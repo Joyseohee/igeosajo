@@ -8,6 +8,10 @@ import DaumPostcode from 'react-daum-postcode';
 import PopupDom from './PopupDom';
 import PopupPostCode from './PopupPostCode';
 import OrderReqDate from "./OrderReqDate";
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
+import Form from "react-bootstrap/Form";
+import Table from "react-bootstrap/Table";
 
 class OrderDataInput extends Component {
     constructor(props) {
@@ -18,71 +22,103 @@ class OrderDataInput extends Component {
             startmonth: (date.getMonth() + 1),
             endyear: date.getFullYear(),
             endmonth: (date.getMonth() + 1),
-            isPopipOpen: false,
+            zoneCode: this.props.zoneCode,
+            fullAddress:this.props.fullAddress,
         }
+        this.modalshow = this.modalshow.bind(this)
+
     }
 
     componentDidMount() {
 
     }
-
-    handleAddress = (data) => {
-
-        let fullAddress = data.address;
-        let extraAddress = '';
-
-        if (data.addressType === 'R') {
-            if (data.bname !== '') {
-                extraAddress += data.bname;
-            }
-            if (data.buildingName !== '') {
-                extraAddress += (extraAddress !== '' ? `, ${data.buildingName}` : data.buildingName);
-            }
-            fullAddress += (extraAddress !== '' ? ` (${extraAddress})` : '');
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (this.props.zoneCode !== prevProps.zoneCode) {
+            this.setState({zoneCode : this.props.zoneCode});
+            console.log(this.props.zoneCode)
         }
-
-        console.log(fullAddress);  // e.g. '서울 성동구 왕십리로2길 20 (성수동1가)'
+        if (this.props.fullAddress !== prevProps.fullAddress) {
+            this.setState({fullAddress : this.props.fullAddress});
+        }
     }
 
-    // 팝업창 열기
-    openPostCode = () => {
-        this.setState({isPopupOpen: true})
+    modalshow= () =>{
+        this.props.handleShow(true)
     }
-
-    // 팝업창 닫기
-    closePostCode = () => {
-        this.setState({isPopupOpen: false})
+    onChangeNum = (e) => {
+        e.target.value = e.target.value.replace(/[^0-9]/g, "")
     }
-
     render() {
-        const{isPopupOpen}= this.state
+        const{isPopupOpen,show,zoneCode,fullAddress}= this.state
         return (
-
-            <div className="cardcontain">
-                <Card style={{width: '95%'}}>
-                    <Card.Body onClick={(e) => {
-                        this.statechange(e, "allselect")
-                    }}>
+            <div className="orderdelivercard">
+                <Card className="orderdelivercardborder" >
+                    <Card.Body>
                         <Card.Text>
-                            <Container>
-                                <Row>
-                                    <Col className="cardtext">115</Col>
-                                    <Col> <img src={all} alt="logo"/></Col>
-                                    <button type='button' onClick={this.openPostCode}>우편번호 검색</button>
-                                    <div id='popupDom'>
-                                        {isPopupOpen && (
-                                            <PopupDom>
-                                                <PopupPostCode onClose={this.closePostCode}/>
-                                            </PopupDom>
-                                        )}
-                                    </div>
-                                </Row>
+                            <Container >
+                                <Table striped>
+                                    <tr className="orderdelivercardsideline" >
+                                        <th className="orderdelivercardside" style={{width: '25%'}}>수신자명</th>
+                                        <td  style={{width: '75%',padding: '10px'}} colSpan={3}>
+                                            <input type="text"  id="receivename" className="form-control " placeholder="ex) 이기찬"  />
+                                        </td>
+                                    </tr>
+                                    <tr className="orderdelivercardsideline">
+                                        <th className="orderdelivercardside" style={{width: '25%'}}>배송지명</th>
+                                        <td  style={{width: '75%',padding: '10px'}} colSpan={3}>
+                                            <input type="text"  id="placename" className="form-control " placeholder="ex) 더존비즈온 사무실"  />
+                                        </td>
+                                    </tr>
+                                    <tr >
+                                        <th className="orderdelivercardside orderdelivercardsideline" style={{width: '25%'}} rowSpan={3}>주소</th>
+                                        <tr >
+                                            <td style={{width: '55%',padding: '10px'}} >
+                                                <input type="text"  id="postcode" className="form-control " placeholder="ex)우편번호" value={zoneCode} maxLength='5' style={{width: '40%',padding: '10px',backgroundColor:'white'}}  disabled/>
+                                            </td>
+                                            <td  style ={{width: '20%',padding: '10px'}}>
+                                                <Button  onClick={this.modalshow} style={{width: '100%',padding: '10px'}}>우편번호 검색</Button>
+                                            </td>
+                                        </tr>
+
+                                    </tr>
+                                     <tr >
+                                        <td style={{width: '75%',padding: '10px'}}>
+                                            <input type="text"  id="address" className="form-control " placeholder="ex) 검색주소" value={fullAddress} style={{backgroundColor:'white'}} onChange={(e) => {this.onChangeDate(e)}} disabled/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style={{width: '75%',padding: '10px'}}>
+                                            <input type="text"  id="detailaddress" className="form-control " placeholder="ex) 상세주소 입력"  />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th className="orderdelivercardside orderdelivercardsideline" style={{width: '25%'}}>휴대폰번호</th>
+                                        <tr>
+                                        <td style={{width: '30%',padding: '10px'}}>
+                                            <input type="text"  id="firstphonenum" className="form-control " placeholder="ex) 010" maxLength='3'  onChange={(e) => {this.onChangeNum(e)}} />
+                                        </td>
+                                        <td style={{width: '5%',padding: '10px'}}>
+                                            <span>-</span>
+                                        </td>
+                                        <td style={{width: '30%',padding: '10px'}}>
+                                           <input type="text"  id="midphonenum" className="form-control " placeholder="ex) 1234"  maxLength='4' onChange={(e) => {this.onChangeNum(e)}} />
+                                        </td>
+                                        <td style={{width: '5%',padding: '10px'}}>
+                                             <span>-</span>
+                                        </td>
+                                        <td style={{width: '30%',padding: '10px'}}>
+                                            <input type="text"  id="lastphonenum" className="form-control " placeholder="ex) 5678"  maxLength='4' onChange={(e) => {this.onChangeNum(e)}} />
+                                        </td></tr>
+                                    </tr>
+                                    <tr>
+                                        <th className="orderdelivercardside orderdelivercardsideline" style={{width: '25%'}}>배송요청사항</th>
+                                        <td style={{width: '75%',padding: '10px'}}><Form.Control aria-label="Default" aria-describedby="inputGroup-sizing-default"/></td>
+                                    </tr>
+                                </Table>
                             </Container>
                         </Card.Text>
                     </Card.Body>
                 </Card>
-
-                {/*<DaumPostcode onComplete={this.handleClick} autoClose />*/}
             </div>
         )
     }

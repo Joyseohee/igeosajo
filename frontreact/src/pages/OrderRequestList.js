@@ -5,7 +5,6 @@ import Headertitle from '../components/orderProgress/HeaderTitle'
 import OrderReqSearch from '../components/orderRequestList/OrderReqSearch'
 import OrderReqTable from "../components/orderRequestList/OrderReqTable";
 import OrderReqDate from "../components/orderRequestList/OrderReqDate";
-
 class OrderRequestList extends Component {
     constructor(props) {
         super(props);
@@ -25,13 +24,14 @@ class OrderRequestList extends Component {
         }
     }
     componentDidMount() {
-    let test =[]
+        let test =[]
         fetch('http://127.0.0.1:8000/api/request?reqstaging=처리중&reqorder='+this.state.orderreqstate+'&termyearmonth='+this.state.reqterm)
             .then(res => res.json())
             .then(data => {this.setState({reqdata:data})})
     }
 
     orderdocsearchstate = (state) => {
+        console.log(state)
         if(state == "all") {
             fetch('http://127.0.0.1:8000/api/request?reqstaging=처리중&&termyearmonth='+this.state.reqterm)
             .then(res => res.json())
@@ -47,13 +47,13 @@ class OrderRequestList extends Component {
         }
     };
 
+
     render() {
         const {
             orderreqstate,
             reqdata,
             reqterm,
         } = this.state;
-        // const date = [startyear, startmonth, endyear, endmonth]
 
         return (
             <div>

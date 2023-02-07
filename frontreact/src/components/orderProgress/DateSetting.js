@@ -19,7 +19,6 @@ class DateSetting extends Component {
             endmonth: this.props.date[3]
         }
         this.onChangeDateSet = this.onChangeDateSet.bind(this);
-        console.log(this.props.date[0])
     }
     
     componentDidMount() {
@@ -32,7 +31,6 @@ class DateSetting extends Component {
         endmonthtar.value = ""
     }
     onChangeDate = (e) => {
-        console.log(e.target)
         e.target.value = e.target.value.replace(/[^0-9]/g, "")
     }
      onChangeDateSet() {

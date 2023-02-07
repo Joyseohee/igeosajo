@@ -15,6 +15,7 @@
     "jwt-decode": "^3.1.2",
     "react": "^16.8.2",
     "react-bootstrap": "^2.7.0",
+    "react-colgroup": "^1.0.2",
     "react-daum-postcode": "^3.1.1",
     "react-dom": "^16.8.2",
     "react-router-dom": "^5.2.0",
