@@ -1,11 +1,18 @@
 import React, {Component} from 'react';
 import Form from "react-bootstrap/Form";
 import Table from "react-bootstrap/Table";
-import Counter from "../components/cart/cartcount";
+import Counter from "../components/common/cartcount";
 import jwt_decode from "jwt-decode";
+import ProductDetail from "../components/product/ProductDetail";
+import ProductPost from "../components/product/ProductPost";
+
+//import parchase from "../../img/iconsparchase.png";
 
 
 class Product extends Component {
+
+
+    ref =React.createRef();
 
     constructor(props) {
         super(props);
@@ -15,23 +22,18 @@ class Product extends Component {
             body: '',
             count: 0,
             data: {},
-            productItemList2: [{
-                id: 0,
-                count: 0
-            }],
+            productItemList2: [],
             productItemList: [],
-            usernum: '',
+
             prodnumList: [],
             prodnumList2: [],
-            cartcountList: []
+            cartcountList: [],
+            posted: true
         };
-        this.handleClick = this.handleClick.bind(this);
-        this.choiceUnit = this.choiceUnit.bind(this);
-
-        this.cartcount = this.cartcount.bind(this);
-        this.choiceAll = this.choiceAll.bind(this);
-
-
+        this.checksend = this.checksend.bind(this);
+      //  this.componentDidUpdate = this.componentDidUpdate.bind(this);
+        this.postcheck = this.postcheck.bind(this);
+        this.getlist = this.getlist.bind(this)
         this.props.setpagename("상품목록");
 
     }
@@ -53,61 +55,19 @@ class Product extends Component {
     // }
 
     //post
-    handleClick() {
-        let prodnumList = this.state.prodnumList
-        let cartcountList = this.state.cartcountList
-        let prodnumList2 = this.state.prodnumList2
-
-
-        for (let i = 0; i < prodnumList.length; i++) {
-            console.log('post1')
-            var returnValue = this.state.productItemList2.find(function (data) {
-                return data.id === prodnumList[i]
-            });
-            console.log('post2')
-
-            if (returnValue) {
-                prodnumList2.push(returnValue.id);
-                cartcountList.push(returnValue.count);
-            }
-        }
-        console.log('post3')
-
-        const response = fetch('http://127.0.0.1:8000/api/cart', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                "prodnum": prodnumList2,
-                "usernum": this.state.usernum,
-                "cartcount": cartcountList
-            }),
-        });
-        prodnumList = [];
-        prodnumList2 = [];
-        cartcountList = [];
-        this.setState({
-            prodnumList2: prodnumList2,
-            prodnumList: prodnumList,
-            cartcountList: cartcountList
-        })
-        // const body = await response.json();
-
-        console.log('this is 포스트 완료:', this);
-
-
-    }
-
     async componentDidMount() {
 
-        const token = localStorage.getItem('secretcode');
-        const decoded = jwt_decode(token);
-        const usernum = decoded.usernum;
+        await this.getlist()
+    }
+
+    async getlist() {
+
+        const usernum = this.props.usernum;
         this.setState({
             usernum: usernum
         })
-        console.log(usernum)
+        console.log("usernum" + usernum)
+        console.log("usernum2:" + this.props.usernum)
 
         try {
             const res = await fetch('http://127.0.0.1:8000/api/product');
@@ -125,108 +85,112 @@ class Product extends Component {
             });
             console.log("pl")
             console.log(productItemList)
+            console.log('pl2')
+
             console.log(productItemList[0].ccount)
+            console.log('pl3')
+
         } catch (e) {
             console.log(e);
         }
     }
 
-    choiceAll() {
-        let prodnumList = this.state.prodnumList
-
-
-        const checkboxes = document.getElementsByName('select');
-        let selectAll = document.getElementsByName('selectAll');
-
-        checkboxes.forEach((checkbox) => {
-            checkbox.checked = selectAll[0].checked;
-            if (selectAll[0].checked) {
-                prodnumList.push(parseInt(checkbox.value));
-                this.setState({
-                    prodnumList: prodnumList
-                })
-            } else {
-                console.log("else1")
-                prodnumList = [];
-                this.setState({
-                    prodnumList: prodnumList
-                })
-            }
-        })
-        console.log(prodnumList);
-    }
-
-    choiceUnit(check, val) {
-
-        const prodnumList = this.state.prodnumList
-        console.log("unit list2")
-
-        if (check) {
-
-            console.log("unit val")
-            console.log(val);
-
-
-            prodnumList.push(parseInt(val))
-            //cartcountList.push(parseInt(returnValue.count));
-            console.log(prodnumList)
-            // console.log(cartcountList)
-
-        } else {
-            const prodnumList = this.state.prodnumList
-            console.log('else1')
-            for (let i = 0; i < prodnumList.length; i++) {
-                console.log('else2')
-
-                if (prodnumList[i] === parseInt(val)) {
-                    console.log('else3')
-
-                    prodnumList.splice(i, 1);
-                    break;
-                }
-            }
-
-            this.setState({
-                prodnumList: prodnumList
-            })
-            console.log("1: " + prodnumList)
-
-            // console.log("2"+pprodnumList)
-        }
-
-        console.log(prodnumList);
+    postcheck = (posted) => {
+        console.log(posted)
+     if(posted === false){
+           console.log('postcheck')
+        this.ref.current.callcheck1(posted);
+     }
+      // })
 
     }
 
-    cartcount = (res, res2) => {
-        var {productItemList2} = this.state;
-        console.log("cartfunc")
-        console.log("count:" + res)
-        console.log("prodnum:" + res2)
-        console.log("빼기전")
-        console.log(productItemList2)
-        // console.log(pk)
-        productItemList2 = productItemList2.filter((productItemList2) => productItemList2.id !== res2);
+    // getlist = () => {
+    //
+    //     const usernum = this.props.usernum;
+    //     this.setState({
+    //         usernum: usernum
+    //     })
+    //     console.log("usernum" + usernum)
+    //     console.log("usernum2:" + this.props.usernum)
+    //
+    //     try {
+    //
+    //         fetch("http://127.0.0.1:8000/api/product", {
+    //             method: "GET",
+    //         }).then(res => {
+    //             return res.json();
+    //         }).then(res => {
+    //             this.setState({
+    //                 items: res,
+    //             })
+    //         })
+    //
+    //
+    //         console.log(">>>items", this.state.items)
+    //         const productItemList = this.state.items.map((item) => {
+    //             item.ccount = 0;
+    //             return item
+    //         })
+    //
+    //
+    //         this.setState({
+    //            productItemList: productItemList
+    //         });
+    //         console.log("pl")
+    //         console.log(productItemList)
+    //
+    //     } catch (e) {
+    //         console.log(e);
+    //     }
+    // }
 
-        productItemList2.push({
-            id: res2,
-            count: res,
-        });
+
+    // componentDidUpdate = (prevState) => {
+    //     console.log('업데이트 if 문 전')
+    //     console.log(prevState) //true
+    //
+    //     //post예비 받아와서 1함수에 넘겨줘서 setState false->true
+    //     //post 예비랑 비교하기, post랑 다르면 (true, false)
+    //     //setState 로 post 예비를 post 에 넣기
+    //     console.log(this.state.posted) //false
+    //
+    //     if (this.state.posted !== prevState) {
+    //         console.log('업데이트!!!')
+    //         this.setState({
+    //             posted: prevState
+    //         })
+    //
+    //         this.getlist();
+    //         console.log('업데이트성공!!')
+    //
+    //     }
+    //     console.log('업데이트후')
+    //     console.log(prevState.posted)
+    // }
+
+
+    checksend = (res) => {
+        // var {prodnumList} = this.state;
+        console.log("checksend:" + res)
 
         this.setState({
-            productItemList2: productItemList2
+            prodnumList: res
         })
-        console.log("뺸후")
-        console.log(productItemList2)
+        // console.log("prodnumList: " + prodnumList)
+        console.log("prodnumList: " + this.state.prodnumList)
 
-        console.log("더한후")
-        console.log(productItemList2[res2])
-        console.log(productItemList2)
-        // return {
-        //     productItemList2
-        //
-        // }
-
+    }
+    cartsend = (res) => {
+        console.log("cartsend:" + res)
+        this.setState({
+            productItemList2: res
+        }, () => {
+            console.log("productItemList2 id: " + this.state.productItemList2);
+        });
+        // console.log("json" + JSON.stringify(this.state.productItemList2))
+        console.log("productItemList2 id: " + this.state.productItemList2)
+    }
 
 //         this.setState({
 // //productItemList.filter((productItemList) => productItemList.id !== res)
@@ -244,61 +208,27 @@ class Product extends Component {
 // //
 // //
 //         )
-        //{data: "test"} 가 찍힙니다
-    }
+    //{data: "test"} 가 찍힙니다
+
 
     render() {
+        console.log("prodnumListrrrr: " + this.state.prodnumList)
 
-        let list = this.state.productItemList.map((list, idx) => (
-
-            <tbody>
-            <tr key={list.prodnum}>
-                <td>{idx + 1}</td>
-                <td><Form.Check aria-label="option 1" name={"select"}
-                                value={[list.prodnum]}
-                                onChange={(e) => {
-                                    this.choiceUnit(e.target.checked, e.target.value);
-                                }}/></td>
-                <td>{list.prodname}</td>
-                <td>{list.prodnum}</td>
-                <td>{list.prodimg}</td>
-                <td>{list.prodprice}</td>
-                <td><Counter func={this.cartcount}
-                             data={list.prodnum}></Counter>
-                </td>
-            </tr>
-
-
-            </tbody>
-
-
-        ))
-        console.log("list")
-        console.log(list);
-        // console.log(list.prodnum);
-        //console.log(list[0].count);
+        console.log("productItemList2rrr: " + this.state.productItemList2)
 
         return (
             <div>
                 <div><a>상품목록 </a>
-                    <button className="btn btn-primary" onClick={this.handleClick}>장바구니 담기
-                    </button>
+                    <ProductPost productItemList2={this.state.productItemList2} prodnumList={this.state.prodnumList}
+                                 usernum={this.props.usernum} posted={this.state.posted}
+                                 postcheck={this.postcheck}/>
+                    {/*<ProductPost productItemList2={this.state.productItemList2} prodnumList={this.state.prodnumList}*/}
+                    {/*            usernum={this.props.usernum} posted={this.state.posted}*/}
+                    {/*            componentDidUpdate={this.componentDidUpdate}/>*/}
 
                 </div>
-                <Table striped>
-                    <thead>
-                    <tr>
-                        <th>No</th>
-                        <th><Form.Check aria-label="option 1" name={"selectAll"} onClick={this.choiceAll}/></th>
-                        <th>품목명</th>
-                        <th>번호</th>
-                        <th>이미지</th>
-                        <th>가격</th>
-                        <th>수량</th>
-                    </tr>
-                    </thead>
-                    {list}
-                </Table>
+                <ProductDetail productItemList={this.state.productItemList} func1={this.checksend}
+                               func2={this.cartsend} ref={this.ref}/>
 
             </div>
         );
