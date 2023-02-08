@@ -15,13 +15,8 @@ class requestTable extends Component {
             items: [],
             isLoaded: false,
             reqList: [],
-            modalopen: false,
-            modalKind: false,
             outcomeState: false
         }
-        this.choiceAll = this.choiceAll.bind(this);
-        this.choiceUnit = this.choiceUnit.bind(this);
-        this.openState = this.openState.bind(this);
     }
 
     async componentDidMount() {
@@ -30,26 +25,11 @@ class requestTable extends Component {
             .then(response => this.setState({items: response, isLoaded: true}))
     };
 
-    async componentDidUpdate(prevProps) {
-        if (this.props.reqSend && !prevProps.reqSend) {
-            if (this.state.reqList.length === 0) {
-                this.setState({modalKind: false});
-            } else {
-                this.setState({modalKind: true});
-            }
-            this.openState(); // 모달 창 연다
-        }
-    }
-
     reqSendClick = (e) => {
         this.props.reqSendClick(e)
     }
 
-    async componentWillUnmount(){
-        this.reqSendClick(false)
-    }
-
-    choiceAll() {
+    choiceAll = () => {
         requestList = []
 
         const checkboxes = document.getElementsByName('select');
@@ -65,7 +45,7 @@ class requestTable extends Component {
         this.setState({reqList: requestList});
     }
 
-    choiceUnit(check, val) {
+    choiceUnit = (check, val) => {
         if (check) {
             requestList.push(val);
         } else {
@@ -79,8 +59,8 @@ class requestTable extends Component {
         this.setState({reqList: requestList});
     }
 
-    openState() {
-        this.setState({modalopen: true});
+    closeState = () => {
+        this.props.openModal(false);
     }
 
     changeModalState = (e) => {
@@ -109,14 +89,18 @@ class requestTable extends Component {
                     .then(response => this.setState({items: response, isLoaded: true}))
                 check = false;
             }
-            // this.props.history.push("/docreqdetail");
+            this.reqSendClick(false)
+            this.closeState();
+
             window.location.assign("http://localhost:3000/docreqdetail");
         } else {
-            window.location.reload();
+            this.reqSendClick(false)
+            this.closeState();
         }
     }
 
     render() {
+        let modalOpen = this.props.modalOpen
 
         let {isLoaded} = this.state;
         if (!isLoaded) {
@@ -157,14 +141,14 @@ class requestTable extends Component {
                     </tbody>
                 </Table>
                 {
-                    this.state.modalKind
-                        ? <Modal1 open={this.state.modalopen} ment={"선택한 목록으로 작성 하시겠습니까?"}
+                    modalOpen && this.state.reqList.length !== 0
+                        ? <Modal1 open={modalOpen} ment={"선택한 목록으로 작성 하시겠습니까?"}
                                   changeModalState={this.changeModalState}
-                                  outcomeState={this.outcomeState} modalKind={this.state.modalKind}></Modal1>
-                        : <Modal1 open={this.state.modalopen} ment={"선택한 목록이 없습니다."}
+                                  outcomeState={this.outcomeState} modalKind={this.state.reqList.length !== 0}></Modal1>
+                        : <Modal1 open={modalOpen} ment={"선택한 목록이 없습니다."}
                                   changeModalState={this.changeModalState}
                                   outcomeState={this.outcomeState}
-                                  modalKind={this.state.modalKind}></Modal1>
+                                  modalKind={this.state.reqList.length !== 0}></Modal1>
                 }
 
             </div>

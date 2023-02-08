@@ -11,6 +11,9 @@ class Login extends Component {
             userPwd: "",
             logined:'N',
         };
+    }
+
+    componentDidMount() {
         this.props.setpagename("로그인");
     }
 

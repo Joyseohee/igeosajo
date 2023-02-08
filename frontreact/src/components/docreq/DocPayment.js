@@ -14,10 +14,7 @@ class DocPayment extends Component {
             isLoaded: false,
             reqnum: [],
             words: "",
-            reqSend: false,
-            checkState: null,
             outcomeState: null,
-            modalopen: false,
             docNum: 0
         };
 
@@ -44,39 +41,13 @@ class DocPayment extends Component {
         this.setState({words: word})
     }
 
-    async componentDidUpdate(prevProps) {
-        if (this.props.reqSend) {
-            this.changeCheckState(true)
-            this.reqSendClick(null)
-            this.openState();
-            // this.props.reqSend 여거 상태 다시 변경 해줘야 해
-        } else if (this.props.reqSend === false) {
-            this.changeCheckState(false)
-            this.reqSendClick(null)
-            this.openState();
-        }
-    }
-
-    changeCheckState = (e) => {
-        this.setState({checkState: e})
-    }
-
     reqSendClick = (e) => {
         this.setState({reqSend: e});
-    }
-
-    openState = () => {
-        this.setState({modalopen: true});
-    }
-
-    changeModalState = (e) => {
-        this.setState({modalopen: false})
     }
 
     outcomeState = (e) => {
 
         this.setState({outcomeState: e})
-        this.changeCheckState(null)
 
         if (e === 2) {
             // 확인 버튼 눌렀을 시
@@ -91,27 +62,41 @@ class DocPayment extends Component {
                 }
             )
 
+            this.reqSendClick(null)
+            this.props.openModal(false)
+
         } else if (e === 1) {
             // 취소 버튼 누른 후 확인 눌렀을 시
             fetch("http://127.0.0.1:8000/api/document", {
                 method: "DELETE",
             })
 
-            this.props.history.push({
-                pathname: '/docrequest'
-            })
+            this.reqSendClick(null)
+            this.props.openModal(false)
+
+            // this.props.history.push({
+            //     pathname: '/docrequest'
+            // })
+
+            document.location.assign("http://localhost:3000/docrequest");
+
         } else {
             // 취소 버튼 누르고 다시 취소 버튼 눌렀을 시
             // this.props.history.push({
             //     pathname: '/docreqdetail'
             // })
 
-            window.location.reload();
+            this.reqSendClick(null)
+            this.props.openModal(false)
         }
 
     }
 
     render() {
+
+        let checkState = this.props.checkState
+        let modalOpen = this.props.modalOpen
+
 
         let {isLoaded} = this.state;
         if (!isLoaded) {
@@ -151,13 +136,11 @@ class DocPayment extends Component {
                 </Table>
 
                 {
-                    this.state.checkState
-                        ? <Modal1 open={this.state.modalopen} ment={"결재신청이 완료 되었습니다."}
-                                  changeModalState={this.changeModalState}
+                    checkState
+                        ? <Modal1 open={modalOpen} ment={"결재신청이 완료 되었습니다."}
                                   outcomeState={this.outcomeState}
                                   modalKind={false}></Modal1>
-                        : <Modal1 open={this.state.modalopen} ment={"취소 하시겠습니까?"}
-                                  changeModalState={this.changeModalState}
+                        : <Modal1 open={modalOpen} ment={"취소 하시겠습니까?"}
                                   outcomeState={this.outcomeState}
                                   modalKind={true}></Modal1>
                 }

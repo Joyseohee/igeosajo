@@ -5,7 +5,15 @@ class Main extends Component {
     constructor(props) {
         super(props);
         this.props.setpagename("메인");
+        this.state = {
+
+        }
     }
+
+    async componentDidMount() {
+        console.log(this.props.usernum)
+
+    };
 
     render() {
         return (
