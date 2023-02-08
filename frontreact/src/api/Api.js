@@ -28,18 +28,6 @@ export default class Api extends Component {
     read = (table, params, pk) => {
         return this.fetchData(table, params, pk, 'GET');
     };
-    //
-    // read = (table, params, pk, stateName) => {
-    //     this.fetchData(table, params, pk, 'GET').then((response) => {
-    //         return response.json();
-    //     }).then((response) => {
-    //         console.log(response);
-    //         this.setState({
-    //             [stateName]: response,
-    //         })
-    //     })
-    // };
-    //
 
     update = (table, params, pk) => {
         return this.fetchData(table, params, pk, 'PUT');
@@ -56,7 +44,7 @@ export default class Api extends Component {
                     .map((param) => {
                         if (param === 'usernum') {
                             return `usernum=${params.usernum}`;
-                        } else if (param === 'reqstate') {
+                        } else if (param === 'reqstate' && params.reqstate !== null) {
                             return `reqstate=${params.reqstate}`;
                         } else if (param === 'termyearmonth') {
                             return `termyearmonth=${params.termyearmonth}`;

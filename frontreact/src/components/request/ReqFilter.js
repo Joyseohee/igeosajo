@@ -4,19 +4,19 @@ import ReqFilterBox from "./ReqFilterBox";
 class ReqFilter extends Component {
     constructor(props) {
         super(props);
-        this.filteredState = this.filteredState.bind(this);
     }
 
-    filteredState() {
-        this.props.setReqState(this.props.filter);
-    }
+    // componentDidUpdate(prevProps, prevState) {
+    //     if(prevProps)
+    // }
+
     render() {
         return (
             <div className="wrapper">
-                <ReqFilterBox filter='전체' setReqState={this.props.setReqState} requestList={this.props.requestList}/>
-                <ReqFilterBox filter='승인' setReqState={this.props.setReqState} requestList={this.props.requestList}/>
-                <ReqFilterBox filter='반려' setReqState={this.props.setReqState} requestList={this.props.requestList}/>
-                <ReqFilterBox filter='대기' setReqState={this.props.setReqState} requestList={this.props.requestList}/>
+                <ReqFilterBox filter='전체' setReqState={this.props.setReqState} />
+                <ReqFilterBox filter='승인' setReqState={this.props.setReqState} />
+                <ReqFilterBox filter='반려' setReqState={this.props.setReqState} />
+                <ReqFilterBox filter='대기' setReqState={this.props.setReqState} />
             </div>
         );
     }

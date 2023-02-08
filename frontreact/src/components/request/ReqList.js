@@ -1,17 +1,65 @@
 import React, {Component} from "react";
 import ReqListTbody from "./ReqListTbody";
 import {Form, Table} from "react-bootstrap";
+import Api from "../../api/Api";
 
 class ReqList extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            requestList: [],
             checkedAll: false,
         }
     }
 
+    async componentDidUpdate(prevProps, prevState, snapshot) {
+        if (prevProps.termyearmonth !== this.props.termyearmonth) {
+            console.log("기간 변경");
+            try {
+                this.getlist("request", {termyearmonth: this.props.termyearmonth}, null, "requestList");
+            } catch (e) {
+                console.error(e);
+            }
+        }
+
+        if (prevProps.filter !== this.props.filter) {
+            console.log("필터 변경");
+            try {
+                this.getlist("request", {
+                    termyearmonth: this.props.termyearmonth,
+                    reqstate: this.props.filter
+                }, null, "requestList");
+                this.setState({
+                    checkedAll: false,
+                });
+            } catch (e) {
+                console.error(e);
+            }
+        }
+        if (prevProps.checkedRequest !== this.props.checkedRequest &&
+            this.props.checkedRequest.length === 0) {
+            console.log("체크 바뀔 때");
+            setTimeout(() => {
+                this.getlist("request", {
+                    termyearmonth: this.props.termyearmonth,
+                    reqstate: this.props.filter
+                }, null, "requestList");
+            }, 500);
+        }
+    }
+
+    getlist = (table, params, pk, stateName) => {
+        new Api().read(table, params, pk).then((response) => {
+            return response.json();
+        }).then((response) => {
+            this.setState({
+                [stateName]: response,
+            })
+        })
+    }
+
     handleCheckAll = (checked) => {
-        const requestList = this.props.requestList;
+        const requestList = this.state.requestList;
         const arr = requestList.map((request) => request.reqnum);
 
         this.setState({
@@ -34,24 +82,10 @@ class ReqList extends Component {
         this.props.storeChecked(arr);
     };
 
-    componentDidUpdate(prevProps) {
-        if (prevProps.filter !== this.props.filter) {
-            this.setState({
-                checkedAll: false,
-            });
-        }
-        if (prevProps.checkedRequest !== this.props.checkedRequest &&
-            this.props.checkedRequest.length === 0) {
-            this.setState({
-                checkedAll: false,
-            });
-        }
-    }
-
     render() {
-        const {requestList, checkedRequest, filter} = this.props;
-        const {checkedAll} = this.state;
-        const disabled = this.props.filter==='대기'?false:true;
+        const {checkedRequest, filter} = this.props;
+        const {checkedAll, requestList} = this.state;
+        const disabled = this.props.filter === '대기' ? false : true;
 
         return (
             <div className="wrapper">

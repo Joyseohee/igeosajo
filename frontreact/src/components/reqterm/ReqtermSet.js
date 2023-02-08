@@ -79,7 +79,7 @@ class ReqtermSet extends Component {
         return (
             <>
                 <Form>
-                    {termyear && <div>신청기간은 {termyear + " " + termmonth}입니다.</div>}
+                    {termyear && <div>가장 가까운 신청기간은 {termyear + " " + termmonth}입니다.</div>}
                     {inTerm === true ? <div>지금은 신청 기간입니다.</div> : <div>지금은 신청기간이 아닙니다.</div>}
                     {inTerm && setreqtermstart ?
                         <div>신청을 받고 있습니다.</div> : setreqtermend ?
