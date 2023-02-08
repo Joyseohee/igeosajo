@@ -4,6 +4,9 @@ import "../styled/Layouts.css"
 class Main extends Component {
     constructor(props) {
         super(props);
+    }
+
+    componentDidMount() {
         this.props.setpagename("메인");
     }
 

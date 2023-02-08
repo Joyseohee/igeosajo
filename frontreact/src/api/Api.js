@@ -46,7 +46,7 @@ export default class Api extends Component {
                             return `usernum=${params.usernum}`;
                         } else if (param === 'reqstate' && params.reqstate !== null) {
                             return `reqstate=${params.reqstate}`;
-                        } else if (param === 'termyearmonth') {
+                        } else if (param === 'termyearmonth' && params.termyearmonth !== null) {
                             return `termyearmonth=${params.termyearmonth}`;
                         }
                         return '';

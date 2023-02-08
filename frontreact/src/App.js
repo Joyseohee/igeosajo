@@ -17,77 +17,60 @@ import OrderReq from "./pages/OrderReq";
 import OrderParchase from "./pages/OrderParchase";
 import Order from "./pages/Order";
 import DocPaymentList from "./pages/DocPaymentList";
+import Api from "./api/Api";
 
 class App extends Component {
     constructor() {
         super();
         this.state = {
-            usernum: "fakenum",
-            pagename: "username",
+            user: "fakenum",
+            pagename: "페이지",
             logined: 'N',
         }
-        this.setpagename = this.setpagename.bind(this);
-        this.changeLogined = this.changeLogined.bind(this);
     }
 
-    setpagename(pagename) {
+    componentDidMount() {
+        try {this.changeLogined(this.state.logined);} catch (e) {  }
+    }
+
+    setpagename = (pagename) => {
         this.setState({
             pagename: pagename,
         });
     }
 
-    changeLogined(logined) {
-        this.setState({
-            logined: logined,
-        });
-    }
-
-    componentDidMount() {
-        try {
-            const token = localStorage.getItem('secretcode');
-            const decoded = jwt_decode(token);
-            this.setState((state) => ({
-                logined: state.logined,
-                usernum: decoded.usernum,
-            }))
-            this.setState((state) => ({
-                pagename: state.pagename,
-            }))
-        } catch (e) {
-            console.error(e);
-        }
-    }
-
-    componentDidUpdate(prevProps, prevState, snapshot) {
-        if (prevState.logined !== this.state.logined) {
-            const token = localStorage.getItem('secretcode');
-            const decoded = jwt_decode(token);
-            this.setState((state) => ({
-                logined: state.logined,
-                usernum: decoded.usernum,
-            }))
-        }
-        if (prevState.pagename !== this.state.pagename) {
-            this.setState((state) => ({
-                pagename: state.pagename,
-            }))
-        }
+    changeLogined = (logined) => {
+        const token = localStorage.getItem('secretcode');
+        const decoded = jwt_decode(token);
+        const params = {usernum: decoded.usernum};
+        new Api().read("user", params, null)
+            .then((response) => {
+                return response.json()
+            })
+            .then((response) => {
+                this.setState({
+                    user: response[0],
+                    logined: logined,
+                })
+            })
     }
 
     render() {
-        const {pagename, usernum} = this.state;
+        const {pagename, user} = this.state;
+        const usernum = this.state.user.usernum;
+
         return (
             <>
-                <Layouts usernum={usernum} pagename={pagename}>
+                <Layouts user={user} pagename={pagename}>
                     <Switch>
-                        {this.state.usernum === "fakenum" &&
+                        {user === "fakenum" &&
                             <>
                                 <Route exact path="/">
-                                    <Login setpagename={this.setpagename} changeLogined={this.changeLogined}/>
+                                    <Login setpagename={() => this.setpagename()} changeLogined={this.changeLogined}/>
                                 </Route>
                             </>
                         }
-                        {this.state.usernum !== "fakenum" &&
+                        {user !== "fakenum" &&
                             <>
                                 <Route exact path="/main">
                                     <Main usernum={usernum} setpagename={this.setpagename}/>
@@ -95,10 +78,10 @@ class App extends Component {
                                 <Route exact path="/cart">
                                     <Cart usernum={usernum} setpagename={this.setpagename}/>
                                 </Route>
-                                 <Route exact path="/product">
+                                <Route exact path="/product">
                                     <Product usernum={usernum} setpagename={this.setpagename}/>
                                 </Route>
-                                 <Route exact path="/requestuser">
+                                <Route exact path="/requestuser">
                                     <RequestUser usernum={usernum} setpagename={this.setpagename}/>
                                 </Route>
                                 <Route exact path="/request">
@@ -139,5 +122,6 @@ class App extends Component {
         );
     }
 }
+
 export default App;
 

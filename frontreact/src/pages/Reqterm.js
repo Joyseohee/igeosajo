@@ -9,11 +9,11 @@ class Reqterm extends Component {
         this.state = {
             termlist: [],
         }
-        this.props.setpagename("사무용품 신청 관리");
         this.setBasicReqterm = this.setBasicReqterm.bind(this);
     }
 
     async componentDidMount() {
+        this.props.setpagename("사무용품 신청 관리");
         this.setBasicReqterm();
     }
 

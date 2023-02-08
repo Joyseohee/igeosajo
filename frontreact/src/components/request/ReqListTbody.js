@@ -7,9 +7,10 @@ class ReqListTbody extends Component {
     }
 
     render() {
+
         const {request, checkedRequest, checkedAll} = this.props;
         const disabled = this.props.filter==='대기'?false:true;
-
+        console.log(checkedAll);
         return (
             <>
                 <tr>
