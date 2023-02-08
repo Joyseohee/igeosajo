@@ -7,7 +7,6 @@ class ConfirmModal extends Component {
         super(props);
     }
     handleConfirm(e){
-        console.log(e.target.value);
         this.props.handleConfirm(e.target.value);
     }
 

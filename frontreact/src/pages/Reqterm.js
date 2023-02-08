@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import Reqbox from "../components/reqterm/Reqbox";
 import Api from "../api/Api";
+import Goal from "../components/Goal";
 
 class Reqterm extends Component {
     constructor(props) {
@@ -8,11 +9,11 @@ class Reqterm extends Component {
         this.state = {
             termlist: [],
         }
-        this.props.setpagename("신청 기간 설정");
         this.setBasicReqterm = this.setBasicReqterm.bind(this);
     }
 
     async componentDidMount() {
+        this.props.setpagename("사무용품 신청 관리");
         this.setBasicReqterm();
     }
 
@@ -29,7 +30,7 @@ class Reqterm extends Component {
         const termlist = this.state.termlist;
         return (
             <div className="page-top reqterm-wrapper">
-                <div className="reqterm-title">타이틀</div>
+                <Goal comment={"신청기간 설정"} />
                 <Reqbox type="reqterm-fix" usernum={this.props.usernum} termlist={termlist}/>
                 <Reqbox type="reqterm-set" usernum={this.props.usernum} termlist={termlist}/>
                 <Reqbox type="reqterm-list" usernum={this.props.usernum} termlist={termlist}/>

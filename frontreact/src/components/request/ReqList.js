@@ -1,25 +1,33 @@
 import React, {Component} from "react";
 import ReqListTbody from "./ReqListTbody";
 import {Form, Table} from "react-bootstrap";
+import Api from "../../api/Api";
 
 class ReqList extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            // requestList: [],
             checkedAll: false,
         }
     }
 
-    handleCheckAll = (checked) => {
-        const requestList = this.props.requestList;
-        const arr = requestList.map((request) => request.reqnum);
+    componentDidMount() {
+    }
 
-        this.setState({
-            checkedAll: !this.state.checkedAll,
-        });
-
-        this.props.storeChecked(checked ? arr : []);
-    };
+    // handleCheckAll = (checked) => {
+    //     console.log(checked)
+    //     this.setState({
+    //         checkedAll: !this.state.checkedAll,
+    //     });
+    //     const requestList = this.props.requestList;
+    //     this.handleCheckFunc(this.props.requestList);
+    //     const arr = requestList.map((request) => request.reqnum);
+    //     this.setState({
+    //         checkedAll: !this.state.checkedAll,
+    //     });
+    //     this.props.storeChecked(checked ? arr : []);
+    // };
 
     handleCheck = (e) => {
         const arr = this.props.checkedRequest;
@@ -33,25 +41,25 @@ class ReqList extends Component {
 
         this.props.storeChecked(arr);
     };
-
-    componentDidUpdate(prevProps) {
-        if (prevProps.filter !== this.props.filter) {
-            this.setState({
-                checkedAll: false,
-            });
-        }
-        if (prevProps.checkedRequest !== this.props.checkedRequest &&
-            this.props.checkedRequest.length === 0) {
-            this.setState({
-                checkedAll: false,
-            });
-        }
-    }
+    // handleCheck = (e) => {
+    //     this.handleCheckFunc(e.target.value);
+    // };
+    // handleCheckFunc = (value) => {
+    //     const arr = this.props.checkedRequest;
+    //
+    //     const checkIndex = arr.findIndex((item) => item === value);
+    //     if (checkIndex === -1) {
+    //         arr.push(value);
+    //     } else {
+    //         arr.splice(checkIndex, 1);
+    //     }
+    //     this.props.storeChecked(arr);
+    // }
 
     render() {
-        const {requestList, checkedRequest, filter} = this.props;
+        const {checkedRequest, filter, requestList} = this.props;
         const {checkedAll} = this.state;
-        const disabled = this.props.filter==='대기'?false:true;
+        const disabled = this.props.filter === '대기' ? false : true;
 
         return (
             <div className="wrapper">

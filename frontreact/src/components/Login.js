@@ -13,10 +13,6 @@ class Login extends Component {
         };
     }
 
-    componentDidMount() {
-        this.props.setpagename("로그인");
-    }
-
     loginClick = () => {
         let data;
         if (!this.state.userId) {
@@ -50,10 +46,11 @@ class Login extends Component {
         }
     }
 
+    componentDidMount() {
+        this.props.setpagename("로그인");
+    }
+
     componentDidUpdate(preState) {
-        console.log(preState)
-        console.log(this.state)
-        console.log(this.state.logined)
         if(preState.logined !== this.state.logined && this.state.logined === 'Y'){
             this.props.changeLogined('Y');
             this.props.history.push('/main');
@@ -61,7 +58,6 @@ class Login extends Component {
     }
 
     render() {
-        console.log(this.state.logined);
             return (
                 <div className={"loginDiv"}>
                     <img src={"/user.png"}/>
