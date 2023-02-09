@@ -13,12 +13,18 @@ class DocRequest extends Component {
         this.props.setpagename("전자 결재");
         this.state = {
             reqSend: false,
-            modalOpen: false
+            modalOpen: false,
+            items: []
         };
     }
 
+    async componentDidMount() {
+        fetch('http://127.0.0.1:8000/api/request?reqstaging=처리전&reqstate=승인')
+            .then(response => response.json())
+            .then(response => this.setState({items: response}))
+    };
+
     reqSendClick = (fromChild) => {
-        console.log(fromChild, "DocRequest");
 
         this.setState({reqSend: fromChild});
 
@@ -50,7 +56,8 @@ class DocRequest extends Component {
                             reqSend={this.state.reqSend}
                             reqSendClick={this.reqSendClick}
                             modalOpen={this.state.modalOpen}
-                            openModal={this.openModal}/>
+                            openModal={this.openModal}
+                            items = {this.state.items}/>
                     </div>
                 </div>
             </div>

@@ -1,5 +1,8 @@
 import React, {Component} from "react";
 import "../styled/Layouts.css"
+import UserMain from "./UserMain";
+
+let choice;
 
 class Main extends Component {
     constructor(props) {
@@ -8,8 +11,16 @@ class Main extends Component {
 
     componentDidMount() {
         this.props.setpagename("메인");
-        this.state = {
 
+        switch (this.props.user.userathority) {
+            case 1 :
+                // choice = ();
+                break;
+            case 2 :
+                choice = (<UserMain user={this.props.user}/>);
+                break
+            default :
+                // choice = ();
         }
     }
 
@@ -17,7 +28,7 @@ class Main extends Component {
         return (
             <>
                 <div className="page-top">
-                    <div>메인페이지 최상위 컴포넌트</div>
+                    {choice}
                 </div>
             </>
         );

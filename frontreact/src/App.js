@@ -73,7 +73,7 @@ class App extends Component {
                         {user !== "fakenum" &&
                             <>
                                 <Route exact path="/main">
-                                    <Main usernum={usernum} setpagename={this.setpagename}/>
+                                    <Main user={user} setpagename={this.setpagename}/>
                                 </Route>
                                 <Route exact path="/cart">
                                     <Cart usernum={usernum} setpagename={this.setpagename}/>
@@ -111,6 +111,7 @@ class App extends Component {
                                 <Route exact path="/docpaylist">
                                     <DocPaymentList usernum={usernum} setpagename={this.setpagename}/>
                                 </Route>
+
                             </>
                         }
                     </Switch>

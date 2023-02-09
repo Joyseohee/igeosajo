@@ -52,10 +52,9 @@ class DocPaymentTable extends Component {
                     reqnum: this.state.items.reqnum
                 }),
             }).then(
-                // this.props.history.push({
-                //     pathname: "/docpaylist"
-                // })
-                document.location.assign("http://localhost:3000/docpaylist")
+                this.props.history.push({
+                    pathname: "/docpaylist"
+                })
             )
         }
 

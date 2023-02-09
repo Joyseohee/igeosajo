@@ -10,35 +10,9 @@ class DocPayment extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            items: [],
-            isLoaded: false,
-            reqnum: [],
-            words: "",
             outcomeState: null,
             docNum: 0
         };
-
-        this.printArr = this.printArr.bind(this);
-    }
-
-    async componentDidMount() {
-        fetch('http://127.0.0.1:8000/api/document?state=요청상세')
-            .then(response => response.json())
-            .then(response => this.setState({items: response, isLoaded: true}))
-            .then(response => this.setState({reqnum: this.state.items["reqnum"]}))
-            .then(response => this.printArr())
-    };
-
-    printArr() {
-        let word = "";
-
-        for (let i = 0; i < this.state.items["prodname"].length; i++) {
-            word += i + 1 + ". "
-            word += this.state.items["prodname"][i];
-            word += " -> " + this.state.items["prodcount"][i] + "개 \n";
-        }
-
-        this.setState({words: word})
     }
 
     reqSendClick = (e) => {
@@ -52,7 +26,7 @@ class DocPayment extends Component {
         if (e === 2) {
             // 확인 버튼 눌렀을 시
 
-            fetch('http://127.0.0.1:8000/api/document?docNum=' + this.state.reqnum[0].toString())
+            fetch('http://127.0.0.1:8000/api/document?docNum=' + this.props.reqnum[0].toString())
                 .then(response => response.json())
                 .then(response => {
                     this.props.history.push({
@@ -74,18 +48,10 @@ class DocPayment extends Component {
             this.reqSendClick(null)
             this.props.openModal(false)
 
-            // this.props.history.push({
-            //     pathname: '/docrequest'
-            // })
+            window.location.assign("http://localhost:3000/docrequest");
 
-            document.location.assign("http://localhost:3000/docrequest");
-
-        } else {
-            // 취소 버튼 누르고 다시 취소 버튼 눌렀을 시
-            // this.props.history.push({
-            //     pathname: '/docreqdetail'
-            // })
-
+        } else if(e === 0) {
+            console.log(123)
             this.reqSendClick(null)
             this.props.openModal(false)
         }
@@ -96,12 +62,9 @@ class DocPayment extends Component {
 
         let checkState = this.props.checkState
         let modalOpen = this.props.modalOpen
-
-
-        let {isLoaded} = this.state;
-        if (!isLoaded) {
-            return (<div>Loading...</div>);
-        }
+        let items = this.props.items
+        let reqnum = this.props.reqnum
+        let words = this.props.words
 
         return (
             <div className={"docPaymentTable"}>
@@ -121,16 +84,16 @@ class DocPayment extends Component {
                     </tr>
                     <tr>
                         <td>작성일자</td>
-                        <td>{this.state.items["wdate"]}</td>
+                        <td>{items["wdate"]}</td>
                     </tr>
 
                     <tr>
                         <td>상품명</td>
-                        <td>{this.state.words}</td>
+                        <td>{words}</td>
                     </tr>
                     <tr>
                         <td>금액 총합</td>
-                        <td>{this.state.items["sum"]}원</td>
+                        <td>{items["sum"]}원</td>
                     </tr>
                     </tbody>
                 </Table>

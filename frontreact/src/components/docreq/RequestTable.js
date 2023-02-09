@@ -12,18 +12,10 @@ class requestTable extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            items: [],
-            isLoaded: false,
             reqList: [],
             outcomeState: false
         }
     }
-
-    async componentDidMount() {
-        fetch('http://127.0.0.1:8000/api/request?reqstaging=처리전&reqstate=승인')
-            .then(response => response.json())
-            .then(response => this.setState({items: response, isLoaded: true}))
-    };
 
     reqSendClick = (e) => {
         this.props.reqSendClick(e)
@@ -81,31 +73,19 @@ class requestTable extends Component {
                     id: this.state.reqList
                 }),
             })
-            check = true;
-
-            if (check) {
-                fetch('http://127.0.0.1:8000/api/request?reqstaging=처리전&reqstate=승인')
-                    .then(response => response.json())
-                    .then(response => this.setState({items: response, isLoaded: true}))
-                check = false;
-            }
             this.reqSendClick(false)
             this.closeState();
 
             window.location.assign("http://localhost:3000/docreqdetail");
-        } else {
-            this.reqSendClick(false)
-            this.closeState();
         }
+        this.reqSendClick(false)
+        this.closeState();
+
     }
 
     render() {
         let modalOpen = this.props.modalOpen
-
-        let {isLoaded} = this.state;
-        if (!isLoaded) {
-            return (<div>Loading...</div>);
-        }
+        let items = this.props.items
 
         return (
             <div>
@@ -122,7 +102,7 @@ class requestTable extends Component {
                     </thead>
                     <tbody>
                     {
-                        this.state.items.map((list, idx) => {
+                        items.map((list, idx) => {
                             return (
                                 <tr key={list.reqnum}>
                                     <td>{idx + 1}</td>

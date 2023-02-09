@@ -1,11 +1,11 @@
 import React, {Component} from "react";
 import Goal from "../components/Goal";
-import CheckPeriod from "../components/userMainPage/CheckPeriod";
-import RequestStatus from "../components/userMainPage/RequestStatus";
+// import CheckPeriod from "../components/userMainPage/CheckPeriod";
+// import RequestStatus from "../components/userMainPage/RequestStatus";
 
 let now = new Date();
 
-class UserMain extends Component {
+class AdminMain extends Component {
     constructor(props) {
         super(props);
 
@@ -17,20 +17,13 @@ class UserMain extends Component {
     }
 
     async componentDidMount() {
-        let nowdate;
 
-        if ( String(now.getMonth() + 1).length === 1){
-            console.log("0" + String(now.getMonth() + 1))
-            nowdate = String(now.getFullYear()) + "0" + String(now.getMonth() + 1);
-        }else {
-            nowdate = String(now.getFullYear()) + String(now.getMonth() + 1);
-        }
+        let nowdate
 
         // 신청기간 조회
-        fetch('http://127.0.0.1:8000/api/reqterm/' + nowdate)
+        fetch('http://127.0.0.1:8000/api/reqterm/202302')
             .then(response => response.json())
             .then(response => {
-                console.log(response)
                 this.setState({items: response})
             })
 
@@ -54,14 +47,14 @@ class UserMain extends Component {
         return (
             <>
                 <Goal comment={now.getFullYear() + "년 " + (now.getMonth() + 1) + "월"}/>
-                <CheckPeriod items = {this.state.items}/>
-                <Goal comment={"신청 상태"}/>
-                <RequestStatus
-                    reqCount = {this.state.reqCount}
-                    reqBasket = {this.state.reqBasket}/>
+                {/*<CheckPeriod items = {this.state.items}/>*/}
+                {/*<Goal comment={"신청 상태"}/>*/}
+                {/*<RequestStatus*/}
+                {/*    reqCount = {this.state.reqCount}*/}
+                {/*    reqBasket = {this.state.reqBasket}/>*/}
             </>
         );
     }
 }
 
-export default UserMain;
+export default AdminMain;

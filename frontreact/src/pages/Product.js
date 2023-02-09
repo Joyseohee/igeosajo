@@ -5,6 +5,11 @@ import Counter from "../components/common/cartcount";
 import jwt_decode from "jwt-decode";
 import ProductDetail from "../components/product/ProductDetail";
 import ProductPost from "../components/product/ProductPost";
+import ConfirmModal from "../components/request/ConfirmModal";
+import PostCartToRequest from "../components/cart/PostCartToRequest";
+import PostCartModal from "../components/product/PostCartModal";
+import Search from "../components/product/Search";
+import ProductFilter from "../components/product/ProductFilter";
 
 //import parchase from "../../img/iconsparchase.png";
 
@@ -12,15 +17,14 @@ import ProductPost from "../components/product/ProductPost";
 class Product extends Component {
 
 
-    ref =React.createRef();
+    ref = React.createRef();
 
     constructor(props) {
         super(props);
         this.state = {
             items: [],
-            title: '',
-            body: '',
             count: 0,
+            prodname: '',
             data: {},
             productItemList2: [],
             productItemList: [],
@@ -28,10 +32,27 @@ class Product extends Component {
             prodnumList: [],
             prodnumList2: [],
             cartcountList: [],
-            posted: true
+            posted: false,
+            gocart: false,
+            modalInfo: [
+                {
+                    id: 1,
+                    type: 'confirm',
+                    text: "선택하신 물품을 장바구니에 담으시겠습니까?",
+                    path: ''
+
+                },
+                {
+                    id: 2,
+                    type: 'move',
+                    text: "장바구니에 담았습니다." +
+                        "장바구니로 이동하시겠습니까?",
+                    path: "/cart"
+                }
+            ]
         };
         this.checksend = this.checksend.bind(this);
-      //  this.componentDidUpdate = this.componentDidUpdate.bind(this);
+        //  this.componentDidUpdate = this.componentDidUpdate.bind(this);
         this.postcheck = this.postcheck.bind(this);
         this.getlist = this.getlist.bind(this)
         this.props.setpagename("상품목록");
@@ -63,14 +84,26 @@ class Product extends Component {
     async getlist() {
 
         const usernum = this.props.usernum;
-        this.setState({
-            usernum: usernum
-        })
+        const category1code = '' //this.props.category1code;
+        const category2code = '' // this.props.category2code;
+        const prodname = this.state.prodname;
+
+
         console.log("usernum" + usernum)
         console.log("usernum2:" + this.props.usernum)
 
         try {
-            const res = await fetch('http://127.0.0.1:8000/api/product');
+            let url = 'http://127.0.0.1:8000/api/product?';
+            if (category1code !== '') {
+                url += '&category1code=' + category1code
+            }
+            if (category2code !== '') {
+                url += '&category2code=' + category2code
+            }
+            if (prodname !== '') {
+                url += '&prodname=' + prodname
+            }
+            const res = await fetch(url);
             const items = await res.json();
 
             console.log(">>>items", items)
@@ -96,14 +129,26 @@ class Product extends Component {
     }
 
     postcheck = (posted) => {
-        console.log(posted)
-     if(posted === false){
-           console.log('postcheck')
-        this.ref.current.callcheck1(posted);
-     }
-      // })
 
+        const {productItemList} = this.state;
+        const newProductItemList = productItemList.map((item) => {
+
+            item.ccount = 0
+            this.ref.current.checkcleanall();
+
+            return item
+        })
+
+        this.setState({
+            productItemList: newProductItemList,
+            prodnumList: []
+        })
     }
+    // postmodal = (res) => {
+    //     this.setState({
+    //         posted: res
+    //     })
+    // }
 
     // getlist = () => {
     //
@@ -210,25 +255,77 @@ class Product extends Component {
 //         )
     //{data: "test"} 가 찍힙니다
 
+    handleIncrease = (prodnum) => {
+
+        const {productItemList} = this.state;
+        const newProductItemList = productItemList.map((item) => {
+            if (item.prodnum === prodnum) {
+                item.ccount = item.ccount + 1
+            }
+            return item
+        })
+
+        this.setState({
+            productItemList: newProductItemList
+        })
+    }
+    handleDecrease = (prodnum) => {
+
+        const {productItemList} = this.state;
+        const newProductItemList = productItemList.map((item) => {
+            if (item.prodnum === prodnum) {
+                if (item.ccount < 1) {
+                    item.ccount = 0
+                } else {
+                    item.ccount = item.ccount - 1
+                }
+            }
+            return item
+        })
+
+        this.setState({
+            productItemList: newProductItemList
+        })
+    }
+    // handleClose = () => {
+    //     const {showRejectModal, showApproveConfirmModal, showRejectConfirmModal} = this.state;
+    //
+    //    this.setState({
+    //        posted:false
+    //    })
+    // };
+    //
+    // handleConfirm = (reqstate) => {
+    //     this.handleClose();
+    // };
+
+    callbackSearch = (res) => {
+        this.setState({
+                prodname: res
+            },
+            () => this.getlist())
+    }
 
     render() {
         console.log("prodnumListrrrr: " + this.state.prodnumList)
 
         console.log("productItemList2rrr: " + this.state.productItemList2)
-
+        const posted = this.state.posted
         return (
             <div>
                 <div><a>상품목록 </a>
-                    <ProductPost productItemList2={this.state.productItemList2} prodnumList={this.state.prodnumList}
-                                 usernum={this.props.usernum} posted={this.state.posted}
-                                 postcheck={this.postcheck}/>
-                    {/*<ProductPost productItemList2={this.state.productItemList2} prodnumList={this.state.prodnumList}*/}
-                    {/*            usernum={this.props.usernum} posted={this.state.posted}*/}
-                    {/*            componentDidUpdate={this.componentDidUpdate}/>*/}
+                    <Search callbackSearch={this.callbackSearch}/> <ProductFilter/> <ProductPost postcheck={this.postcheck}
+                                                                                productItemList={this.state.productItemList}
+                                                                                prodnumList={this.state.prodnumList}
+                                                                                usernum={this.props.usernum}
+                                                                                modalInfo={this.state.modalInfo}/>
 
                 </div>
                 <ProductDetail productItemList={this.state.productItemList} func1={this.checksend}
-                               func2={this.cartsend} ref={this.ref}/>
+                               ref={this.ref}
+                               callback1={{handleIncrease: this.handleIncrease}}
+                               callback2={{handleDecrease: this.handleDecrease}}
+                />
 
             </div>
         );
