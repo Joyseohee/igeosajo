@@ -7,6 +7,7 @@ import SelectReqterm from "../components/request/SelectReqterm";
 import ConfirmModal from "../components/request/ConfirmModal";
 import "../styled/Request.css";
 import Goal from "../components/Goal";
+import reqtermList from "../components/reqterm/ReqtermList";
 
 class Request extends Component {
     constructor(props) {
@@ -23,18 +24,22 @@ class Request extends Component {
             showApproveConfirmModal: false,
             showRejectConfirmModal: false,
             reqRejectReason: null,
+            available: 0,
         }
     }
+
 
     componentDidMount() {
         this.props.setpagename("사무용품 신청 관리");
         let reqtermList = [];
-        new Api().read("reqterm", {usernum: this.props.usernum}, null)
+        let available = null;
+        new Api().read("reqterm", {usernum: this.props.user.usernum}, null)
             .then((response) => {
                 return response.json();
             })
             .then((response) => {
                 reqtermList = response;
+                available = response.filter(term => term.termyearmonth === response[0].termyearmonth)[0].termavailable;
                 return new Api().read("request", {termyearmonth: response[0].termyearmonth}, null);
             })
             .then((response) => {
@@ -46,7 +51,9 @@ class Request extends Component {
                     reqtermList: reqtermList,
                     requestFilteredList: response,
                     selectedReqterm: reqtermList[0].termyearmonth,
+                    available: available,
                 })
+                console.log(available);
             })
             .catch(error => console.error(error));
     }
@@ -115,6 +122,10 @@ class Request extends Component {
     };
 
     handleSelect = (e) => {
+        let available = this.state.reqtermList.filter(term => term.termyearmonth === this.state.selectedReqterm)
+        available = available.length > 0 ? available[0].termavailable : 0;
+        console.log(this.state.selectedReqterm);
+
         const termyearmonth = e.target.value;
         new Api().read("request", {termyearmonth: termyearmonth}, null)
             .then((response) => {
@@ -126,6 +137,7 @@ class Request extends Component {
                 selectedReqterm: termyearmonth,
                 filter: '전체',
                 reqRejectReason: null,
+                available:available,
             });
         })
     };
@@ -162,15 +174,14 @@ class Request extends Component {
             showRejectModal,
             showApproveConfirmModal,
             showRejectConfirmModal,
-            checkedAll
+            checkedAll,
+            available
         } = this.state;
 
         const showConfirmModal = showRejectModal ? showRejectModal : showApproveConfirmModal ? showApproveConfirmModal : showRejectConfirmModal ? showRejectConfirmModal : false;
         const modalType = showRejectModal ? "반려확인" : showApproveConfirmModal ? "신청" : showRejectConfirmModal ? "반려" : null;
         const modalMessage = showRejectModal ? "반려 사유를 입력해주세요." : showApproveConfirmModal ? "신청을 승인하시겠습니까?" : showRejectConfirmModal ? "신청을 반려하시겠습니까?" : null;
         const confirmText = showApproveConfirmModal ? "승인" : showRejectConfirmModal || showRejectModal ? "반려" : null;
-
-        console.log(requestList[0] === 'requestList');
 
         return (<div className="page-top request-wrapper">
             <Goal comment={"신청 관리"}/>
@@ -180,7 +191,7 @@ class Request extends Component {
                 {requestList[0] !== 'requestList' &&
                     <ReqFilter selectedFilter={filter} requestList={requestList} setReqState={this.setReqState}
                                selectedReqterm={selectedReqterm}/>}
-                {filter === '대기' && <>
+                {(filter === '대기' &&  available === 1)&& <>
                     <Button onClick={this.approve}>승인</Button>
                     <Button onClick={this.reject}>반려</Button>
                 </>}
