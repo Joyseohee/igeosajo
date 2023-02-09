@@ -12,13 +12,8 @@ class DocPaymentTable extends Component {
         this.state = {
             items: [],
             isLoaded: false,
-            words: "",
-            modalopen: false
+            words: ""
         };
-
-        this.printArr = this.printArr.bind(this);
-        this.changeModalState = this.changeModalState.bind(this);
-        this.outcomeState = this.outcomeState.bind(this);
     }
 
     async componentDidMount() {
@@ -28,7 +23,7 @@ class DocPaymentTable extends Component {
             .then(response => this.printArr())
     };
 
-    printArr() {
+    printArr = () => {
 
         let word = "";
 
@@ -41,23 +36,11 @@ class DocPaymentTable extends Component {
         this.setState({words: word})
     }
 
-
-    componentDidUpdate(prevProps) {
-        if (prevProps.reqSend !== this.props.reqSend && this.props.reqSend) {
-            this.reqSendClick(false)
-            this.setState({modalopen: true})
-        }
-    }
-
     reqSendClick = (e) => {
         this.props.reqSendClick(e)
     }
 
-    changeModalState() {
-        this.setState({modalopen: false})
-    }
-
-    outcomeState(e) {
+    outcomeState = (e) => {
         if (e === 1) {
 
             fetch("http://127.0.0.1:8000/api/document?docDetail=" + this.props.location.document.detailDocNum.toString(), {
@@ -69,12 +52,19 @@ class DocPaymentTable extends Component {
                     reqnum: this.state.items.reqnum
                 }),
             }).then(
-                this.props.history.push("/docpaylist")
+                this.props.history.push({
+                    pathname: "/docpaylist"
+                })
             )
         }
+
+        this.reqSendClick(false)
+        this.props.openModal(false)
     }
 
     render() {
+        let modalOpen = this.props.modalOpen
+
 
         let {isLoaded} = this.state;
         if (!isLoaded) {
@@ -126,8 +116,8 @@ class DocPaymentTable extends Component {
                     </tbody>
                 </Table>
 
-                <Modal1 open={this.state.modalopen} ment={"상신을 취소하면 되돌릴 수 없습니다. 취소 하시겠습니까?"}
-                        changeModalState={this.changeModalState}
+                <Modal1 open={modalOpen} ment={"상신을 취소하면 되돌릴 수 없습니다. 취소 하시겠습니까?"}
+
                         outcomeState={this.outcomeState}
                         modalKind={true}></Modal1>
 

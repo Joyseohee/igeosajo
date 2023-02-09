@@ -10,78 +10,23 @@ class DocPayment extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            items: [],
-            isLoaded: false,
-            reqnum: [],
-            words: "",
-            reqSend: false,
-            checkState: null,
             outcomeState: null,
-            modalopen: false,
             docNum: 0
         };
-
-        this.printArr = this.printArr.bind(this);
-    }
-
-    async componentDidMount() {
-        fetch('http://127.0.0.1:8000/api/document?state=요청상세')
-            .then(response => response.json())
-            .then(response => this.setState({items: response, isLoaded: true}))
-            .then(response => this.setState({reqnum: this.state.items["reqnum"]}))
-            .then(response => this.printArr())
-    };
-
-    printArr() {
-        let word = "";
-
-        for (let i = 0; i < this.state.items["prodname"].length; i++) {
-            word += i + 1 + ". "
-            word += this.state.items["prodname"][i];
-            word += " -> " + this.state.items["prodcount"][i] + "개 \n";
-        }
-
-        this.setState({words: word})
-    }
-
-    async componentDidUpdate(prevProps) {
-        if (this.props.reqSend) {
-            this.changeCheckState(true)
-            this.reqSendClick(null)
-            this.openState();
-            // this.props.reqSend 여거 상태 다시 변경 해줘야 해
-        } else if (this.props.reqSend === false) {
-            this.changeCheckState(false)
-            this.reqSendClick(null)
-            this.openState();
-        }
-    }
-
-    changeCheckState = (e) => {
-        this.setState({checkState: e})
     }
 
     reqSendClick = (e) => {
         this.setState({reqSend: e});
     }
 
-    openState = () => {
-        this.setState({modalopen: true});
-    }
-
-    changeModalState = (e) => {
-        this.setState({modalopen: false})
-    }
-
     outcomeState = (e) => {
 
         this.setState({outcomeState: e})
-        this.changeCheckState(null)
 
         if (e === 2) {
             // 확인 버튼 눌렀을 시
 
-            fetch('http://127.0.0.1:8000/api/document?docNum=' + this.state.reqnum[0].toString())
+            fetch('http://127.0.0.1:8000/api/document?docNum=' + this.props.reqnum[0].toString())
                 .then(response => response.json())
                 .then(response => {
                     this.props.history.push({
@@ -91,32 +36,35 @@ class DocPayment extends Component {
                 }
             )
 
+            this.reqSendClick(null)
+            this.props.openModal(false)
+
         } else if (e === 1) {
             // 취소 버튼 누른 후 확인 눌렀을 시
             fetch("http://127.0.0.1:8000/api/document", {
                 method: "DELETE",
             })
 
-            this.props.history.push({
-                pathname: '/docrequest'
-            })
-        } else {
-            // 취소 버튼 누르고 다시 취소 버튼 눌렀을 시
-            // this.props.history.push({
-            //     pathname: '/docreqdetail'
-            // })
+            this.reqSendClick(null)
+            this.props.openModal(false)
 
-            window.location.reload();
+            window.location.assign("http://localhost:3000/docrequest");
+
+        } else if(e === 0) {
+            console.log(123)
+            this.reqSendClick(null)
+            this.props.openModal(false)
         }
 
     }
 
     render() {
 
-        let {isLoaded} = this.state;
-        if (!isLoaded) {
-            return (<div>Loading...</div>);
-        }
+        let checkState = this.props.checkState
+        let modalOpen = this.props.modalOpen
+        let items = this.props.items
+        let reqnum = this.props.reqnum
+        let words = this.props.words
 
         return (
             <div className={"docPaymentTable"}>
@@ -136,28 +84,26 @@ class DocPayment extends Component {
                     </tr>
                     <tr>
                         <td>작성일자</td>
-                        <td>{this.state.items["wdate"]}</td>
+                        <td>{items["wdate"]}</td>
                     </tr>
 
                     <tr>
                         <td>상품명</td>
-                        <td>{this.state.words}</td>
+                        <td>{words}</td>
                     </tr>
                     <tr>
                         <td>금액 총합</td>
-                        <td>{this.state.items["sum"]}원</td>
+                        <td>{items["sum"]}원</td>
                     </tr>
                     </tbody>
                 </Table>
 
                 {
-                    this.state.checkState
-                        ? <Modal1 open={this.state.modalopen} ment={"결재신청이 완료 되었습니다."}
-                                  changeModalState={this.changeModalState}
+                    checkState
+                        ? <Modal1 open={modalOpen} ment={"결재신청이 완료 되었습니다."}
                                   outcomeState={this.outcomeState}
                                   modalKind={false}></Modal1>
-                        : <Modal1 open={this.state.modalopen} ment={"취소 하시겠습니까?"}
-                                  changeModalState={this.changeModalState}
+                        : <Modal1 open={modalOpen} ment={"취소 하시겠습니까?"}
                                   outcomeState={this.outcomeState}
                                   modalKind={true}></Modal1>
                 }

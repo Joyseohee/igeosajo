@@ -9,14 +9,25 @@ class DocPaymentDetail extends Component {
         super(props);
         this.props.setpagename("전자 결재");
         this.state = {
-            reqSend: false
+            reqSend: false,
+            modalOpen: false
         };
-        this.reqSendClick = this.reqSendClick.bind(this);
     }
 
-    reqSendClick(e){
+    reqSendClick = (e) => {
         this.setState({reqSend: e});
+
+        this.openModal(e);
     }
+
+    openModal = (e) =>{
+        if(e){
+            this.setState({modalOpen: true});
+        }else{
+            this.setState({modalOpen: false});
+        }
+    }
+
 
     render() {
         return (
@@ -25,7 +36,11 @@ class DocPaymentDetail extends Component {
                     <div>
                         <div className={"commentDiv"}>
                             <Goal comment={"결재 문서"}/>
-                            <DocPaymentTable reqSend={this.state.reqSend} reqSendClick={this.reqSendClick}/>
+                            <DocPaymentTable
+                                reqSend={this.state.reqSend}
+                                reqSendClick={this.reqSendClick}
+                                modalOpen={this.state.modalOpen}
+                                openModal={this.openModal}/>
                             <DocPaymentDetailBtn reqSend={this.state.reqSend} reqSendClick={this.reqSendClick}/>
                         </div>
                     </div>

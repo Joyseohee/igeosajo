@@ -12,14 +12,31 @@ class DocRequest extends Component {
         super(props);
         this.props.setpagename("전자 결재");
         this.state = {
-            reqSend: false
+            reqSend: false,
+            modalOpen: false,
+            items: []
         };
     }
 
+    async componentDidMount() {
+        fetch('http://127.0.0.1:8000/api/request?reqstaging=처리전&reqstate=승인')
+            .then(response => response.json())
+            .then(response => this.setState({items: response}))
+    };
+
     reqSendClick = (fromChild) => {
-        console.log(fromChild, "DocRequest");
 
         this.setState({reqSend: fromChild});
+
+        this.openModal(fromChild);
+    }
+
+    openModal = (fromChild) =>{
+        if(fromChild){
+            this.setState({modalOpen: true});
+        }else{
+            this.setState({modalOpen: false});
+        }
     }
 
     render() {
@@ -35,7 +52,12 @@ class DocRequest extends Component {
                                                      reqSendClick={this.reqSendClick}
                                                      btnMent={"전자 결재 작성"}/></span>
                         </div>
-                        <RequestTable reqSend={this.state.reqSend} reqSendClick={this.reqSendClick}/>
+                        <RequestTable
+                            reqSend={this.state.reqSend}
+                            reqSendClick={this.reqSendClick}
+                            modalOpen={this.state.modalOpen}
+                            openModal={this.openModal}
+                            items = {this.state.items}/>
                     </div>
                 </div>
             </div>

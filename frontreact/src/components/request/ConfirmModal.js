@@ -1,31 +1,53 @@
 import React, {Component} from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
+import {Form} from "react-bootstrap";
 
 class ConfirmModal extends Component {
     constructor(props) {
         super(props);
     }
-    handleConfirm(e){
-        console.log(e.target.value);
+
+    handleConfirm(e) {
         this.props.handleConfirm(e.target.value);
     }
 
     render() {
-        const text = this.props.text;
-        const confirm = this.props.confirm;
+        const {show, text, confirm, modalType} = this.props;
+        const confirmButton = text === "반려확인" ? "반려" : confirm;
+
         return (
             <>
                 <Modal
-                    show={this.props.show}
+                    show={show}
                     onHide={this.props.handleClose}
                     backdrop="static"
                     keyboard={false}
                 >
-                    <Modal.Body>{text}</Modal.Body>
+                    {modalType === "반려확인" ?
+                        <>
+                            <Modal.Header closeButton>
+                                <Modal.Title>반려 사유</Modal.Title>
+                            </Modal.Header>
+                            <Modal.Body>
+                                <Form>
+                                    <Form.Group className="mb-3">
+                                        <Form.Control as="textarea" rows={3}
+                                                      onBlur={(e) => this.props.setReqRejectReason(e)}
+                                                      placeholder={text}
+                                                      autoFocus/>
+                                    </Form.Group>
+                                </Form>
+                            </Modal.Body>
+                        </>
+                        :
+                        <Modal.Body>{text}</Modal.Body>
+                    }
                     <Modal.Footer>
                         <Button variant="secondary" onClick={this.props.handleClose}>취소</Button>
-                        <Button variant="primary" value={confirm} onClick={(e) => {this.handleConfirm(e)}}>{confirm}</Button>
+                        <Button variant="primary" value={confirm} onClick={(e) => {
+                            this.handleConfirm(e)
+                        }}>{confirmButton}</Button>
                     </Modal.Footer>
                 </Modal>
             </>
