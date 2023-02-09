@@ -15,10 +15,11 @@ class ProductDetail extends Component {
                 id: 0,
                 count: 0
             }],
-            prodnumList: []
+            prodnumList: [],
+            data2: 1
         }
         ;
-        this.cartcount = this.cartcount.bind(this);
+        // this.cartcount = this.cartcount.bind(this);
         this.choiceAll = this.choiceAll.bind(this);
         this.choiceUnit = this.choiceUnit.bind(this);
     }
@@ -45,7 +46,7 @@ class ProductDetail extends Component {
                 })
             }
         })
-        this.props.func1(prodnumList)
+        this.props.func1(this.state.prodnumList)
         console.log(prodnumList);
     }
 
@@ -90,58 +91,88 @@ class ProductDetail extends Component {
         this.props.func1(this.state.prodnumList);
     }
 
-    cartcount = (res, res2) => {
-        var {productItemList2} = this.state;
-        console.log("cartfunc")
-        console.log("count:" + res)
-        console.log("prodnum:" + res2)
-        console.log("빼기전")
-
-        console.log("state1:" + JSON.stringify(this.state.productItemList2))
-        var productItemList3 = productItemList2.filter((productItemList2) => productItemList2.id !== res2);
-
-        productItemList3.push({
-            id: res2,
-            count: res,
-        });
-        console.log("뺸후")
-        console.log(productItemList3)
-
-
-        this.setState((prevState) => ({
-            productItemList2: productItemList3
-        }), () => {
-            console.log("state2:" + JSON.stringify(this.state.productItemList2));
-            this.props.func2(this.state.productItemList2);
-        });
-
-        console.log("뺸후")
-        console.log(productItemList3)
-
-        console.log("더한후")
-        console.log(productItemList3[res2])
-        console.log(productItemList3)
-
-        console.log("state2:" + JSON.stringify(this.state.productItemList2))
-        // return {
-        //     productItemList2
-
-
-        //
+    checkcleanall = () => {
+        let prodnumList = this.state.prodnumList
+        const checkboxes = document.getElementsByName('select');
+        const checkall = document.getElementsByName('selectAll');
+        checkboxes.forEach((checkbox) => {
+            checkbox.checked = false;
+        })
+          checkall.forEach((state)=>{state.checked = false})
+        prodnumList = [];
+            this.setState({
+                prodnumList: prodnumList
+            })
     }
 
-    callcheck1 = (posted) => {
-        console.log('callcheck1')
-        console.log(posted)
-        if (posted === false) {
-            console.log('callcheck1 들어왔음')
-            this.ref.current.countReset();
-        }
-        // })
+    // cartcount = (res, res2) => {
+    //     var {productItemList2} = this.state;
+    //     console.log("cartfunc")
+    //     console.log("count:" + res)
+    //     console.log("prodnum:" + res2)
+    //     console.log("빼기전")
+    //
+    //     console.log("state1:" + JSON.stringify(this.state.productItemList2))
+    //     var productItemList3 = productItemList2.filter((productItemList2) => productItemList2.id !== res2);
+    //
+    //     productItemList3.push({
+    //         id: res2,
+    //         count: res,
+    //     });
+    //     console.log("뺸후")
+    //     console.log(productItemList3)
+    //
+    //
+    //     this.setState((prevState) => ({
+    //         productItemList2: productItemList3
+    //     }), () => {
+    //         console.log("state2:" + JSON.stringify(this.state.productItemList2));
+    //         this.props.func2(this.state.productItemList2);
+    //     });
+    //
+    //     console.log("뺸후")
+    //     console.log(productItemList3)
+    //
+    //     console.log("더한후")
+    //     console.log(productItemList3[res2])
+    //     console.log(productItemList3)
+    //
+    //     console.log("state2:" + JSON.stringify(this.state.productItemList2))
+    //     // return {
+    //     //     productItemList2
+    //
+    //
+    //     //
+    // }
 
-    }
+    // callcheck1 = (posted) => {
+    //     console.log('callcheck1')
+    //     console.log(posted)
+    //
+    //
+    //     const cartcount = document.getElementsByName('counter');
+    //     cartcount.forEach((state) => {state.checked = false})
+    //     if (posted === false) {
+    //        this.setState({
+    //            data2:0
+    //        })
+    //           this.ref.current.countReset();
+    //     }
+    //     // })
+    //
+    // }
+
+    // checkclear(state) {
+    //
+    //     const count = document.getElementsByName('counter');
+    //     count.forEach((state) => {
+    //         state.data2 = 0
+    //     })
+    // }
+
 
     render() {
+        const data2 = this.state.data2
         let list = this.props.productItemList.map((list, idx) => (
 
             <tbody>
@@ -156,8 +187,17 @@ class ProductDetail extends Component {
                 <td>{list.prodnum}</td>
                 <td><img src={list.prodimg}/></td>
                 <td>{list.prodprice}</td>
-                <td><Counter func={this.cartcount}
-                             data={list.prodnum} ref={this.ref}></Counter>
+                <td>
+                    <Counter name="counter"
+                             func={this.cartcount}
+                             data={list.prodnum}
+                             count={list.ccount}
+                             prodnum={list.prodnum}
+
+
+                             callback1={this.props.callback1}
+                             callback2={this.props.callback2}
+                    />
                 </td>
             </tr>
 

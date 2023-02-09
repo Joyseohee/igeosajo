@@ -154,7 +154,15 @@ class Request extends Component {
 
 
     render() {
-        const {reqtermList, filter, pickedReqterm, checkedRequest, showRejectModal, showApproveConfirmModal, showRejectConfirmModal} = this.state;
+        const {
+            reqtermList,
+            filter,
+            pickedReqterm,
+            checkedRequest,
+            showRejectModal,
+            showApproveConfirmModal,
+            showRejectConfirmModal
+        } = this.state;
         const usernum = this.props.usernum;
         const requestList = this.state.filter !== null ? this.state.requestFileteredList : this.state.requestList;
 
@@ -167,8 +175,8 @@ class Request extends Component {
                         <SelectReqterm handleSelect={this.handleSelect} reqtermList={reqtermList}/>}
                 </div>
                 <ReqFilter setReqState={this.setReqState} requestList={this.state.requestList}/>
-                {filter==='대기' && <Button onClick={this.approve}>승인</Button>}
-                {filter==='대기' && <Button onClick={this.reject}>반려</Button>}
+                {filter === '대기' && <Button onClick={this.approve}>승인</Button>}
+                {filter === '대기' && <Button onClick={this.reject}>반려</Button>}
                 <ReqList storeChecked={this.storeChecked}
                          termyearmonth={pickedReqterm}
                          requestList={requestList}

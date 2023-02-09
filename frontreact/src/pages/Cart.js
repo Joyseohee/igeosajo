@@ -4,84 +4,71 @@ import Form from 'react-bootstrap/Form';
 import Table from "react-bootstrap/Table";
 import Counter from '../components/common/cartcount';
 import jwt_decode from "jwt-decode";
+import DeleteCart from "../components/cart/DeleteCart";
+import PostCartToRequest from "../components/cart/PostCartToRequest";
+import ProductDetail from "../components/product/ProductDetail";
+import CartDetail from "../components/cart/CartDetail";
 
 
 class Cart extends Component {
+    ref = React.createRef();
+
     constructor(props) {
         super(props);
         this.state = {
             items: [],
             select: "False",
-            usernum: '',
+            posted: false,
             prodnumList: [],
             reqpriceList: [],
             reqcountList: [],
             prodnum2: [],
+            modalInfo: [
+                {
+                    id: 1,
+                    type: 'confirm',
+                    text: "선택하신 항목을 신청하시겠습니까?",
+                    path: ''
+
+                },
+                {
+                    id: 2,
+                    type: 'move',
+                    text: "신청 내역을 확인하시겠습니까?",
+                    path: "/requestuser"
+                },
+                {
+                    id: 3,
+                    type: 'confirm',
+                    text: "선택하신 항목을 장바구니에서 삭제하시겠습니까??",
+                    path: ""
+                }
+            ],
         };
 
-        this.handleClick2 = this.handleClick2.bind(this);
-        this.handleClick = this.handleClick.bind(this);
-        this.choiceAll = this.choiceAll.bind(this);
-         this.choiceAll2 = this.choiceAll2.bind(this);
-        this.choiceUnit = this.choiceUnit.bind(this);
-        this.choiceUnit2 = this.choiceUnit2.bind(this);
+        // this.handleClick2 = this.handleClick2.bind(this);
+        // this.handleClick = this.handleClick.bind(this);
+        // this.choiceAll = this.choiceAll.bind(this);
+        this.getlist = this.getlist.bind(this);
+        // this.choiceAll2 = this.choiceAll2.bind(this);
+        // this.choiceUnit = this.choiceUnit.bind(this);
+        // this.choiceUnit2 = this.choiceUnit2.bind(this);
 
         this.props.setpagename("장바구니");
     }
 
 
-    //delete
-    async handleClick() {
-        const prodnum = this.state.prodnum2;
-        //'5' + '1'
-        console.log(prodnum)
-        console.log(this.state.usernum)
-        const response = await fetch('http://127.0.0.1:8000/api/cart?usernum=' + this.state.usernum + '&prodnum=' + prodnum, {
-            method: 'DELETE'
-        });
-        // const body = await response.json();
-
-        console.log('this is:', this);
-    }
-
-
-    //post
-    handleClick2() {
-
-        const termyearmonth = 202301
-        const prodnumList = this.state.prodnumList;
-        const reqcountList = this.state.reqcountList;
-        const reqpriceList = this.state.reqpriceList;
-
-        const response = fetch('http://127.0.0.1:8000/api/request', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            // body: JSON.stringify(prodnumList)
-
-            body: JSON.stringify({
-                "prodnum": prodnumList,
-                "usernum": this.state.usernum,
-                "reqcount": reqcountList,
-                "reqprice": reqpriceList,
-                "termyearmonth": termyearmonth
-
-            })
-
-        })
-        console.log('this is:', this);
-    }
-
     //get
     async componentDidMount() {
+        this.getlist();
 
-        const token = localStorage.getItem('secretcode');
-        const decoded = jwt_decode(token);
-        const usernum = decoded.usernum;
-        this.setState({
-            usernum: usernum
-        })
+
+    }
+
+    async getlist() {
+
+        const usernum = this.props.usernum;
+
 
         try {
             console.log('dsd');
@@ -89,148 +76,64 @@ class Cart extends Component {
             const res = await fetch('http://127.0.0.1:8000/api/cart?usernum=' + usernum);
 
             const items = await res.json();
-            this.setState({
+            await this.setState({
                 items
             });
-
+            console.log(items)
+            console.log('getlist')
         } catch (e) {
             console.log(e);
             console.log('dsd');
         }
     }
 
-    choiceAll() {
-        let prodnumList = [];
-        let reqcountList = [];
-        let reqpriceList = [];
-
-        const checkboxes = document.getElementsByName('select1');
-        let selectAll = document.getElementsByName('selectAll1');
-
-        console.log("=========================")
-        console.log(checkboxes)
-        console.log(selectAll)
-        console.log("=========================")
-
-        checkboxes.forEach((checkbox) => {
-            checkbox.checked = selectAll[0].checked;
-            console.log("=========================")
-            console.log(checkbox.value)
-            if (selectAll[0].checked) {
-
-                console.log("여기왔니")
-                var valSplit = checkbox.value.split(',');
-                console.log("prdnum:" + valSplit[0]);
-                console.log("cartcount:" + valSplit[1]);
-                console.log("prdprice:" + valSplit[2]);
-
-
-                prodnumList.push(parseInt(valSplit[0]));
-                reqcountList.push(parseInt(valSplit[1]));
-                reqpriceList.push(parseInt(valSplit[2]) * parseInt(valSplit[1]));
-
-
-                // reqcountList.push(parseInt(valSplit[1]));
-                // reqpriceList.push(parseInt(valSplit[2]) * parseInt(valSplit[1]));
-            }
-        })
+    //선택
+    checksend1 = (res1, res2, res3) => {
+        // var {prodnumList} = this.state;
+        console.log("checksend:" + res1)
 
         this.setState({
-            prodnumList : prodnumList,
-            reqcountList: reqcountList,
-            reqpriceList: reqpriceList
+            prodnumList: res1,
+            reqcountList: res2,
+            reqpriceList: res3,
 
         })
-        console.log("=========================")
-        console.log(prodnumList);
-        console.log(reqcountList);
-        console.log(reqpriceList);
+        // console.log("prodnumList: " + prodnumList)
+        console.log("prodnumList: " + this.state.prodnumList)
+        console.log("reqpriceList: " + this.state.reqpriceList)
+        console.log("reqpriceList: " + this.state.reqpriceList)
+
     }
 
-    choiceAll2() {
-        let prodnum2 = [];
+    //삭제
+    checksend2 = (res) => {
+        // var {prodnumList} = this.state;
+        console.log("checksend:" + res)
 
-        const checkboxes = document.getElementsByName('select2');
-        let selectAll = document.getElementsByName('selectAll2');
-
-        console.log("=========================")
-        console.log(checkboxes)
-        console.log(selectAll)
-        console.log("=========================")
-
-        checkboxes.forEach((checkbox) => {
-            checkbox.checked = selectAll[0].checked;
-            console.log("=========================")
-            console.log(checkbox.value)
-            if (selectAll[0].checked) {
-
-                console.log("여기왔니2")
-                var valSplit = checkbox.value.split(',');
-                console.log("prdnum:" + checkbox.value);
-
-                prodnum2.push(parseInt(checkbox.value));
-            }
-        })
         this.setState({
-            prodnum2 : prodnum2
+            prodnum2: res
         })
-        console.log("=========================")
-        console.log(prodnum2);
+        // console.log("prodnumList: " + prodnumList)
+        console.log("prodnumList: " + this.state.prodnum2)
 
     }
-    choiceUnit(check, val) {
-        const prodnumList = this.state.prodnumList;
-        const reqcountList = this.state.reqcountList;
-        const reqpriceList = this.state.reqpriceList;
 
-
-        if (check) {
-            var valSplit = val.split(',');
-            console.log("prdnum:" + valSplit[0]);
-            console.log("cartcount:" + valSplit[1]);
-            console.log("prdprice:" + valSplit[2]);
-
-
-            prodnumList.push(parseInt(valSplit[0]));
-            reqcountList.push(parseInt(valSplit[1]));
-            reqpriceList.push(parseInt(valSplit[2]) * parseInt(valSplit[1]));
-
-        } else {
-            for (let i = 0; i < prodnumList.length; i++) {
-                if (prodnumList[i] == val) {
-                    prodnumList.splice(i, 1);
-                    reqcountList.splice(i, 1);
-                    reqpriceList.splice(i, 1);
-                    break;
-                }
-            }
-            console.log(prodnumList);
-            console.log(reqcountList);
-            console.log(reqpriceList);
-
-        }
-    }
-
-    choiceUnit2(check, val) {
-        const prodnum2 = this.state.prodnum2;
-
-
-        if (check) {
-
-            console.log("prdnum:" + val);
-            prodnum2.push(val);
-
-        } else {
-            for (let i = 0; i < prodnum2.length; i++) {
-                if (prodnum2[i] == val) {
-                    prodnum2.splice(i, 1);
-
-                    break;
-                }
-            }
-        }
-        console.log(prodnum2);
-
+    postcheck = () => {
+        this.getlist();
+        this.ref.current.checkcleanall();
+        this.setState({
+            prodnumList: [],
+            reqcountList: [],
+            reqpriceList: [],
+            prodnum2: []
+        })
+        // console.log('postcheck')
+        //
+        // this.setState({
+        //     posted: true
+        // }, () => {
+        //     this.getlist();
+        // });
 
     }
 
@@ -266,29 +169,18 @@ class Cart extends Component {
         return (
             <div>
                 <div><a>장바구니 </a>
-                    <button className="btn btn-primary" onClick={this.handleClick2}>승인신청</button>
-                    <button onClick={(e) => {
-                        this.handleClick(this.state.usernum, this.state.prodnum2)
-                    }}>삭제
-                    </button>
+                    {/*<button className="btn btn-primary" onClick={this.handleClick2}>승인신청</button>*/}
+                    <PostCartToRequest postcheck={this.postcheck} usernum={this.props.usernum}
+                                       prodnumList={this.state.prodnumList}
+                                       reqcountList={this.state.reqcountList} reqpriceList={this.state.reqpriceList}
+                                       posted={this.state.posted} modalInfo={this.state.modalInfo}/>
+                    <DeleteCart usernum={this.props.usernum} prodnum2={this.state.prodnum2} postcheck={this.postcheck}
+                                modalInfo={this.state.modalInfo}/>
                 </div>
-                <Table striped>
-                    <thead>
-                    <tr>
-                        <th>No</th>
-                        <th>삭제<Form.Check aria-label="option 1" name={"selectAll2"} onClick={this.choiceAll2}/></th>
-                        <th>이미지</th>
-                        <th>상품명</th>
-                        <th>가격</th>
-                        <th>수량</th>
-                        <th>상품코드</th>
-                        <th>선택<Form.Check aria-label="option 1" name={"selectAll1"} onClick={this.choiceAll}/></th>
-                    </tr>
-                    </thead>
-                    {list}
-                </Table>
-
-
+                <CartDetail items={this.state.items} func1={this.checksend1}
+                            func2={this.checksend2}
+                            ref={this.ref}
+                />
             </div>
         );
     }

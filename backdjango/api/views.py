@@ -258,23 +258,25 @@ def post_cart(self):
     cursor = connection.cursor()
 
     for num, count in zip(prodnum, cartcount):
-        query = 'select usernum, prodnum, cartcount from cart where usernum= ' + str(usernum) + ' and prodnum =' + str(
-            num)
-        cursor.execute(query)
-        data = dictfetchall(cursor)
+        
+        if count !=0: 
+            query = 'select usernum, prodnum, cartcount from cart where usernum= ' + str(usernum) + ' and prodnum =' + str(
+                num)
+            cursor.execute(query)
+            data = dictfetchall(cursor)
 
-        if data:
-            print(data[0].get('cartcount'))
-            cartcountprev = data[0].get('cartcount')
-            count += cartcountprev
-            print(count)
-            query = 'update cart set cartcount=' + str(count) + ' where prodnum = ' + str(num) + 'and usernum = ' + str(
-                usernum)
-            cursor.execute(query)
-        else:
-            query = 'insert into cart (usernum, prodnum, cartcount) values (' + str(usernum) + ', ' + str(
-                num) + ', ' + str(count) + ')'
-            cursor.execute(query)
+            if data:
+                print(data[0].get('cartcount'))
+                cartcountprev = data[0].get('cartcount')
+                count += cartcountprev
+                print(count)
+                query = 'update cart set cartcount=' + str(count) + ' where prodnum = ' + str(num) + 'and usernum = ' + str(
+                    usernum)
+                cursor.execute(query)
+            else:
+                query = 'insert into cart (usernum, prodnum, cartcount) values (' + str(usernum) + ', ' + str(
+                    num) + ', ' + str(count) + ')'
+                cursor.execute(query)
     response = HttpResponse("성공")
     return response
 
@@ -378,6 +380,11 @@ def post_request(self):
                 + str(price) + ',' + str(usernum) + ' , ' + str(termyearmonth) + ')'
 
         cursor.execute(query)
+
+        query = 'DELETE FROM cart WHERE usernum=' + str(usernum) + ' and prodnum=' + str(num)
+        cursor.execute(query)
+
+
 
     response = HttpResponse("성공")
     return response
@@ -1020,4 +1027,21 @@ def reqterm_update_query(self, pk):
     cursor.execute(query, val)
     response = HttpResponse("성공")
 
+    return response
+
+
+def get_category1(self):
+    cursor = connection.cursor()
+    query = 'SELECT * FROM CATEGORY1'
+    cursor.execute(query)
+    data = dictfetchall(cursor)
+    response = JsonResponse(data, safe=False)
+    return response
+
+def get_category2(self):
+    cursor = connection.cursor()
+    query = 'SELECT * FROM CATEGORY2'
+    cursor.execute(query)
+    data = dictfetchall(cursor)
+    response = JsonResponse(data, safe=False)
     return response
