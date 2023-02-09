@@ -1,25 +1,36 @@
 import React, {Component} from "react";
 import "../../styled/Reqterm.css"
-import {Form, Button} from "react-bootstrap";
 import ReqtermFix from "./ReqtermFix";
 import ReqtermSet from "./ReqtermSet";
-import ReqtermList from "./ReqtermList";
 
 class Reqbox extends Component {
 
     render() {
+        const {type, usernum, reqtermList, presentTermyearmonth, today} = this.props;
         let menuname = "";
-        if (this.props.type === "reqterm-fix") menuname = "신청 기간 설정";
-        if (this.props.type === "reqterm-set") menuname = "신청 시작/마감";
-        if (this.props.type === "reqterm-list") menuname = "신청 기간 목록";
+        if (type === "reqterm-fix") menuname = "신청 기간 설정";
+        if (type === "reqterm-set") menuname = "신청 시작/마감";
+        if (type === "reqterm-list") menuname = "신청 기간 목록";
 
         return (
             <div className="reqterm-box-wrapper">
                 <div>
                     <div>{menuname}</div>
-                    {this.props.type === "reqterm-fix" && <ReqtermFix usernum = {this.props.usernum} termlist={this.props.termlist}/>}
-                    {this.props.type === "reqterm-set" && <ReqtermSet usernum = {this.props.usernum}  termlist={this.props.termlist}/>}
-                    {this.props.type === "reqterm-list" && <ReqtermList usernum = {this.props.usernum}  termlist={this.props.termlist}/>}
+                    {type === "reqterm-fix" ?
+                        <>
+                            <ReqtermFix usernum={usernum} reqtermList={reqtermList} today={today}
+                                        getReqtermList={this.props.getReqtermList}
+                                        createAvailable={this.props.createAvailable}
+                                        presentTermyearmonth={presentTermyearmonth}
+                                        />
+                        </>
+                        :
+                        <>
+                            <ReqtermSet usernum={usernum} reqtermList={reqtermList} today={today}
+                                        presentTermyearmonth={presentTermyearmonth}
+                                        />
+                        </>
+                    }
                 </div>
             </div>
         );

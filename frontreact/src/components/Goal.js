@@ -4,11 +4,12 @@ import "../styled/etcCss.css"
 class Goal extends Component {
     render() {
 
-        const {comment} = this.props;
+        const {comment, subtitle} = this.props;
 
         return (
             <div className={"goalDiv"}>
                 {comment}
+                {subtitle !== null && <div style={{fontSize: "1rem"}}>{subtitle}</div>}
             </div>
         );
     }

@@ -17,29 +17,21 @@ class OrderView extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            ordernum: this.props.ordernum,
+
         }
-        this.checkindividal = this.checkindividal.bind(this);
-        this.checkall = this.checkall.bind(this);
-        this.checkclear = this.checkclear.bind(this);
-        this.checkenable = this.checkenable.bind(this);
-        this.changeorderstate = this.changeorderstate.bind(this);
+
 
     }
     componentDidMount() {
-            console.log(this.state.ordernum)
+
     }
 
     componentDidUpdate(prevProps) {
-        if (this.props.ordernum !== prevProps.ordernum) {
-            this.setState({ordernum : this.props.ordernum});
-            console.log(this.props.ordernum)
-        }
-        this.checkclear()
+
     }
 
 
-    changeorderstate(state){
+    changeorderstate=(state)=>{
         console.log(JSON.stringify(checklist))
         if(checklist.length ===0){
             console.log("선택된 항목이 없습니다.")
@@ -77,9 +69,11 @@ class OrderView extends Component {
             }
         }
         checklist = []
-        this.forceUpdate()
+        this.props.ordercntdata(this.props.startdate,this.props.enddate)
+        this.props.ordernumdata(this.props.orderstate,this.props.startdate,this.props.enddate)
+
     }
-    checkenable(state,ordernum){
+    checkenable=(state,ordernum)=>{
         if(state=="불출완료") {
             return (
                 <Col><Form.Check className="ordercardtext" inline label={"문서번호 : " + ordernum} name="check"
@@ -99,14 +93,14 @@ class OrderView extends Component {
         }
     }
 
-    checkclear(state){
+    checkclear=(state)=>{
         checklist = []
         const check = document.getElementsByName('check');
         const checkall = document.getElementsByName('checkall');
         check.forEach((state) => {state.checked = false})
         checkall.forEach((state)=>{state.checked = false})
     }
-    checkall(){
+    checkall=()=>{
         checklist = []
         const check = document.getElementsByName('check');
         let checkall = document.getElementsByName('checkall');
@@ -128,7 +122,7 @@ class OrderView extends Component {
     }
 
     render() {
-        const { ordernum, orderstate,reqdata } = this.state
+        const  ordernum  = this.props.ordernum
 
         return (
             <div>

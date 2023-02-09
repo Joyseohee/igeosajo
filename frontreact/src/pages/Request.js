@@ -4,93 +4,58 @@ import Api from "../api/Api";
 import ReqFilter from "../components/request/ReqFilter";
 import ReqList from "../components/request/ReqList";
 import SelectReqterm from "../components/request/SelectReqterm";
-import ReqReject from "../components/request/ReqReject";
 import ConfirmModal from "../components/request/ConfirmModal";
 import "../styled/Request.css";
+import Goal from "../components/Goal";
+import reqtermList from "../components/reqterm/ReqtermList";
 
 class Request extends Component {
     constructor(props) {
         super(props);
-        this.props.setpagename("신청 관리");
         this.state = {
-            reqtermList: [],
-            requestList: [],
-            requestFileteredList: [],
-            pickedReqterm: null,
+            requestList: ['requestList'],
+            requestFilteredList: ['requestFilteredList'],
+            reqtermList: ['reqtermList'],
+            selectedReqterm: null,
             checkedRequest: [],
+            filter: null,
+            checkedAll: false,
             showRejectModal: false,
             showApproveConfirmModal: false,
             showRejectConfirmModal: false,
             reqRejectReason: null,
-            filter: null,
+            available: 0,
         }
     }
 
-    async componentDidMount() {
-        try {
-            this.getlist("reqterm", {usernum: this.props.usernum}, null, "reqtermList")
-        } catch (e) {
-            console.error(e);
-        }
-    }
 
-    async componentDidUpdate(prevProps, prevState, snapshot) {
-        if (prevState.reqtermList !== this.state.reqtermList) {
-            this.setState((state) => ({
-                pickedReqterm: state.reqtermList[0].termyearmonth
-            }))
-            try {
-                this.getlist("request", {termyearmonth: this.state.reqtermList[0].termyearmonth}, null, "requestList");
-            } catch (e) {
-                console.error(e);
-            }
-        }
-
-        if (prevState.pickedReqterm !== this.state.pickedReqterm) {
-            try {
-                this.getlist("request", {termyearmonth: this.state.pickedReqterm}, null, "requestList");
-            } catch (e) {
-                console.error(e);
-            }
-        }
-
-        if (prevState.filter !== this.state.filter) {
-            try {
-                this.getlist("request", {
-                    termyearmonth: this.state.pickedReqterm,
-                    reqstate: this.state.filter
-                }, null, "requestFileteredList");
-            } catch (e) {
-                console.error(e);
-            }
-        }
-
-        if (this.state.checkedRequest.length === 0 && prevState.checkedRequest !== this.state.checkedRequest) {
-            setTimeout(() => {
-                this.getlist("request", {termyearmonth: this.state.pickedReqterm}, null, "requestList");
-                this.getlist("request", {
-                    termyearmonth: this.state.pickedReqterm,
-                    reqstate: this.state.filter
-                }, null, "requestFileteredList");
-            }, 500);
-        }
-    }
-
-    getlist = (table, params, pk, stateName) => {
-        new Api().read(table, params, pk).then((response) => {
-            return response.json();
-        }).then((response) => {
-            this.setState({
-                [stateName]: response,
+    componentDidMount() {
+        this.props.setpagename("사무용품 신청 관리");
+        let reqtermList = [];
+        let available = null;
+        new Api().read("reqterm", {usernum: this.props.user.usernum}, null)
+            .then((response) => {
+                return response.json();
             })
-        })
-    }
-
-    async updateList(reqstate, reqstaging, reqrejectreason) {
-        const requestparam = {"reqstate": reqstate, "reqstaging": reqstaging, "reqrejectreason": reqrejectreason};
-        await this.state.checkedRequest.map((request) => {
-            new Api().update("request", requestparam, request)
-        })
+            .then((response) => {
+                reqtermList = response;
+                available = response.filter(term => term.termyearmonth === response[0].termyearmonth)[0].termavailable;
+                return new Api().read("request", {termyearmonth: response[0].termyearmonth}, null);
+            })
+            .then((response) => {
+                return response.json()
+            })
+            .then((response) => {
+                this.setState({
+                    requestList: response,
+                    reqtermList: reqtermList,
+                    requestFilteredList: response,
+                    selectedReqterm: reqtermList[0].termyearmonth,
+                    available: available,
+                })
+                console.log(available);
+            })
+            .catch(error => console.error(error));
     }
 
     approve = () => {
@@ -101,13 +66,12 @@ class Request extends Component {
         this.setState({showRejectModal: true});
     };
 
-    rejectCheck = () => {
+    rejectConfirm = () => {
         this.setState({showRejectConfirmModal: true});
     };
 
     handleClose = () => {
         const {showRejectModal, showApproveConfirmModal, showRejectConfirmModal} = this.state;
-
         if (showRejectModal) {
             this.setState({showRejectModal: false});
         } else if (showApproveConfirmModal) {
@@ -118,17 +82,33 @@ class Request extends Component {
     };
 
     handleConfirm = (reqstate) => {
-        reqstate === '반려확인' ? this.rejectCheck() : this.confirmUpdate(reqstate);
+        reqstate === '반려확인' ? this.rejectConfirm() : this.confirmUpdate(reqstate);
         this.handleClose();
     };
 
     confirmUpdate = (reqstate) => {
-        this.updateList(reqstate, "처리전", reqstate === '반려' ? this.state.reqRejectReason : null)
-            .then(() => {
-                this.setState({
-                    checkedRequest: [],
-                });
-            });
+        this.state.checkedRequest.map((request) => {
+            return new Api().update("request", {
+                "reqstate": reqstate,
+                "reqstaging": "처리전",
+                "reqrejectreason": reqstate === '반려' ? this.state.reqRejectReason : null
+            }, request)
+        });
+        setTimeout(() => {
+            new Api().read("request", {termyearmonth: this.state.selectedReqterm}, null)
+                .then((response) => response.json())
+                .then((response) => {
+                    this.setState({
+                        requestList: response,
+                        requestFilteredList: response,
+                        filter: '전체',
+                        checkedRequest: [],
+                        checkedAll: false,
+                    });
+                })
+                .catch((error) => console.error(error));
+        }, 500);
+        alert(reqstate + "되었습니다.");
     };
 
     setReqRejectReason = (e) => {
@@ -136,65 +116,101 @@ class Request extends Component {
     };
 
     storeChecked = (reqnum) => {
-        this.setState({checkedRequest: reqnum});
+        this.setState({
+            checkedRequest: reqnum,
+        });
     };
 
     handleSelect = (e) => {
+        let available = this.state.reqtermList.filter(term => term.termyearmonth === this.state.selectedReqterm)
+        available = available.length > 0 ? available[0].termavailable : 0;
+        console.log(this.state.selectedReqterm);
+
         const termyearmonth = e.target.value;
-        if (termyearmonth) {
-            this.setState({pickedReqterm: termyearmonth});
-        }
+        new Api().read("request", {termyearmonth: termyearmonth}, null)
+            .then((response) => {
+                return response.json();
+            }).then((response) => {
+            this.setState({
+                requestList: response,
+                requestFilteredList: response,
+                selectedReqterm: termyearmonth,
+                filter: '전체',
+                reqRejectReason: null,
+                available:available,
+            });
+        })
     };
 
     setReqState = (param) => {
-        let filter = param;
-        if (param === '전체') filter = null;
-        this.setState({filter});
+        let filter = param === '전체' ? null : param;
+        new Api().read("request", {termyearmonth: this.state.selectedReqterm, reqstate: filter}, null)
+            .then((response) => {
+                return response.json();
+            }).then((response) => {
+            this.setState({
+                requestFilteredList: response, filter: param,
+            });
+        })
     };
 
+    handleCheckAll = (checked) => {
+        const requestList = this.state.requestFilteredList;
+        const arr = requestList.map((request) => request.reqnum);
+        this.setState((state) => ({
+            checkedAll: !state.checkedAll,
+        }));
+        this.storeChecked(checked ? arr : []);
+    };
 
     render() {
         const {
+            requestList,
             reqtermList,
+            requestFilteredList,
+            selectedReqterm,
             filter,
-            pickedReqterm,
             checkedRequest,
             showRejectModal,
             showApproveConfirmModal,
-            showRejectConfirmModal
+            showRejectConfirmModal,
+            checkedAll,
+            available
         } = this.state;
-        const usernum = this.props.usernum;
-        const requestList = this.state.filter !== null ? this.state.requestFileteredList : this.state.requestList;
 
-        return (
-            <div className="page-top request-wrapper">
-                <div className="title">타이틀</div>
-                <div className="reqterms">
-                    <div className="reqterm">신청기간</div>
-                    {reqtermList.length > 0 &&
-                        <SelectReqterm handleSelect={this.handleSelect} reqtermList={reqtermList}/>}
-                </div>
-                <ReqFilter setReqState={this.setReqState} requestList={this.state.requestList}/>
-                {filter === '대기' && <Button onClick={this.approve}>승인</Button>}
-                {filter === '대기' && <Button onClick={this.reject}>반려</Button>}
-                <ReqList storeChecked={this.storeChecked}
-                         termyearmonth={pickedReqterm}
-                         requestList={requestList}
-                         usernum={usernum}
-                         filter={filter}
-                         checkedRequest={checkedRequest}/>
-                <ReqReject show={showRejectModal}
-                           handleClose={this.handleClose}
-                           setReqRejectReason={this.setReqRejectReason}
-                           handleConfirm={this.handleConfirm}/>
-                {showApproveConfirmModal && <ConfirmModal show={true} text={"신청을 승인하시겠습니까?"}
-                                                          confirm={"승인"} handleClose={this.handleClose}
-                                                          handleConfirm={this.handleConfirm}/>}
-                {showRejectConfirmModal && <ConfirmModal show={true} text={"신청을 반려하시겠습니까?"}
-                                                         confirm={"반려"} handleClose={this.handleClose}
-                                                         handleConfirm={this.handleConfirm}/>}
+        const showConfirmModal = showRejectModal ? showRejectModal : showApproveConfirmModal ? showApproveConfirmModal : showRejectConfirmModal ? showRejectConfirmModal : false;
+        const modalType = showRejectModal ? "반려확인" : showApproveConfirmModal ? "신청" : showRejectConfirmModal ? "반려" : null;
+        const modalMessage = showRejectModal ? "반려 사유를 입력해주세요." : showApproveConfirmModal ? "신청을 승인하시겠습니까?" : showRejectConfirmModal ? "신청을 반려하시겠습니까?" : null;
+        const confirmText = showApproveConfirmModal ? "승인" : showRejectConfirmModal || showRejectModal ? "반려" : null;
+
+        return (<div className="page-top request-wrapper">
+            <Goal comment={"신청 관리"}/>
+            <div className="request">
+                {reqtermList[0] !== 'reqtermList' &&
+                    <SelectReqterm handleSelect={this.handleSelect} reqtermList={reqtermList}/>}
+                {requestList[0] !== 'requestList' &&
+                    <ReqFilter selectedFilter={filter} requestList={requestList} setReqState={this.setReqState}
+                               selectedReqterm={selectedReqterm}/>}
+                {(filter === '대기' &&  available === 1)&& <>
+                    <Button onClick={this.approve}>승인</Button>
+                    <Button onClick={this.reject}>반려</Button>
+                </>}
+                {requestList[0] !== 'requestList' &&
+                    <ReqList storeChecked={this.storeChecked}
+                             requestList={requestFilteredList}
+                             filter={filter}
+                             checkedAll={checkedAll}
+                             handleCheckAll={this.handleCheckAll}
+                             checkedRequest={checkedRequest}/>}
+                    <ConfirmModal show={showConfirmModal}
+                              text={modalMessage}
+                              confirm={confirmText}
+                              modalType={modalType}
+                              setReqRejectReason={this.setReqRejectReason}
+                              handleClose={this.handleClose}
+                              handleConfirm={this.handleConfirm}/>
             </div>
-        );
+        </div>);
     }
 }
 

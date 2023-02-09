@@ -5,11 +5,12 @@ import Headertitle from '../components/orderProgress/HeaderTitle'
 import OrderReqSearch from '../components/orderRequestList/OrderReqSearch'
 import OrderReqTable from "../components/orderRequestList/OrderReqTable";
 import OrderReqDate from "../components/orderRequestList/OrderReqDate";
+import Goal from "../components/Goal";
 class OrderRequestList extends Component {
     constructor(props) {
         super(props);
 
-        let  defaultstate = "구매전"
+        let  defaultstate = "prevparchase"
         let now = new Date();
         let month = now.getMonth()+1
         if(month <10)
@@ -25,28 +26,21 @@ class OrderRequestList extends Component {
     }
     componentDidMount() {
         let test =[]
-        fetch('http://127.0.0.1:8000/api/request?reqstaging=처리중&reqorder='+this.state.orderreqstate+'&termyearmonth='+this.state.reqterm)
+        fetch('http://127.0.0.1:8000/api/order?func=orderreq&&termyearmonth=' + this.state.reqterm+'&&state=' +this.state.orderreqstate)
             .then(res => res.json())
-            .then(data => {this.setState({reqdata:data})})
+            .then(data => {
+                    this.setState({reqdata: data})
+            })
     }
 
     orderdocsearchstate = (state) => {
         console.log(state)
-        if(state == "all") {
-            fetch('http://127.0.0.1:8000/api/request?reqstaging=처리중&&termyearmonth='+this.state.reqterm)
+        fetch('http://127.0.0.1:8000/api/order?func=orderreq&&termyearmonth=' + this.state.reqterm+'&&state=' +state)
             .then(res => res.json())
-            .then(data => {this.setState({reqdata:data})})
-        }else if(state=="prevparchase"){
-            fetch('http://127.0.0.1:8000/api/request?reqstaging=처리중&reqorder=구매전&termyearmonth='+this.state.reqterm)
-            .then(res => res.json())
-            .then(data => {this.setState({reqdata:data})})
-        }else if(state=="parchase"){
-            fetch('http://127.0.0.1:8000/api/request?reqstaging=처리중&reqorder=구매완료&termyearmonth='+this.state.reqterm)
-            .then(res => res.json())
-            .then(data => {this.setState({reqdata:data})})
-        }
-    };
-
+            .then(data => {
+                    this.setState({reqdata: data})
+            })
+    }
 
     render() {
         const {
@@ -58,7 +52,7 @@ class OrderRequestList extends Component {
         return (
             <div>
                 <Container fluid style={{margin: 0, padding: 0}}>
-                    <Headertitle title="구매 신청"></Headertitle>
+                    <Goal comment={"구매 신청"}/>
                     <OrderReqDate></OrderReqDate>
                     <OrderReqSearch orderdocsearchstate={this.orderdocsearchstate} reqterm={reqterm} ></OrderReqSearch>
                     <OrderReqTable reqdata={reqdata} ></OrderReqTable>

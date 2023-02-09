@@ -8,9 +8,9 @@ class modal1 extends Component {
         super(props);
     }
 
-    changeModalState = () => {
-        this.props.changeModalState(false)
-    }
+    // changeModalState = () => {
+    //     this.props.changeModalState(false)
+    // }
 
     outcomeState = (e) => {
         this.reqSendClick(e);
@@ -35,16 +35,16 @@ class modal1 extends Component {
                                 <div>
                                 <Button style={{backgroundColor: "rgb(110, 117, 124)", border:"none", marginRight: "1rem"}} onClick={(e) => {
                                     this.props.outcomeState(0);
-                                    this.changeModalState();
+                                    // this.changeModalState();
                                 }}> 취소 </Button>
                                 <Button style={{backgroundColor: "rgb(82, 150, 213)", border:"none"}} onClick={ (e) =>{
                                     this.props.outcomeState(1);
-                                    this.changeModalState();
+                                    // this.changeModalState();
                                 } } >확인</Button>
                                 </div>
                                 : <Button style={{backgroundColor: "rgb(82, 150, 213)", border:"none"}} onClick={ () =>{
                                     this.props.outcomeState(2);
-                                    this.changeModalState();
+                                    // this.changeModalState();
                                 } } >확인</Button>
                         }
                     </Modal.Footer>

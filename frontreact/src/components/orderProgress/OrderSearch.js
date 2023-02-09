@@ -15,18 +15,9 @@ class OrderSearch extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            allcnt:this.props.ordercnt[0],
-            parchasecnt:this.props.ordercnt[1],
-            delivercnt:this.props.ordercnt[2],
-            finishcnt:this.props.ordercnt[3],
-            startdate: this.props.startdate,
-            enddate:this.props.enddate,
+
         }
-        this.statechange = this.statechange.bind(this);
-        console.log(this.props.ordercnt[0])
-        console.log(this.props.ordercnt[1])
-        console.log(this.props.ordercnt[2])
-        console.log(this.props.ordercnt[3])
+
     }
     
     statechange = (e,state) => {
@@ -34,43 +25,15 @@ class OrderSearch extends Component {
     }
 
     componentDidMount() {
-        // fetch('http://127.0.0.1:8000/api/order?func=distinctordernum&orderstate=allselect&startdate='+this.props.startdate+'&enddate='+this.props.enddate)
-        //     .then(res => res.json())
-        //     .then(data => {
-        //         this.setState({allcnt: data.length})
-        //     })
-        // fetch('http://127.0.0.1:8000/api/order?func=distinctordernum&orderstate=parchase&startdate='+this.props.startdate+'&enddate='+this.props.enddate)
-        //     .then(res => res.json())
-        //     .then(data => {
-        //         this.setState({parchasecnt: data.length})
-        //     })
-        // fetch('http://127.0.0.1:8000/api/order?func=distinctordernum&orderstate=deliver&startdate='+this.props.startdate+'&enddate='+this.props.enddate)
-        //     .then(res => res.json())
-        //     .then(data => {
-        //         this.setState({delivercnt: data.length})
-        //     });
-        // fetch('http://127.0.0.1:8000/api/order?func=distinctordernum&orderstate=finish&startdate='+this.props.startdate+'&enddate='+this.props.enddate)
-        //     .then(res => res.json())
-        //     .then(data => {
-        //         this.setState({finishcnt: data.length})
-        //     });
+
     }
     componentDidUpdate(prevProps) {
-        if (this.props.ordercnt !== prevProps.ordercnt) {
-            this.setState({allcnt : this.props.ordercnt[0]});
-            this.setState({parchasecnt : this.props.ordercnt[1]});
-            this.setState({delivercnt : this.props.ordercnt[2]});
-            this.setState({finishcnt : this.props.ordercnt[3]});
-        }
-        console.log(this.props.ordercnt[0])
-        console.log(this.props.ordercnt[1])
-        console.log(this.props.ordercnt[2])
-        console.log(this.props.ordercnt[3])
-       
+
     }
 
     render() {
-        const {allcnt,parchasecnt,delivercnt,finishcnt} = this.state
+
+        const ordercnt = this.props.ordercnt
         return (
             <div className="containermargin">
 
@@ -83,7 +46,8 @@ class OrderSearch extends Component {
                                     <Card.Text>
                                         <Container>
                                             <Row>
-                                                <Col className="cardtext">{allcnt}</Col>
+                                                {/*<Col className="cardtext">{allcnt}</Col>*/}
+                                                 <Col className="cardtext">{ordercnt[0]}</Col>
                                                 <Col> <img src={all} alt="logo"/></Col>
                                             </Row>
                                         </Container>
@@ -100,7 +64,7 @@ class OrderSearch extends Component {
                                     <Card.Text>
                                         <Container>
                                             <Row>
-                                                <Col className="cardtext">{parchasecnt}</Col>
+                                               <Col className="cardtext">{ordercnt[1]}</Col>
                                                 <Col> <img src={parchase} alt="logo"/></Col>
                                             </Row>
                                         </Container>
@@ -117,7 +81,7 @@ class OrderSearch extends Component {
                                     <Card.Text>
                                         <Container>
                                             <Row>
-                                                <Col className="cardtext">{delivercnt}</Col>
+                                                <Col className="cardtext">{ordercnt[2]}</Col>
                                                 <Col> <img src={deliver} alt="logo"/></Col>
                                             </Row>
                                         </Container>
@@ -134,7 +98,7 @@ class OrderSearch extends Component {
                                     <Card.Text>
                                         <Container>
                                             <Row>
-                                                <Col className="cardtext">{finishcnt}</Col>
+                                                <Col className="cardtext">{ordercnt[3]}</Col>
                                                 <Col> <img src={finish} alt="logo"/></Col>
                                             </Row>
                                         </Container>

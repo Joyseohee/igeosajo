@@ -10,23 +10,14 @@ class OrderTable extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            reqdata: this.props.reqdata,
-        }
-        this.checkindividal = this.checkindividal.bind(this);
-        this.checkall = this.checkall.bind(this);
-        this.checkclear = this.checkclear.bind(this);
-        this.checkenable = this.checkenable.bind(this);
 
+        }
     }
     componentDidMount() {
 
     }
-    componentDidUpdate(prevProps) {
-    if (this.props.reqdata !== prevProps.reqdata) {
-            this.setState({reqdata : this.props.reqdata});
-        }
-    }
-    checkenable(state,reqnum){
+
+    checkenable =(state,reqnum)=>{
         if(state=="구매완료") {
             return (
                 <td><Form.Check className="ordercardtext"  name="check" id={reqnum} onChange={(e) => {this.checkindividal(e.target.checked, e.target.id)}}disabled/></td>
@@ -39,14 +30,14 @@ class OrderTable extends Component {
         }
     }
 
-    checkclear(state){
+    checkclear=(state)=>{
         checklist = []
         const check = document.getElementsByName('check');
         const checkall = document.getElementsByName('checkall');
         check.forEach((state) => {state.checked = false})
         checkall.forEach((state)=>{state.checked = false})
     }
-    checkall(){
+    checkall=()=>{
         checklist = []
         const check = document.getElementsByName('check');
         let checkall = document.getElementsByName('checkall');
@@ -59,32 +50,35 @@ class OrderTable extends Component {
             }
         })
     }
-    checkindividal(check, num) {
+    checkindividal=(check, num)=> {
         if (check){
             checklist.push(num);
         }else{
             checklist = checklist.filter((element)=>element !== num)
         }
+        console.log(checklist)
     }
     // clickLink(){
     //     <Link to={`/OrderParchase`} state={{ ckeck: checklist }}> Profile </Link>
     // }
 
     render() {
-        const {reqdata} = this.state
+        const {reqdata} = this.props;
         return (
             <div>
               <div className="subtitle">
                   <div className="dotmargin"></div>
                   <div style={{width:'64%',fontWeight:"bold",fontSize:"21px",paddingTop:"4px",paddingLeft:"10px"}}>목록</div>
                   <div className="subtitle" style={{width:'25%'}}>
-                      <Button style={{width:"100%"}} onClick={() =>
+                      <Button style={{width:"100%"}} onClick={() =>{
                           this.props.history.push({
                               pathname : "/OrderParchase",
                               state : {
                                   data : checklist
                               },
                           })
+                          checklist = []
+                      }
                       }>
                           구매하기
                       </Button>
@@ -116,6 +110,7 @@ class OrderTable extends Component {
                         <td>{num.reqdate}</td>
                         <td>{num.username}</td>
                         <td>{num.reqorder}</td>
+
                     </tr>
                 ))}
                 </tbody>
