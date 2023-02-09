@@ -7,9 +7,10 @@ class SelectReqterm extends Component {
     }
 
     render() {
+        const {reqtermList} = this.props;
         return (
             <FormSelect onChange={(e) => this.props.handleSelect(e)}>
-                {this.props.reqtermList.map((reqterm) => {
+                {reqtermList.map((reqterm) => {
                     return (
                         <option key={reqterm.termyearmonth}
                                 value={reqterm.termyearmonth}>{reqterm.termyearmonth.toString().slice(0, 4)}년 {reqterm.termyearmonth.toString().slice(4, 7)}월</option>)
