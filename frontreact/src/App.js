@@ -131,6 +131,7 @@ class App extends Component {
                                 <Route exact path="/docpaylist">
                                     <DocPaymentList usernum={usernum} setpagename={this.setpagename}/>
                                 </Route>
+
                             </>
                         }
                     </Switch>

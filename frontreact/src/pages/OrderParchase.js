@@ -12,6 +12,7 @@ import OrderTotalReq from "../components/orderRequestList/OrderTotalReq";
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import DaumPostcode from 'react-daum-postcode';
+import Goal from "../components/Goal";
 class OrderParchase extends Component {
     constructor(props) {
         super(props);
@@ -24,19 +25,16 @@ class OrderParchase extends Component {
             zoneCode: "",
             fullAddress: "",
         };
-        console.log(this.props.location.state.data)
-        this.totalpricecal = this.totalpricecal.bind(this)
-        this.handleShow = this.handleShow.bind(this)
-        this.handleClose = this.handleClose.bind(this)
+
     }
     componentDidMount() {
             fetch("http://127.0.0.1:8000/api/order", {
-                    method : "POST",          //메소드 지정
-                    headers : {               //데이터 타입 지정
+                    method : "POST",
+                    headers : {
                         "Content-Type":"application/json"
                     },
-                    body: JSON.stringify({data:this.props.location.state.data} )   //실제 데이터 파싱하여 body에 저장
-                }).then(response=>response.json())        // 리턴값이 있으면 리턴값에 맞는 req 지정
+                    body: JSON.stringify({reqdata:this.props.location.state.data} )
+                }).then(response=>response.json())
                   .then(response=> {
                     this.setState({reqdata:response});
                   });
@@ -52,6 +50,7 @@ class OrderParchase extends Component {
              this.totalpricecal(this.state.reqdata)
         }
     }
+
 
     totalpricecal= (data) =>{
         let totalprice = 0
@@ -95,15 +94,50 @@ class OrderParchase extends Component {
     closePostCode = () => {
         this.setState({isPopupOpen: false})
     }
+    test= () => {
+        const now = new Date();
+        const nowdate = now.getFullYear() + "-" + (now.getMonth() + 1)+"-"+now.getDate()
+        const deliverdata = []
+        // const receivenameval = document.getElementById("receivename").value
+        // const placenameval = document.getElementById("placename").value
+        const postcodeval = document.getElementById("postcode").value
+        const addressval = document.getElementById("address").value
+        const detailaddress = document.getElementById("detailaddress").value
+        const firstphonenumval = document.getElementById("firstphonenum").value
+        const midphonenumval = document.getElementById("midphonenum").value
+        const lastphonenumval = document.getElementById("lastphonenum").value
+        const delivermemoval = document.getElementById("delivermemo").value
+        const phonenum =  firstphonenumval +'-' + midphonenumval + '-'+ lastphonenumval
+        const totaladdress = addressval +"("+ postcodeval +") "+ detailaddress
+
+        // deliverdata.push(receivenameval)
+        // deliverdata.push(placenameval)
+        deliverdata.push(nowdate)
+        deliverdata.push(totaladdress)
+        deliverdata.push(phonenum)
+        deliverdata.push(delivermemoval)
+
+        fetch("http://127.0.0.1:8000/api/order", {
+                    method : "POST",          //메소드 지정
+                    headers : {               //데이터 타입 지정
+                        "Content-Type":"application/json"
+                    },
+                    body: JSON.stringify({deliverdata:deliverdata,reqdata:this.props.location.state.data} )   //실제 데이터 파싱하여 body에 저장
+                }).then(response=>response.json())        // 리턴값이 있으면 리턴값에 맞는 req 지정
+                  .then(response=> {
+                    this.setState({reqdata:response});
+                  });
+
+    }
     render() {
         const {reqdata,totalprice,show,fullAddress,zoneCode} = this.state
         return (
             <div className="page-top">
                 <Container fluid style={{margin: 0, padding: 0}}>
-                    <Headertitle title="배송지 입력"></Headertitle>
+                    <Goal comment={"배송지 입력"}/>
                     <OrderDataInput handleShow={this.handleShow} fullAddress={fullAddress} zoneCode={zoneCode}></OrderDataInput>
                     <OrderTotalReq reqdata={reqdata} totalprice={totalprice}></OrderTotalReq>
-                    <Button  onClick={this.modalshow} style={{width: '92%',margin:"auto",marginLeft:"28px", height:"50px"}}>결제하기</Button>
+                    <Button  onClick={this.test} style={{width: '92%',margin:"auto",marginLeft:"28px", height:"50px"}}>결제하기</Button>
                 </Container>
                 <Modal
                     show={show}

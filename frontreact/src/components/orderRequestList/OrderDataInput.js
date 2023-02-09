@@ -26,7 +26,7 @@ class OrderDataInput extends Component {
             fullAddress:this.props.fullAddress,
         }
         this.modalshow = this.modalshow.bind(this)
-
+        this.onChangeNum = this.onChangeNum.bind(this)
     }
 
     componentDidMount() {
@@ -41,7 +41,9 @@ class OrderDataInput extends Component {
             this.setState({fullAddress : this.props.fullAddress});
         }
     }
-
+    onChangeNum = (e) => {
+        e.target.value = e.target.value.replace(/[^0-9]/g, "")
+    }
     modalshow= () =>{
         this.props.handleShow(true)
     }
@@ -57,18 +59,18 @@ class OrderDataInput extends Component {
                         <Card.Text>
                             <Container >
                                 <Table striped>
-                                    <tr className="orderdelivercardsideline" >
-                                        <th className="orderdelivercardside" style={{width: '25%'}}>수신자명</th>
-                                        <td  style={{width: '75%',padding: '10px'}} colSpan={3}>
-                                            <input type="text"  id="receivename" className="form-control " placeholder="ex) 이기찬"  />
-                                        </td>
-                                    </tr>
-                                    <tr className="orderdelivercardsideline">
-                                        <th className="orderdelivercardside" style={{width: '25%'}}>배송지명</th>
-                                        <td  style={{width: '75%',padding: '10px'}} colSpan={3}>
-                                            <input type="text"  id="placename" className="form-control " placeholder="ex) 더존비즈온 사무실"  />
-                                        </td>
-                                    </tr>
+                                    {/*<tr className="orderdelivercardsideline" >*/}
+                                    {/*    <th className="orderdelivercardside" style={{width: '25%'}}>수신자명</th>*/}
+                                    {/*    <td  style={{width: '75%',padding: '10px'}} colSpan={3}>*/}
+                                    {/*        <input type="text"  id="receivename" className="form-control " placeholder="ex) 이기찬"  />*/}
+                                    {/*    </td>*/}
+                                    {/*</tr>*/}
+                                    {/*<tr className="orderdelivercardsideline">*/}
+                                    {/*    <th className="orderdelivercardside" style={{width: '25%'}}>배송지명</th>*/}
+                                    {/*    <td  style={{width: '75%',padding: '10px'}} colSpan={3}>*/}
+                                    {/*        <input type="text"  id="placename" className="form-control " placeholder="ex) 더존비즈온 사무실"  />*/}
+                                    {/*    </td>*/}
+                                    {/*</tr>*/}
                                     <tr >
                                         <th className="orderdelivercardside orderdelivercardsideline" style={{width: '25%'}} rowSpan={3}>주소</th>
                                         <tr >
@@ -79,11 +81,10 @@ class OrderDataInput extends Component {
                                                 <Button  onClick={this.modalshow} style={{width: '100%',padding: '10px'}}>우편번호 검색</Button>
                                             </td>
                                         </tr>
-
                                     </tr>
                                      <tr >
                                         <td style={{width: '75%',padding: '10px'}}>
-                                            <input type="text"  id="address" className="form-control " placeholder="ex) 검색주소" value={fullAddress} style={{backgroundColor:'white'}} onChange={(e) => {this.onChangeDate(e)}} disabled/>
+                                            <input type="text"  id="address" className="form-control " placeholder="ex) 검색주소" value={fullAddress} style={{backgroundColor:'white'}}  disabled/>
                                         </td>
                                     </tr>
                                     <tr>
@@ -112,7 +113,9 @@ class OrderDataInput extends Component {
                                     </tr>
                                     <tr>
                                         <th className="orderdelivercardside orderdelivercardsideline" style={{width: '25%'}}>배송요청사항</th>
-                                        <td style={{width: '75%',padding: '10px'}}><Form.Control aria-label="Default" aria-describedby="inputGroup-sizing-default"/></td>
+                                        <td style={{width: '75%',padding: '10px'}}>
+                                             <input type="text"  id="delivermemo" className="form-control " placeholder="ex) 조심히 배달해주세요!" />
+                                        </td>
                                     </tr>
                                 </Table>
                             </Container>

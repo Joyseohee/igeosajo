@@ -6,6 +6,7 @@ import Headertitle from '../components/orderProgress/HeaderTitle'
 import DateSetting from '../components/orderProgress/DateSetting'
 import OrderSearch from '../components/orderProgress/OrderSearch'
 import OrderView from '../components/orderProgress/OrderView'
+import Goal from "../components/Goal";
 
 let  defaultstate = 'allselect'
 class OrderProgress extends Component {
@@ -32,9 +33,6 @@ class OrderProgress extends Component {
             delivercnt: 0,
             finishcnt: 0,
         }
-        this.ordernumdata = this.ordernumdata.bind(this)
-        this.ordercntdata = this.ordercntdata.bind(this)
-
     }
 
     componentDidMount() {
@@ -42,22 +40,10 @@ class OrderProgress extends Component {
         this.ordercntdata(this.state.startdate,this.state.enddate)
     }
     componentDidUpdate(prevProps, prevState, snapshot) {
-         if (this.state.orderstate !== prevState.orderstate) {
-            this.setState({orderstate : this.state.orderstate});
-            console.log(this.state.orderstate)
-        }
-         if (this.state.ordernum !== prevState.ordernum) {
-            this.setState({ordernum : this.state.ordernum});
-            console.log(this.state.ordernum)
-        }
+
     }
 
     datesetting = (startyear, startmonth, endyear, endmonth) => {
-
-        this.setState({startyear: startyear});
-        this.setState({startmonth: startmonth});
-        this.setState({endyear: endyear});
-        this.setState({endmonth: endmonth});
 
         let syear, smonth, eyear, emonth
         if(startyear<10){
@@ -109,9 +95,14 @@ class OrderProgress extends Component {
 
         edate.setHours(23, 59, 59)
 
-        this.setState({startdate: strsdate});
-        this.setState({enddate: stredate});
-        //console.log(this.state.orderstate)
+        this.setState({
+            startyear: startyear,
+            startmonth: startmonth,
+            endyear: endyear,
+            endmonth: endmonth,
+            startdate: strsdate,
+            enddate: stredate
+        });
         this.ordernumdata(this.state.orderstate,strsdate,stredate)
         this.ordercntdata(strsdate,stredate)
     };
@@ -122,7 +113,7 @@ class OrderProgress extends Component {
         this.ordercntdata(this.state.startdate,this.state.enddate)
     };
 
-    ordernumdata (state,startdate,enddate){
+    ordernumdata =(state,startdate,enddate)=>{
         fetch('http://127.0.0.1:8000/api/order?func=distinctordernum&orderstate=' + state +'&startdate='+startdate+'&enddate='+enddate)
             .then(res => res.json())
             .then(data => {
@@ -130,26 +121,16 @@ class OrderProgress extends Component {
                 console.log(this.state.ordernum)
             });
     };
-    ordercntdata (startdate,enddate){
-        fetch('http://127.0.0.1:8000/api/order?func=distinctordernum&orderstate=allselect&startdate='+startdate+'&enddate='+enddate)
+    ordercntdata =(startdate,enddate)=>{
+        fetch('http://127.0.0.1:8000/api/order?func=distinctordernumcnt&orderstate=finish&startdate='+startdate+'&enddate='+enddate)
             .then(res => res.json())
             .then(data => {
-                this.setState({allcnt: data.length})
-            })
-        fetch('http://127.0.0.1:8000/api/order?func=distinctordernum&orderstate=parchase&startdate='+startdate+'&enddate='+enddate)
-            .then(res => res.json())
-            .then(data => {
-                this.setState({parchasecnt: data.length})
-            })
-        fetch('http://127.0.0.1:8000/api/order?func=distinctordernum&orderstate=deliver&startdate='+startdate+'&enddate='+enddate)
-            .then(res => res.json())
-            .then(data => {
-                this.setState({delivercnt: data.length})
-            });
-        fetch('http://127.0.0.1:8000/api/order?func=distinctordernum&orderstate=finish&startdate='+startdate+'&enddate='+enddate)
-            .then(res => res.json())
-            .then(data => {
-                this.setState({finishcnt: data.length})
+                this.setState({
+                    allcnt: data[0],
+                    parchasecnt: data[1],
+                    delivercnt: data[2],
+                    finishcnt: data[3]
+                })
             });
     };
 
@@ -174,10 +155,11 @@ class OrderProgress extends Component {
         return (
             <div>
                 <Container fluid style={{margin: 0, padding: 0}}>
-                    <Headertitle title="구매 진행 현황"></Headertitle>
+                    {/*<Headertitle title="구매 진행 현황"></Headertitle>*/}
+                    <Goal comment={"구매 진행 현황"}/>
                     <DateSetting date={date} datesetting={this.datesetting}></DateSetting>
                     <OrderSearch orderstate={this.ordersearchstate} ordercnt={ordercnt} ></OrderSearch>
-                    <OrderView ordernum={ordernum} ></OrderView>
+                    <OrderView ordernum={ordernum} ordercntdata={this.ordercntdata} startdate={startdate} enddate={enddate} ordernumdata={this.ordernumdata} orderstate={orderstate}></OrderView>
                 </Container>
             </div>
         );

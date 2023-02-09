@@ -26,37 +26,29 @@ class OrderReqSearch extends Component {
         console.log(state)
     }
     componentDidMount() {
-        console.log(this.state.reqterm)
-        fetch('http://127.0.0.1:8000/api/request?reqstaging=처리중&termyearmonth='+this.state.reqterm)
+         fetch('http://127.0.0.1:8000/api/order?func=orderreqcount&&termyearmonth=' + this.state.reqterm+'&&state=parchase')
             .then(res => res.json())
-            .then(data => {this.setState({allcnt:data.length})})
-        fetch('http://127.0.0.1:8000/api/request?reqstaging=처리중&reqorder=구매전&termyearmonth='+this.state.reqterm)
-            .then(res => res.json())
-            .then(data => {this.setState({prevparchasecnt:data.length})})
-        fetch('http://127.0.0.1:8000/api/request?reqstaging=처리중&reqorder=구매완료&termyearmonth='+this.state.reqterm)
-            .then(res => res.json())
-            .then(data => {this.setState({parchasecnt:data.length})})
+            .then(data => {
+                    this.setState({allcnt:data[0],prevparchasecnt:data[1],parchasecnt:data[2],})
+            })
     }
 
     render() {
         const {allcnt,prevparchasecnt,parchasecnt} = this.state
         return (
             <div>
-
                 <Row style={{width: '100%'}}>
                     <Col>
                         <div className="cardcontain">
                             <Card style={{width: '95%'}}>
                                 <Card.Body   onClick={(e) => {this.statechange(e,"all")}}>
                                     <Card.Text className=" cardtitletext">전체</Card.Text>
-
                                         <Container>
                                             <Row>
                                                 <Col className="cardtext">{allcnt}</Col>
                                                 <Col> <img src={all} alt="logo"/></Col>
                                             </Row>
                                         </Container>
-
                                 </Card.Body>
                             </Card>
                         </div>
@@ -73,7 +65,6 @@ class OrderReqSearch extends Component {
                                                 <Col> <img src={parchase} alt="logo"/></Col>
                                             </Row>
                                         </Container>
-
                                 </Card.Body>
                             </Card>
                         </div>
@@ -83,14 +74,12 @@ class OrderReqSearch extends Component {
                             <Card style={{width: '95%'}}>
                                 <Card.Body  onClick={(e) => {this.statechange(e,"parchase")}}>
                                     <Card.Text className="cardtitletext">구매완료</Card.Text>
-
                                         <Container>
                                             <Row>
                                                 <Col className="cardtext">{parchasecnt}</Col>
                                                 <Col> <img src={parchase} alt="logo"/></Col>
                                             </Row>
                                         </Container>
-
                                 </Card.Body>
                             </Card>
                         </div>

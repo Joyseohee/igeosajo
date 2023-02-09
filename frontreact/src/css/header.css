@@ -68,7 +68,7 @@
 }
 .headermargin{
     display: flex;
-    margin:30px;
+    /*margin:30px;*/
     margin-bottom: 30px;
 }
 .barmargin{

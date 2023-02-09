@@ -26,6 +26,7 @@ class OrderTable extends Component {
 
     render() {
         const {reqdata} = this.state
+        console.log(reqdata)
         return (
 
             <Table striped>
