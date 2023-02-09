@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import Table from "react-bootstrap/Table";
-import Pagination from 'react-bootstrap/Pagination';
 import {withRouter} from "react-router-dom";
 import "../../styled/DocList.css"
 
@@ -12,10 +11,6 @@ class DocList extends Component {
             listState: "allselect",
             moveDetail: 0
         }
-    }
-
-    componentDidMount() {
-        this.props.statechange("allselect");
     }
 
     moveDocDetail = (e) => {
@@ -60,12 +55,6 @@ class DocList extends Component {
 
                 </tbody>
             </Table>
-
-            <Pagination>
-                <Pagination.First/>
-                <Pagination.Prev/>
-                <Pagination.Item>{1}</Pagination.Item>
-            </Pagination>
         </div>);
     }
 }

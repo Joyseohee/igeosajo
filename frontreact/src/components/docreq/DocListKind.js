@@ -11,44 +11,14 @@ class DocListKind extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-            allcnt: 0,
-            approvalcnt: 0,
-            rejectcnt: 0,
-            waitcnt: 0
-        }
-        this.statechange = this.statechange.bind(this);
     }
 
     statechange = (e) => {
         this.props.statechange(e);
     }
 
-    componentDidMount() {
-        fetch('http://127.0.0.1:8000/api/document?checkDetail=1')
-            .then(res => res.json())
-            .then(data => {
-                this.setState({allcnt: data.length})
-            })
-        fetch('http://127.0.0.1:8000/api/document?state=승인&checkDetail=1')
-            .then(res => res.json())
-            .then(data => {
-                this.setState({approvalcnt: data.length})
-            })
-        fetch('http://127.0.0.1:8000/api/document?state=반려&checkDetail=1')
-            .then(res => res.json())
-            .then(data => {
-                this.setState({rejectcnt: data.length})
-            });
-        fetch('http://127.0.0.1:8000/api/document?state=대기&checkDetail=1')
-            .then(res => res.json())
-            .then(data => {
-                this.setState({waitcnt: data.length})
-            });
-    }
-
     render() {
-        const {allcnt, approvalcnt, rejectcnt, waitcnt} = this.state
+        const {allcnt, approvalcnt, rejectcnt, waitcnt} = this.props
         return (
             <div className="containermargin">
 
