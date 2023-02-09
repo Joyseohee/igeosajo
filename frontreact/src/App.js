@@ -85,10 +85,10 @@ class App extends Component {
                                     <RequestUser usernum={usernum} setpagename={this.setpagename}/>
                                 </Route>
                                 <Route exact path="/request">
-                                    <Request usernum={usernum} setpagename={this.setpagename}/>
+                                    <Request user={user} setpagename={this.setpagename}/>
                                 </Route>
                                 <Route exact path="/reqterm">
-                                    <Reqterm usernum={usernum} setpagename={this.setpagename}/>
+                                    <Reqterm user={user} setpagename={this.setpagename}/>
                                 </Route>
                                 <Route exact path="/order">
                                     <Order usernum={usernum} setpagename={this.setpagename}/>

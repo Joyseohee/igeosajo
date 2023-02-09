@@ -9,7 +9,7 @@ class SelectReqterm extends Component {
     render() {
         const {reqtermList} = this.props;
         return (
-            <FormSelect onChange={(e) => this.props.handleSelect(e)}>
+            <FormSelect onChange={(e) => this.props.handleSelect(e)} defaultValue={reqtermList[0]}>
                 {reqtermList.map((reqterm) => {
                     return (
                         <option key={reqterm.termyearmonth}
