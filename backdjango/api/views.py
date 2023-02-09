@@ -596,6 +596,8 @@ def post_order_view(self):
         query = 'SELECT Max(ordernum) FROM "order"'
         cursor.execute(query)
         orderdata = dictfetchall(cursor)
+        if(orderdata[0]['max'] == None):
+            orderdata[0]['max'] = 0
         ordernum = orderdata[0]['max'] + 1
         for i in reqdata:
             reqnum = i
