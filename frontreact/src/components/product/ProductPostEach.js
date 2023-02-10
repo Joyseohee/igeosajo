@@ -5,15 +5,14 @@ import Product from "../../pages/Product";
 import Counter from "./cartcount";
 import PostCartModal from "./PostCartModal";
 
-class ProductPost extends Component {
+class ProductPostEach extends Component {
     constructor(props) {
         super(props);
         this.state = {
 
             posted: false,
-            gocart: false,
-            prodnumList2: [],
-            cartcountList: []
+            gocart: false
+
         };
         this.postClick = this.postClick.bind(this);
 
@@ -22,30 +21,14 @@ class ProductPost extends Component {
     //post
     postClick = () => {
 
-        let prodnumList = this.props.prodnumList
-        let cartcountList = this.state.cartcountList
-        let prodnumList2 = this.state.prodnumList2
-        let productItemList = this.props.productItemList
-
+        const prodnum = this.props.prodnum
+        const count = this.props.count
         const usernum = this.props.usernum
-        console.log("prodnumList: " + prodnumList)
-        for (let i = 0; i < prodnumList.length; i++) {
-            console.log('post1')
-            console.log(productItemList)
-            console.log(i)
-            console.log(prodnumList[i])
-            var returnValue = productItemList.find(function (data) {
-                return data.prodnum === prodnumList[i]
-            });
-            console.log('post2')
-            console.log(returnValue.prodnum)
-            if (returnValue) {
-                console.log('post3')
-                prodnumList2.push(returnValue.prodnum);
-                cartcountList.push(returnValue.ccount);
-            }
-        }
-        console.log('post4')
+
+        let prodnumList = [];
+        let cartcountList = [];
+        prodnumList.push(prodnum);
+        cartcountList.push(count);
 
         const response = fetch('http://127.0.0.1:8000/api/cart', {
             method: 'POST',
@@ -53,32 +36,22 @@ class ProductPost extends Component {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                "prodnum": prodnumList2,
+                "prodnum": prodnumList,
                 "usernum": usernum,
                 "cartcount": cartcountList
             }),
         })
 
-        prodnumList = [];
-        prodnumList2 = [];
-        cartcountList = [];
+
         this.setState({
-            prodnumList2: prodnumList2,
-            prodnumList: prodnumList,
-            cartcountList: cartcountList,
             posted: false,
             gocart: true
         }, () => {
-                this.props.postcheck(this.state.posted);
-            });
-
-
-
+            this.props.postcheck(this.state.posted);
+        });
     }
 
     handleClose = () => {
-
-
         this.setState({
             posted: false,
             gocart: false
@@ -100,11 +73,12 @@ class ProductPost extends Component {
 
     render() {
         const {posted, gocart} = this.state
-        const {prodnumList} = this.props
+        const {count} = this.props
+        let disabled = count !== 0 ? 0 : 1
 
         return (
             <div>
-                <button className="btn btn-primary" onClick={this.postClick2}>장바구니 담기</button>
+                <button className="btn btn-primary" onClick={this.postClick2} disabled={disabled}>cart</button>
 
 
                 {posted && <PostCartModal show={true} id={1}
@@ -117,15 +91,13 @@ class ProductPost extends Component {
                                           handleConfirm={this.handleConfirm}
                                           modalInfo={this.props.modalInfo}
                 />}
-                {posted && prodnumList.length === 0 && <PostCartModal show={true} id={3}
-                                                                      confirm={"확인"} handleClose={this.handleClose}
-                                                                      handleConfirm={this.handleClose}
-                                                                      modalInfo={this.props.modalInfo}
-                />}
+
             </div>
 
         )
     }
+
+
 }
 
-export default ProductPost;
+export default ProductPostEach

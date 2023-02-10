@@ -2,12 +2,13 @@ import React, {Component} from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import Form from 'react-bootstrap/Form';
 import Table from "react-bootstrap/Table";
-import Counter from '../components/common/cartcount';
+import Counter from '../components/product/cartcount';
 import jwt_decode from "jwt-decode";
 import DeleteCart from "../components/cart/DeleteCart";
 import PostCartToRequest from "../components/cart/PostCartToRequest";
 import ProductDetail from "../components/product/ProductDetail";
 import CartDetail from "../components/cart/CartDetail";
+import Api from "../api/Api";
 
 
 class Cart extends Component {
@@ -36,20 +37,28 @@ class Cart extends Component {
                     type: 'move',
                     text: "신청 내역을 확인하시겠습니까?",
                     path: "/requestuser"
+                }, {
+                    id:3,
+                    type: 'alert',
+                    text: "선택한 물품이 없습니다.",
+                    path: ''
                 },
                 {
-                    id: 3,
+                    id: 4,
                     type: 'confirm',
                     text: "선택하신 항목을 장바구니에서 삭제하시겠습니까??",
                     path: ""
                 }
             ],
+            available: 0,
+            termyearmonth: ''
         };
 
         // this.handleClick2 = this.handleClick2.bind(this);
         // this.handleClick = this.handleClick.bind(this);
         // this.choiceAll = this.choiceAll.bind(this);
         this.getlist = this.getlist.bind(this);
+
         // this.choiceAll2 = this.choiceAll2.bind(this);
         // this.choiceUnit = this.choiceUnit.bind(this);
         // this.choiceUnit2 = this.choiceUnit2.bind(this);
@@ -61,6 +70,7 @@ class Cart extends Component {
     //get
     async componentDidMount() {
         this.getlist();
+        this.checkterm();
 
 
     }
@@ -85,6 +95,30 @@ class Cart extends Component {
             console.log(e);
             console.log('dsd');
         }
+    }
+
+    checkterm = () => {
+        let now = new Date();
+        let year = now.getFullYear()
+        let month = now.getMonth() + 1
+        if (month < 10) {
+            month = '0' + month
+        }
+        const termyearmonth = year + '' + month
+
+        let available = this.state.available
+        new Api().read("reqterm", null, null)
+            .then((response) => {
+                return response.json();
+            })
+            .then((response) => {
+
+                available = response.filter(term => term.termyearmonth !== termyearmonth)[0].termavailable;
+                this.setState({
+                    available: available,
+                    termyearmonth: termyearmonth
+                })
+            });
     }
 
     //선택
@@ -138,7 +172,7 @@ class Cart extends Component {
     }
 
     render() {
-        const {select} = this.state;
+        const {select, available} = this.state;
         // const usernum = this.props.usernum;
         //console.login(usernum);
 
@@ -169,13 +203,16 @@ class Cart extends Component {
         return (
             <div>
                 <div><a>장바구니 </a>
-                    {/*<button className="btn btn-primary" onClick={this.handleClick2}>승인신청</button>*/}
-                    <PostCartToRequest postcheck={this.postcheck} usernum={this.props.usernum}
-                                       prodnumList={this.state.prodnumList}
-                                       reqcountList={this.state.reqcountList} reqpriceList={this.state.reqpriceList}
-                                       posted={this.state.posted} modalInfo={this.state.modalInfo}/>
-                    <DeleteCart usernum={this.props.usernum} prodnum2={this.state.prodnum2} postcheck={this.postcheck}
-                                modalInfo={this.state.modalInfo}/>
+                    {available ?
+                        <div><PostCartToRequest postcheck={this.postcheck} usernum={this.props.usernum}
+                                                prodnumList={this.state.prodnumList}
+                                                reqcountList={this.state.reqcountList}
+                                                reqpriceList={this.state.reqpriceList}
+                                                posted={this.state.posted} modalInfo={this.state.modalInfo}/>
+                            <DeleteCart usernum={this.props.usernum} prodnum2={this.state.prodnum2}
+                                        postcheck={this.postcheck}
+                                        modalInfo={this.state.modalInfo}/>
+                        </div> : '현재 신청기간이 아닙니다. 신청 및 장바구니 삭제가 불가능합니다.'}
                 </div>
                 <CartDetail items={this.state.items} func1={this.checksend1}
                             func2={this.checksend2}
