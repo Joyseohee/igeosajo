@@ -762,8 +762,13 @@ def get_doc(self):
             checkDetail = self.GET.get('checkDetail')
 
             if checkDetail:
+                pagenum = self.GET.get('pagenum')
                 docstate = '\'' + data + '\''
-                query = 'select distinct docnum, docstate, docwdate from doc where doccancled = 0 and docstate=' + docstate + ' order by docnum'
+
+                if pagenum:
+                    query = 'select distinct docnum, docstate, docwdate from doc where doccancled = 0 and docstate=' + docstate + ' order by docnum limit 10 offset ' + str((int(pagenum) - 1) * 10)
+                else:
+                    query = 'select distinct docnum, docstate, docwdate from doc where doccancled = 0 and docstate=' + docstate + ' order by docnum'
                 cursor.execute(query)
             else:
                 docstate = '\'' + data + '\''
@@ -802,7 +807,11 @@ def get_doc(self):
     else:
         checkDetail = self.GET.get('checkDetail')
         if checkDetail:
-            query = 'SELECT distinct docnum, docstate, docwdate FROM doc where doccancled = 0 order by docnum'
+            pagenum = self.GET.get('pagenum')
+            if pagenum:
+                query = 'SELECT distinct docnum, docstate, docwdate FROM doc where doccancled = 0 order by docnum limit 10 offset ' + str((int(pagenum) - 1) * 10)
+            else:
+                query = 'SELECT distinct docnum, docstate, docwdate FROM doc where doccancled = 0 order by docnum'
         else:
             query = 'SELECT * FROM doc order by docnum'
         cursor.execute(query)

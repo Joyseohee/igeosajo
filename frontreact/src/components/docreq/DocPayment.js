@@ -4,6 +4,7 @@ import Table from 'react-bootstrap/Table';
 import "../../styled/DocRequestCss.css"
 import Modal1 from "../layout/Modal1";
 import {withRouter} from "react-router-dom";
+import CommonUtil from "../../util/CommonUtil";
 
 class DocPayment extends Component {
 

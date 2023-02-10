@@ -60,7 +60,7 @@ class Login extends Component {
     render() {
             return (
                 <div className={"loginDiv"}>
-                    <img src={"/user.png"}/>
+                    <img src={"/img/user.png"}/>
                     <Container className="panel">
 
                         <Form>
