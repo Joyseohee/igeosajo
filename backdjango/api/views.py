@@ -260,8 +260,7 @@ def post_cart(self):
     for num, count in zip(prodnum, cartcount):
         
         if count !=0: 
-            query = 'select usernum, prodnum, cartcount from cart where usernum= ' + str(usernum) + ' and prodnum =' + str(
-                num)
+            query = 'select usernum, prodnum, cartcount from cart where usernum= ' + str(usernum) + ' and prodnum =' + str(num)
             cursor.execute(query)
             data = dictfetchall(cursor)
 
@@ -1115,8 +1114,14 @@ def get_category1(self):
     return response
 
 def get_category2(self):
+    category1code = self.GET.get('category1code', '')
+    print(category1code)
     cursor = connection.cursor()
+    
     query = 'SELECT * FROM CATEGORY2'
+    if (category1code !='') : 
+        query += ' WHERE CATEGORY1CODE ='+str(category1code)
+    
     cursor.execute(query)
     data = dictfetchall(cursor)
     response = JsonResponse(data, safe=False)

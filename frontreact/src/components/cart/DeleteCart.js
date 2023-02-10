@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import Product from "../../pages/Product";
-import Counter from "../common/cartcount";
+// import Product from "../../pages/Product";
+// import Counter from "../common/cartcount";
 import PostCartModal from "../product/PostCartModal";
 
 class DeleteCart extends Component {
@@ -43,6 +43,7 @@ class DeleteCart extends Component {
 
     render() {
         const posted = this.state.posted
+        const prodnum = this.props.prodnum2;
 
         return (
             <div>
@@ -52,10 +53,15 @@ class DeleteCart extends Component {
                 </button>
 
 
-                {posted && <PostCartModal show={true} id={3}
+                {posted && <PostCartModal show={true} id={4}
                                           confirm={"삭제하기"} handleClose={this.handleClose}
                                           handleConfirm={this.handleConfirm}
                                           modalInfo={this.props.modalInfo}
+                />}
+                {posted && prodnum.length === 0 && <PostCartModal show={true} id={3}
+                                                                      confirm={"확인"} handleClose={this.handleClose}
+                                                                      handleConfirm={this.handleClose}
+                                                                      modalInfo={this.props.modalInfo}
                 />}
             </div>
         )

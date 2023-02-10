@@ -54,7 +54,7 @@ class ReqtermFix extends Component {
         let defaultEndDate = null;
         const disabled = this.props.createAvailable;
         if(!disabled) {
-            defaultEndDate = this.props.reqtermList[0].termenddate;
+            defaultEndDate = this.props.presentTerm.termenddate;
         }
 
         return (

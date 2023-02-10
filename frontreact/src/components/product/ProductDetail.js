@@ -1,8 +1,8 @@
 import Table from "react-bootstrap/Table";
 import Form from "react-bootstrap/Form";
 import React, {Component} from 'react';
-import Product from "../../pages/Product";
-import Counter from "../common/cartcount";
+import Counter from "./cartcount";
+import ProductPostEach from "./ProductPostEach";
 
 class ProductDetail extends Component {
 
@@ -33,16 +33,16 @@ class ProductDetail extends Component {
 
         checkboxes.forEach((checkbox) => {
             checkbox.checked = selectAll[0].checked;
-            if (selectAll[0].checked) {
+            if (checkbox.disabled) {
+                checkbox.checked = false
+            }
+            if (checkbox.checked) {
+                console.log(checkbox.checked)
                 prodnumList.push(parseInt(checkbox.value));
                 this.setState({
                     prodnumList: prodnumList
-                })
-            } else {
-                console.log("else1")
-                prodnumList = [];
-                this.setState({
-                    prodnumList: prodnumList
+                }, () => {
+                    console.log("11111111111   " + prodnumList)
                 })
             }
         })
@@ -98,11 +98,13 @@ class ProductDetail extends Component {
         checkboxes.forEach((checkbox) => {
             checkbox.checked = false;
         })
-          checkall.forEach((state)=>{state.checked = false})
+        checkall.forEach((state) => {
+            state.checked = false
+        })
         prodnumList = [];
-            this.setState({
-                prodnumList: prodnumList
-            })
+        this.setState({
+            prodnumList: prodnumList
+        })
     }
 
     // cartcount = (res, res2) => {
@@ -172,9 +174,9 @@ class ProductDetail extends Component {
 
 
     render() {
-        const data2 = this.state.data2
-        let list = this.props.productItemList.map((list, idx) => (
 
+
+        let list = this.props.productItemList.map((list, idx) => (
             <tbody>
             <tr key={list.prodnum}>
                 <td>{idx + 1}</td>
@@ -182,7 +184,7 @@ class ProductDetail extends Component {
                                 value={[list.prodnum]}
                                 onChange={(e) => {
                                     this.choiceUnit(e.target.checked, e.target.value);
-                                }}/></td>
+                                }} disabled={!list.ccount}/></td>
                 <td>{list.prodname}</td>
                 <td>{list.prodnum}</td>
                 <td><img src={list.prodimg}/></td>
@@ -193,11 +195,10 @@ class ProductDetail extends Component {
                              data={list.prodnum}
                              count={list.ccount}
                              prodnum={list.prodnum}
-
-
                              callback1={this.props.callback1}
                              callback2={this.props.callback2}
-                    />
+                    /><ProductPostEach prodnum={list.prodnum} count={list.ccount} usernum={this.props.usernum}
+                                       postcheck={this.props.postcheck} modalInfo={this.props.modalInfo}/>
                 </td>
             </tr>
 

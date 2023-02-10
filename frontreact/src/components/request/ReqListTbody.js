@@ -8,16 +8,20 @@ class ReqListTbody extends Component {
 
     render() {
 
-        const {request, checkedRequest, checkedAll} = this.props;
-        const disabled = this.props.filter==='대기'?false:true;
+        const {request, checkedAll, i} = this.props;
+        // const disabled = this.props.filter==='대기'?false: true;
+        // const disabled = !(request.reqstate === '대기');
         console.log(checkedAll);
         return (
             <>
                 <tr>
-                    <td>{this.props.i + 1}</td>
+                    <td>{i + 1}</td>
                     <td>{request.reqnum}</td>
-                    <td><Form.Check type={"checkbox"} name="check" value={request.reqnum} onChange={(e) => this.props.handleCheck(e)} disabled={disabled}
-                                    checked={checkedRequest.includes(request.reqnum.toString())||checkedAll}/></td>
+                    <td><Form.Check name={`request${i + 1}`}
+                                    checked={request.checked}
+                                    onChange={(e) => this.props.handleCheckboxChange(e)}
+                    /></td>
+                    {/*checked={checkedRequest.includes(request.reqnum.toString()) || (checkedAll && request.reqstate ==='대기')}/></td>*/}
                     <td>{request.prodname}</td>
                     <td>{request.reqcount}</td>
                     <td>{request.reqdate}</td>

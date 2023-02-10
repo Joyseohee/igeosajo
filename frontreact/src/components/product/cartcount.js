@@ -19,9 +19,8 @@ class Counter extends Component {
         this.props.callback1.handleIncrease(this.props.prodnum)
 
 
-
     }
-      handleDecrease = () => {
+    handleDecrease = () => {
         this.props.callback2.handleDecrease(this.props.prodnum)
 
     }
@@ -44,23 +43,6 @@ class Counter extends Component {
     //
     // }
 
-
-
-
-
-    countReset = () => {
-
-            console.log('componentDidUpdate if')
-            this.setState((prevState) => ({
-                counter: 0,
-            }), () => {
-                console.log("carcountreset: " + this.state.counter);
-
-            });
-            console.log("carcountresert2: " + this.state.counter);
-
-    }
-
     render() {
         // const {counter} = this.state;
         // console.log('여기')
@@ -69,12 +51,9 @@ class Counter extends Component {
 
         return (
             <div>
-                <h1>{count}</h1>
-                {/*<h1>{this.props.data}</h1>*/}
-                {/*<h1>{this.props.data2}</h1>*/}
-
-                <button onClick={this.handleIncrease}>+1</button>
-                <button onClick={this.handleDecrease}>-1</button>
+                <button onClick={this.handleDecrease}>-</button>
+                 <h1>{count}</h1>
+                <button onClick={this.handleIncrease}>+</button>
             </div>
         );
     }
