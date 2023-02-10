@@ -6,3 +6,8 @@
     width: 13rem;
     text-align: left;
 }
+
+.paginationDiv {
+    display: flex;
+    justify-content: center;
+}
