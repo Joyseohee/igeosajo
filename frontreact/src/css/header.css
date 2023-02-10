@@ -7,7 +7,14 @@
 .cardcontain:hover {
   opacity: 1.0;
 }
-
+.maincardcontainfirst{
+    margin-bottom: 20px;
+    padding-top: 30px;
+}
+.maincardcontainetc{
+    margin-bottom: 20px;
+    padding-top: 30px;
+}
 .cardtitletext{
     height: 20px;
     margin-left: 15px;
