@@ -23,6 +23,7 @@ class DocList extends Component {
     render() {
 
         let doclist = this.props.doclist;
+        let pageNum = this.props.pageNum;
 
         return (<div>
             <Table bordered hover>
@@ -42,7 +43,7 @@ class DocList extends Component {
                         <tr key={data.docnum} value={data.docnum} onClick={(e) => {
                             this.moveDocDetail(data.docnum)
                         }}>
-                            <td> {i + 1} </td>
+                            <td> {(pageNum - 1) * 10 +  i + 1} </td>
                             <td>결재요청</td>
                             <td>김연아</td>
                             <td>홍길동</td>

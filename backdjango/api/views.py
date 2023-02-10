@@ -260,8 +260,7 @@ def post_cart(self):
     for num, count in zip(prodnum, cartcount):
         
         if count !=0: 
-            query = 'select usernum, prodnum, cartcount from cart where usernum= ' + str(usernum) + ' and prodnum =' + str(
-                num)
+            query = 'select usernum, prodnum, cartcount from cart where usernum= ' + str(usernum) + ' and prodnum =' + str(num)
             cursor.execute(query)
             data = dictfetchall(cursor)
 
@@ -763,8 +762,13 @@ def get_doc(self):
             checkDetail = self.GET.get('checkDetail')
 
             if checkDetail:
+                pagenum = self.GET.get('pagenum')
                 docstate = '\'' + data + '\''
-                query = 'select distinct docnum, docstate, docwdate from doc where doccancled = 0 and docstate=' + docstate + ' order by docnum'
+
+                if pagenum:
+                    query = 'select distinct docnum, docstate, docwdate from doc where doccancled = 0 and docstate=' + docstate + ' order by docnum limit 10 offset ' + str((int(pagenum) - 1) * 10)
+                else:
+                    query = 'select distinct docnum, docstate, docwdate from doc where doccancled = 0 and docstate=' + docstate + ' order by docnum'
                 cursor.execute(query)
             else:
                 docstate = '\'' + data + '\''
@@ -803,7 +807,11 @@ def get_doc(self):
     else:
         checkDetail = self.GET.get('checkDetail')
         if checkDetail:
-            query = 'SELECT distinct docnum, docstate, docwdate FROM doc where doccancled = 0 order by docnum'
+            pagenum = self.GET.get('pagenum')
+            if pagenum:
+                query = 'SELECT distinct docnum, docstate, docwdate FROM doc where doccancled = 0 order by docnum limit 10 offset ' + str((int(pagenum) - 1) * 10)
+            else:
+                query = 'SELECT distinct docnum, docstate, docwdate FROM doc where doccancled = 0 order by docnum'
         else:
             query = 'SELECT * FROM doc order by docnum'
         cursor.execute(query)
@@ -1106,8 +1114,14 @@ def get_category1(self):
     return response
 
 def get_category2(self):
+    category1code = self.GET.get('category1code', '')
+    print(category1code)
     cursor = connection.cursor()
+    
     query = 'SELECT * FROM CATEGORY2'
+    if (category1code !='') : 
+        query += ' WHERE CATEGORY1CODE ='+str(category1code)
+    
     cursor.execute(query)
     data = dictfetchall(cursor)
     response = JsonResponse(data, safe=False)

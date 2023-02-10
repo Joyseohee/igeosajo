@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import Product from "../../pages/Product";
-import Counter from "../common/cartcount";
+import Counter from "../product/cartcount";
 import PostCartModal from "../product/PostCartModal";
 
 class PostCartToRequest extends Component {
@@ -22,8 +22,8 @@ class PostCartToRequest extends Component {
         if (month < 10) {
             month = '0' + month
         }
-        //const termyearmonth = year + '' + month
-        const termyearmonth = 202301
+        const termyearmonth = year + '' + month
+        // const termyearmonth = 202301
 
         console.log('날짜보기')
         console.log(termyearmonth)
@@ -54,47 +54,47 @@ class PostCartToRequest extends Component {
             })
 
         }).then(response => {
-            	this.props.postcheck();
-            })
+            this.props.postcheck();
+        })
 
 
     }
 
-        // if (this.props.posted === true) {
-        //     this.setState((state) => ({
-        //         posted: false
-        //     }), () => {
-        //         this.props.postcheck(this.state.posted);
-        //     });
-        //
-        // } else {
-        //     this.setState((state) => ({
-        //         posted: true
-        //     }), () => {
-        //         this.props.postcheck(this.state.posted);
-        //     });
-        //
-        // }
+    // if (this.props.posted === true) {
+    //     this.setState((state) => ({
+    //         posted: false
+    //     }), () => {
+    //         this.props.postcheck(this.state.posted);
+    //     });
+    //
+    // } else {
+    //     this.setState((state) => ({
+    //         posted: true
+    //     }), () => {
+    //         this.props.postcheck(this.state.posted);
+    //     });
+    //
+    // }
 
 
-        // if (this.props.posted === true) {
-        //     this.setState((state) => ({
-        //         posted: false
-        //     }), () => {
-        //         console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
-        //         this.props.postcheck(this.state.posted);
-        //      //   console.log('---------postcarttorequest2')
-        //     });
-        //
-        // } else {
-        //     this.setState((state) => ({
-        //         posted: true
-        //     }), () => { console.log('??????????????????????')
-        //         this.props.postcheck(this.state.posted);
-        //
-        //     });
-        //
-        // }
+    // if (this.props.posted === true) {
+    //     this.setState((state) => ({
+    //         posted: false
+    //     }), () => {
+    //         console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
+    //         this.props.postcheck(this.state.posted);
+    //      //   console.log('---------postcarttorequest2')
+    //     });
+    //
+    // } else {
+    //     this.setState((state) => ({
+    //         posted: true
+    //     }), () => { console.log('??????????????????????')
+    //         this.props.postcheck(this.state.posted);
+    //
+    //     });
+    //
+    // }
 
 
     handleClose = () => {
@@ -120,8 +120,8 @@ class PostCartToRequest extends Component {
     }
 
     render() {
-        const posted = this.state.posted
-        const gocart = this.state.gocart
+        const {posted, gocart} = this.state;
+        const prodnumList = this.props.prodnumList;
         return (
 
             <div>
@@ -139,8 +139,11 @@ class PostCartToRequest extends Component {
                                           confirm={"예"} handleClose={this.handleClose}
                                           handleConfirm={this.handleConfirm}
                                           modalInfo={this.props.modalInfo}
-
-
+                />}
+                {posted && prodnumList.length === 0 && <PostCartModal show={true} id={3}
+                                                                      confirm={"확인"} handleClose={this.handleClose}
+                                                                      handleConfirm={this.handleClose}
+                                                                      modalInfo={this.props.modalInfo}
                 />}
 
             </div>

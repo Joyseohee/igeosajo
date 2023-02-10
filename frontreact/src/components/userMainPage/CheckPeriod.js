@@ -11,8 +11,9 @@ class CheckPeriod extends Component {
 
         if (items.length === 0) {
             return (
-                <div>
+                <div>HEAD
                     <div><img src={"/alert2.png"}/> 사무용품 신청기간이 아닙니다</div>
+
                     <div></div>
                 </div>
             );
@@ -20,6 +21,7 @@ class CheckPeriod extends Component {
             return items[0].termavailable === 1 ?
                 <div>
                     <div><img src={"/alert.png"}/> 사무용품 신청기간입니다.</div>
+
                     <div>
                         신청기간 : {items[0].termstartdate} ~ {items[0].termenddate}
                     </div>

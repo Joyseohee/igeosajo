@@ -6,7 +6,7 @@ import ReqtermSet from "./ReqtermSet";
 class Reqbox extends Component {
 
     render() {
-        const {type, usernum, reqtermList, presentTermyearmonth, today} = this.props;
+        const {type, usernum, presentTerm, today} = this.props;
         let menuname = "";
         if (type === "reqterm-fix") menuname = "신청 기간 설정";
         if (type === "reqterm-set") menuname = "신청 시작/마감";
@@ -18,17 +18,18 @@ class Reqbox extends Component {
                     <div>{menuname}</div>
                     {type === "reqterm-fix" ?
                         <>
-                            <ReqtermFix usernum={usernum} reqtermList={reqtermList} today={today}
+                            <ReqtermFix usernum={usernum} presentTerm={presentTerm} today={today}
                                         getReqtermList={this.props.getReqtermList}
                                         createAvailable={this.props.createAvailable}
-                                        presentTermyearmonth={presentTermyearmonth}
                                         />
                         </>
                         :
                         <>
-                            <ReqtermSet usernum={usernum} reqtermList={reqtermList} today={today}
-                                        presentTermyearmonth={presentTermyearmonth}
-                                        />
+                            {/*<ReqtermSet usernum={usernum} reqtermList={reqtermList} today={today}*/}
+                            {/*            getReqtermList={this.props.getReqtermList}*/}
+                            {/*            createAvailable={this.props.createAvailable}*/}
+                            {/*            presentTermyearmonth={presentTermyearmonth}*/}
+                            {/*            />*/}
                         </>
                     }
                 </div>

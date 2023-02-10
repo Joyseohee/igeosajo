@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import Form from "react-bootstrap/Form";
 import Table from "react-bootstrap/Table";
-import Counter from "../components/common/cartcount";
+import Counter from "../components/product/cartcount";
 import jwt_decode from "jwt-decode";
 import ProductDetail from "../components/product/ProductDetail";
 import ProductPost from "../components/product/ProductPost";
@@ -10,6 +10,7 @@ import PostCartToRequest from "../components/cart/PostCartToRequest";
 import PostCartModal from "../components/product/PostCartModal";
 import Search from "../components/product/Search";
 import ProductFilter from "../components/product/ProductFilter";
+import Api from "../api/Api";
 
 //import parchase from "../../img/iconsparchase.png";
 
@@ -25,6 +26,8 @@ class Product extends Component {
             items: [],
             count: 0,
             prodname: '',
+            category2code: '',
+            category1code: '',
             data: {},
             productItemList2: [],
             productItemList: [],
@@ -48,13 +51,22 @@ class Product extends Component {
                     text: "장바구니에 담았습니다." +
                         "장바구니로 이동하시겠습니까?",
                     path: "/cart"
+                },
+                {
+                    id:3,
+                    type: 'alert',
+                    text: "선택한 물품이 없습니다.",
+                    path: ''
                 }
-            ]
+            ],
+            available: 0,
+            termyearmonth: ''
         };
         this.checksend = this.checksend.bind(this);
         //  this.componentDidUpdate = this.componentDidUpdate.bind(this);
         this.postcheck = this.postcheck.bind(this);
-        this.getlist = this.getlist.bind(this)
+        this.getlist = this.getlist.bind(this);
+        this.checkterm = this.checkterm.bind(this)
         this.props.setpagename("상품목록");
 
     }
@@ -78,14 +90,40 @@ class Product extends Component {
     //post
     async componentDidMount() {
 
-        await this.getlist()
+        await this.getlist();
+        this.checkterm();
+    }
+
+    checkterm() {
+        let now = new Date();
+        let year = now.getFullYear()
+        let month = now.getMonth() + 1
+        if (month < 10) {
+            month = '0' + month
+        }
+        const termyearmonth = year + '' + month
+        console.log('termyearmonth:' + termyearmonth)
+
+        let available = this.state.available
+        new Api().read("reqterm", null, null)
+            .then((response) => {
+                return response.json();
+            })
+            .then((response) => {
+
+                available = response.filter(term => term.termyearmonth !== termyearmonth)[0].termavailable;
+                this.setState({
+                    available: available,
+                    termyearmonth: termyearmonth
+                })
+            });
     }
 
     async getlist() {
 
         const usernum = this.props.usernum;
-        const category1code = '' //this.props.category1code;
-        const category2code = '' // this.props.category2code;
+        const category1code = this.state.category1code;
+        const category2code = this.state.category2code;
         const prodname = this.state.prodname;
 
 
@@ -306,25 +344,42 @@ class Product extends Component {
             () => this.getlist())
     }
 
+    callbackFilter = (res1, res2) => {
+        this.setState({
+                category1code: res1,
+                category2code: res2
+            },
+            () => this.getlist())
+    }
+
     render() {
         console.log("prodnumListrrrr: " + this.state.prodnumList)
 
         console.log("productItemList2rrr: " + this.state.productItemList2)
-        const posted = this.state.posted
+        const {
+            posted,
+            available
+        } = this.state
+        console.log('available: ' + available)
         return (
             <div>
                 <div><a>상품목록 </a>
-                    <Search callbackSearch={this.callbackSearch}/> <ProductFilter/> <ProductPost postcheck={this.postcheck}
-                                                                                productItemList={this.state.productItemList}
-                                                                                prodnumList={this.state.prodnumList}
-                                                                                usernum={this.props.usernum}
-                                                                                modalInfo={this.state.modalInfo}/>
+                    <Search callbackSearch={this.callbackSearch}/> <ProductFilter callbackFilter={this.callbackFilter}/>
+                    {available ? <ProductPost postcheck={this.postcheck}
+                                              productItemList={this.state.productItemList}
+                                              prodnumList={this.state.prodnumList}
+                                              usernum={this.props.usernum}
+                                              modalInfo={this.state.modalInfo}/> : '현재는 신청기간이 아닙니다. 장바구니 담기가 불가능 합니다'}
 
                 </div>
-                <ProductDetail productItemList={this.state.productItemList} func1={this.checksend}
+                <ProductDetail productItemList={this.state.productItemList}
+                               usernum={this.props.usernum}
+                               func1={this.checksend}
                                ref={this.ref}
                                callback1={{handleIncrease: this.handleIncrease}}
                                callback2={{handleDecrease: this.handleDecrease}}
+                               modalInfo={this.state.modalInfo}
+                               postcheck={this.postcheck}
                 />
 
             </div>

@@ -30,7 +30,10 @@ class App extends Component {
     }
 
     componentDidMount() {
-        try {this.changeLogined(this.state.logined);} catch (e) {  }
+        try {
+            this.changeLogined(this.state.logined);
+        } catch (e) {
+        }
     }
 
     setpagename = (pagename) => {
@@ -111,7 +114,6 @@ class App extends Component {
                                 <Route exact path="/docpaylist">
                                     <DocPaymentList usernum={usernum} setpagename={this.setpagename}/>
                                 </Route>
-
                             </>
                         }
                     </Switch>

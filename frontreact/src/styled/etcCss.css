@@ -6,8 +6,6 @@
     width: 100%;
     text-align: left;
 }
-
-
 .subGoalDiv{
      border-left: 0.5rem solid rgb(82, 150, 213);
     font-size: 1.3rem;
@@ -16,10 +14,14 @@
     width: 100%;
     text-align: left;
 }
-
 .DocCountCardDiv img{
     width: 3rem;
 }
-.ReqCountCardDiv img{
+.ReqCountCardDiv img {
     width: 3rem;
+}
+.paginationDiv {
+    display: flex;
+    justify-content: center;
+
 }
