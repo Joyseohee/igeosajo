@@ -1,26 +1,6 @@
 import React, {Component} from "react";
 
 export default class Api extends Component {
-    fetchData = (table, params, pk, method) => {
-        let api = '';
-        if (table === 'request') {
-            api = this.request(params, pk);
-        } else if (table === 'reqterm') {
-            api = this.reqterm(params, pk);
-        } else if (table === 'user') {
-            api = this.user(params, pk);
-        }
-
-        const options = {method};
-        if (method === 'POST' || method === 'PUT') {
-            options.headers = {
-                'Content-Type': 'application/json; charset=utf-8',
-            };
-            options.body = JSON.stringify(params);
-        }
-        return fetch(api, options);
-    };
-
     create = (table, params, pk) => {
         return this.fetchData(table, params, pk, 'POST');
     };
@@ -57,6 +37,26 @@ export default class Api extends Component {
         }
 
         return api;
+    };
+
+    fetchData = (table, params, pk, method) => {
+        let api = '';
+        if (table === 'request') {
+            api = this.request(params, pk);
+        } else if (table === 'reqterm') {
+            api = this.reqterm(params, pk);
+        } else if (table === 'user') {
+            api = this.user(params, pk);
+        }
+
+        const options = {method};
+        if (method === 'POST' || method === 'PUT') {
+            options.headers = {
+                'Content-Type': 'application/json; charset=utf-8',
+            };
+            options.body = JSON.stringify(params);
+        }
+        return fetch(api, options);
     };
 
     reqterm = (params, pk) => {

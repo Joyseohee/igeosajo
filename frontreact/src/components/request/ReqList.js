@@ -1,43 +1,90 @@
 import React, {Component} from "react";
-import ReqListTbody from "./ReqListTbody";
 import {Form, Table} from "react-bootstrap";
 
 class ReqList extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+            requestList: null,
+            allChecked: false,
+            checkedRequests: null,
+        };
     }
 
-    handleCheck = (e) => {
-        const arr = this.props.checkedRequest;
-        const value = e.target.value;
-        const checkIndex = arr.findIndex((item) => item === value);
-        if (checkIndex === -1) {
-            arr.push(value);
-        } else {
-            arr.splice(checkIndex, 1);
-        }
-        this.props.storeChecked(arr);
-    };
+    handleCheckboxChange = (event) => {
+        const {name, checked} = event.target;
+        this.setState((prevState, prevProps) => {
+            console.log(prevProps);
+            let newState;
+            if (name === "allChecked") {
+                newState = {
+                    ...prevState,
+                    requestList: prevProps.requestList.map((request) => ({
+                        ...request,
+                        checked: checked,
+                    })),
+                    allChecked: checked,
+                    checkedRequests: checked
+                        ? prevProps.requestList.filter((request) => request.reqstate === "대기")
+                        : [],
+                };
+            } else {
+                let index = name.charAt(name.length - 1) - 1;
+                let newRequestList = [...prevProps.requestList];
+                newRequestList[index].checked = checked;
 
-    handleCheckAll = (checked) => {
-        this.props.handleCheckAll(checked);
+                newState = {
+                    ...prevState,
+                    requestList: newRequestList,
+                };
+
+                let allChecked = newRequestList.every((request) => request.checked);
+
+                newState = {
+                    ...newState,
+                    allChecked: allChecked,
+                };
+
+                let checkedRequests = prevProps.checkedRequest.filter(
+                    (request) => request.reqnum !== newRequestList[index].reqnum
+                );
+
+                if (checked) {
+                    checkedRequests = [...checkedRequests, newRequestList[index]];
+                }
+
+                newState = {
+                    ...newState,
+                    checkedRequests: checkedRequests,
+                };
+            }
+            this.props.storeChecked(newState.checkedRequests, newState.requestList);
+            return newState
+        });
+
     };
 
     render() {
-        const {checkedRequest, filter, requestList, checkedAll} = this.props;
-        const disabled = this.props.filter !== '대기';
+        const {requestList, checkedRequest} = this.props;
+        const {allChecked} = this.state;
+        console.log(requestList);
+        console.log(checkedRequest);
+
         return (
             <div className="wrapper">
-                <div>요청 수 : {requestList.length}</div>
+                <div>요청 수: {requestList.length}</div>
                 <Table>
                     <thead>
                     <tr>
                         <th>번호</th>
                         <th>reqnum</th>
-                        <th><Form.Check type={"checkbox"} name="checkedRequest" value={requestList}
-                                        checked={checkedAll}
-                                        onChange={(e) => this.handleCheckAll(e.target.checked)}
-                                        disabled={disabled}/></th>
+                        <th>
+                            <Form.Check
+                                name="allChecked"
+                                checked={allChecked}
+                                onChange={this.handleCheckboxChange}
+                            />
+                        </th>
                         <th>품목명</th>
                         <th>수량</th>
                         <th>요청일자</th>
@@ -48,12 +95,20 @@ class ReqList extends Component {
                     <tbody>
                     {requestList.map((request, i) => {
                         return (
-                            <ReqListTbody request={request} key={request.reqnum} i={i}
-                                          handleCheck={this.handleCheck}
-                                          checkedAll={checkedAll}
-                                          checkedRequest={checkedRequest}
-                                          filter={filter}
-                            />
+                            <tr key={request.reqnum}>
+                                <td>{i + 1}</td>
+                                <td>{request.reqnum}</td>
+                                <td><Form.Check name={`request${i + 1}`}
+                                                checked={request.checked}
+                                                hidden={request.reqstate !== '대기'}
+                                                onChange={(e) => this.handleCheckboxChange(e)}
+                                /></td>
+                                <td>{request.prodname}</td>
+                                <td>{request.reqcount}</td>
+                                <td>{request.reqdate}</td>
+                                <td>{request.username}</td>
+                                <td>{request.reqstate}</td>
+                            </tr>
                         );
                     })}
                     </tbody>
