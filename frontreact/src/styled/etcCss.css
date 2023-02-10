@@ -3,6 +3,23 @@
     font-size: 1.6rem;
     font-weight: bold;
     padding-left: 15px;
-    width: 13rem;
+    width: 100%;
     text-align: left;
+}
+
+
+.subGoalDiv{
+     border-left: 0.5rem solid rgb(82, 150, 213);
+    font-size: 1.3rem;
+    font-weight: bold;
+    padding-left: 15px;
+    width: 100%;
+    text-align: left;
+}
+
+.DocCountCardDiv img{
+    width: 3rem;
+}
+.ReqCountCardDiv img{
+    width: 3rem;
 }

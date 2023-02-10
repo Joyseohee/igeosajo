@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import "../styled/Layouts.css"
 import UserMain from "./UserMain";
+import AdminMain from "./AdminMain";
 
 let choice;
 
@@ -14,7 +15,7 @@ class Main extends Component {
 
         switch (this.props.user.userathority) {
             case 1 :
-                // choice = ();
+                choice = (<AdminMain user={this.props.user}/>);
                 break;
             case 2 :
                 choice = (<UserMain user={this.props.user}/>);
