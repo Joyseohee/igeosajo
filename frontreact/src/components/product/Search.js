@@ -2,7 +2,7 @@ import Table from "react-bootstrap/Table";
 import Form from "react-bootstrap/Form";
 import React, {Component} from 'react';
 import Product from "../../pages/Product";
-import Counter from "../common/cartcount";
+import Counter from "./cartcount";
 
 class Search extends Component {
     constructor(props) {

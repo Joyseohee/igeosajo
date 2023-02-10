@@ -1,8 +1,7 @@
 import Table from "react-bootstrap/Table";
 import Form from "react-bootstrap/Form";
 import React, {Component} from 'react';
-import Product from "../../pages/Product";
-import Counter from "../common/cartcount";
+
 
 class CartDetail extends Component {
     constructor(props) {

@@ -50,7 +50,7 @@ class PostCartModal extends Component {
                 >
                     <Modal.Body>{text}</Modal.Body>
                     <Modal.Footer>
-                        <Button variant="secondary" onClick={this.props.handleClose}>아니오</Button>
+                        {result[0].type!=='alert'? <Button variant="secondary" onClick={this.props.handleClose}>아니오</Button> : null}
 
                         <Button variant="primary" value={confirm} onClick={(e) => {
                             this.handleConfirm(e)
