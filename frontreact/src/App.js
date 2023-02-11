@@ -23,7 +23,7 @@ class App extends Component {
     constructor() {
         super();
         this.state = {
-            user: "fakenum",
+            user: "user",
             pagename: "페이지",
             logined: 'N',
         }
@@ -66,14 +66,14 @@ class App extends Component {
             <>
                 <Layouts user={user} pagename={pagename}>
                     <Switch>
-                        {user === "fakenum" &&
+                        {user === "user" &&
                             <>
                                 <Route exact path="/">
                                     <Login setpagename={() => this.setpagename()} changeLogined={this.changeLogined}/>
                                 </Route>
                             </>
                         }
-                        {user !== "fakenum" &&
+                        {user !== "user" &&
                             <>
                                 <Route exact path="/main">
                                     <Main user={user} setpagename={this.setpagename}/>

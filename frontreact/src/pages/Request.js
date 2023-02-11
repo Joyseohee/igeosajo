@@ -190,7 +190,7 @@ class Request extends Component {
         } = this.state;
 
         const showConfirmModal = showRejectModal || showApproveConfirmModal || showRejectConfirmModal;
-        const modalType = showRejectModal ? "반려확인" : showApproveConfirmModal ? "신청" : showRejectConfirmModal ? "반려" : null;
+        const modalType = showRejectModal ? "반려확인" : showApproveConfirmModal ? "승인" : showRejectConfirmModal ? "반려" : null;
         const modalMessage = showRejectModal ? "반려 사유를 입력해주세요." : showApproveConfirmModal ? "신청을 승인하시겠습니까?" : showRejectConfirmModal ? "신청을 반려하시겠습니까?" : null;
         const confirmText = showApproveConfirmModal ? "승인" : showRejectConfirmModal || showRejectModal ? "반려" : null;
 

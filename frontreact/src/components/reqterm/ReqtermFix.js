@@ -8,10 +8,8 @@ class ReqtermFix extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            termstartdate: null,
-            termenddate: null,
-            termavailable: null,
-            disabled: true,
+            termstartdate: '2023-01-01',
+            termenddate: '2023-01-01',
         }
     }
 
@@ -20,16 +18,23 @@ class ReqtermFix extends Component {
         date = new CommonUtil().convertDateType(date);
         this.setState({
             termstartdate: date,
+            termenddate: date,
         })
     }
 
     setValue = (e) => {
-        let date = e.target.value;
-        console.log(date);
-        this.setState({
-            [e.target.name]: date,
-            disabled: e.target.name !== "termstartdate",
-        })
+        if (e.target.name === "termstartdate") {
+            let date = e.target.value;
+            this.setState({
+                termstartdate: date,
+                termenddate: date,
+            });
+        } else {
+            let date = e.target.value;
+            this.setState({
+                termenddate: date,
+            })
+        }
     }
 
     handleSubmit = (e) => {
@@ -42,19 +47,26 @@ class ReqtermFix extends Component {
             "termavailable": 0,
             "usernum": this.props.usernum,
         };
-        new Api().create("reqterm", param, null).then((response) => {
-            if (response.status === 500) alert("이미 해당 월에 기록이 있습니다.");
-            else if (response.status === 200) alert("새로운 신청기간이 등록됐습니다.");
+        new Api().create("reqterm", param, null)
+            .then((response) => {
+                if (response.status === 200) alert("새로운 신청기간이 등록됐습니다.");
+            }).then(() => {
+            this.props.getReqtermList();
         });
-        this.props.getReqtermList();
     }
 
+
     render() {
-        let defaultStart = new CommonUtil().convertDateType(this.props.today);
-        let defaultEndDate = null;
-        const disabled = this.props.createAvailable;
-        if(!disabled) {
-            defaultEndDate = this.props.presentTerm.termenddate;
+        const {today, presentTerm} = this.props;
+        let defaultStart = today ? new CommonUtil().convertDateType(today): '2023-01-01';
+        let defaultEndDate = this.state.termstartdate;
+        const minEndDate = this.state.termstartdate;
+        const maxDate = today && new CommonUtil().getLastDayInMonth(today);
+        const disabled = presentTerm === undefined;
+        if (!disabled) {
+            console.log("여기탐");
+            defaultStart = presentTerm.termstartdate;
+            defaultEndDate = presentTerm.termenddate;
         }
 
         return (
@@ -66,12 +78,18 @@ class ReqtermFix extends Component {
                     }
                     <Form.Group className="mb-3" controlId="formStartDate">
                         <Form.Label>시작일</Form.Label>
-                        <Form.Control type="date" defaultValue={defaultStart} name="termstartdate"
-                                      onChange={(e) => this.setValue(e)} disabled={!disabled}/>
+                        <Form.Control type="date" value={this.state.termstartdate} name="termstartdate"
+                                      min={defaultStart}
+                                      max={maxDate}
+                                      onChange={(e) => this.setValue(e)}
+                                      disabled={!disabled}/>
                     </Form.Group>
                     <Form.Group className="mb-3" controlId="formEndDate">
                         <Form.Label>마감일</Form.Label>
-                        <Form.Control type="date" defaultValue={defaultEndDate} name="termenddate" onChange={(e) => this.setValue(e)}
+                        <Form.Control type="date" value={this.state.termenddate} name="termenddate"
+                                      min={minEndDate}
+                                      max={maxDate}
+                                      onChange={(e) => this.setValue(e)}
                                       disabled={!disabled}/>
                     </Form.Group>
                     <Button onClick={(e) => this.handleSubmit(e)}
