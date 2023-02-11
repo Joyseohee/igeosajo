@@ -74,6 +74,28 @@ a:link, a:visited, a:hover {
     background-color: rgb(224, 224, 224);
 }
 
+/*.selected-menu {*/
+/*  color: rgb(80, 160, 255);*/
+/*}*/
+/*.selected {*/
+/*  color: rgb(80, 160, 255);*/
+/*}*/
+
+.menu1, .menu2 {
+    /*color: rgb(80, 160, 255);*/
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.menu1:hover, .menu2:hover {
+    color: cadetblue;
+}
+
+.menu1.active, .menu2.active, .selected {
+    color: rgb(80, 160, 255);
+}
+
+
 .sidebar-wrapper .sidebar {
     padding: 20px;
 }
