@@ -14,7 +14,7 @@ class ConfirmModal extends Component {
 
     render() {
         const {show, text, confirm, modalType} = this.props;
-        const confirmButton = text === "반려확인" ? "반려" : confirm;
+        console.log(modalType);
 
         return (
             <>
@@ -45,9 +45,9 @@ class ConfirmModal extends Component {
                     }
                     <Modal.Footer>
                         <Button variant="secondary" onClick={this.props.handleClose}>취소</Button>
-                        <Button variant="primary" value={confirm} onClick={(e) => {
+                        <Button variant="primary" value={modalType} onClick={(e) => {
                             this.handleConfirm(e)
-                        }}>{confirmButton}</Button>
+                        }}>{confirm}</Button>
                     </Modal.Footer>
                 </Modal>
             </>
