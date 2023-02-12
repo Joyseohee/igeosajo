@@ -29,6 +29,7 @@ class ReqList extends Component {
                 };
             } else {
                 let index = name.charAt(name.length - 1) - 1;
+                console.log(prevProps.requestList, name);
                 let newRequestList = [...prevProps.requestList];
                 newRequestList[index].checked = checked;
 

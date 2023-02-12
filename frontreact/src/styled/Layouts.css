@@ -20,7 +20,7 @@ a:link, a:visited, a:hover {
 
 .header .bar-wrapper {
     color: white;
-    background-color: rgb(52, 152, 219);
+    background-color: #1C91FB;
     padding: 5px 20px;
     height: 30px;
 }
@@ -33,6 +33,7 @@ a:link, a:visited, a:hover {
     display: flex;
     justify-content: flex-start;
     align-self: center;
+    cursor: pointer;
 }
 
 .header .bar {
@@ -51,7 +52,7 @@ a:link, a:visited, a:hover {
     font-weight: 900;
     font-size: larger;
     text-align: start;
-    color: rgb(52, 152, 219);
+    color: #1C91FB;
 }
 
 .header .photo {
@@ -92,7 +93,7 @@ a:link, a:visited, a:hover {
 }
 
 .menu1.active, .menu2.active, .selected {
-    color: rgb(80, 160, 255);
+    color: #1C91FB;
 }
 
 

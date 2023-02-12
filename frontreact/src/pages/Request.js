@@ -18,7 +18,7 @@ class Request extends Component {
             reqtermList: ['reqtermList'],
             selectedReqterm: null,
             checkedRequest: [],
-            filter: '전체',
+            requestFilter: '전체',
             showRejectModal: false,
             showApproveConfirmModal: false,
             showRejectConfirmModal: false,
@@ -75,7 +75,7 @@ class Request extends Component {
             reqtermList,
             requestFilteredList,
             selectedReqterm,
-            filter,
+            requestFilter,
             checkedRequest,
             showRejectModal,
             showApproveConfirmModal,
@@ -114,7 +114,7 @@ class Request extends Component {
             modalMessage = null;
             confirmText = null;
         }
-
+console.log(checkedRequest);
 
         return (
             <div className="page-top request-wrapper">
@@ -127,7 +127,7 @@ class Request extends Component {
                     }
                     {requestList[0] !== 'requestList' &&
                         <ReqFilter
-                            selectedFilter={filter}
+                            selectedFilter={requestFilter}
                             requestList={requestList}
                             selectedReqterm={selectedReqterm}
                             updateState={this.updateState}

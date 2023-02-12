@@ -18,8 +18,8 @@ class RequestButtons extends Component {
     render() {
         return (
             <>
-                <Button onClick={this.approve}>승인</Button>
-                <Button onClick={this.reject}>반려</Button>
+                <Button onClick={this.approve} style={{backgroundColor: "rgb(52, 152, 219)", borderColor:"rgb(52, 152, 219)"}}>승인</Button>
+                <Button onClick={this.reject} style={{backgroundColor: "rgb(52, 152, 219)", borderColor:"rgb(52, 152, 219)"}}>반려</Button>
             </>
         );
     }

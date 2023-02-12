@@ -15,7 +15,7 @@ class ConfirmModal extends Component {
     handleConfirm = (modalType) => {
         if (modalType === "반려확인") {
             this.props.updateState({showRejectConfirmModal: true, showRejectModal: false});
-        } else if (modalType === "반려"||modalType === "승인") {
+        } else if (modalType === "반려" || modalType === "승인") {
             this.confirmUpdate(modalType);
         }
         this.handleClose();
@@ -74,47 +74,47 @@ class ConfirmModal extends Component {
 
     render() {
         let {show, text, confirm, modalType} = this.props;
-        if (this.state.finalModalType !== null) {
-            modalType=this.state.finalModalType+"완료";
-            text=this.state.finalModalType+"완료됐습니다.";
+        let finalModalType = this.state.finalModalType;
+        if (finalModalType !== null) {
+            modalType = finalModalType + "완료";
+            text = finalModalType + "완료됐습니다.";
         }
 
-            return (
-                <>
-                    <Modal
-                        show={show}
-                        onHide={this.handleClose}
-                        backdrop="static"
-                        keyboard={false}
-                    >
-                        {modalType === "반려확인" ?
-                            <>
-                                <Modal.Header closeButton>
-                                    <Modal.Title>반려 사유</Modal.Title>
-                                </Modal.Header>
-                                <Modal.Body>
-                                    <Form>
-                                        <Form.Group className="mb-3">
-                                            <Form.Control as="textarea" rows={3}
-                                                          onBlur={(e) => this.setReqRejectReason(e)}
-                                                          placeholder={text}
-                                                          autoFocus/>
-                                        </Form.Group>
-                                    </Form>
-                                </Modal.Body>
-                            </>
-                            :
-                            <Modal.Body>{text}</Modal.Body>
-                        }
-                        <Modal.Footer>
-                            <Button variant="secondary" onClick={this.handleClose}>취소</Button>
-                            <Button variant="primary" value={modalType} onClick={(e) => {
-                                this.handleConfirm(e.target.value)
-                            }}>{confirm}</Button>
-                        </Modal.Footer>
-                    </Modal>
-                </>
-            );
+        return (
+            <>
+                <Modal
+                    show={show}
+                    onHide={this.handleClose}
+                    backdrop="static"
+                    keyboard={false}
+                >
+                    {modalType === "반려확인" ?
+                        <>
+                            <Modal.Header closeButton>
+                                <Modal.Title>반려 사유</Modal.Title>
+                            </Modal.Header>
+                            <Modal.Body>
+                                <Form>
+                                    <Form.Group className="mb-3">
+                                        <Form.Control as="textarea"
+                                                      rows={3}
+                                                      onBlur={(e) => this.setReqRejectReason(e)}
+                                                      placeholder={text}
+                                                      autoFocus/>
+                                    </Form.Group>
+                                </Form>
+                            </Modal.Body>
+                        </>
+                        :
+                        <Modal.Body>{text}</Modal.Body>
+                    }
+                    <Modal.Footer>
+                        <Button variant="secondary" onClick={this.handleClose}>취소</Button>
+                        <Button variant="primary" value={modalType} onClick={(e) => {this.handleConfirm(e.target.value)}} style={{backgroundColor: "rgb(52, 152, 219)", borderColor:"rgb(52, 152, 219)"}}>{confirm}</Button>
+                    </Modal.Footer>
+                </Modal>
+            </>
+        );
     }
 }
 
