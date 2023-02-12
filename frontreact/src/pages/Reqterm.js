@@ -13,7 +13,6 @@ class Reqterm extends Component {
         }
     }
 
-
     componentDidMount() {
         this.props.setpagename("사무용품 신청 관리");
         let date = new Date();
@@ -37,12 +36,15 @@ class Reqterm extends Component {
                 return response.json();
             })
             .then((response) => {
-                console.log(response);
                 this.setState({
                     presentTerm: response[0],
                 })
             })
     }
+
+    updateState = (newValues) => {
+        this.setState(newValues);
+    };
 
     render() {
         const {presentTerm, today} = this.state;

@@ -1,5 +1,4 @@
 import React, {Component} from "react";
-import {Button} from "react-bootstrap";
 import Api from "../api/Api";
 import ReqFilter from "../components/request/ReqFilter";
 import ReqList from "../components/request/ReqList";
@@ -60,7 +59,6 @@ class Request extends Component {
                     selectedReqterm: reqtermList[0].termyearmonth,
                     available: available,
                 })
-                console.log(available);
             })
             .catch(error => console.error(error));
     }
@@ -116,7 +114,6 @@ class Request extends Component {
             modalMessage = null;
             confirmText = null;
         }
-        console.log()
 
 
         return (

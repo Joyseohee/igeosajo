@@ -14,7 +14,6 @@ class ReqList extends Component {
     handleCheckboxChange = (event) => {
         const {name, checked} = event.target;
         this.setState((prevState, prevProps) => {
-            console.log(prevProps);
             let newState;
             if (name === "allChecked") {
                 newState = {
@@ -69,8 +68,6 @@ class ReqList extends Component {
     render() {
         const {requestList, checkedRequest} = this.props;
         const {allChecked} = this.state;
-        console.log(requestList);
-        console.log(checkedRequest);
 
         return (
             <div className="wrapper">

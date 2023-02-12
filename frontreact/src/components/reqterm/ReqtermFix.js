@@ -14,12 +14,19 @@ class ReqtermFix extends Component {
     }
 
     componentDidMount() {
-        let date = this.props.today;
-        date = new CommonUtil().convertDateType(date);
-        this.setState({
-            termstartdate: date,
-            termenddate: date,
-        })
+        if (this.props.presentTerm !== null && this.props.presentTerm !== undefined) {
+            this.setState({
+                termstartdate: this.props.presentTerm.termstartdate,
+                termenddate: this.props.presentTerm.termenddate,
+            })
+        } else {
+            let date = this.props.today;
+            date = new CommonUtil().convertDateType(date);
+            this.setState({
+                termstartdate: date,
+                termenddate: date,
+            })
+        }
     }
 
     setValue = (e) => {
@@ -58,13 +65,12 @@ class ReqtermFix extends Component {
 
     render() {
         const {today, presentTerm} = this.props;
-        let defaultStart = today ? new CommonUtil().convertDateType(today): '2023-01-01';
+        let defaultStart = today ? new CommonUtil().convertDateType(today) : '2023-01-01';
         let defaultEndDate = this.state.termstartdate;
         const minEndDate = this.state.termstartdate;
         const maxDate = today && new CommonUtil().getLastDayInMonth(today);
         const disabled = presentTerm === undefined;
         if (!disabled) {
-            console.log("여기탐");
             defaultStart = presentTerm.termstartdate;
             defaultEndDate = presentTerm.termenddate;
         }

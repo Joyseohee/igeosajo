@@ -59,7 +59,6 @@ class Sidebar extends Component {
 
     render() {
         const {menus, currentMainMenu, currentSubMenu} = this.state;
-        console.log("서브",currentSubMenu);
 
         return (
             <div className="sidebar-wrapper">
@@ -84,7 +83,6 @@ class Sidebar extends Component {
                                     {index === currentMainMenu &&
                                         menu.menu2 &&
                                         menu.menu2.map((submenu, subIndex) => {
-                                            console.log(subIndex);
                                             return (
                                                 <div key={submenu.index}>
                                                     <Link to={submenu.path}>

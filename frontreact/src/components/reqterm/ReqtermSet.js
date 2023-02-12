@@ -1,7 +1,6 @@
 import React, {Component} from "react";
 import {Button, Form} from "react-bootstrap";
 import Api from "../../api/Api";
-import CommonUtil from "../../util/CommonUtil";
 
 class ReqtermSet extends Component {
     constructor(props) {

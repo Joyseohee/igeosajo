@@ -13,7 +13,6 @@ class ConfirmModal extends Component {
     }
 
     handleConfirm = (modalType) => {
-        console.log(modalType);
         if (modalType === "반려확인") {
             this.props.updateState({showRejectConfirmModal: true, showRejectModal: false});
         } else if (modalType === "반려"||modalType === "승인") {
@@ -21,10 +20,6 @@ class ConfirmModal extends Component {
         }
         this.handleClose();
     };
-
-    // rejectConfirm = () => {
-    //     this.props.updateState({showRejectConfirmModal: true, showRejectModal: false});
-    // };
 
     handleClose = () => {
         const {modalType} = this.props;
@@ -83,7 +78,6 @@ class ConfirmModal extends Component {
             modalType=this.state.finalModalType+"완료";
             text=this.state.finalModalType+"완료됐습니다.";
         }
-        console.log(modalType);
 
             return (
                 <>
