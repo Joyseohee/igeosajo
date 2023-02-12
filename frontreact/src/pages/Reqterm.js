@@ -42,9 +42,6 @@ class Reqterm extends Component {
             })
     }
 
-    updateState = (newValues) => {
-        this.setState(newValues);
-    };
 
     render() {
         const {presentTerm, today} = this.state;
@@ -62,7 +59,8 @@ class Reqterm extends Component {
                                 type={reqbox.type} usernum={usernum}
                                 presentTerm={presentTerm}
                                 today={today}
-                                getReqtermList={this.getReqtermList}/>
+                                getReqtermList={this.getReqtermList}
+                        />
                     );
                 })}
             </div>

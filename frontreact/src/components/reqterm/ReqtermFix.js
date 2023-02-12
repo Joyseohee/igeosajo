@@ -62,7 +62,6 @@ class ReqtermFix extends Component {
         });
     }
 
-
     render() {
         const {today, presentTerm} = this.props;
         let defaultStart = today ? new CommonUtil().convertDateType(today) : '2023-01-01';
