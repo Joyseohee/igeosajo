@@ -114,7 +114,6 @@ class Request extends Component {
             modalMessage = null;
             confirmText = null;
         }
-console.log(checkedRequest);
 
         return (
             <div className="page-top request-wrapper">
@@ -138,9 +137,9 @@ console.log(checkedRequest);
                     }
                     {requestFilteredList[0] !== 'requestFilteredList' &&
                         <ReqList
-                            updateState={this.updateState}
                             requestList={requestFilteredList}
                             checkedRequest={checkedRequest}
+                            updateState={this.updateState}
                         />
                     }
                     {showConfirmModal &&

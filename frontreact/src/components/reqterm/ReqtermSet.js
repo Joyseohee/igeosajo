@@ -1,6 +1,7 @@
 import React, {Component} from "react";
-import {Button, Form} from "react-bootstrap";
+import {Button} from "react-bootstrap";
 import Api from "../../api/Api";
+import CommonUtil from "../../util/CommonUtil";
 
 class ReqtermSet extends Component {
     constructor(props) {
@@ -41,15 +42,14 @@ class ReqtermSet extends Component {
         let {inTerm, setreqtermstart, setreqtermend} = false;
 
         if (presentTerm !== null && presentTerm !== undefined) {
-            if (new Date(presentTerm.termstartdate).toDateString() <= today.toDateString() &&new Date(presentTerm.termenddate).toDateString()>=today.toDateString()) {
+            const date = new CommonUtil().convertDateType(today);
+            const startDate = presentTerm.termstartdate;
+            const endDate = presentTerm.termenddate;
+
+            if (startDate <= date && endDate >= date) {
                 inTerm = true;
-                if (presentTerm.termavailable === 1) {
-                    setreqtermstart = false;
-                    setreqtermend = true;
-                } else {
-                    setreqtermstart = true;
-                    setreqtermend = false;
-                }
+                setreqtermstart = presentTerm.termavailable === 1 ? false : true;
+                setreqtermend = presentTerm.termavailable === 1 ? true : false;
             } else {
                 inTerm = false;
                 setreqtermstart = false;
@@ -68,13 +68,13 @@ class ReqtermSet extends Component {
                     <div>지금은 신청기간이 아닙니다.</div>
                 }
                 {inTerm ? setreqtermstart ?
-                    <div>신청을 받고 있습니다.</div>
-                    :
-                    setreqtermend ?
-                        <div>마감 버튼을 눌러주시면 신청이 마감됩니다.</div>
+                        <div>신청을 받고 있습니다.</div>
                         :
-                        <div>시작 버튼을 눌러주시면 신청이 가능해집니다.</div>
-                    :<div>아직 등록된 신청 기간이 없습니다. 신청 기간을 등록해주세요</div>
+                        setreqtermend ?
+                            <div>마감 버튼을 눌러주시면 신청이 마감됩니다.</div>
+                            :
+                            <div>시작 버튼을 눌러주시면 신청이 가능해집니다.</div>
+                    : <div>아직 등록된 신청 기간이 없습니다. 신청 기간을 등록해주세요</div>
                 }
 
                 {inTerm &&
