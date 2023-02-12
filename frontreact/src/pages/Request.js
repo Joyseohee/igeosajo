@@ -8,6 +8,7 @@ import ConfirmModal from "../components/request/ConfirmModal";
 import "../styled/Request.css";
 import Goal from "../components/Goal";
 import reqtermList from "../components/reqterm/ReqtermList";
+import RequestButtons from "../components/request/RequestButtons";
 
 class Request extends Component {
     constructor(props) {
@@ -46,7 +47,6 @@ class Request extends Component {
             })
             .then((response) => {
                 this.setState({
-                    // requestList: response,
                     requestList: response.map((request) => ({
                         ...request,
                         checked: false,
@@ -64,17 +64,13 @@ class Request extends Component {
             .catch(error => console.error(error));
     }
 
-    approve = () => {
-        this.setState({showApproveConfirmModal: true});
-    };
 
-    reject = () => {
-        this.setState({showRejectModal: true});
+    updateState = (newValues) => {
+        this.setState(newValues);
     };
 
     rejectConfirm = () => {
         this.setState({showRejectConfirmModal: true, showRejectModal: false});
-        // this.handleClose();
     };
 
     handleConfirm = (reqstate) => {
@@ -189,48 +185,72 @@ class Request extends Component {
             available
         } = this.state;
 
-        const showConfirmModal = showRejectModal || showApproveConfirmModal || showRejectConfirmModal;
-        const modalType = showRejectModal ? "반려확인" : showApproveConfirmModal ? "승인" : showRejectConfirmModal ? "반려" : null;
-        const modalMessage = showRejectModal ? "반려 사유를 입력해주세요." : showApproveConfirmModal ? "신청을 승인하시겠습니까?" : showRejectConfirmModal ? "신청을 반려하시겠습니까?" : null;
-        const confirmText = showApproveConfirmModal ? "승인" : showRejectConfirmModal || showRejectModal ? "반려" : null;
+        let showConfirmModal;
+        let modalType;
+        let modalMessage;
+        let confirmText;
+
+        if (showRejectModal) {
+            showConfirmModal = true;
+            modalType = "반려확인";
+            modalMessage = "반려 사유를 입력해주세요.";
+            confirmText = "반려";
+        } else if (showApproveConfirmModal) {
+            showConfirmModal = true;
+            modalType = "승인";
+            modalMessage = "신청을 승인하시겠습니까?";
+            confirmText = "승인";
+        } else if (showRejectConfirmModal) {
+            showConfirmModal = true;
+            modalType = "반려";
+            modalMessage = "신청을 반려하시겠습니까?";
+            confirmText = "반려";
+        } else {
+            showConfirmModal = null;
+            modalType = null;
+            modalMessage = null;
+            confirmText = null;
+        }
+
 
         return (
             <div className="page-top request-wrapper">
                 <Goal comment={"신청 관리"}/>
                 <div className="request">
-                    {reqtermList[0] !== 'reqtermList' && (
+                    {reqtermList[0] !== 'reqtermList' &&
                         <SelectReqterm handleSelect={this.handleSelect} reqtermList={reqtermList}/>
-                    )}
-                    {requestList[0] !== 'requestList' && (
+                    }
+                    {requestList[0] !== 'requestList' &&
                         <ReqFilter
                             selectedFilter={filter}
                             requestList={requestList}
                             setReqState={this.setReqState}
                             selectedReqterm={selectedReqterm}
                         />
-                    )}
-                    {available === 1 && (
-                        <>
-                            <Button onClick={this.approve}>승인</Button>
-                            <Button onClick={this.reject}>반려</Button>
-                        </>
-                    )}
-                    {requestFilteredList[0] !== 'requestFilteredList' && (
+                    }
+                    {available === 1 &&
+                        <RequestButtons updateState={this.updateState}/>
+                        // <Button onClick={this.approve}>승인</Button>
+                        // <Button onClick={this.reject}>반려</Button>
+                    }
+                    {requestFilteredList[0] !== 'requestFilteredList' &&
                         <ReqList
                             storeChecked={this.storeChecked}
                             requestList={requestFilteredList}
                             checkedRequest={checkedRequest}
                         />
-                    )}
-                    {showConfirmModal && <ConfirmModal
-                        show={showConfirmModal}
-                        text={modalMessage}
-                        confirm={confirmText}
-                        modalType={modalType}
-                        setReqRejectReason={this.setReqRejectReason}
-                        handleClose={this.handleClose}
-                        handleConfirm={this.handleConfirm}
-                    />}
+                    }
+                    {showConfirmModal &&
+                        <ConfirmModal
+                            show={showConfirmModal}
+                            text={modalMessage}
+                            confirm={confirmText}
+                            modalType={modalType}
+                            setReqRejectReason={this.setReqRejectReason}
+                            handleClose={this.handleClose}
+                            handleConfirm={this.handleConfirm}
+                            // updateState={this.updateState}
+                        />}
                 </div>
             </div>);
     }
