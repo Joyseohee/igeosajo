@@ -58,10 +58,12 @@ class ReqList extends Component {
                     checkedRequests: checkedRequests,
                 };
             }
-            this.props.storeChecked(newState.checkedRequests, newState.requestList);
+            this.props.updateState({
+                requestFilteredList: newState.requestList,
+                checkedRequest: newState.checkedRequests,
+            })
             return newState
         });
-
     };
 
     render() {
