@@ -1,7 +1,7 @@
 import Table from "react-bootstrap/Table";
 import Form from "react-bootstrap/Form";
 import React, {Component} from 'react';
-import Counter from "./cartcount";
+import Counter from "./Productcount";
 import ProductPostEach from "./ProductPostEach";
 
 class ProductDetail extends Component {
@@ -36,18 +36,29 @@ class ProductDetail extends Component {
             if (checkbox.disabled) {
                 checkbox.checked = false
             }
-            if (checkbox.checked) {
-                console.log(checkbox.checked)
-                prodnumList.push(parseInt(checkbox.value));
+
+            if (selectAll[0].checked) {
+                if (checkbox.checked) {
+                    console.log(checkbox.checked)
+                    prodnumList.push(parseInt(checkbox.value));
+                    this.setState({
+                        prodnumList: prodnumList
+                    }, () => {
+                        console.log("11111111111   " + prodnumList)
+                        this.props.func1(this.state.prodnumList)
+                    })
+                }
+            } else {
+                prodnumList = []
+
                 this.setState({
                     prodnumList: prodnumList
                 }, () => {
-                    console.log("11111111111   " + prodnumList)
+                    console.log("22222222222   " + prodnumList)
+                    this.props.func1(this.state.prodnumList)
                 })
             }
         })
-        this.props.func1(this.state.prodnumList)
-        console.log(prodnumList);
     }
 
     choiceUnit(check, val) {
@@ -178,27 +189,29 @@ class ProductDetail extends Component {
 
         let list = this.props.productItemList.map((list, idx) => (
             <tbody>
-            <tr key={list.prodnum}>
-                <td>{idx + 1}</td>
+            <tr className='tr1' key={list.prodnum}>
+
                 <td><Form.Check aria-label="option 1" name={"select"}
                                 value={[list.prodnum]}
                                 onChange={(e) => {
                                     this.choiceUnit(e.target.checked, e.target.value);
                                 }} disabled={!list.ccount}/></td>
-                <td>{list.prodname}</td>
-                <td>{list.prodnum}</td>
+                <td>{idx + 1}</td>
                 <td><img src={list.prodimg}/></td>
-                <td>{list.prodprice}</td>
-                <td>
-                    <Counter name="counter"
-                             func={this.cartcount}
-                             data={list.prodnum}
-                             count={list.ccount}
-                             prodnum={list.prodnum}
-                             callback1={this.props.callback1}
-                             callback2={this.props.callback2}
-                    /><ProductPostEach prodnum={list.prodnum} count={list.ccount} usernum={this.props.usernum}
-                                       postcheck={this.props.postcheck} modalInfo={this.props.modalInfo}/>
+                <td>{list.prodname}</td>
+                <td>{list.prodprice} \</td>
+                <td className='td1'>
+                    <div className='count'>
+                        <Counter name="counter"
+                                 func={this.cartcount}
+                                 data={list.prodnum}
+                                 count={list.ccount}
+                                 prodnum={list.prodnum}
+                                 callback1={this.props.callback1}
+                                 callback2={this.props.callback2}/> &nbsp;
+                        <ProductPostEach prodnum={list.prodnum} count={list.ccount} usernum={this.props.usernum}
+                                         postcheck={this.props.postcheck} modalInfo={this.props.modalInfo}/>
+                    </div>
                 </td>
             </tr>
 
@@ -213,16 +226,19 @@ class ProductDetail extends Component {
         //console.log(list[0].count);
         return (
             <div>
-                <Table striped>
+                <Table className='table1'>
                     <thead>
-                    <tr>
-                        <th>No</th>
-                        <th><Form.Check aria-label="option 1" name={"selectAll"} onClick={this.choiceAll}/></th>
+                    <tr className='table-primary'>
+
+                        <th className='th2'><Form.Check aria-label="option 1" name={"selectAll"}
+                                                        onClick={this.choiceAll}/></th>
+                        <th className='th2'>No</th>
+                        <th className='th1'>이미지</th>
                         <th>품목명</th>
-                        <th>번호</th>
-                        <th>이미지</th>
+
+
                         <th>가격</th>
-                        <th>수량</th>
+                        <th className='th1'>수량</th>
                     </tr>
                     </thead>
                     {list}

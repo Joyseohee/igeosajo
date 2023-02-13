@@ -307,34 +307,34 @@ def get_product(self):
 
     cursor = connection.cursor()
     if prodname is None and category1code is None and category2code is None:
-        query = 'SELECT * FROM product'
+        query = 'SELECT * FROM product ORDER BY prodnum'
         cursor.execute(query)
 
     elif prodname is None and category2code is not None:
-        query = 'SELECT * FROM product WHERE category2code= %s'
+        query = 'SELECT * FROM product WHERE category2code= %s ORDER BY prodnum'
         val = category2code,
         cursor.execute(query, val)
 
     elif prodname is None and category1code is not None and category2code is None:
         query = 'SELECT prodnum, prodname, prodprice, prodimg FROM product INNER JOIN category2 ' \
-                'ON product.category2code = category2.category2code WHERE category1code = %s '
+                'ON product.category2code = category2.category2code WHERE category1code = %s ORDER BY prodnum'
         val = category1code,
         cursor.execute(query, val)
 
     elif prodname is not None and category1code is None and category2code is None:
-        query = 'SELECT * FROM product WHERE prodname LIKE %s'
+        query = 'SELECT * FROM product WHERE prodname LIKE %s ORDER BY prodnum'
         val = '%' + prodname + '%',
         cursor.execute(query, val)
 
     elif prodname is not None and category1code is not None and category2code is None:
         query = 'SELECT prodnum, prodname, prodprice, prodimg FROM product INNER JOIN category2 ' \
                 'ON product.category2code = category2.category2code ' \
-                'WHERE category1code = %s and prodname LIKE %s'
+                'WHERE category1code = %s and prodname LIKE %s ORDER BY prodnum'
         val = (category1code, '%' + prodname + '%')
         cursor.execute(query, val)
 
     elif prodname is not None and category2code is not None:
-        query = 'SELECT * FROM product WHERE category2code= %s and prodname like %s'
+        query = 'SELECT * FROM product WHERE category2code= %s and prodname like %s ORDER BY prodnum'
         val = (category2code, '%' + prodname + '%')
         cursor.execute(query, val)
 

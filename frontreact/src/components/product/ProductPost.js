@@ -2,7 +2,7 @@ import Table from "react-bootstrap/Table";
 import Form from "react-bootstrap/Form";
 import React, {Component} from 'react';
 import Product from "../../pages/Product";
-import Counter from "./cartcount";
+import Counter from "./Productcount";
 import PostCartModal from "./PostCartModal";
 
 class ProductPost extends Component {
@@ -104,7 +104,7 @@ class ProductPost extends Component {
 
         return (
             <div>
-                <button className="btn btn-primary" onClick={this.postClick2}>장바구니 담기</button>
+                <button className="btn btn-primary" style={{height :"45px"}} onClick={this.postClick2}>장바구니 담기</button>
 
 
                 {posted && <PostCartModal show={true} id={1}

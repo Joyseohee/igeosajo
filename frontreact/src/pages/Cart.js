@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import Form from 'react-bootstrap/Form';
 import Table from "react-bootstrap/Table";
-import Counter from '../components/product/cartcount';
+import Counter from '../components/product/Productcount';
 import jwt_decode from "jwt-decode";
 import DeleteCart from "../components/cart/DeleteCart";
 import PostCartToRequest from "../components/cart/PostCartToRequest";

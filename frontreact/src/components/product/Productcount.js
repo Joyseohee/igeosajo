@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import "../../styled/Product.css";
 
 class Counter extends Component {
     constructor(props) {
@@ -49,11 +50,13 @@ class Counter extends Component {
         // console.log(counter)
         const {prodnum, count} = this.props;
 
-        return (
-            <div>
-                <button onClick={this.handleDecrease}>-</button>
-                 <h1>{count}</h1>
-                <button onClick={this.handleIncrease}>+</button>
+        return (<div>
+            <div className="count">
+
+                <button className='btn btn-outline-secondary button_updown' onClick={this.handleDecrease}><div className='textsize1'>-</div></button>
+                 &nbsp;<div className='textsize1'>{count}</div> &nbsp;
+                <button className='btn btn-outline-secondary button_updown' onClick={this.handleIncrease}><div className='textsize1'>+</div></button>
+            </div>
             </div>
         );
     }

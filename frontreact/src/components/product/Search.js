@@ -2,8 +2,9 @@ import Table from "react-bootstrap/Table";
 import Form from "react-bootstrap/Form";
 import React, {Component} from 'react';
 import Product from "../../pages/Product";
-import Counter from "./cartcount";
-
+import Counter from "./Productcount";
+import "../../styled/Product.css"
+import myImage from "../../img/search.png";
 class Search extends Component {
     constructor(props) {
         super(props);
@@ -24,8 +25,8 @@ class Search extends Component {
     render() {
         const prodname =this.state.prodname
         return (
-            <div>
-                <input onChange={this.onChange} value={prodname} /> <button onClick={this.sendSearch}>검색하기</button>
+            <div className="count margin1">
+                <input className='input1' onChange={this.onChange} value={prodname} placeholder='상품이름으로 검색' /> &nbsp;<button className='btn btn-outline-secondary' style={{width : '45px'}} onClick={this.sendSearch}> <img className="img_cart" src={myImage} alt=""/></button>
             </div>
 
 

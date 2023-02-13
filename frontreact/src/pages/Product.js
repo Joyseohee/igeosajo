@@ -1,16 +1,11 @@
 import React, {Component} from 'react';
-import Form from "react-bootstrap/Form";
-import Table from "react-bootstrap/Table";
-import Counter from "../components/product/cartcount";
-import jwt_decode from "jwt-decode";
 import ProductDetail from "../components/product/ProductDetail";
 import ProductPost from "../components/product/ProductPost";
-import ConfirmModal from "../components/request/ConfirmModal";
-import PostCartToRequest from "../components/cart/PostCartToRequest";
-import PostCartModal from "../components/product/PostCartModal";
 import Search from "../components/product/Search";
 import ProductFilter from "../components/product/ProductFilter";
 import Api from "../api/Api";
+import Paging from "../components/layout/Paging";
+import "../styled/Product.css";
 
 //import parchase from "../../img/iconsparchase.png";
 
@@ -53,13 +48,13 @@ class Product extends Component {
                     path: "/cart"
                 },
                 {
-                    id:3,
+                    id: 3,
                     type: 'alert',
                     text: "선택한 물품이 없습니다.",
                     path: ''
                 }
             ],
-            available: 0,
+            available: 1,
             termyearmonth: ''
         };
         this.checksend = this.checksend.bind(this);
@@ -71,21 +66,6 @@ class Product extends Component {
 
     }
 
-    // handleCheck = (e) => {
-    //     let check = this.state.checkedItems.findIndex(item => item === e.target.value);
-    //     if (check === -1) {
-    //         this.state.checkedItems.push(e.target.value);
-    //         this.setState({
-    //             checkedItems: this.state.checkedItems,
-    //         })
-    //     } else {
-    //         if (check > -1) this.state.checkedItems.splice(check, 1);
-    //         this.setState({
-    //             checkedItems: this.state.checkedItems,
-    //         })
-    //     }
-    //     this.props.storeChecked(this.state.checkedItems);
-    // }
 
     //post
     async componentDidMount() {
@@ -182,75 +162,6 @@ class Product extends Component {
             prodnumList: []
         })
     }
-    // postmodal = (res) => {
-    //     this.setState({
-    //         posted: res
-    //     })
-    // }
-
-    // getlist = () => {
-    //
-    //     const usernum = this.props.usernum;
-    //     this.setState({
-    //         usernum: usernum
-    //     })
-    //     console.log("usernum" + usernum)
-    //     console.log("usernum2:" + this.props.usernum)
-    //
-    //     try {
-    //
-    //         fetch("http://127.0.0.1:8000/api/product", {
-    //             method: "GET",
-    //         }).then(res => {
-    //             return res.json();
-    //         }).then(res => {
-    //             this.setState({
-    //                 items: res,
-    //             })
-    //         })
-    //
-    //
-    //         console.log(">>>items", this.state.items)
-    //         const productItemList = this.state.items.map((item) => {
-    //             item.ccount = 0;
-    //             return item
-    //         })
-    //
-    //
-    //         this.setState({
-    //            productItemList: productItemList
-    //         });
-    //         console.log("pl")
-    //         console.log(productItemList)
-    //
-    //     } catch (e) {
-    //         console.log(e);
-    //     }
-    // }
-
-
-    // componentDidUpdate = (prevState) => {
-    //     console.log('업데이트 if 문 전')
-    //     console.log(prevState) //true
-    //
-    //     //post예비 받아와서 1함수에 넘겨줘서 setState false->true
-    //     //post 예비랑 비교하기, post랑 다르면 (true, false)
-    //     //setState 로 post 예비를 post 에 넣기
-    //     console.log(this.state.posted) //false
-    //
-    //     if (this.state.posted !== prevState) {
-    //         console.log('업데이트!!!')
-    //         this.setState({
-    //             posted: prevState
-    //         })
-    //
-    //         this.getlist();
-    //         console.log('업데이트성공!!')
-    //
-    //     }
-    //     console.log('업데이트후')
-    //     console.log(prevState.posted)
-    // }
 
 
     checksend = (res) => {
@@ -275,23 +186,6 @@ class Product extends Component {
         console.log("productItemList2 id: " + this.state.productItemList2)
     }
 
-//         this.setState({
-// //productItemList.filter((productItemList) => productItemList.id !== res)
-//               //  productItemList: productItemList.filter((productItemList) => productItemList.id !== res)
-// //
-// //             productItemList: productItemList.concat({
-// //                 id: this.state.nextId,
-// //                 count: this.state.inputText,
-// //             }),
-// //             inputText: "",
-// //             nextId: this.state.nextId + 1
-// //
-// //
-//             }
-// //
-// //
-//         )
-    //{data: "test"} 가 찍힙니다
 
     handleIncrease = (prodnum) => {
 
@@ -325,17 +219,6 @@ class Product extends Component {
             productItemList: newProductItemList
         })
     }
-    // handleClose = () => {
-    //     const {showRejectModal, showApproveConfirmModal, showRejectConfirmModal} = this.state;
-    //
-    //    this.setState({
-    //        posted:false
-    //    })
-    // };
-    //
-    // handleConfirm = (reqstate) => {
-    //     this.handleClose();
-    // };
 
     callbackSearch = (res) => {
         this.setState({
@@ -351,6 +234,25 @@ class Product extends Component {
             },
             () => this.getlist())
     }
+    setPageNum = (e) => {
+        this.setState({pageNum: e})
+
+        if (this.state.listState === "allselect") {
+            fetch('http://127.0.0.1:8000/api/document?checkDetail=1&pagenum=' + String(e))
+                .then(response => response.json())
+                .then(response => {
+                    this.setState({doclist: response})
+                })
+
+        } else {
+            fetch('http://127.0.0.1:8000/api/document?state=' + this.state.listState + '&checkDetail=1&pagenum=' + String(e))
+                .then(response => response.json())
+                .then(response => {
+                    this.setState({doclist: response})
+                })
+        }
+    }
+
 
     render() {
         console.log("prodnumListrrrr: " + this.state.prodnumList)
@@ -363,15 +265,17 @@ class Product extends Component {
         console.log('available: ' + available)
         return (
             <div>
-                <div><a>상품목록 </a>
-                    <Search callbackSearch={this.callbackSearch}/> <ProductFilter callbackFilter={this.callbackFilter}/>
-                    {available ? <ProductPost postcheck={this.postcheck}
+            <a>상품목록 </a> <br/>
+                    <div className="display_btn"><Search callbackSearch={this.callbackSearch}/>
+                        {available ? <ProductPost postcheck={this.postcheck}
                                               productItemList={this.state.productItemList}
                                               prodnumList={this.state.prodnumList}
                                               usernum={this.props.usernum}
                                               modalInfo={this.state.modalInfo}/> : '현재는 신청기간이 아닙니다. 장바구니 담기가 불가능 합니다'}
+                        &nbsp;&nbsp;&nbsp;
+                        <ProductFilter callbackFilter={this.callbackFilter}/> </div>
 
-                </div>
+<br/><br/><br/>
                 <ProductDetail productItemList={this.state.productItemList}
                                usernum={this.props.usernum}
                                func1={this.checksend}
@@ -381,6 +285,10 @@ class Product extends Component {
                                modalInfo={this.state.modalInfo}
                                postcheck={this.postcheck}
                 />
+                <Paging
+                    pageNum={this.state.pageNum}
+                    setPageNum={this.setPageNum}
+                    pageCount={this.state.pageCount}/>
 
             </div>
         );

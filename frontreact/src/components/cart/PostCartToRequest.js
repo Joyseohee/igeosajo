@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import Product from "../../pages/Product";
-import Counter from "../product/cartcount";
+import Counter from "../product/Productcount";
 import PostCartModal from "../product/PostCartModal";
 
 class PostCartToRequest extends Component {
