@@ -12,14 +12,31 @@ class ReqFilterBox extends Component {
     }
 
     filteredState = () => {
-        this.props.setReqState(this.props.filter.reqstate);
+        let param = this.props.filter.reqstate;
+        console.log(param)
+        let filter = param === '전체' ? null : param;
+        new Api().read("request", {termyearmonth: this.props.selectedReqterm, reqstate: filter}, null)
+            .then((response) => {
+                return response.json();
+            }).then((response) => {
+            this.props.updateState({
+                requestFilteredList: response.map((request) => ({
+                    ...request,
+                    checked: false,
+                })),
+                pageCount: response.length,
+                pageNum:1,
+                requestFilter: param,
+            });
+        })
     }
 
     render() {
         let filter = this.props.filter.reqstate;
         let on = this.state.on;
         return (
-            <div className="reqfilter-box-wrapper" onClick={this.filteredState} style={{backgroundColor: `${this.props.color}`}}>
+            <div className="reqfilter-box-wrapper" onClick={this.filteredState}
+                 style={{backgroundColor: `${this.props.color}`}}>
                 <div>
                     <div>{filter}</div>
                     <div className="reqfilter-box">

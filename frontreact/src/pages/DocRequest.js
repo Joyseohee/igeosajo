@@ -5,6 +5,7 @@ import RequestSendButton from "../components/docreq/RequestSendButton";
 import RequestTable from "../components/docreq/RequestTable";
 
 import "../styled/DocRequestCss.css"
+import Paging from "../components/layout/Paging";
 
 class DocRequest extends Component {
 
@@ -14,14 +15,15 @@ class DocRequest extends Component {
         this.state = {
             reqSend: false,
             modalOpen: false,
-            items: []
+            items: [],
+            pageNum:1
         };
     }
 
     async componentDidMount() {
         fetch('http://127.0.0.1:8000/api/request?reqstaging=처리전&reqstate=승인')
             .then(response => response.json())
-            .then(response => this.setState({items: response}))
+            .then(response => {this.setState({items: response})})
     };
 
     reqSendClick = (fromChild) => {
@@ -37,6 +39,11 @@ class DocRequest extends Component {
         }else{
             this.setState({modalOpen: false});
         }
+    }
+
+    setPageNum = (e) => {
+        this.setState({pageNum: e})
+        console.log(e)
     }
 
     render() {
@@ -58,6 +65,11 @@ class DocRequest extends Component {
                             modalOpen={this.state.modalOpen}
                             openModal={this.openModal}
                             items = {this.state.items}/>
+                        <Paging
+                            pageNum={this.state.pageNum}
+                            setPageNum={this.setPageNum}
+                            pageCount={this.state.items.length}
+                        />
                     </div>
                 </div>
             </div>

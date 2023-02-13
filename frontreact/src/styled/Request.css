@@ -7,9 +7,9 @@
     margin-left: 20px;
     width: 200px;
     height: 150px;
+    cursor: pointer;
 }
 
 .request {
     margin-top: 20px;
-
 }

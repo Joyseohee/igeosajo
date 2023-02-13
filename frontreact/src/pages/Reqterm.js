@@ -9,7 +9,6 @@ class Reqterm extends Component {
         super(props);
         this.state = {
             presentTerm: null,
-            createAvailable: false,
             today: null,
         }
     }
@@ -25,52 +24,45 @@ class Reqterm extends Component {
             .then((response) => {
                 this.setState({
                     presentTerm: response[0],
-                    createAvailable: response.length < 1,
                     today: date,
                 })
             })
-        console.log("mount");
     }
 
     getReqtermList = () => {
-        new Api().read("reqterm", null, this.state.presentTerm.termyearmonth)
+        let termyearmonth = new CommonUtil().convertDateToReqtermPk(this.state.today);
+        new Api().read("reqterm", null, termyearmonth)
             .then((response) => {
                 return response.json();
             })
             .then((response) => {
                 this.setState({
-                    presentTerm: response,
-                    createAvailable: false,
+                    presentTerm: response[0],
                 })
             })
     }
 
-    render() {
-        const {presentTerm, createAvailable, today} = this.state;
-        const {usernum} = this.props.user;
-        console.log(presentTerm.termyearmonth);
-        // const year = presentTerm !== null && new CommonUtil().convertReqtermPkToYear(presentTerm.termyearmonth);
-        // const month = presentTerm && new CommonUtil().convertReqtermPkToMonth(presentTerm.termyearmonth);
 
-        const reqboxList = ["reqterm-fix", "reqterm-set"];
-        console.log(createAvailable)
+    render() {
+        const {presentTerm, today} = this.state;
+        const {usernum} = this.props.user;
+        const reqboxList = [{index: "box1", type: "reqterm-fix"}, {index: "box2", type: "reqterm-set"}];
+        let year = today !== null ? today.getFullYear() : '2023';
+        let month = today !== null ? today.getMonth() + 1 : '2';
+
         return (
             <div className="page-top reqterm-wrapper">
-                <>
-                    {/*<Goal comment={`${year}년 ${month}월`} subtitle={`신청기간 설정`}/>*/}
-                    {/*{reqboxList.map((reqbox) => {*/}
-                    {/*    return (*/}
-                    {/*        <>*/}
-                    {/*            <Reqbox key={reqbox} getReqtermList={this.getReqtermList}*/}
-                    {/*                    type={reqbox} usernum={usernum} presentTerm={presentTerm}*/}
-                    {/*                    createAvailable={createAvailable}*/}
-                    {/*                    today={today}/>*/}
-                    {/*        </>*/}
-                    {/*    );*/}
-                    {/*})}*/}
-                    {/*<div>지난 신청 기간</div>*/}
-                    {/*<SelectReqterm reqtermList={reqtermList} handleSelect={this.handleSelect}/>*/}
-                </>
+                <Goal comment={`${year}년 ${month}월`} subtitle={`신청기간 설정`}/>
+                {reqboxList.map((reqbox) => {
+                    return (
+                        <Reqbox key={reqbox.index}
+                                type={reqbox.type} usernum={usernum}
+                                presentTerm={presentTerm}
+                                today={today}
+                                getReqtermList={this.getReqtermList}
+                        />
+                    );
+                })}
             </div>
         );
     }

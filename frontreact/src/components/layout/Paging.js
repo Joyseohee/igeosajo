@@ -8,6 +8,7 @@ class Paging extends Component {
     };
 
     pageBtn = (pageNum, pageCount) => {
+
         let active = pageNum;
         let items = [];
         let start = this.state.start;
@@ -25,6 +26,7 @@ class Paging extends Component {
                     {number}
                 </Pagination.Item>
             );
+            console.log(number);
         }
         return items;
     };

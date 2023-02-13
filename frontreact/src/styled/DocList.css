@@ -1,3 +1,8 @@
-.doclistTh{
-    background-color: darkgray;
+.doclistTh {
+    background-color: #848484;
+    color: white;
+}
+
+.doclistTd:hover{
+    cursor: pointer;
 }
