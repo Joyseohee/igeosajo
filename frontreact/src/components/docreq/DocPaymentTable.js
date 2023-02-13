@@ -4,6 +4,7 @@ import Table from 'react-bootstrap/Table';
 import "../../styled/DocRequestCss.css"
 import Modal1 from "../layout/Modal1";
 import {withRouter} from "react-router-dom";
+import CommonUtil from "../../util/CommonUtil";
 
 class DocPaymentTable extends Component {
 
@@ -97,7 +98,11 @@ class DocPaymentTable extends Component {
                     </tr>
                     <tr>
                         <td>금액 총합</td>
-                        <td>{this.state.items["sum"]}원</td>
+                        <td>{
+                            this.state.items["sum"] &&
+                            new CommonUtil().numberComma(this.state.items["sum"])
+
+                        }원</td>
                     </tr>
                     <tr>
                         <td>진행 현황</td>

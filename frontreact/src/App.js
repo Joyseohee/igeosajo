@@ -103,16 +103,16 @@ class App extends Component {
                                     <OrderParchase usernum={usernum} setpagename={this.setpagename}/>
                                 </Route>
                                 <Route exact path="/docrequest">
-                                    <DocRequest usernum={usernum} setpagename={this.setpagename}/>
+                                    <DocRequest user={user} setpagename={this.setpagename}/>
                                 </Route>
                                 <Route exact path="/docreqdetail">
-                                    <DocReqDetail usernum={usernum} setpagename={this.setpagename}/>
+                                    <DocReqDetail user={user} setpagename={this.setpagename}/>
                                 </Route>
                                 <Route exact path="/docpaydetail">
-                                    <DocPaymentDetail usernum={usernum} setpagename={this.setpagename}/>
+                                    <DocPaymentDetail user={user} setpagename={this.setpagename}/>
                                 </Route>
                                 <Route exact path="/docpaylist">
-                                    <DocPaymentList usernum={usernum} setpagename={this.setpagename}/>
+                                    <DocPaymentList user={user} setpagename={this.setpagename}/>
                                 </Route>
                             </>
                         }

@@ -4,6 +4,8 @@ import Form from 'react-bootstrap/Form';
 import Modal1 from "../layout/Modal1";
 import {withRouter} from "react-router-dom";
 
+import "../../styled/DocList.css"
+
 let requestList = [];
 let check = true;
 
@@ -12,25 +14,20 @@ class requestTable extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            reqList: [],
-            outcomeState: false
+            reqList: []
         }
-    }
-
-    reqSendClick = (e) => {
-        this.props.reqSendClick(e)
     }
 
     choiceAll = () => {
         requestList = []
 
-        const checkboxes = document.getElementsByName('select');
-        let selectAll = document.getElementsByName('selectAll');
+        let checkboxes = document.getElementsByName('select');
+        let selectAll = document.getElementsByName('selectAll')[0];
 
         checkboxes.forEach((checkbox) => {
-            checkbox.checked = selectAll[0].checked;
+            checkbox.checked = selectAll.checked;
 
-            if (selectAll[0].checked) {
+            if (selectAll.checked) {
                 requestList.push(checkbox.value);
             }
         })
@@ -48,21 +45,19 @@ class requestTable extends Component {
                 }
             }
         }
+
         this.setState({reqList: requestList});
+    }
+
+    reqSendClick = (e) => {
+        this.props.reqSendClick(e)
     }
 
     closeState = () => {
         this.props.openModal(false);
     }
 
-    changeModalState = (e) => {
-        this.setState({modalopen: e})
-    }
-
     outcomeState = (e) => {
-
-        this.setState({outcomeState: e})
-
         if (e === 1) {
             fetch("http://127.0.0.1:8000/api/document", {
                 method: "POST",
@@ -78,9 +73,9 @@ class requestTable extends Component {
 
             window.location.assign("http://localhost:3000/docreqdetail");
         }
+
         this.reqSendClick(false)
         this.closeState();
-
     }
 
     render() {
@@ -89,9 +84,9 @@ class requestTable extends Component {
 
         return (
             <div>
-                <Table striped>
+                <Table bordered hover>
                     <thead>
-                    <tr>
+                    <tr className={"doclistTh"}>
                         <th>No</th>
                         <th><Form.Check aria-label="option 1" name={"selectAll"} onClick={this.choiceAll}/></th>
                         <th>품목명</th>
@@ -123,10 +118,8 @@ class requestTable extends Component {
                 {
                     modalOpen && this.state.reqList.length !== 0
                         ? <Modal1 open={modalOpen} ment={"선택한 목록으로 작성 하시겠습니까?"}
-                                  changeModalState={this.changeModalState}
                                   outcomeState={this.outcomeState} modalKind={this.state.reqList.length !== 0}></Modal1>
                         : <Modal1 open={modalOpen} ment={"선택한 목록이 없습니다."}
-                                  changeModalState={this.changeModalState}
                                   outcomeState={this.outcomeState}
                                   modalKind={this.state.reqList.length !== 0}></Modal1>
                 }

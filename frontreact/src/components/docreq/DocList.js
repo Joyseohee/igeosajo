@@ -25,38 +25,39 @@ class DocList extends Component {
         let doclist = this.props.doclist;
         let pageNum = this.props.pageNum;
 
-        return (<div>
-            <Table bordered hover>
-                <thead>
-                <tr className={"doclistTh"}>
-                    <th>No.</th>
-                    <th>문서 제목</th>
-                    <th>기안자</th>
-                    <th>결재자</th>
-                    <th>결재 현황</th>
-                    <th>결재 일자</th>
-                </tr>
-                </thead>
-                <tbody>
-                {
-                    doclist.map((data, i) => (
-                        <tr key={data.docnum} value={data.docnum} onClick={(e) => {
-                            this.moveDocDetail(data.docnum)
-                        }}>
-                            <td> {(pageNum - 1) * 10 +  i + 1} </td>
-                            <td>결재요청</td>
-                            <td>김연아</td>
-                            <td>홍길동</td>
-                            <td>{data.docstate}</td>
-                            <td>{data.docwdate}</td>
-                        </tr>
+        return (
+            <div>
+                <Table bordered hover>
+                    <thead>
+                    <tr className={"doclistTh"}>
+                        <th>No.</th>
+                        <th>문서 제목</th>
+                        <th>기안자</th>
+                        <th>결재자</th>
+                        <th>결재 현황</th>
+                        <th>결재 일자</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {
+                        doclist.map((data, i) => (
+                            <tr className={"doclistTd"} key={data.docnum} value={data.docnum} onClick={(e) => {
+                                this.moveDocDetail(data.docnum)
+                            }}>
+                                <td> {(pageNum - 1) * 10 + i + 1} </td>
+                                <td>결재요청</td>
+                                <td>김연아</td>
+                                <td>홍길동</td>
+                                <td>{data.docstate}</td>
+                                <td>{data.docwdate}</td>
+                            </tr>
 
-                    ))
-                }
+                        ))
+                    }
 
-                </tbody>
-            </Table>
-        </div>);
+                    </tbody>
+                </Table>
+            </div>);
     }
 }
 

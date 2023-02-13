@@ -30,12 +30,12 @@ class DocPayment extends Component {
             fetch('http://127.0.0.1:8000/api/document?docNum=' + this.props.reqnum[0].toString())
                 .then(response => response.json())
                 .then(response => {
-                    this.props.history.push({
-                        pathname: '/docpaydetail',
-                        document: {detailDocNum: response[0].docnum},
-                    })
-                }
-            )
+                        this.props.history.push({
+                            pathname: '/docpaydetail',
+                            document: {detailDocNum: response[0].docnum},
+                        })
+                    }
+                )
 
             this.reqSendClick(null)
             this.props.openModal(false)
@@ -51,7 +51,7 @@ class DocPayment extends Component {
 
             window.location.assign("http://localhost:3000/docrequest");
 
-        } else if(e === 0) {
+        } else if (e === 0) {
             console.log(123)
             this.reqSendClick(null)
             this.props.openModal(false)
@@ -94,7 +94,10 @@ class DocPayment extends Component {
                     </tr>
                     <tr>
                         <td>금액 총합</td>
-                        <td>{items["sum"]}원</td>
+                        <td>{items["sum"] &&
+                            new CommonUtil().numberComma(items["sum"])
+                        }원
+                        </td>
                     </tr>
                     </tbody>
                 </Table>
