@@ -17,6 +17,7 @@ class Paging extends Component {
         for (let number = start; number <= end; number++) {
             items.push(
                 <Pagination.Item
+                    className={"pagingDiv"}
                     key={number}
                     active={number === active}
                     onClick={(e) => {
@@ -26,7 +27,6 @@ class Paging extends Component {
                     {number}
                 </Pagination.Item>
             );
-            console.log(number);
         }
         return items;
     };
