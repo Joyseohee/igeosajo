@@ -5,14 +5,26 @@ import "../styled/DocRequestCss.css"
 import DocList from "../components/docreq/DocList";
 import Goal from "../components/Goal";
 import Paging from "../components/layout/Paging";
+import {withRouter} from "react-router-dom";
+
+let select = "allselect";
 
 class DocPaymentList extends Component {
 
     constructor(props) {
         super(props);
         this.props.setpagename("전자 결재");
+
+        try {
+            if(this.props.location.state.docstate != null) {
+                select = this.props.location.state.docstate;
+            }
+        } catch (e) {
+            select = "allselect";
+        }
+
         this.state = {
-            listState: "allselect",
+            listState: select,
             doclist: [],
             allcnt: 0,
             approvalcnt: 0,
@@ -24,11 +36,20 @@ class DocPaymentList extends Component {
     }
 
     async componentDidMount() {
-        fetch('http://127.0.0.1:8000/api/document?checkDetail=1&pagenum=' + this.state.pageNum.toString())
-            .then(response => response.json())
-            .then(response => {
-                this.setState({doclist: response})
-            })
+
+        if(this.state.listState === "allselect"){
+            fetch('http://127.0.0.1:8000/api/document?checkDetail=1&pagenum=1')
+                .then(response => response.json())
+                .then(response => {
+                    this.setState({doclist: response, pageCount: this.state.allcnt})
+                })
+        }else{
+            fetch('http://127.0.0.1:8000/api/document?state=' + this.state.listState + '&checkDetail=1&pagenum=1')
+                .then(response => response.json())
+                .then(response => {
+                    this.setState({doclist: response})
+                })
+        }
 
         //  각각 수량
         fetch('http://127.0.0.1:8000/api/document?checkDetail=1')
@@ -131,4 +152,4 @@ class DocPaymentList extends Component {
     }
 }
 
-export default DocPaymentList;
+export default withRouter(DocPaymentList);

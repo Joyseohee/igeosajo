@@ -11,7 +11,7 @@ class CheckPeriod extends Component {
 
         if (items.length === 0) {
             return (
-                <div>HEAD
+                <div>
                     <div><img src={"/img/alert2.png"}/> 사무용품 신청기간이 아닙니다</div>
 
                     <div></div>

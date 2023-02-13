@@ -45,7 +45,7 @@ class DocListKind extends Component {
                                 <Card.Body onClick={(e) => {
                                     this.statechange("승인")
                                 }}>
-                                    <Card.Text className="cardtitletext">상신 완료</Card.Text>
+                                    <Card.Text className="cardtitletext">결재 완료</Card.Text>
                                     <Row>
                                         <Col className="cardtext">{approvalcnt}</Col>
                                         <Col> <img src={parchase} alt="logo"/></Col>
@@ -79,7 +79,7 @@ class DocListKind extends Component {
                                 <Card.Body onClick={(e) => {
                                     this.statechange("대기")
                                 }}>
-                                    <Card.Text className="cardtitletext">결재 완료</Card.Text>
+                                    <Card.Text className="cardtitletext">상신 완료</Card.Text>
                                     <Row>
                                         <Col className="cardtext">{waitcnt}</Col>
                                         <Col> <img src={finish} alt="logo"/></Col>
