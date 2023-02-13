@@ -25,9 +25,10 @@ class SelectReqterm extends Component {
                     checked: false,
                 })),
                 selectedReqterm: termyearmonth,
-                filter: '전체',
+                requestFilter: '전체',
                 reqRejectReason: null,
                 available: available,
+                pageCount: response.length
             });
         })
     };

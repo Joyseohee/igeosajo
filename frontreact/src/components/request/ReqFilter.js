@@ -7,23 +7,6 @@ class ReqFilter extends Component {
         super(props);
     }
 
-    // setReqState = (param) => {
-    //     let filter = param === '전체' ? null : param;
-    //     new Api().read("request", {termyearmonth: this.props.selectedReqterm, reqstate: filter}, null)
-    //         .then((response) => {
-    //             return response.json();
-    //         }).then((response) => {
-    //
-    //         this.props.updateState({
-    //             requestFilteredList: response.map((request) => ({
-    //                 ...request,
-    //                 checked: false,
-    //             })),
-    //             requestFilter: param,
-    //         });
-    //     })
-    // };
-
     render() {
         const {selectedFilter, requestList, selectedReqterm} = this.props;
         const reqstates = [
@@ -44,7 +27,6 @@ class ReqFilter extends Component {
             }];
 
         return (
-
             <div className="wrapper">
                 {reqstates.map((reqstate) => {
                     return (
