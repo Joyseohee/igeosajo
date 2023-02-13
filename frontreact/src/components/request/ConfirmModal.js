@@ -57,6 +57,7 @@ class ConfirmModal extends Component {
                         })),
                         filter: '전체',
                         checkedRequest: [],
+                        pageCount: response.length,
                     });
                 })
                 .catch((error) => console.error(error));
