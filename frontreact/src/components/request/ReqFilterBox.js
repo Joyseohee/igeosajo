@@ -13,7 +13,6 @@ class ReqFilterBox extends Component {
 
     filteredState = () => {
         let param = this.props.filter.reqstate;
-        console.log(param)
         let filter = param === '전체' ? null : param;
         new Api().read("request", {termyearmonth: this.props.selectedReqterm, reqstate: filter}, null)
             .then((response) => {
@@ -24,6 +23,7 @@ class ReqFilterBox extends Component {
                     ...request,
                     checked: false,
                 })),
+                allChecked: false,
                 pageCount: response.length,
                 pageNum:1,
                 requestFilter: param,

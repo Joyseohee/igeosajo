@@ -19,6 +19,7 @@ class Request extends Component {
             reqtermList: ['reqtermList'],
             selectedReqterm: null,
             checkedRequest: [],
+            allChecked: false,
             requestFilter: '전체',
             showRejectModal: false,
             showApproveConfirmModal: false,
@@ -86,6 +87,7 @@ class Request extends Component {
                     ...request,
                     checked: false,
                 })),
+                allChecked: false,
                 checkedRequest: [],
             }));
         })
@@ -106,7 +108,8 @@ class Request extends Component {
             reqRejectReason,
             available,
             pageNum,
-            pageCount
+            pageCount,
+            allChecked
         } = this.state;
 
         let showConfirmModal;
@@ -167,6 +170,7 @@ class Request extends Component {
                     {requestFilteredList[0] !== 'requestFilteredList'  && requestFilteredList.length > 0  &&
                         <>
                             <ReqList
+                                allChecked={allChecked}
                                 requestList={requestFilteredList}
                                 requestFilter={requestFilter}
                                 checkedRequest={checkedRequest}

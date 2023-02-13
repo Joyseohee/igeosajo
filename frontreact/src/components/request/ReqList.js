@@ -1,6 +1,5 @@
 import React, {Component} from "react";
 import {Form, Table} from "react-bootstrap";
-import request from "../../pages/Request";
 
 class ReqList extends Component {
     constructor(props) {
@@ -8,29 +7,15 @@ class ReqList extends Component {
         this.state = {
             requestList: null,
             allChecked: false,
-            checkedRequests: null,
+            checkedRequest: null,
         };
     }
 
     handleCheckboxChange = (event) => {
         const {name, checked} = event.target;
-        const {requestList} = this.props.requestList
         this.setState((prevState, prevProps) => {
             let newState;
             if (name === "allChecked") {
-
-                // newState = {
-                //     ...prevState,
-                //     requestList: prevProps.requestList.map((request) => ({
-                //         ...request,
-                //         checked: checked,
-                //     })),
-                //     allChecked: checked,
-                //     checkedRequests: checked
-                //         ? prevProps.requestList.filter((request) => request.reqstate === "대기")
-                //         : [],
-                // };
-
                 let prevRequestList = prevProps.requestList;
                 let pageCount = Math.ceil(prevRequestList.length / 10);
                 let pages = [];
@@ -38,13 +23,7 @@ class ReqList extends Component {
                     pages.push(prevRequestList.slice(i * 10, (i + 1) * 10));
                 }
 
-                let arr = prevProps.requestList
-                            .filter((request) => request.reqstate === "대기")
-                    arr = arr.filter((request) => {
-                        console.log(request)
-                        pages.some((page) => page.includes(request))
-                    });
-
+                let checkInPage = pages[this.props.pageNum - 1].filter((page) => (page.reqstate === "대기"));
 
                 newState = {
                     ...prevState,
@@ -61,18 +40,15 @@ class ReqList extends Component {
                         };
                     }),
                     allChecked: checked,
-                    checkedRequests: checked
-                        ? prevProps.requestList
-                            .filter((request) => request.reqstate === "대기")
-                            .filter((request) => pages.some((page) => page.includes(request)))
+                    checkedRequest: checked
+                        ? checkInPage
                         : [],
                 };
-
-
             } else {
-                let index = parseInt(name.slice(7), 10) - 1;
+                let index = parseInt(name.slice(7), 10);
                 let newRequestList = [...prevProps.requestList];
-                newRequestList[index].checked = checked;
+                const indexOfRequest = newRequestList.findIndex((request) => request.reqnum === index);
+                newRequestList[indexOfRequest].checked = checked;
 
                 newState = {
                     ...prevState,
@@ -86,36 +62,35 @@ class ReqList extends Component {
                     allChecked: allChecked,
                 };
 
-                let checkedRequests = prevProps.checkedRequest.filter(
-                    (request) => request.reqnum !== newRequestList[index].reqnum
+                let checkedRequest = prevProps.checkedRequest.filter(
+                    (request) => request.reqnum !== newRequestList[indexOfRequest].reqnum
                 );
 
                 if (checked) {
-                    checkedRequests = [...checkedRequests, newRequestList[index]];
+                    checkedRequest = [...checkedRequest, newRequestList[indexOfRequest]];
                 }
 
                 newState = {
                     ...newState,
-                    checkedRequests: checkedRequests,
+                    checkedRequest: checkedRequest,
                 };
             }
             this.props.updateState({
                 requestFilteredList: newState.requestList,
-                checkedRequest: newState.checkedRequests,
+                allChecked: newState.allChecked,
+                checkedRequest: newState.checkedRequest,
             })
             return newState
         });
     };
 
     render() {
-        const {requestList, checkedRequest, requestFilter} = this.props;
-        let {allChecked} = this.state;
+        const {requestList, allChecked} = this.props;
         let pageCount = requestList && Math.ceil(requestList.length / 10);
         let pages = [];
         for (let i = 0; i < pageCount; i++) {
             pages.push(requestList.slice(i * 10, (i + 1) * 10));
         }
-        let long = requestList.length;
 
         return (
             <div className="wrapper">
@@ -141,14 +116,13 @@ class ReqList extends Component {
                     </thead>
                     <tbody>
                     {pages[this.props.pageNum - 1].map((request, i) => {
-                        console.log(request)
                         return (
                             <tr key={request.reqnum}>
                                 <td>{i + 1 + (this.props.pageNum - 1) * 10}</td>
                                 <td>{request.reqnum}</td>
                                 <td>
                                     <Form.Check
-                                        name={`request${i + 1}`}
+                                        name={`request${request.reqnum}`}
                                         checked={request.checked}
                                         hidden={request.reqstate !== '대기'}
                                         onChange={e => this.handleCheckboxChange(e)}
