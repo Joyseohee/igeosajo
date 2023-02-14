@@ -4,8 +4,15 @@
     margin-bottom: 20px;
     opacity: 0.7;
 }
-.cardcontain:hover {
-  opacity: 1.0;
+.cardcontain .card-body:hover {
+    box-shadow: 0 0 0 2px rgb(84,197,245) inset;
+    cursor:pointer;
+    transition: all 0.5s cubic-bezier(.5, .24, 0, 1);
+}
+
+.cardcontainprogress{
+    margin-left: 30px;
+    margin-bottom: 20px;
 }
 .maincardcontainfirst{
     margin-bottom: 20px;
@@ -15,7 +22,6 @@
     box-shadow: 0 0 0 2px rgb(84,197,245) inset;
     cursor:pointer;
     transition: all 0.5s cubic-bezier(.5, .24, 0, 1);
-
 }
 .maincardcontainetc{
     margin-bottom: 20px;
@@ -66,6 +72,20 @@
     margin:30px;
     margin-bottom: 30px;
     text-align: left;
+    margin-right: 17px;
+}
+.searchdatemarginreq{
+    display: flex;
+    margin:14px;
+    margin-bottom: 30px;
+    text-align: left;
+    margin-right: 17px;
+}
+.subtablemargin{
+    display: flex;
+    margin:30px;
+    margin-bottom: 30px;
+    text-align: left;
 }
 .subtitle{
     display: flex;
@@ -108,7 +128,7 @@
 .startdatetext{
     text-align: center;
     width:100%;
-    font-size: 16px;
+    font-size: 17px;
     font-weight: bold;
 }
 .enddatetext{
@@ -119,7 +139,7 @@
 }
 .settingbtn{
     width: 100%;
-    margin-left: 10px;
+    margin-left: 2px;
 }
 .ordercardtext {
     font-weight: bold;
@@ -137,6 +157,7 @@
     border-top :1px solid lightgray;
     border-bottom :1px solid lightgray;
     /*border-width: 1px;*/
+    padding-right:  10px;
 }
 .spanalineright{
     text-align: right;
@@ -149,6 +170,7 @@
     border-top :1px solid lightgray;
     border-bottom :1px solid lightgray;
     border-right :1px solid lightgray;
+    padding-left: 10px;
 }
 .orderallselect{
     margin-left: 35px;
@@ -190,12 +212,6 @@
     text-align: center;
 
 }
-.orderdelivertablebe{
-    background-color: cornsilk;
-    font-size: 15px;
-    font-weight: bold;
-
-}
 
 .orderdelivertablefont{
     font-weight: bold;
@@ -203,3 +219,8 @@
     color: white;
 }
 
+.totalprice{
+    text-align: right;
+    font-weight: bold;
+    font-size: 20px;
+}
