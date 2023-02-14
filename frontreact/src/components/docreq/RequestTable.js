@@ -4,40 +4,46 @@ import Form from 'react-bootstrap/Form';
 import Modal1 from "../layout/Modal1";
 import {withRouter} from "react-router-dom";
 
+import "../../styled/DocList.css"
+
 let requestList = [];
 let check = true;
+let pagenum = 1;
 
 class requestTable extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            reqList: [],
-            outcomeState: false
+            reqList: []
         }
-    }
-
-    reqSendClick = (e) => {
-        this.props.reqSendClick(e)
     }
 
     choiceAll = () => {
         requestList = []
 
-        const checkboxes = document.getElementsByName('select');
-        let selectAll = document.getElementsByName('selectAll');
+        let checkboxes = document.getElementsByName('select');
+        let selectAll = document.getElementsByName('selectAll')[0];
 
         checkboxes.forEach((checkbox) => {
-            checkbox.checked = selectAll[0].checked;
+            checkbox.checked = selectAll.checked;
 
-            if (selectAll[0].checked) {
+            if (selectAll.checked) {
                 requestList.push(checkbox.value);
             }
         })
         this.setState({reqList: requestList});
+
     }
 
     choiceUnit = (check, val) => {
+
+        let selectAll = document.getElementsByName('selectAll')[0];
+
+        if (selectAll.checked) {
+            selectAll.checked = false
+        }
+
         if (check) {
             requestList.push(val);
         } else {
@@ -48,21 +54,19 @@ class requestTable extends Component {
                 }
             }
         }
+
         this.setState({reqList: requestList});
+    }
+
+    reqSendClick = (e) => {
+        this.props.reqSendClick(e)
     }
 
     closeState = () => {
         this.props.openModal(false);
     }
 
-    changeModalState = (e) => {
-        this.setState({modalopen: e})
-    }
-
     outcomeState = (e) => {
-
-        this.setState({outcomeState: e})
-
         if (e === 1) {
             fetch("http://127.0.0.1:8000/api/document", {
                 method: "POST",
@@ -73,60 +77,79 @@ class requestTable extends Component {
                     id: this.state.reqList
                 }),
             })
-            this.reqSendClick(false)
+            this.reqSendClick(false);
             this.closeState();
 
             window.location.assign("http://localhost:3000/docreqdetail");
         }
-        this.reqSendClick(false)
-        this.closeState();
 
+        this.reqSendClick(false);
+        this.closeState();
     }
+
+    reqTable = (modalOpen, items, pageNum) => {
+
+        if(pagenum !== pageNum){
+            pagenum = pageNum;
+
+            let selectAll = document.getElementsByName('selectAll')[0];
+            if (selectAll.checked) {
+                selectAll.checked = false
+            }
+
+            requestList = [];
+        }
+
+        return (
+            <Table bordered hover>
+                <thead>
+                <tr className={"listTh"}>
+                    <th>No</th>
+                    <th><Form.Check aria-label="option 1" name={"selectAll"} onClick={this.choiceAll}/></th>
+                    <th>품목명</th>
+                    <th>수량</th>
+                    <th>요청일자</th>
+                    <th>요청자</th>
+                </tr>
+                </thead>
+                <tbody>
+                {
+                    items.map((list, idx) => {
+                        return (
+                            <tr key={list.reqnum}>
+                                <td>{(pageNum - 1) * 10 + idx + 1}</td>
+                                <td><Form.Check aria-label="option 1" name={"select"} value={list.reqnum}
+                                                onChange={(e) => {
+                                                    this.choiceUnit(e.target.checked, e.target.value);
+                                                }}/></td>
+                                <td>{list.prodname}</td>
+                                <td>{list.reqcount}</td>
+                                <td>{list.reqapvdate}</td>
+                                <td>{list.username}</td>
+                            </tr>
+                        )
+                    })
+                }
+                </tbody>
+            </Table>
+        )
+    }
+
 
     render() {
         let modalOpen = this.props.modalOpen
         let items = this.props.items
+        let pageNum = this.props.pageNum
 
         return (
             <div>
-                <Table striped>
-                    <thead>
-                    <tr>
-                        <th>No</th>
-                        <th><Form.Check aria-label="option 1" name={"selectAll"} onClick={this.choiceAll}/></th>
-                        <th>품목명</th>
-                        <th>수량</th>
-                        <th>요청일자</th>
-                        <th>요청자</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {
-                        items.map((list, idx) => {
-                            return (
-                                <tr key={list.reqnum}>
-                                    <td>{idx + 1}</td>
-                                    <td><Form.Check aria-label="option 1" name={"select"} value={list.reqnum}
-                                                    onChange={(e) => {
-                                                        this.choiceUnit(e.target.checked, e.target.value);
-                                                    }}/></td>
-                                    <td>{list.prodname}</td>
-                                    <td>{list.reqcount}</td>
-                                    <td>{list.reqapvdate}</td>
-                                    <td>{list.username}</td>
-                                </tr>
-                            )
-                        })
-                    }
-                    </tbody>
-                </Table>
+                {this.reqTable(modalOpen, items, pageNum)}
+
                 {
                     modalOpen && this.state.reqList.length !== 0
                         ? <Modal1 open={modalOpen} ment={"선택한 목록으로 작성 하시겠습니까?"}
-                                  changeModalState={this.changeModalState}
                                   outcomeState={this.outcomeState} modalKind={this.state.reqList.length !== 0}></Modal1>
                         : <Modal1 open={modalOpen} ment={"선택한 목록이 없습니다."}
-                                  changeModalState={this.changeModalState}
                                   outcomeState={this.outcomeState}
                                   modalKind={this.state.reqList.length !== 0}></Modal1>
                 }

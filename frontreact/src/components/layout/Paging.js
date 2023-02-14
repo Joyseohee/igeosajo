@@ -8,6 +8,7 @@ class Paging extends Component {
     };
 
     pageBtn = (pageNum, pageCount) => {
+
         let active = pageNum;
         let items = [];
         let start = this.state.start;
@@ -16,6 +17,7 @@ class Paging extends Component {
         for (let number = start; number <= end; number++) {
             items.push(
                 <Pagination.Item
+                    className={"pagingDiv"}
                     key={number}
                     active={number === active}
                     onClick={(e) => {

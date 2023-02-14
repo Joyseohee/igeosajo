@@ -2,18 +2,12 @@ import React, {Component} from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 
+import "../../styled/etcCss.css"
+
 class modal1 extends Component {
 
     constructor(props) {
         super(props);
-    }
-
-    // changeModalState = () => {
-    //     this.props.changeModalState(false)
-    // }
-
-    outcomeState = (e) => {
-        this.reqSendClick(e);
     }
 
     render() {
@@ -33,19 +27,24 @@ class modal1 extends Component {
                             this.props.modalKind
                                 ?
                                 <div>
-                                <Button style={{backgroundColor: "rgb(110, 117, 124)", border:"none", marginRight: "1rem"}} onClick={(e) => {
-                                    this.props.outcomeState(0);
-                                    // this.changeModalState();
-                                }}> 취소 </Button>
-                                <Button style={{backgroundColor: "rgb(82, 150, 213)", border:"none"}} onClick={ (e) =>{
-                                    this.props.outcomeState(1);
-                                    // this.changeModalState();
-                                } } >확인</Button>
+                                    <Button className={"modal1btn"} style={{
+                                        backgroundColor: "rgb(110, 117, 124)",
+                                        border: "none",
+                                        marginRight: "1rem"
+                                    }} onClick={(e) => {
+                                        this.props.outcomeState(0);
+                                    }}> 취소 </Button>
+
+                                    <Button className={"modal1btn"} style={{backgroundColor: "rgb(82, 150, 213)", border: "none"}}
+                                            onClick={(e) => {
+                                                this.props.outcomeState(1);
+                                            }}>확인</Button>
                                 </div>
-                                : <Button style={{backgroundColor: "rgb(82, 150, 213)", border:"none"}} onClick={ () =>{
-                                    this.props.outcomeState(2);
-                                    // this.changeModalState();
-                                } } >확인</Button>
+                                :
+                                <Button className={"modal1btn"} style={{backgroundColor: "rgb(82, 150, 213)", border: "none"}}
+                                        onClick={() => {
+                                            this.props.outcomeState(2);
+                                        }}>확인</Button>
                         }
                     </Modal.Footer>
                 </Modal>

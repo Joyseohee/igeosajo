@@ -36,7 +36,6 @@ class Login extends Component {
                 if (data === "0") {
                     alert("아이디 또는 비밀번호가 맞지 않습니다.")
                 } else {
-                    alert("성공");
                     localStorage.setItem("secretcode", data);
                     this.setState({
                         logined:'Y',

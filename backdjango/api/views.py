@@ -355,6 +355,8 @@ def get_request(self):
     reqstate = self.GET.get('reqstate', None)
     reqorder = self.GET.get('reqorder', None)
     usernum = self.GET.get('usernum', None)
+    pagenum = self.GET.get('pagenum', None)
+    
     params = {}
     if usernum is not None:
         params['u.usernum'] = usernum
@@ -366,6 +368,8 @@ def get_request(self):
         params['r.reqstate'] = reqstate
     if reqorder is not None:
         params['r.reqorder'] = reqorder
+    if pagenum is not None:
+        params['pagenum'] = pagenum
     return request_select_query(params)
 
 
@@ -772,9 +776,9 @@ def get_doc(self):
                 docstate = '\'' + data + '\''
 
                 if pagenum:
-                    query = 'select distinct docnum, docstate, docwdate from doc where doccancled = 0 and docstate=' + docstate + ' order by docnum limit 10 offset ' + str((int(pagenum) - 1) * 10)
+                    query = 'select distinct docnum, docstate, docwdate from doc where doccancled = 0 and docstate=' + docstate + ' order by docnum desc limit 10 offset ' + str((int(pagenum) - 1) * 10)
                 else:
-                    query = 'select distinct docnum, docstate, docwdate from doc where doccancled = 0 and docstate=' + docstate + ' order by docnum'
+                    query = 'select distinct docnum, docstate, docwdate from doc where doccancled = 0 and docstate=' + docstate + ' order by docnum desc'
                 cursor.execute(query)
             else:
                 docstate = '\'' + data + '\''
@@ -815,7 +819,7 @@ def get_doc(self):
         if checkDetail:
             pagenum = self.GET.get('pagenum')
             if pagenum:
-                query = 'SELECT distinct docnum, docstate, docwdate FROM doc where doccancled = 0 order by docnum limit 10 offset ' + str((int(pagenum) - 1) * 10)
+                query = 'SELECT distinct docnum, docstate, docwdate FROM doc where doccancled = 0 order by docnum desc limit 10 offset ' + str((int(pagenum) - 1) * 10)
             else:
                 query = 'SELECT distinct docnum, docstate, docwdate FROM doc where doccancled = 0 order by docnum'
         else:
@@ -1040,6 +1044,12 @@ def request_select_query(columns):
             'JOIN users AS U on U.usernum = R.usernum ' \
             'JOIN product AS P on P.prodnum = R.prodnum '
     val = ()
+    paging = None
+    
+    if columns.get('pagenum') is not None :
+        paging = columns.get('pagenum')
+        del columns['pagenum']
+   
     if len(columns) != 0:
         query += 'WHERE '
         i = 0
@@ -1050,6 +1060,8 @@ def request_select_query(columns):
             i += 1
             val += (columns.get(column),)
     query += ' ORDER BY reqnum DESC'
+    if paging is not None : 
+        query += ' limit 10 offset ' + str((int(paging) - 1) * 10)
     cursor.execute(query, val)
     data = dictfetchall(cursor)
     response = JsonResponse(data, safe=False)

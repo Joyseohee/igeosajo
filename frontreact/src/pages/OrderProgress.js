@@ -51,9 +51,6 @@ class OrderProgress extends Component {
         this.ordernumdata(this.state.orderstate,this.state.startdate,this.state.enddate)
         this.ordercntdata(this.state.startdate,this.state.enddate)
     }
-    componentDidUpdate(prevProps, prevState, snapshot) {
-
-    }
 
     datesetting = (startyear, startmonth, endyear, endmonth) => {
 

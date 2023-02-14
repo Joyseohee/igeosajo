@@ -28,6 +28,8 @@ export default class Api extends Component {
                             return `reqstate=${params.reqstate}`;
                         } else if (param === 'termyearmonth' && params.termyearmonth !== null) {
                             return `termyearmonth=${params.termyearmonth}`;
+                        } else if (param==='pagenum') {
+                            return `pagenum=${params.pagenum}`;
                         }
                         return '';
                     })

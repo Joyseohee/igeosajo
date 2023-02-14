@@ -19,17 +19,7 @@ class OrderView extends Component {
         this.state = {
 
         }
-
-
     }
-    componentDidMount() {
-
-    }
-
-    componentDidUpdate(prevProps) {
-
-    }
-
 
     changeorderstate=(state)=>{
 
