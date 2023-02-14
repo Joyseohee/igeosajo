@@ -17,6 +17,11 @@ td{
     max-height: max-content;
 }
 
+.docPaymentTable td:nth-child(even){
+    text-align: left;
+    padding-left: 2.5rem;
+}
+
 .sidebarDisplay{
     display: flex;
 }

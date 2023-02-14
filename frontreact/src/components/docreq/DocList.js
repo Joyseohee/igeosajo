@@ -14,10 +14,18 @@ class DocList extends Component {
     }
 
     moveDocDetail = (e) => {
-        this.props.history.push({
-            pathname: '/docpaydetail',
-            document: {detailDocNum: e},
-        })
+
+        if(this.props.user.userathority === 1){
+            this.props.history.push({
+                pathname: '/docpaydetail',
+                document: {detailDocNum: e},
+            })
+        }else if(this.props.user.userathority === 0){
+            this.props.history.push({
+                pathname: '/docappro',
+                document: {detailDocNum: e},
+            })
+        }
     }
 
     render() {

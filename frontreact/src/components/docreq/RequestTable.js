@@ -101,7 +101,7 @@ class requestTable extends Component {
         }
 
         return (
-            <Table bordered hover>
+            <Table bordered hover className={"requestTable"}>
                 <thead>
                 <tr className={"listTh"}>
                     <th>No</th>

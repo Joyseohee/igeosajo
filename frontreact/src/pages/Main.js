@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import "../styled/Layouts.css"
 import UserMain from "./UserMain";
 import AdminMain from "./AdminMain";
+import DocApproval from "./DocApproval";
 
 let choice;
 
@@ -21,7 +22,7 @@ class Main extends Component {
                 choice = (<UserMain user={this.props.user}/>);
                 break
             default :
-                // choice = ();
+                choice = (<DocApproval user={this.props.user}/>);
         }
     }
 

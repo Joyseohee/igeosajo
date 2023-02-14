@@ -895,6 +895,7 @@ def put_doc(self):
     request = json.loads(self.body)
     docnum = request['docnum']
 
+
     print(docnum)
 
     ordernum = 1
@@ -992,24 +993,34 @@ def patch_doc_detail(self, DOCNUM):
 
     reqnum = cursor.fetchall()
 
+    print(reqnum)
+
     date = datetime.today().strftime("%Y-%m-%d")
     date = '\'' + str(date) + '\''
 
     data = json.loads(self.body)
+    print(data)
 
     docstate = '\'' + data[0]['state'] + '\''
 
-    if len(data[0]['reject']) == 0:
-        rejectreason = 'null'
-    else:
-        rejectreason = '\'' + data[0]['reject'] + '\''
+    if data[0]['state'] == "반려":
+        if len(data[0]['reject']) == 0:
+            rejectreason = 'null'
+        else:
+            rejectreason = '\'' + data[0]['reject'] + '\''
 
-    for i in reqnum:
-        query = 'update doc set docrdate=' + date + ', docstate=' + docstate \
-                + ', docrejectreason=' + rejectreason \
-                + ', doccancled=' + str(data[0]['cancle']) + 'where docnum=' + str(
-            DOCNUM) + 'and reqnum=' + str(i[0])
-        cursor.execute(query)
+        for i in reqnum:
+            query = 'update doc set docrdate=' + date + ', docstate=' + docstate \
+                    + ', docrejectreason=' + rejectreason \
+                    + ' where docnum=' + str(DOCNUM) + ' and reqnum=' + str(i[0])
+            cursor.execute(query)
+
+    elif data[0]['state'] == "승인":
+        for i in reqnum:
+            query = 'update doc set docrdate =' + date + ', docstate=' + docstate \
+                    + ' where docnum=' + str(DOCNUM) + ' and reqnum=' + str(i[0])
+            query2 = 'update request set reqorder = \'구매전\' where reqnum = ' + str(i[0])
+            cursor.execute(query, query2)
 
     response = HttpResponse("성공")
     return response
@@ -1071,7 +1082,6 @@ def request_select_query(columns):
 # request 테이블 update query
 def request_update_query(self, pk):
     request = json.loads(self.body)
-    print(request['reqstate'])
     reqstate = request['reqstate']
     reqstaging = request['reqstaging']
     reqrejectreason = request['reqrejectreason']

@@ -18,6 +18,7 @@ import OrderParchase from "./pages/OrderParchase";
 import Order from "./pages/Order";
 import DocPaymentList from "./pages/DocPaymentList";
 import Api from "./api/Api";
+import DocApprovalDetail from "./pages/DocApprovalDetail";
 
 class App extends Component {
     constructor() {
@@ -113,6 +114,9 @@ class App extends Component {
                                 </Route>
                                 <Route exact path="/docpaylist">
                                     <DocPaymentList user={user} setpagename={this.setpagename}/>
+                                </Route>
+                                <Route exact path="/docappro">
+                                    <DocApprovalDetail user={user} setpagename={this.setpagename}/>
                                 </Route>
                             </>
                         }

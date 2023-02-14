@@ -75,7 +75,7 @@ class DocPaymentTable extends Component {
         return (
             <div className={"docPaymentTable"}>
                 <Table striped="columns">
-                    <tbody>
+                    <tbody >
                     <tr>
                         <td>제목</td>
                         <td>비품 구매 결재 요청</td>

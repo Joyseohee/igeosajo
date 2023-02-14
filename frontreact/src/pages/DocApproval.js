@@ -7,24 +7,13 @@ import Goal from "../components/Goal";
 import Paging from "../components/layout/Paging";
 import {withRouter} from "react-router-dom";
 
-let select = "allselect";
-
-class DocPaymentList extends Component {
+class DocApproval extends Component {
 
     constructor(props) {
         super(props);
-        this.props.setpagename("전자 결재");
-
-        try {
-            if (this.props.location.state.docstate != null) {
-                select = this.props.location.state.docstate;
-            }
-        } catch (e) {
-            select = "allselect";
-        }
 
         this.state = {
-            listState: select,
+            listState: "allselect",
             doclist: [],
             allcnt: 0,
             approvalcnt: 0,
@@ -170,4 +159,4 @@ class DocPaymentList extends Component {
     }
 }
 
-export default withRouter(DocPaymentList);
+export default withRouter(DocApproval);
