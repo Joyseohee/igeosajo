@@ -66,7 +66,6 @@ class AdminMain extends Component {
                     reject:response[4],
                     approval:response[5],
                     })
-                console.log(response[0])
             })
           // 신청기간 조회
         fetch('http://127.0.0.1:8000/api/reqterm/' + termyearmonth)
