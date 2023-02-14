@@ -85,11 +85,13 @@ class ReqList extends Component {
     };
 
     handleShowReajectReason = (reqrejectreason) => {
-        this.setState({
-            showRejectReasonModal: reqrejectreason
-        })
+        if (reqrejectreason !== null) {
+            this.setState({
+                showRejectReasonModal: reqrejectreason
+            })
+        }
     }
-updateState = (newValues) => {
+    updateState = (newValues) => {
         this.setState(newValues);
     };
 
@@ -168,11 +170,11 @@ updateState = (newValues) => {
                     </Table>
                 </div>
                 <ConfirmModal
-                            show={showConfirmModal}
-                            text={modalMessage}
-                            confirm={confirmText}
-                            modalType={modalType}
-                            updateState={this.updateState}/>
+                    show={showConfirmModal}
+                    text={modalMessage}
+                    confirm={confirmText}
+                    modalType={modalType}
+                    updateState={this.updateState}/>
             </>
         );
     }
