@@ -49,6 +49,10 @@ td{
     height: 3rem;
     width: 8rem;
 }
+.docPaymentBtn:hover, .sendButton:hover{
+    cursor: pointer;
+}
+
 .docPaymentDetailDiv{
     display: inline-block;
     width: 100%;

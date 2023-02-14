@@ -43,15 +43,15 @@ class OrderSearch extends Component {
                             <Card style={{width: '95%'}}>
                                 <Card.Body   onClick={(e) => {this.statechange(e,"allselect")}}>
                                     <Card.Text className=" cardtitletext">전체</Card.Text>
-                                    <Card.Text>
+
                                         <Container>
                                             <Row>
                                                 {/*<Col className="cardtext">{allcnt}</Col>*/}
-                                                 <Col className="cardtext">{ordercnt[0]}</Col>
+                                                 <Col className="cardtext"><span>{ordercnt[0]}</span><span>{" "}</span><span style={{fontSize:"17px",fontWeight:"bold"}}>건</span></Col>
                                                 <Col> <img src={all} alt="logo"/></Col>
                                             </Row>
                                         </Container>
-                                    </Card.Text>
+
                                 </Card.Body>
                             </Card>
                         </div>
@@ -61,14 +61,14 @@ class OrderSearch extends Component {
                             <Card style={{width: '95%'}}>
                                 <Card.Body  onClick={(e) => {this.statechange(e,"parchase")}}>
                                     <Card.Text className="cardtitletext">구매완료</Card.Text>
-                                    <Card.Text>
+
                                         <Container>
                                             <Row>
-                                               <Col className="cardtext">{ordercnt[1]}</Col>
+                                               <Col className="cardtext"><span>{ordercnt[1]}</span><span>{" "}</span><span style={{fontSize:"17px",fontWeight:"bold"}}>건</span></Col>
                                                 <Col> <img src={parchase} alt="logo"/></Col>
                                             </Row>
                                         </Container>
-                                    </Card.Text>
+
                                 </Card.Body>
                             </Card>
                         </div>
@@ -78,14 +78,14 @@ class OrderSearch extends Component {
                             <Card style={{width: '95%'}}>
                                 <Card.Body  onClick={(e) => {this.statechange(e,"deliver")}}>
                                     <Card.Text className="cardtitletext">배송완료</Card.Text>
-                                    <Card.Text>
+
                                         <Container>
                                             <Row>
-                                                <Col className="cardtext">{ordercnt[2]}</Col>
+                                                <Col className="cardtext"><span>{ordercnt[2]}</span><span>{" "}</span><span style={{fontSize:"17px",fontWeight:"bold"}}>건</span></Col>
                                                 <Col> <img src={deliver} alt="logo"/></Col>
                                             </Row>
                                         </Container>
-                                    </Card.Text>
+
                                 </Card.Body>
                             </Card>
                         </div>
@@ -95,14 +95,12 @@ class OrderSearch extends Component {
                             <Card style={{width: '95%'}}>
                                 <Card.Body  onClick={(e) => {this.statechange(e,"finish")}}>
                                     <Card.Text className="cardtitletext">불출완료</Card.Text>
-                                    <Card.Text>
                                         <Container>
                                             <Row>
-                                                <Col className="cardtext">{ordercnt[3]}</Col>
+                                                <Col className="cardtext"><span>{ordercnt[3]}</span><span>{" "}</span><span style={{fontSize:"17px",fontWeight:"bold"}}>건</span></Col>
                                                 <Col> <img src={finish} alt="logo"/></Col>
                                             </Row>
                                         </Container>
-                                    </Card.Text>
                                 </Card.Body>
                             </Card>
                         </div>

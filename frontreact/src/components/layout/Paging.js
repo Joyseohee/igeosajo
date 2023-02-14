@@ -17,6 +17,7 @@ class Paging extends Component {
         for (let number = start; number <= end; number++) {
             items.push(
                 <Pagination.Item
+                    className={"pagingDiv"}
                     key={number}
                     active={number === active}
                     onClick={(e) => {
@@ -27,7 +28,6 @@ class Paging extends Component {
                     {number}
                 </Pagination.Item>
             );
-            console.log(number);
         }
         return items;
     };
@@ -60,9 +60,9 @@ class Paging extends Component {
         return (
             <div className={"paginationDiv"}>
                 <Pagination>
-                    <Pagination.Prev onClick={() => this.handlePrevClick(pageNum)}/>
+                    <Pagination.Prev onClick={() => this.handlePrevClick(pageNum)} style={{fontFamily:"Helvetica Nene"}}/>
                     {this.pageBtn(pageNum, pageCount)}
-                    <Pagination.Next onClick={() => this.handleNextClick(pageNum, pageCount)}/>
+                    <Pagination.Next onClick={() => this.handleNextClick(pageNum, pageCount)}  style={{fontFamily:"Helvetica Nene"}}/>
                 </Pagination>
             </div>
         );

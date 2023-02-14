@@ -76,7 +76,7 @@ class DateSetting extends Component {
                                 <div className="dottext">조회기간</div>
                     </div>
                    <div className="searchdatemargin">
-                            <Row style={{width:'100%'}}>
+                            <Row style={{width:'100.5%'}}>
                                 <div className="input-group">
                                     <Col xs={2}><span className="input-group-text"><span className="startdatetext">시작일</span></span></Col>
                                     <Col><input type="text"  id="startyear" className="form-control " placeholder="ex)2021 - year"  maxLength='4' onChange={(e) => {this.onChangeDate(e)}}/></Col>

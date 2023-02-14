@@ -23,7 +23,6 @@ class OrderReqSearch extends Component {
 
     statechange = (e,state) => {
         this.props.orderdocsearchstate(state);
-        console.log(state)
     }
     componentDidMount() {
          fetch('http://127.0.0.1:8000/api/order?func=orderreqcount&&termyearmonth=' + this.state.reqterm+'&&state=parchase')
@@ -45,7 +44,7 @@ class OrderReqSearch extends Component {
                                     <Card.Text className=" cardtitletext">전체</Card.Text>
                                         <Container>
                                             <Row>
-                                                <Col className="cardtext">{allcnt}</Col>
+                                                <Col className="cardtext"><span>{allcnt}</span><span>{" "}</span><span style={{fontSize:"17px",fontWeight:"bold"}}>건</span></Col>
                                                 <Col> <img src={all} alt="logo"/></Col>
                                             </Row>
                                         </Container>
@@ -61,7 +60,7 @@ class OrderReqSearch extends Component {
 
                                         <Container>
                                             <Row>
-                                                <Col className="cardtext">{prevparchasecnt}</Col>
+                                                <Col className="cardtext"><span>{prevparchasecnt}</span><span>{" "}</span><span style={{fontSize:"17px",fontWeight:"bold"}}>건</span></Col>
                                                 <Col> <img src={parchase} alt="logo"/></Col>
                                             </Row>
                                         </Container>
@@ -76,7 +75,7 @@ class OrderReqSearch extends Component {
                                     <Card.Text className="cardtitletext">구매완료</Card.Text>
                                         <Container>
                                             <Row>
-                                                <Col className="cardtext">{parchasecnt}</Col>
+                                                <Col className="cardtext"><span>{parchasecnt}</span><span>{" "}</span><span style={{fontSize:"17px",fontWeight:"bold"}}>건</span></Col>
                                                 <Col> <img src={parchase} alt="logo"/></Col>
                                             </Row>
                                         </Container>

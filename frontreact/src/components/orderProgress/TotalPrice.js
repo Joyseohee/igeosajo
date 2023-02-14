@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import CommonUtil from "../../util/CommonUtil";
 
 let ordernum
 
@@ -47,7 +48,7 @@ class TotalPrice extends Component {
         return (
             <div>
                 <span>Total Price : </span>
-                <span>{totalprice}</span>
+                <span>{totalprice && new CommonUtil().numberComma(totalprice)}</span>
             </div>
         )
     }

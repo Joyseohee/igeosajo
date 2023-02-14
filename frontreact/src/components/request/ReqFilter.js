@@ -27,7 +27,7 @@ class ReqFilter extends Component {
             }];
 
         return (
-            <div className="wrapper">
+            <div className="reqfilter-wrapper">
                 {reqstates.map((reqstate) => {
                     return (
                         <ReqFilterBox key={reqstate.reqstate}
@@ -36,7 +36,7 @@ class ReqFilter extends Component {
                                       requestList={requestList}
                                       selectedReqterm={selectedReqterm}
                                       updateState={this.props.updateState}
-                                      color={selectedFilter !== reqstate.reqstate ? "rgb(224, 224, 224)" : "rgb(52, 152, 219)"}
+                                      color={selectedFilter !== reqstate.reqstate ? "rgb(224, 224, 224)" : "#FAFBFF"}
                         />
                     )
                 })}

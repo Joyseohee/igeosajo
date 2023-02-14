@@ -24,6 +24,12 @@ class OrderParchase extends Component {
             show:false,
             zoneCode: "",
             fullAddress: "",
+            paymentshow:false,
+            paymentcontent:"",
+            paymentcheckshow:false,
+            paymentcheckcontent:"",
+            paymentflag:false,
+            deliverdata:[],
         };
 
     }
@@ -37,21 +43,10 @@ class OrderParchase extends Component {
                 }).then(response=>response.json())
                   .then(response=> {
                     this.setState({reqdata:response});
+                    this.totalpricecal(response)
                   });
     }
-
-    componentDidUpdate(prevProps, prevState, snapshot) {
-         if (this.state.reqnum !== prevState.reqnum) {
-            this.setState({reqnum : this.state.reqnum});
-        }
-         if (this.state.reqdata !== prevState.reqdata) {
-            this.setState({reqdata : this.state.reqdata});
-            console.log(this.state.reqdata)
-             this.totalpricecal(this.state.reqdata)
-        }
-    }
-
-
+    
     totalpricecal= (data) =>{
         let totalprice = 0
         {data && data.map((price,i) => (
@@ -59,13 +54,23 @@ class OrderParchase extends Component {
         ))}
         this.setState({totalprice: totalprice })
     }
+   
     handleClose = () => {
-        this.setState({show:false})
+        this.setState({show:false,paymentshow:false,paymentcheckshow:false})
         this.closePostCode()
     }
-    handleShow = (state) => {
-        this.setState({show:state})
-        this.openPostCode()
+    handleShow = (state,btn) => {
+        if(btn=="deliver"){
+            this.setState({show:state})
+            this.openPostCode()
+        }else if(btn=="payment")
+        {
+             this.setState({paymentshow:state})
+        }else if(btn=="paymentcheck")
+        {
+             this.setState({paymentcheckshow:state})
+        }
+
     }
     handleAddress = (data) => {
 
@@ -94,12 +99,12 @@ class OrderParchase extends Component {
     closePostCode = () => {
         this.setState({isPopupOpen: false})
     }
-    test= () => {
+    payment= () => {
         const now = new Date();
         const nowdate = now.getFullYear() + "-" + (now.getMonth() + 1)+"-"+now.getDate()
         const deliverdata = []
-        // const receivenameval = document.getElementById("receivename").value
-        // const placenameval = document.getElementById("placename").value
+        let paymentcontent = ""
+
         const postcodeval = document.getElementById("postcode").value
         const addressval = document.getElementById("address").value
         const detailaddress = document.getElementById("detailaddress").value
@@ -110,34 +115,54 @@ class OrderParchase extends Component {
         const phonenum =  firstphonenumval +'-' + midphonenumval + '-'+ lastphonenumval
         const totaladdress = addressval +"("+ postcodeval +") "+ detailaddress
 
-        // deliverdata.push(receivenameval)
-        // deliverdata.push(placenameval)
-        deliverdata.push(nowdate)
-        deliverdata.push(totaladdress)
-        deliverdata.push(phonenum)
-        deliverdata.push(delivermemoval)
+        if(addressval== "" || detailaddress ==""){
+            paymentcontent = "주소를 정확하게 입력하여 주세요."
+            this.setState({paymentcontent:paymentcontent})
+            this.handleShow(true,"payment")
+        }else if(firstphonenumval== "" || midphonenumval =="" || lastphonenumval ==""){
+            paymentcontent = "휴대폰 번호를 정확하게 입력하여 주세요."
+            this.setState({paymentcontent:paymentcontent})
+            this.handleShow(true,"payment")
+        }else {
+            deliverdata.push(nowdate)
+            deliverdata.push(totaladdress)
+            deliverdata.push(phonenum)
+            deliverdata.push(delivermemoval)
+            
+            let paymentcheckcontent = "결제를 진행하시겠습니까?"
+            this.setState({paymentcheckcontent:paymentcheckcontent,deliverdata:deliverdata})
 
-        fetch("http://127.0.0.1:8000/api/order", {
-                    method : "POST",          //메소드 지정
-                    headers : {               //데이터 타입 지정
-                        "Content-Type":"application/json"
-                    },
-                    body: JSON.stringify({deliverdata:deliverdata,reqdata:this.props.location.state.data} )   //실제 데이터 파싱하여 body에 저장
-                }).then(response=>response.json())        // 리턴값이 있으면 리턴값에 맞는 req 지정
-                  .then(response=> {
-                    this.setState({reqdata:response});
-                  });
-
+            this.handleShow(true,"paymentcheck")
+        }
     }
+    purchaseConfirmation=()=>{
+        this.handleClose()
+         fetch("http://127.0.0.1:8000/api/order", {
+                method: "POST",          
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({deliverdata: this.state.deliverdata, reqdata: this.props.location.state.data})
+                }).then(response => response.json())
+                .then(response => {
+                    this.setState({reqdata: response});
+                });
+
+                this.props.history.push({
+                pathname: "/Order",
+                })
+        
+    }
+  
     render() {
-        const {reqdata,totalprice,show,fullAddress,zoneCode} = this.state
+        const {reqdata,totalprice,show,fullAddress,zoneCode,paymentcontent,paymentshow,paymentcheckshow,paymentcheckcontent} = this.state
         return (
             <div className="page-top">
                 <Container fluid style={{margin: 0, padding: 0}}>
                     <Goal comment={"배송지 입력"}/>
                     <OrderDataInput handleShow={this.handleShow} fullAddress={fullAddress} zoneCode={zoneCode}></OrderDataInput>
                     <OrderTotalReq reqdata={reqdata} totalprice={totalprice}></OrderTotalReq>
-                    <Button  onClick={this.test} style={{width: '92%',margin:"auto",marginLeft:"28px", height:"50px"}}>결제하기</Button>
+                    <Button  onClick={this.payment} style={{width: '93%',margin:"auto",marginLeft:"28px", height:"50px"}}>결제하기</Button>
                 </Container>
                 <Modal
                     show={show}
@@ -154,9 +179,35 @@ class OrderParchase extends Component {
                         />
                     </Modal.Body>
                  </Modal>
+                <Modal
+                    show={paymentshow}
+                    onHide={this.handleClose}
+                    backdrop="static"
+                    keyboard={false}
+                  >
+                    <Modal.Body>
+                        {paymentcontent}
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button>확인</Button>
+                    </Modal.Footer>
+                 </Modal>
+                <Modal
+                    show={paymentcheckshow}
+                    onHide={this.handleClose}
+                    backdrop="static"
+                    keyboard={false}
+                  >
+                    <Modal.Body>
+                        {paymentcheckcontent}
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button onClick={this.purchaseConfirmation}>확인</Button>
+                        <Button onClick={this.handleClose}>취소</Button>
+                    </Modal.Footer>
+                 </Modal>
             </div>
         );
     }
 }
-
 export default withRouter(OrderParchase);

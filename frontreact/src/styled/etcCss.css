@@ -23,5 +23,8 @@
 .paginationDiv {
     display: flex;
     justify-content: center;
+}
 
+.pagingDiv:hover, .modal1btn:hover{
+    cursor: pointer;
 }

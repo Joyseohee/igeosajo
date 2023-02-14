@@ -43,29 +43,34 @@ class ConfirmModal extends Component {
             }, request.reqnum)
         });
         setTimeout(() => {
-            new Api().read("request", {termyearmonth: this.props.selectedReqterm}, null)
-                .then((response) => response.json())
-                .then((response) => {
+            Promise.all([
+                new Api().read("request", {termyearmonth: this.props.selectedReqterm}, null),
+                new Api().read("request", {
+                    termyearmonth: this.props.selectedReqterm,
+                    reqstate: this.props.requestFilter==='전체'?null:this.props.requestFilter,
+                }, null)
+            ]).then(([requestList, requestFilteredList]) =>
+                Promise.all([requestList.json(), requestFilteredList.json()]))
+                .then(([requestList, requestFilteredList]) => {
+                    console.log(requestList, requestFilteredList)
                     this.props.updateState({
-                        requestList: response.map((request) => ({
+                        requestList: requestList.map((request) => ({
                             ...request,
                             checked: false,
                         })),
-                        requestFilteredList: response.map((request) => ({
+                        requestFilteredList: requestFilteredList.map((request) => ({
                             ...request,
                             checked: false,
                         })),
-                        filter: '전체',
+                        requestFilter: this.props.requestFilter,
                         checkedRequest: [],
-                        pageCount: response.length,
-                    });
-                })
-                .catch((error) => console.error(error));
+                        allChecked: false,
+                        pageCount: requestFilteredList.length,
+                    })}
+                ).catch((error) => console.error(error));
         }, 500);
         this.props.updateState({showFinalModal: true});
-        this.setState({
-            finalModalType: reqstate,
-        })
+        this.setState({finalModalType: reqstate})
     };
 
     setReqRejectReason = (e) => {
@@ -111,7 +116,12 @@ class ConfirmModal extends Component {
                     }
                     <Modal.Footer>
                         <Button variant="secondary" onClick={this.handleClose}>취소</Button>
-                        <Button variant="primary" value={modalType} onClick={(e) => {this.handleConfirm(e.target.value)}} style={{backgroundColor: "rgb(52, 152, 219)", borderColor:"rgb(52, 152, 219)"}}>{confirm}</Button>
+                        <Button variant="primary" value={modalType} onClick={(e) => {
+                            this.handleConfirm(e.target.value)
+                        }} style={{
+                            backgroundColor: "rgb(52, 152, 219)",
+                            borderColor: "rgb(52, 152, 219)"
+                        }}>{confirm}</Button>
                     </Modal.Footer>
                 </Modal>
             </>

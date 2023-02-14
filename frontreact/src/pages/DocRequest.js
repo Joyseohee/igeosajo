@@ -16,14 +16,23 @@ class DocRequest extends Component {
             reqSend: false,
             modalOpen: false,
             items: [],
-            pageNum:1
+            pageNum: 1,
+            pageCount: 1
         };
     }
 
     async componentDidMount() {
         fetch('http://127.0.0.1:8000/api/request?reqstaging=처리전&reqstate=승인')
             .then(response => response.json())
-            .then(response => {this.setState({items: response})})
+            .then(response => {
+                this.setState({pageCount: response.length})
+            })
+
+        fetch('http://127.0.0.1:8000/api/request?reqstaging=처리전&reqstate=승인&pagenum=' + this.state.pageNum.toString())
+            .then(response => response.json())
+            .then(response => {
+                this.setState({items: response})
+            })
     };
 
     reqSendClick = (fromChild) => {
@@ -33,17 +42,22 @@ class DocRequest extends Component {
         this.openModal(fromChild);
     }
 
-    openModal = (fromChild) =>{
-        if(fromChild){
+    openModal = (fromChild) => {
+        if (fromChild) {
             this.setState({modalOpen: true});
-        }else{
+        } else {
             this.setState({modalOpen: false});
         }
     }
 
     setPageNum = (e) => {
-        this.setState({pageNum: e})
-        console.log(e)
+        this.setState({pageNum: e});
+
+        fetch('http://127.0.0.1:8000/api/request?reqstaging=처리전&reqstate=승인&pagenum=' + e.toString())
+            .then(response => response.json())
+            .then(response => {
+                this.setState({items: response})
+            })
     }
 
     render() {
@@ -64,11 +78,13 @@ class DocRequest extends Component {
                             reqSendClick={this.reqSendClick}
                             modalOpen={this.state.modalOpen}
                             openModal={this.openModal}
-                            items = {this.state.items}/>
+                            items={this.state.items}
+                            pageNum={this.state.pageNum}
+                        />
                         <Paging
                             pageNum={this.state.pageNum}
                             setPageNum={this.setPageNum}
-                            pageCount={this.state.items.length}
+                            pageCount={this.state.pageCount}
                         />
                     </div>
                 </div>

@@ -13,40 +13,32 @@ class OrderCountCard extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            allcnt:0,
-            parchasecnt: 0,
-            prevparchasecnt: 0,
-            reqterm: this.props.reqterm
+
         }
-        this.statechange = this.statechange.bind(this);
+
     }
 
-    statechange = (e,state) => {
-        this.props.orderdocsearchstate(state);
-        console.log(state)
-    }
+
     componentDidMount() {
-         fetch('http://127.0.0.1:8000/api/order?func=orderreqcount&&termyearmonth=' + this.state.reqterm+'&&state=parchase')
-            .then(res => res.json())
-            .then(data => {
-                    this.setState({allcnt:data[0],prevparchasecnt:data[1],parchasecnt:data[2],})
-            })
+
     }
 
     render() {
-        const {allcnt,prevparchasecnt,parchasecnt} = this.state
+        let prevparchase = this.props.prevparchase
+        let parchase = this.props.parchase
+        console.log(prevparchase)
         return (
             <div>
                 <Row style={{width: '100%'}}>
                     <Col>
                         <div className="maincardcontainfirst">
                             <Card style={{width: '95%'}}>
-                                <Card.Body   onClick={(e) => {this.statechange(e,"all")}}>
-                                    <Card.Text className=" cardtitletext">구매대기</Card.Text>
+                                <Card.Body  onClick={(e) => {this.props.routerpath(e,"/orderreq")}}>
+                                    <Card.Text className=" cardtitletext">구매 대기</Card.Text>
                                         <Container>
                                             <Row>
-                                                <Col className="cardtext">{allcnt}</Col>
-                                                <Col> <img src={Parchase} alt="logo"/></Col>
+                                                <Col className="cardtext" xs={"8"}><span>{prevparchase}</span><span>{" "}</span><span style={{fontSize:"17px",fontWeight:"bold"}}>건</span></Col>
+                                                <Col xs={"4"}> <img src={Parchase} alt="logo"/></Col>
                                             </Row>
                                         </Container>
                                 </Card.Body>
@@ -56,13 +48,13 @@ class OrderCountCard extends Component {
                     <Col>
                         <div className="maincardcontainetc">
                             <Card style={{width: '95%'}}>
-                                <Card.Body  onClick={(e) => {this.statechange(e,"prevparchase")}}>
+                                <Card.Body  onClick={(e) => {this.props.routerpath(e,"/Order")}}>
                                     <Card.Text className="cardtitletext">배송 완료</Card.Text>
 
                                         <Container>
                                             <Row>
-                                                <Col className="cardtext">{prevparchasecnt}</Col>
-                                                <Col> <img src={Deliver} alt="logo"/></Col>
+                                                <Col className="cardtext" xs={"8"}><span>{parchase}</span><span>{" "}</span><span style={{fontSize:"17px",fontWeight:"bold"}}>건</span> </Col>
+                                                <Col xs={"4"}> <img src={Deliver} alt="logo"/></Col>
                                             </Row>
                                         </Container>
                                 </Card.Body>
