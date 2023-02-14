@@ -115,11 +115,17 @@ def doc_detail_view(self, DOCNUM):
         return delete_doc_detail(self, DOCNUM)
 
 
+@csrf_exempt
+def main_view(self):
+    if self.method == 'GET':
+        return get_main(self)
+   
+
 def accesstoken(request):
     pw = '1234'
     pw_hash = bcrypt.hashpw(pw.encode('utf-8'), bcrypt.gensalt())
     pw_hash = pw_hash.decode('utf-8')
-
+    
 
 # ---------------------------------------------------------------
 # ---------------------------------------------------------------
@@ -1125,4 +1131,41 @@ def get_category2(self):
     cursor.execute(query)
     data = dictfetchall(cursor)
     response = JsonResponse(data, safe=False)
+    return response
+
+
+def get_main(self):
+    termyearmonth = self.GET.get('termyearmonth')
+    startdate = self.GET.get('startdate')
+    enddate = self.GET.get('enddate')
+    resultdata = []
+    print(termyearmonth)
+    print(startdate)
+    print(enddate)
+    docval = ['대기','반려','승인']
+
+    cursor = connection.cursor()
+    
+    query = 'SELECT COUNT(*) FROM "request" WHERE "reqstate" = %s AND "termyearmonth"  = %s'
+    val = ("대기", termyearmonth)
+    cursor.execute(query, val)
+    count = dictfetchall(cursor)
+    resultdata.append(count[0]['count'])
+    query = 'SELECT COUNT(*) FROM request r JOIN users u on u.usernum = r.usernum JOIN product p on p.prodnum = r.prodnum WHERE reqstaging= %s   and termyearmonth=%s and reqorder = %s'
+    val = ("처리중", termyearmonth, "구매전")
+    cursor.execute(query, val)
+    count = dictfetchall(cursor)
+    resultdata.append(count[0]['count'])
+    query = 'SELECT COUNT(DISTINCT ordernum) FROM "order" WHERE "orderdate" > %s AND "orderdate" < %s AND "orderstate" = %s '
+    val = (startdate, enddate, "배송완료")
+    cursor.execute(query, val)
+    count = dictfetchall(cursor)
+    resultdata.append(count[0]['count'])
+    for i in docval:
+        query = 'SELECT COUNT(DISTINCT docnum) FROM "doc" WHERE "docwdate" > %s AND "docwdate" < %s AND "docstate" = %s '
+        val = (startdate, enddate, i)
+        cursor.execute(query, val)
+        count = dictfetchall(cursor)
+        resultdata.append(count[0]['count'])
+    response = JsonResponse(resultdata, safe=False)
     return response

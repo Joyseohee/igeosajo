@@ -25,27 +25,16 @@ class OrderDataInput extends Component {
             zoneCode: this.props.zoneCode,
             fullAddress:this.props.fullAddress,
         }
-        this.modalshow = this.modalshow.bind(this)
-        this.onChangeNum = this.onChangeNum.bind(this)
     }
 
     componentDidMount() {
 
     }
-    componentDidUpdate(prevProps, prevState, snapshot) {
-        if (this.props.zoneCode !== prevProps.zoneCode) {
-            this.setState({zoneCode : this.props.zoneCode});
-            console.log(this.props.zoneCode)
-        }
-        if (this.props.fullAddress !== prevProps.fullAddress) {
-            this.setState({fullAddress : this.props.fullAddress});
-        }
-    }
     onChangeNum = (e) => {
         e.target.value = e.target.value.replace(/[^0-9]/g, "")
     }
     modalshow= () =>{
-        this.props.handleShow(true)
+        this.props.handleShow(true,"deliver")
     }
     onChangeNum = (e) => {
         e.target.value = e.target.value.replace(/[^0-9]/g, "")
@@ -73,12 +62,12 @@ class OrderDataInput extends Component {
                                     {/*</tr>*/}
                                     <tr >
                                         <th className="orderdelivercardside orderdelivercardsideline" style={{width: '25%'}} rowSpan={3}>주소</th>
-                                        <tr >
-                                            <td style={{width: '55%',padding: '10px'}} >
+                                        <tr style={{width: '75%'}}>
+                                            <td style={{width: '70%',padding: '10px',borderBottomWidth: "0px"}} >
                                                 <input type="text"  id="postcode" className="form-control " placeholder="ex)우편번호" value={zoneCode} maxLength='5' style={{width: '40%',padding: '10px',backgroundColor:'white'}}  disabled/>
                                             </td>
-                                            <td  style ={{width: '20%',padding: '10px'}}>
-                                                <Button  onClick={this.modalshow} style={{width: '100%',padding: '10px'}}>우편번호 검색</Button>
+                                            <td  style ={{width: '15%',padding: '10px',borderBottomWidth: "0px"}}>
+                                                <Button  onClick={this.modalshow} style={{width: '100%',padding: '10px',}}>우편번호 검색</Button>
                                             </td>
                                         </tr>
                                     </tr>
@@ -95,19 +84,19 @@ class OrderDataInput extends Component {
                                     <tr>
                                         <th className="orderdelivercardside orderdelivercardsideline" style={{width: '25%'}}>휴대폰번호</th>
                                         <tr>
-                                        <td style={{width: '30%',padding: '10px'}}>
+                                        <td style={{width: '26%',padding: '10px',borderBottomWidth: "0px"}}>
                                             <input type="text"  id="firstphonenum" className="form-control " placeholder="ex) 010" maxLength='3'  onChange={(e) => {this.onChangeNum(e)}} />
                                         </td>
-                                        <td style={{width: '5%',padding: '10px'}}>
+                                        <td style={{width: '7%',padding: '10px',borderBottomWidth: "0px"}}>
                                             <span>-</span>
                                         </td>
-                                        <td style={{width: '30%',padding: '10px'}}>
+                                        <td style={{width: '26%',padding: '10px',borderBottomWidth: "0px"}}>
                                            <input type="text"  id="midphonenum" className="form-control " placeholder="ex) 1234"  maxLength='4' onChange={(e) => {this.onChangeNum(e)}} />
                                         </td>
-                                        <td style={{width: '5%',padding: '10px'}}>
+                                        <td style={{width: '7%',padding: '10px',borderBottomWidth: "0px"}}>
                                              <span>-</span>
                                         </td>
-                                        <td style={{width: '30%',padding: '10px'}}>
+                                        <td style={{width: '26%',padding: '10px',borderBottomWidth: "0px"}}>
                                             <input type="text"  id="lastphonenum" className="form-control " placeholder="ex) 5678"  maxLength='4' onChange={(e) => {this.onChangeNum(e)}} />
                                         </td></tr>
                                     </tr>

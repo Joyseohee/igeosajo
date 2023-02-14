@@ -18,5 +18,6 @@ urlpatterns = [
     path('token', views.accesstoken),
     path('category1', views.get_category1),
     path('category2', views.get_category2),
+    path('main', views.main_view),
 
 ]

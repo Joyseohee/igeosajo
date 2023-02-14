@@ -13,39 +13,29 @@ class DocCountCard extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            allcnt:0,
-            parchasecnt: 0,
-            prevparchasecnt: 0,
-            reqterm: this.props.reqterm
+
         }
-        this.statechange = this.statechange.bind(this);
+
     }
 
-    statechange = (e,state) => {
-        this.props.orderdocsearchstate(state);
-        console.log(state)
-    }
     componentDidMount() {
-         fetch('http://127.0.0.1:8000/api/order?func=orderreqcount&&termyearmonth=' + this.state.reqterm+'&&state=parchase')
-            .then(res => res.json())
-            .then(data => {
-                    this.setState({allcnt:data[0],prevparchasecnt:data[1],parchasecnt:data[2],})
-            })
     }
 
     render() {
-        const {allcnt,prevparchasecnt,parchasecnt} = this.state
+        let docsubmit = this.props.docsubmit
+        let reject = this.props.reject
+        let approval = this.props.approval
         return (
             <div className={"DocCountCardDiv"}>
                 <Row style={{width: '100%'}}>
                     <Col>
                         <div className="maincardcontainfirst">
                             <Card style={{width: '95%'}}>
-                                <Card.Body   onClick={(e) => {this.statechange(e,"all")}}>
+                                <Card.Body   onClick={(e) => {this.props.routerpath(e,"/docsubmit")}}>
                                     <Card.Text className=" cardtitletext">상신 완료</Card.Text>
                                         <Container>
                                             <Row>
-                                                <Col className="cardtext" xs={"8"}>{allcnt}</Col>
+                                                <Col className="cardtext" xs={"8"}><span>{docsubmit}</span><span>{" "}</span><span style={{fontSize:"17px",fontWeight:"bold"}}>건</span></Col>
                                                 <Col xs={"4"}> <img src={DocSubmit} alt="logo"/></Col>
                                             </Row>
                                         </Container>
@@ -56,12 +46,12 @@ class DocCountCard extends Component {
                     <Col>
                         <div className="maincardcontainetc">
                             <Card style={{width: '95%'}}>
-                                <Card.Body  onClick={(e) => {this.statechange(e,"prevparchase")}}>
+                                <Card.Body  onClick={(e) => {this.props.routerpath(e,"/docreject")}}>
                                     <Card.Text className="cardtitletext">결재 반려</Card.Text>
 
                                         <Container>
                                             <Row>
-                                                <Col className="cardtext" xs={"8"}>{prevparchasecnt}</Col>
+                                                <Col className="cardtext" xs={"8"}><span>{reject}</span><span>{" "}</span><span style={{fontSize:"17px",fontWeight:"bold"}}>건</span></Col>
                                                 <Col xs={"4"}> <img src={DocCancel} alt="logo"/></Col>
                                             </Row>
                                         </Container>
@@ -72,11 +62,11 @@ class DocCountCard extends Component {
                     <Col>
                         <div className="maincardcontainetc">
                             <Card style={{width: '95%'}}>
-                                <Card.Body  onClick={(e) => {this.statechange(e,"parchase")}}>
+                                <Card.Body  onClick={(e) => {this.props.routerpath(e,"/docapproval")}}>
                                     <Card.Text className="cardtitletext">결재 완료</Card.Text>
                                         <Container>
                                             <Row>
-                                                <Col className="cardtext" xs={"8"}>{parchasecnt}</Col>
+                                                <Col className="cardtext" xs={"8"}><span>{approval}</span><span>{" "}</span><span style={{fontSize:"17px",fontWeight:"bold"}}>건</span></Col>
                                                 <Col xs={"4"}> <img src={DocApproval} alt="logo"/></Col>
                                             </Row>
                                         </Container>

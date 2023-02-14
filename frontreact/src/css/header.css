@@ -11,10 +11,22 @@
     margin-bottom: 20px;
     padding-top: 30px;
 }
+.maincardcontainfirst .card-body:hover{
+    box-shadow: 0 0 0 2px rgb(84,197,245) inset;
+    cursor:pointer;
+    transition: all 0.5s cubic-bezier(.5, .24, 0, 1);
+
+}
 .maincardcontainetc{
     margin-bottom: 20px;
     padding-top: 30px;
 }
+.maincardcontainetc .card-body:hover{
+    box-shadow: 0 0 0 2px rgb(84,197,245) inset;
+    cursor:pointer;
+    transition: all 0.5s cubic-bezier(.5, .24, 0, 1);
+}
+
 .cardtitletext{
     height: 20px;
     margin-left: 15px;
@@ -22,6 +34,7 @@
     font-size: 17px;
     color: dimgray;
 }
+
 
 .cardtext{
     font-width: bold;
@@ -146,6 +159,7 @@
 }
 .orderdelivercard{
     margin-left: 30px;
+    margin-top: 30px;
     margin-bottom: 20px;
 }
 .orderdelivercardborder{

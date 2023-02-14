@@ -32,7 +32,7 @@ class OrderView extends Component {
 
 
     changeorderstate=(state)=>{
-        console.log(JSON.stringify(checklist))
+
         if(checklist.length ===0){
             console.log("선택된 항목이 없습니다.")
         }
@@ -50,9 +50,9 @@ class OrderView extends Component {
               }),
             })
               .then((response) => response.json())
-              .then((data) => data);
+              .then( data=> data);
             }
-            if(state==='finish')
+            else if(state==='finish')
             {
                 fetch("http://127.0.0.1:8000/api/order" , {
               method: "PUT",
@@ -65,13 +65,13 @@ class OrderView extends Component {
               }),
             })
               .then((response) => response.json())
-              .then((data) => data);
+              .then(data=> data);
             }
         }
-        checklist = []
+        this.checkclear()
+        this.props.ordersearchstate(state)
+        this.props.ordernumdata(state,this.props.startdate,this.props.enddate)
         this.props.ordercntdata(this.props.startdate,this.props.enddate)
-        this.props.ordernumdata(this.props.orderstate,this.props.startdate,this.props.enddate)
-
     }
     checkenable=(state,ordernum)=>{
         if(state=="불출완료") {
@@ -93,7 +93,7 @@ class OrderView extends Component {
         }
     }
 
-    checkclear=(state)=>{
+    checkclear=()=>{
         checklist = []
         const check = document.getElementsByName('check');
         const checkall = document.getElementsByName('checkall');
@@ -123,7 +123,6 @@ class OrderView extends Component {
 
     render() {
         const  ordernum  = this.props.ordernum
-
         return (
             <div>
                 <Row>
@@ -135,8 +134,8 @@ class OrderView extends Component {
                 </Row>
                 <div className="orderviewmargin">
                     {ordernum && ordernum.map((num,i) => (
-                        <Row style={{width: '100%'}}>
-                        <div className="cardcontain">
+                        <Row style={{width: '101.5%'}} key={num.ordernum}>
+                        <div className="cardcontain" >
                             <Card style={{width: '95%'}}>
                                 <Card.Body>
                                     <Container className="containermargin">

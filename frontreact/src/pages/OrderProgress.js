@@ -7,6 +7,8 @@ import DateSetting from '../components/orderProgress/DateSetting'
 import OrderSearch from '../components/orderProgress/OrderSearch'
 import OrderView from '../components/orderProgress/OrderView'
 import Goal from "../components/Goal";
+import { withRouter } from 'react-router-dom';
+
 
 let  defaultstate = 'allselect'
 class OrderProgress extends Component {
@@ -17,6 +19,15 @@ class OrderProgress extends Component {
         let startdate = now.getFullYear() + "-" + (now.getMonth() + 1)+"-"+"01"
         let day = new Date(now.getFullYear(),(now.getMonth()+1),0).getDate()
         let enddate = now.getFullYear() + "-" + (now.getMonth() + 1)+"-"+ day
+
+        try {
+            if(this.props.location.state.orderstate != null)
+            {
+                defaultstate = this.props.location.state.orderstate
+            }
+        } catch (e) {
+
+        }
 
         this.state = {
             ordernum: [],
@@ -32,6 +43,7 @@ class OrderProgress extends Component {
             parchasecnt: 0,
             delivercnt: 0,
             finishcnt: 0,
+            render:0,
         }
     }
 
@@ -108,17 +120,17 @@ class OrderProgress extends Component {
     };
 
     ordersearchstate = (state) => {
-        this.setState({orderstate: state});
+        this.setState({orderstate: state})
         this.ordernumdata(state,this.state.startdate,this.state.enddate)
         this.ordercntdata(this.state.startdate,this.state.enddate)
     };
 
     ordernumdata =(state,startdate,enddate)=>{
+
         fetch('http://127.0.0.1:8000/api/order?func=distinctordernum&orderstate=' + state +'&startdate='+startdate+'&enddate='+enddate)
             .then(res => res.json())
             .then(data => {
-                this.setState({ordernum: data})
-                console.log(this.state.ordernum)
+                this.setState({ordernum: data,orderstate: state })
             });
     };
     ordercntdata =(startdate,enddate)=>{
@@ -159,10 +171,10 @@ class OrderProgress extends Component {
                     <Goal comment={"구매 진행 현황"}/>
                     <DateSetting date={date} datesetting={this.datesetting}></DateSetting>
                     <OrderSearch orderstate={this.ordersearchstate} ordercnt={ordercnt} ></OrderSearch>
-                    <OrderView ordernum={ordernum} ordercntdata={this.ordercntdata} startdate={startdate} enddate={enddate} ordernumdata={this.ordernumdata} orderstate={orderstate}></OrderView>
+                    <OrderView ordernum={ordernum} ordercntdata={this.ordercntdata} startdate={startdate} enddate={enddate} ordernumdata={this.ordernumdata} ordersearchstate={this.ordersearchstate} ></OrderView>
                 </Container>
             </div>
         );
     }
 }
-export default OrderProgress;
+export default withRouter(OrderProgress);
