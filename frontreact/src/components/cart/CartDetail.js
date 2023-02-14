@@ -10,13 +10,11 @@ class CartDetail extends Component {
             prodnumList: [],
             reqcountList: [],
             reqpriceList: [],
-            prodnum2: []
-
+            prodnum2: [],
         };
     }
 
     ref = React.createRef();
-//선택
     choiceAll = () => {
         let prodnumList = [];
         let reqcountList = [];
@@ -25,31 +23,13 @@ class CartDetail extends Component {
         const checkboxes = document.getElementsByName('select1');
         let selectAll = document.getElementsByName('selectAll1');
 
-        console.log("=========================")
-        console.log(checkboxes)
-        console.log(selectAll)
-        console.log("=========================")
-
         checkboxes.forEach((checkbox) => {
             checkbox.checked = selectAll[0].checked;
-            console.log("=========================")
-            console.log(checkbox.value)
             if (selectAll[0].checked) {
-
-                console.log("여기왔니")
                 var valSplit = checkbox.value.split(',');
-                console.log("prdnum:" + valSplit[0]);
-                console.log("cartcount:" + valSplit[1]);
-                console.log("prdprice:" + valSplit[2]);
-
-
                 prodnumList.push(parseInt(valSplit[0]));
                 reqcountList.push(parseInt(valSplit[1]));
                 reqpriceList.push(parseInt(valSplit[2]) * parseInt(valSplit[1]));
-
-
-                // reqcountList.push(parseInt(valSplit[1]));
-                // reqpriceList.push(parseInt(valSplit[2]) * parseInt(valSplit[1]));
             }
         })
 
@@ -64,34 +44,16 @@ class CartDetail extends Component {
                 this.state.reqcountList,
                 this.state.reqpriceList)
         })
-        console.log("=========================")
-        console.log(prodnumList);
-        console.log(reqcountList);
-        console.log(reqpriceList);
-
     }
 
     choiceAll2 = () => {
         let prodnum2 = [];
-
         const checkboxes = document.getElementsByName('select2');
         let selectAll = document.getElementsByName('selectAll2');
 
-        console.log("=========================")
-        console.log(checkboxes)
-        console.log(selectAll)
-        console.log("=========================")
-
         checkboxes.forEach((checkbox) => {
             checkbox.checked = selectAll[0].checked;
-            console.log("=========================")
-            console.log(checkbox.value)
             if (selectAll[0].checked) {
-
-                console.log("여기왔니2")
-                var valSplit = checkbox.value.split(',');
-                console.log("prdnum:" + checkbox.value);
-
                 prodnum2.push(parseInt(checkbox.value));
             }
         })
@@ -100,10 +62,6 @@ class CartDetail extends Component {
         }, () => {
             this.props.func2(this.state.prodnum2)
         })
-        console.log("=========================")
-        console.log(prodnum2);
-
-
     }
 
     choiceUnit(check, val) {
@@ -111,13 +69,8 @@ class CartDetail extends Component {
         const reqcountList = this.state.reqcountList;
         const reqpriceList = this.state.reqpriceList;
 
-
         if (check) {
             var valSplit = val.split(',');
-            console.log("prdnum:" + valSplit[0]);
-            console.log("cartcount:" + valSplit[1]);
-            console.log("prdprice:" + valSplit[2]);
-
 
             prodnumList.push(parseInt(valSplit[0]));
             reqcountList.push(parseInt(valSplit[1]));
@@ -132,12 +85,6 @@ class CartDetail extends Component {
                     break;
                 }
             }
-
-
-            console.log(prodnumList);
-            console.log(reqcountList);
-            console.log(reqpriceList);
-
         }
         this.setState({
             prodnumList: prodnumList,
@@ -147,24 +94,16 @@ class CartDetail extends Component {
         }, () => {
             this.props.func1(this.state.prodnumList, this.state.reqpriceList, this.state.reqpriceList);
         })
-
-
     }
 
     choiceUnit2(check, val) {
         const prodnum2 = this.state.prodnum2;
-
-
         if (check) {
-
-            console.log("prdnum:" + val);
             prodnum2.push(val);
-
         } else {
             for (let i = 0; i < prodnum2.length; i++) {
                 if (prodnum2[i] == val) {
                     prodnum2.splice(i, 1);
-
                     break;
                 }
             }
@@ -174,18 +113,9 @@ class CartDetail extends Component {
         }, () => {
             this.props.func2(this.state.prodnum2);
         })
-        console.log("=========================")
-        console.log(prodnum2);
-
-
     }
 
-
     checkcleanall = () => {
-        let prodnumList = this.state.prodnumList
-        let reqcountList = this.state.reqcountList
-        let reqpriceList = this.state.reqpriceList
-        let prodnum2 = this.state.prodnum2
 
         const checkboxes1 = document.getElementsByName('select1');
         const checkboxes2 = document.getElementsByName('select2');
@@ -204,10 +134,10 @@ class CartDetail extends Component {
         checkall2.forEach((state) => {
             state.checked = false
         })
-        prodnumList = [];
-        reqcountList = [];
-        reqpriceList = [];
-        prodnum2 = [];
+        let prodnumList = []
+        let reqcountList = []
+        let reqpriceList = []
+        let prodnum2 = []
 
         this.setState({
             prodnumList: prodnumList,
@@ -215,26 +145,21 @@ class CartDetail extends Component {
             reqpriceList: reqpriceList,
             prodnum2: prodnum2
         })
-
     }
 
     render() {
-        const {select} = this.state;
-        // const usernum = this.props.usernum;
-        //console.login(usernum);
 
         const list = this.props.items.map((list, idx) => (
 
             <tbody>
             <tr key={list.prodnum}>
-
                 <td>{idx + 1}</td>
                 <td><img className='img2' src={list.prodimg}/></td>
                 <td>{list.prodname}</td>
                 <td>{list.prodprice}</td>
                 <td>{list.cartcount}</td>
                 <td>{list.prodnum}</td>
-                  <td><Form.Check aria-label="option 1" name={"select2"}
+                <td><Form.Check aria-label="option 1" name={"select2"}
                                 value={[list.prodnum]}
                                 onChange={(e) => {
                                     this.choiceUnit2(e.target.checked, e.target.value);
@@ -247,23 +172,27 @@ class CartDetail extends Component {
             </tr>
             </tbody>))
         return (<div>
-            <Table className='table1'>
-                <thead >
-                <tr className='table-primary tr11'>
+                <Table className='table1'>
+                    <thead>
+                    <tr className='table-primary tr11'>
 
-                    <th>No</th>
-                    <th >이미지</th>
-                    <th >상품명</th>
-                    <th >가격</th>
-                    <th >수량</th>
-                    <th>상품코드</th>
-                     <th className='inline2'>삭제<Form.Check aria-label="option 1" name={"selectAll2"} onClick={this.choiceAll2}/></th>
-                    <th  className='inline2'>선택<Form.Check aria-label="option 1" name={"selectAll1"} onClick={this.choiceAll}/></th>
-                </tr>
-                </thead>
-                {list}
-            </Table>
-                {list.length === 0 ? <div className='nonefoundmsg2' > 장바구니가 비었습니다 <br/><br/></div> : null}
+                        <th>No</th>
+                        <th>이미지</th>
+                        <th>상품명</th>
+                        <th>가격</th>
+                        <th>수량</th>
+                        <th>상품코드</th>
+                        <th><span>삭제</span> &nbsp;&nbsp;<Form.Check style={{display: "inline-block"}}
+                                                                    aria-label="option 1" name={"selectAll2"}
+                                                                    onClick={this.choiceAll2}/></th>
+                        <th><span>선택</span>&nbsp;&nbsp;<Form.Check style={{display: "inline-block"}}
+                                                                   aria-label="option 1" name={"selectAll1"}
+                                                                   onClick={this.choiceAll}/></th>
+                    </tr>
+                    </thead>
+                    {list}
+                </Table>
+                {list.length === 0 ? <div className='nonefoundmsg2'> 장바구니가 비었습니다 <br/><br/></div> : null}
             </div>
         )
     }

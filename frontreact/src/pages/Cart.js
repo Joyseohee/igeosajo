@@ -1,16 +1,13 @@
 import React, {Component} from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import Form from 'react-bootstrap/Form';
-import Table from "react-bootstrap/Table";
-import Counter from '../components/product/Productcount';
-import jwt_decode from "jwt-decode";
 import DeleteCart from "../components/cart/DeleteCart";
 import PostCartToRequest from "../components/cart/PostCartToRequest";
-import ProductDetail from "../components/product/ProductDetail";
 import CartDetail from "../components/cart/CartDetail";
 import Api from "../api/Api";
 import '../styled/Cart.css';
 import Paging from "../components/layout/Paging";
+import Goal from "../components/Goal";
 
 
 class Cart extends Component {
@@ -54,53 +51,38 @@ class Cart extends Component {
             ],
             available: 0,
             termyearmonth: '',
-            pageNum :1,
+            pageNum: 1,
             pageCount: 1,
         };
-
-        // this.handleClick2 = this.handleClick2.bind(this);
-        // this.handleClick = this.handleClick.bind(this);
-        // this.choiceAll = this.choiceAll.bind(this);
         this.getlist = this.getlist.bind(this);
-
-        // this.choiceAll2 = this.choiceAll2.bind(this);
-        // this.choiceUnit = this.choiceUnit.bind(this);
-        // this.choiceUnit2 = this.choiceUnit2.bind(this);
-
         this.props.setpagename("장바구니");
     }
 
-
-    //get
     async componentDidMount() {
         this.getlist();
         this.checkterm();
-
-
     }
 
     async getlist() {
 
         const usernum = this.props.usernum;
-         const pagenum = this.state.pageNum;
+        const pagenum = this.state.pageNum;
 
 
         try {
-            const res2 = await fetch('http://127.0.0.1:8000/api/cart?usernum=' + usernum )
-             const items2 = await res2.json();
+            const res2 = await fetch('http://127.0.0.1:8000/api/cart?usernum=' + usernum)
+            const items2 = await res2.json();
 
-            const res = await fetch('http://127.0.0.1:8000/api/cart?usernum=' + usernum +'&pagenum='+pagenum);
+            const res = await fetch('http://127.0.0.1:8000/api/cart?usernum=' + usernum + '&pagenum=' + pagenum);
 
             const items = await res.json();
             await this.setState({
                 items: items,
-                 pageCount: items2.length
+                pageCount: items2.length
             });
-            console.log(items)
-            console.log('getlist')
+
         } catch (e) {
             console.log(e);
-            console.log('dsd');
         }
     }
 
@@ -119,7 +101,6 @@ class Cart extends Component {
                 return response.json();
             })
             .then((response) => {
-
                 available = response.filter(term => term.termyearmonth !== termyearmonth)[0].termavailable;
                 this.setState({
                     available: available,
@@ -128,35 +109,18 @@ class Cart extends Component {
             });
     }
 
-    //선택
     checksend1 = (res1, res2, res3) => {
-        // var {prodnumList} = this.state;
-        console.log("checksend:" + res1)
-
         this.setState({
             prodnumList: res1,
             reqcountList: res2,
             reqpriceList: res3,
-
         })
-        // console.log("prodnumList: " + prodnumList)
-        console.log("prodnumList: " + this.state.prodnumList)
-        console.log("reqpriceList: " + this.state.reqpriceList)
-        console.log("reqpriceList: " + this.state.reqpriceList)
-
     }
 
-    //삭제
     checksend2 = (res) => {
-        // var {prodnumList} = this.state;
-        console.log("checksend:" + res)
-
         this.setState({
             prodnum2: res
         })
-        // console.log("prodnumList: " + prodnumList)
-        console.log("prodnumList: " + this.state.prodnum2)
-
     }
 
     postcheck = () => {
@@ -168,63 +132,23 @@ class Cart extends Component {
             reqpriceList: [],
             prodnum2: []
         })
-        // console.log('postcheck')
-        //
-        // this.setState({
-        //     posted: true
-        // }, () => {
-        //     this.getlist();
-        // });
-
     }
     setPageNum = (e) => {
         const pageNum = this.state.pageNum
         if (e !== pageNum) {
             const productItemList = [];
-
             this.setState({pageNum: e, productItemList: productItemList, prodnumList: []}, () => {
-                console.log("pr" + this.state.prodnumList);
-                console.log("prL:" + this.state.productItemList);
                 this.ref.current.checkcleanall();
                 this.getlist();
             })
         }
-
     }
 
     render() {
-        const {select, available} = this.state;
-        // const usernum = this.props.usernum;
-        //console.login(usernum);
-
-        const list = this.state.items.map((list, idx) => (
-            <tbody>
-            <tr key={list.prodnum}>
-                <td>{idx + 1}</td>
-                <td><Form.Check aria-label="option 1" name={"select2"}
-                                value={[list.prodnum]}
-                                onChange={(e) => {
-                                    this.choiceUnit2(e.target.checked, e.target.value);
-                                }}/></td>
-
-                <td>{list.prodimg}</td>
-                <td>{list.prodname}</td>
-                <td>{list.prodprice}</td>
-                <td>{list.cartcount}</td>
-                <td>{list.prodnum}</td>
-                <td><Form.Check aria-label="option 1" name={"select1"}
-                                value={[list.prodnum, list.cartcount, list.prodprice]}
-                                onChange={(e) => {
-                                    this.choiceUnit(e.target.checked, e.target.value);
-                                }}/></td>
-            </tr>
-            </tbody>
-        ))
-        console.log(list);
+        const {available} = this.state;
         return (
             <div>
-                <a>장바구니 </a>
-                <br/>
+                <Goal comment={"장바구니"}/>
                 {available ?
                     <div className='display_btn2'>
                         <DeleteCart style={{float: 'right'}} usernum={this.props.usernum} prodnum2={this.state.prodnum2}

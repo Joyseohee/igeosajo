@@ -11,13 +11,10 @@ class ProductPostEach extends Component {
     constructor(props) {
         super(props);
         this.state = {
-
             posted: false,
             gocart: false
-
         };
         this.postClick = this.postClick.bind(this);
-
     }
 
     //post
@@ -81,9 +78,6 @@ class ProductPostEach extends Component {
         return (
             <div className="buttonc" >
                 <button className="btn-primary btn button_cart" onClick={this.postClick2} disabled={disabled}> <img className="img_cart" src={myImage} alt=""/></button>
-
-
-
                 {posted && <PostCartModal show={true} id={1}
                                           confirm={"담기"} handleClose={this.handleClose}
                                           handleConfirm={this.handleConfirm}
@@ -94,13 +88,10 @@ class ProductPostEach extends Component {
                                           handleConfirm={this.handleConfirm}
                                           modalInfo={this.props.modalInfo}
                 />}
-
             </div>
 
         )
     }
-
-
 }
 
 export default ProductPostEach

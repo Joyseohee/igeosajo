@@ -3,11 +3,9 @@ import Api from "../api/Api";
 import ReqFilter from "../components/request/ReqFilter";
 import ReqList from "../components/request/ReqList";
 import SelectReqterm from "../components/request/SelectReqterm";
-import ConfirmModal from "../components/request/ConfirmModal";
 import "../styled/Request.css";
 import Goal from "../components/Goal";
 import reqtermList from "../components/reqterm/ReqtermList";
-import RequestButtons from "../components/request/RequestButtons";
 import Paging from "../components/layout/Paging";
 import ReqCancel from "../components/requestUser/ReqCancel";
 
@@ -93,7 +91,6 @@ class Request extends Component {
             .catch(error => console.error(error));
     }
 
-
     updateState = (newValues) => {
         this.setState(newValues);
     };
@@ -114,15 +111,6 @@ class Request extends Component {
                 })),
                 allChecked: false,
                 checkedRequest: [],
-                modalInfo: [
-                    {
-                        id: 1,
-                        type: 'confirm',
-                        text: "선택하신 신청을 휘소하시겠습니까?",
-                        path: ''
-
-                    }
-                ],
             }));
         })
     }
@@ -135,23 +123,11 @@ class Request extends Component {
             selectedReqterm,
             requestFilter,
             checkedRequest,
-            showRejectModal,
-            showApproveConfirmModal,
-            showRejectConfirmModal,
-            showFinalModal,
-            reqRejectReason,
             available,
             pageNum,
             pageCount,
             allChecked
         } = this.state;
-
-        let showConfirmModal;
-        let modalType;
-        let modalMessage;
-        let confirmText;
-
-
 
         return (
             <div className="page-top request-wrapper">
@@ -168,14 +144,13 @@ class Request extends Component {
                                     usernum={this.props.usernum}
                                 />
                             }
-                            {available === 1 &&
+                            {available === 1 ?
                                 <ReqCancel reqnum={checkedRequest}
                                            modalInfo={this.state.modalInfo}
                                            selectedReqterm={selectedReqterm}
                                            requestFilter={requestFilter}
                                            usernum={this.props.usernum}
-                                           updateState={this.updateState}/>
-                            }
+                                           updateState={this.updateState}/> : <div>현재는 신청기간이 아닙니다.<br/>취소가 불가능합니다.</div>}
                         </div>
                         {requestList[0] !== 'requestList' &&
                             <ReqFilter
@@ -199,6 +174,7 @@ class Request extends Component {
                                 updateState={this.updateState}
                                 pageNum={this.state.pageNum}
                                 pageCount={this.state.pageCount}
+                                 modalInfo={this.state.modalInfo}
                             />
                             <Paging
                                 pageNum={this.state.pageNum}

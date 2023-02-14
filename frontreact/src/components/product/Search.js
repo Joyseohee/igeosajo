@@ -1,8 +1,4 @@
-import Table from "react-bootstrap/Table";
-import Form from "react-bootstrap/Form";
 import React, {Component} from 'react';
-import Product from "../../pages/Product";
-import Counter from "./Productcount";
 import "../../styled/Product.css"
 import myImage from "../../img/search.png";
 class Search extends Component {

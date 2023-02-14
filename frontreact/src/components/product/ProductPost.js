@@ -1,15 +1,10 @@
-import Table from "react-bootstrap/Table";
-import Form from "react-bootstrap/Form";
 import React, {Component} from 'react';
-import Product from "../../pages/Product";
-import Counter from "./Productcount";
 import PostCartModal from "./PostCartModal";
 
 class ProductPost extends Component {
     constructor(props) {
         super(props);
         this.state = {
-
             posted: false,
             gocart: false,
             prodnumList2: [],
@@ -28,24 +23,17 @@ class ProductPost extends Component {
         let productItemList = this.props.productItemList
 
         const usernum = this.props.usernum
-        console.log("prodnumList: " + prodnumList)
+
         for (let i = 0; i < prodnumList.length; i++) {
-            console.log('post1')
-            console.log(productItemList)
-            console.log(i)
-            console.log(prodnumList[i])
             var returnValue = productItemList.find(function (data) {
                 return data.prodnum === prodnumList[i]
             });
-            console.log('post2')
-            console.log(returnValue.prodnum)
+
             if (returnValue) {
-                console.log('post3')
                 prodnumList2.push(returnValue.prodnum);
                 cartcountList.push(returnValue.ccount);
             }
         }
-        console.log('post4')
 
         const response = fetch('http://127.0.0.1:8000/api/cart', {
             method: 'POST',
@@ -71,14 +59,9 @@ class ProductPost extends Component {
         }, () => {
                 this.props.postcheck(this.state.posted);
             });
-
-
-
     }
 
     handleClose = () => {
-
-
         this.setState({
             posted: false,
             gocart: false

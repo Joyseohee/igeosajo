@@ -1,6 +1,62 @@
 .reqterm-box-wrapper {
     margin-top: 30px;
     padding: 20px;
-    background-color: rgb(224, 224, 224);
+    background-color: #f6f6f6;
     border-radius: 5px / 5px;
+    box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(222, 222, 222, 0.8);
+}
+
+.reqterm-box-title {
+    margin-bottom: 20px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #444444;
+}
+.reqterm-alert {
+    width:100%;
+    margin-bottom: 20px;
+    color: #1e81dc;
+}
+
+.reqterm-set-alert {
+    margin-bottom: 10px;
+    color: #1e81dc;
+}
+
+
+.reqterm-input-wrapper {
+    display: flex;
+    flex-direction: row;
+}
+
+.reqterm-input {
+    display: flex;
+    flex: 1;
+    align-items: center;
+}
+.reqterm-input-label{
+    display: flex;
+    flex: 3;
+    margin: 0 10px;
+    justify-content: center;
+}
+.reqterm-input-date{
+    display: flex;
+    flex: 10;
+}
+.reqterm-input-group{
+    display: flex;
+    flex: 10;
+    margint-right:20px;
+}
+.reqterm-button{
+    flex:2;
+    margin-left: 20px;
+}
+.reqterm-date {
+    color: #1e81dc;
+}
+.reqterm-set-term-check{
+    margin-bottom: 20px;
 }

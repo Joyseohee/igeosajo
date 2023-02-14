@@ -18,7 +18,6 @@ class ProductDetail extends Component {
                 count: 0
             }],
             prodnumList: this.props.prodnumList,
-            data2: 1
         }
         ;
         // this.cartcount = this.cartcount.bind(this);
@@ -29,7 +28,6 @@ class ProductDetail extends Component {
     choiceAll() {
         let prodnumList = this.state.prodnumList
 
-
         const checkboxes = document.getElementsByName('select');
         let selectAll = document.getElementsByName('selectAll');
 
@@ -38,25 +36,20 @@ class ProductDetail extends Component {
             if (checkbox.disabled) {
                 checkbox.checked = false
             }
-
             if (selectAll[0].checked) {
                 if (checkbox.checked) {
-                    console.log(checkbox.checked)
                     prodnumList.push(parseInt(checkbox.value));
                     this.setState({
                         prodnumList: prodnumList
                     }, () => {
-                        console.log("11111111111   " + prodnumList)
                         this.props.func1(this.state.prodnumList)
                     })
                 }
             } else {
                 prodnumList = []
-
                 this.setState({
                     prodnumList: prodnumList
                 }, () => {
-                    console.log("22222222222   " + prodnumList)
                     this.props.func1(this.state.prodnumList)
                 })
             }
@@ -67,28 +60,14 @@ class ProductDetail extends Component {
 
         const prodnumList = this.state.prodnumList
 
-        console.log("unit list2")
-        console.log(prodnumList)
-
         if (check) {
-
-            console.log("unit val")
-            console.log(val);
-
             prodnumList.push(parseInt(val));
-            //cartcountList.push(parseInt(returnValue.count));
-            console.log(prodnumList)
-            // console.log(cartcountList)
-
         } else {
             const prodnumList = this.state.prodnumList
-            console.log('else1')
+
             for (let i = 0; i < prodnumList.length; i++) {
-                console.log('else2')
 
                 if (prodnumList[i] === parseInt(val)) {
-                    console.log('else3')
-
                     prodnumList.splice(i, 1);
                     break;
                 }
@@ -98,14 +77,8 @@ class ProductDetail extends Component {
         this.setState({
             prodnumList: prodnumList
         }, () => {
-            console.log("1: " + prodnumList);
             this.props.func1(this.state.prodnumList);
         })
-
-
-        // console.log("2"+pprodnumList)
-
-
     }
 
     checkcleanall = () => {
@@ -126,14 +99,9 @@ class ProductDetail extends Component {
 
 
     render() {
-
-
         let list = this.props.productItemList.map((list, idx) => (
             <tbody>
-            {list.length !== 0 ?
-
                 <tr className='tr1' key={list.prodnum}>
-
                     <td><Form.Check aria-label="option 1" name={"select"}
                                     value={[list.prodnum]}
                                     onChange={(e) => {
@@ -156,20 +124,11 @@ class ProductDetail extends Component {
                                              postcheck={this.props.postcheck} modalInfo={this.props.modalInfo}/>
                         </div>
                     </td>
-
                 </tr>
-                : <tr>
-                    <td>상품이 없습니다.</td>
-                </tr>}
-
             </tbody>
 
 
         ))
-        console.log("list")
-        console.log(list);
-        // console.log(list.prodnum);
-        //console.log(list[0].count);
         return (
             <div>
 

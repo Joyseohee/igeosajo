@@ -6,8 +6,8 @@ import ProductFilter from "../components/product/ProductFilter";
 import Api from "../api/Api";
 import Paging from "../components/layout/Paging";
 import "../styled/Product.css";
+import Goal from "../components/Goal";
 
-//import parchase from "../../img/iconsparchase.png";
 
 
 class Product extends Component {
@@ -23,8 +23,6 @@ class Product extends Component {
             prodname: '',
             category2code: '',
             category1code: '',
-            data: {},
-            productItemList2: [],
             productItemList: [],
             prodnumList: [],
             prodnumList2: [],
@@ -60,7 +58,6 @@ class Product extends Component {
             items2: []
         };
         this.checksend = this.checksend.bind(this);
-        //  this.componentDidUpdate = this.componentDidUpdate.bind(this);
         this.postcheck = this.postcheck.bind(this);
         this.getlist = this.getlist.bind(this);
         this.checkterm = this.checkterm.bind(this)
@@ -68,12 +65,9 @@ class Product extends Component {
 
     }
 
-
-    //post
     async componentDidMount() {
         this.checkterm();
         await this.getlist();
-
     }
 
     checkterm() {
@@ -84,7 +78,6 @@ class Product extends Component {
             month = '0' + month
         }
         const termyearmonth = year + '' + month
-        console.log('termyearmonth:' + termyearmonth)
 
         let available = this.state.available
         new Api().read("reqterm", null, null)
@@ -92,7 +85,6 @@ class Product extends Component {
                 return response.json();
             })
             .then((response) => {
-
                 available = response.filter(term => term.termyearmonth !== termyearmonth)[0].termavailable;
                 this.setState({
                     available: available,
@@ -103,14 +95,10 @@ class Product extends Component {
 
     async getlist() {
 
-        const usernum = this.props.usernum;
         const category1code = this.state.category1code;
         const category2code = this.state.category2code;
         const prodname = this.state.prodname;
         const pagenum = this.state.pageNum;
-
-        console.log("usernum" + usernum)
-        console.log("usernum2:" + this.props.usernum)
 
         try {
             let url = 'http://127.0.0.1:8000/api/product?';
@@ -130,24 +118,15 @@ class Product extends Component {
             url += '&pagenum=' + pagenum;
             const res2 = await fetch(url);
             const items = await res2.json();
-            console.log(">>>items", items)
             const productItemList = items.map((item) => {
                 item.ccount = 0;
                 return item
             })
 
-
             await this.setState({
                 productItemList: productItemList,
                 pageCount: items2.length
             });
-            console.log("pl")
-            console.log(productItemList)
-            console.log('pl2')
-
-            console.log(productItemList[0].ccount)
-            console.log('pl3')
-
         } catch (e) {
             console.log(e);
         }
@@ -171,27 +150,10 @@ class Product extends Component {
 
 
     checksend = (res) => {
-        // var {prodnumList} = this.state;
-        console.log("checksend:" + res)
-
         this.setState({
             prodnumList: res
         })
-        // console.log("prodnumList: " + prodnumList)
-        console.log("prodnumList: " + this.state.prodnumList)
-
     }
-    cartsend = (res) => {
-        console.log("cartsend:" + res)
-        this.setState({
-            productItemList2: res
-        }, () => {
-            console.log("productItemList2 id: " + this.state.productItemList2);
-        });
-        // console.log("json" + JSON.stringify(this.state.productItemList2))
-        console.log("productItemList2 id: " + this.state.productItemList2)
-    }
-
 
     handleIncrease = (prodnum) => {
 
@@ -205,8 +167,6 @@ class Product extends Component {
 
         this.setState({
             productItemList: newProductItemList
-        }, () => {
-            console.log("ppp " + JSON.stringify(productItemList[prodnum - 1]))
         })
     }
     handleDecrease = (prodnum) => {
@@ -247,9 +207,7 @@ class Product extends Component {
         if (e !== pageNum) {
             const productItemList = [];
             const prodnumList = [];
-            this.setState({pageNum: e, productItemList: productItemList, prodnumList: []}, () => {
-                console.log("pr" + this.state.prodnumList);
-                console.log("prL:" + this.state.productItemList);
+            this.setState({pageNum: e, productItemList: productItemList, prodnumList: prodnumList}, () => {
                 this.ref.current.checkcleanall();
                 this.getlist();
             })
@@ -259,26 +217,20 @@ class Product extends Component {
 
 
     render() {
-        console.log("prodnumListrrrr: " + this.state.prodnumList)
-
-        console.log("productItemList2rrr: " + this.state.productItemList2)
         const {
-            posted,
-            available,
             prodnumList
         } = this.state
-        console.log('available: ' + available)
         return (
             <div>
-                <a>상품목록 </a> <br/>
-                <div className="display_btn"><Search callbackSearch={this.callbackSearch}/>
-                    {available ? <ProductPost postcheck={this.postcheck}
+                <Goal comment={"물품보기"}/> <br/>
+                <div><div style={{float: "left"}}> <Search callbackSearch={this.callbackSearch}/></div>
+                    <div style={{float: "right"}} className="display_btn"><ProductPost postcheck={this.postcheck}
                                               productItemList={this.state.productItemList}
                                               prodnumList={prodnumList}
                                               usernum={this.props.usernum}
-                                              modalInfo={this.state.modalInfo}/> : '현재는 신청기간이 아닙니다. 장바구니 담기가 불가능 합니다'}
+                                              modalInfo={this.state.modalInfo}/>
                     &nbsp;&nbsp;&nbsp;
-                    <ProductFilter callbackFilter={this.callbackFilter}/></div>
+                        <ProductFilter callbackFilter={this.callbackFilter}/></div></div>
 
                 <br/><br/><br/>
                 <ProductDetail productItemList={this.state.productItemList}

@@ -31,7 +31,7 @@ class ReqList extends Component {
                         let checked = !request.checked;
                         pages.forEach((page) => {
                             if (page.includes(request)) {
-                                checked = !request.checked;
+                                checked = !prevProps.allChecked;
                             }
                         });
                         return {
@@ -84,7 +84,7 @@ class ReqList extends Component {
     };
 
     render() {
-        const {requestList,allChecked} = this.props;
+        const {requestList, allChecked} = this.props;
         let pageCount = requestList && Math.ceil(requestList.length / 10);
         let pages = [];
         for (let i = 0; i < pageCount; i++) {
@@ -93,51 +93,50 @@ class ReqList extends Component {
 
         return (
             <div className="request-list-wrapper">
-                    <Table className="request-list-table">
-                        <thead className="request-list-table-head">
-                        <tr>
-                            <th>
-                                <Form.Check
-                                    name="allChecked"
-                                    checked={allChecked}
-                                    onChange={this.handleCheckboxChange}
-                                />
-                            </th>
-                            <th>번호</th>
-                            <th>품목명</th>
-                            <th>수량</th>
-                            <th>요청일자</th>
-                            <th>요청자</th>
-                            <th>상태</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {pages[this.props.pageNum - 1].map((request, i) => {
-                            return (
-                                <tr key={request.reqnum}>
-                                    <td>
-                                        <Form.Check
-                                            name={`request${request.reqnum}`}
-                                            checked={request.checked}
-                                            hidden={request.reqstate !== '대기'}
-                                            onChange={e => this.handleCheckboxChange(e)}
-                                        />
-                                    </td>
-                                    <td>{i + 1 + (this.props.pageNum - 1) * 10}</td>
-                                    <td>{request.prodname}</td>
-                                    <td>{request.reqcount}</td>
-                                    <td>{request.reqdate}</td>
-                                    <td>{request.username}</td>
-                                    <td >{request.reqstate}</td>
-                                </tr>
-                            );
-                        })}
+                <Table bordered hover>
+                    <thead className="request-list-table-head">
+                    <tr>
+                        <th className="request-list-table-col check">
+                            <Form.Check
+                                name="allChecked"
+                                checked={allChecked}
+                                onChange={this.handleCheckboxChange}
+                            />
+                        </th>
+                        <th className="request-list-table-col num">번호</th>
+                        <th className="request-list-table-col name">품목명</th>
+                        <th className="request-list-table-col count">수량</th>
+                        <th className="request-list-table-col date">요청일자</th>
+                        <th className="request-list-table-col writer">요청자</th>
+                        <th className="request-list-table-col state">상태</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {pages[this.props.pageNum - 1].map((request, i) => {
+                        return (
+                            <tr key={request.reqnum}>
+                                <td>
+                                    <Form.Check
+                                        name={`request${request.reqnum}`}
+                                        checked={request.checked}
+                                        hidden={request.reqstate !== '대기'}
+                                        onChange={e => this.handleCheckboxChange(e)}
+                                    />
+                                </td>
+                                <td>{i + 1 + (this.props.pageNum - 1) * 10}</td>
+                                <td>{request.prodname}</td>
+                                <td>{request.reqcount}</td>
+                                <td>{request.reqdate}</td>
+                                <td>{request.username}</td>
+                                <td>{request.reqstate}</td>
+                            </tr>
+                        );
+                    })}
 
-                        </tbody>
-                    </Table>
-
+                    </tbody>
+                </Table>
             </div>
-        );
+        )
     }
 }
 

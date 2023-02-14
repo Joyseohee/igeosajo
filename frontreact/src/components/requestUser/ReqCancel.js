@@ -8,24 +8,17 @@ class ReqCancel extends Component {
         super(props);
         this.state = {
             posted: false,
-
         };
-
     }
 
     //delete
     async deleteClick() {
-        // const usernum = '3'
-
         let reqnumList = []
 
         this.props.reqnum.map((request) => {
-
             reqnumList.push(parseInt(request.reqnum))
         });
 
-        //'5' + '1'
-        //console.log(reqnum)
         const response = await fetch('http://127.0.0.1:8000/api/request?reqnum=' + reqnumList, {
             method: 'DELETE'
         });
@@ -62,9 +55,6 @@ class ReqCancel extends Component {
                     }
                 ).catch((error) => console.error(error));
         }, 500);
-        // const body = await response.json();
-
-        console.log('this is:', this);
     }
 
     handleClose = () => {
@@ -84,7 +74,7 @@ class ReqCancel extends Component {
     }
 
     render() {
-        const {posted,reqnumList} = this.state
+        const {posted} = this.state
         return (<div>
                 <Button className="btn btn-primary" onClick={() => {
                     this.postClick2()
@@ -100,8 +90,6 @@ class ReqCancel extends Component {
                                                                       modalInfo={this.props.modalInfo}
                 />}
             </div>
-
-
         )
     }
 }

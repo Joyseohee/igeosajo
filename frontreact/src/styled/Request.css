@@ -4,6 +4,7 @@
 
 .request-select-button-wrapper {
     display: flex;
+    flex:2;
     flex-flow: column wrap;
     align-content: space-between;
     justify-content: space-between;
@@ -16,30 +17,31 @@
 
 .reqfilter-wrapper {
     display: flex;
-    flex: 8;
+    flex: 7;
     justify-content: space-between;
     align-items: center;
 }
 
 .reqfilter-box-wrapper {
     padding: 20px;
-    margin-right: 20px;
+    margin-right: 10px;
     background-color: rgb(224, 224, 224);
     border-radius: 5px / 5px;
     flex: 1 1 0;
-    max-width: 260px;
+    max-width: 320px;
     height: 150px;
     box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.2);
     cursor: pointer;
 }
 
 .reqfilter-box-wrapper:last-child {
-    margin-right: 0px;
+    margin-right: 0;
 }
 
 .request-list-table-head {
     background-color: #848484;
     color: white;
+    font-size: 10px;
 }
 
 
@@ -94,7 +96,22 @@
 .request-list-number {
     text-align: end;
 }
+.request-list-table-col {
+    font-size: 1rem;
+}
 
-.request-list-table {
+.request-list-table-col.check {
+    width: 50px
+}
+.request-list-table-col.num {
+    width: 50px
+}
 
+.request-list-table-col.name {
+    width: 500px
+}
+
+thead > tr, tbody > tr > td {
+    font-size: 1rem;
+    /*color:red;*/
 }
