@@ -29,7 +29,7 @@ class DocList extends Component {
             <div>
                 <Table bordered hover>
                     <thead>
-                    <tr className={"doclistTh"}>
+                    <tr className={"listTh"}>
                         <th>No.</th>
                         <th>문서 제목</th>
                         <th>기안자</th>

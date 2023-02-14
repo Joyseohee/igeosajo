@@ -103,7 +103,7 @@ class requestTable extends Component {
         return (
             <Table bordered hover>
                 <thead>
-                <tr className={"doclistTh"}>
+                <tr className={"listTh"}>
                     <th>No</th>
                     <th><Form.Check aria-label="option 1" name={"selectAll"} onClick={this.choiceAll}/></th>
                     <th>품목명</th>
