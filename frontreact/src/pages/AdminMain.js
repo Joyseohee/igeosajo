@@ -52,7 +52,7 @@ class AdminMain extends Component {
             month = "0"+String(month)
         }
         const termyearmonth = String(now.getFullYear()) + month
-        console.log(termyearmonth)
+
         // 신청기간 조회
         fetch('http://127.0.0.1:8000/api/main?termyearmonth='+termyearmonth + '&startdate='+startdate+'&enddate='+ enddate)
             .then(response => response.json())
@@ -66,13 +66,12 @@ class AdminMain extends Component {
                     reject:response[4],
                     approval:response[5],
                     })
-                console.log(response[0])
             })
           // 신청기간 조회
         fetch('http://127.0.0.1:8000/api/reqterm/' + termyearmonth)
             .then(response => response.json())
             .then(response => {
-                console.log(response)
+
                 this.setState({items: response})
             })
     };

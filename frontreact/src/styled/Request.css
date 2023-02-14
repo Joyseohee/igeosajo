@@ -115,3 +115,8 @@ thead > tr, tbody > tr > td {
     font-size: 1rem;
     /*color:red;*/
 }
+
+.request-list-click-able > td:nth-child(7),
+.request-list-click-able > td:nth-child(7):hover {
+    color: rgb(108, 194, 205);
+}

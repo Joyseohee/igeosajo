@@ -29,15 +29,13 @@ class OrderReqDate extends Component {
        const {startyear,startmonth,endyear,endmonth} = this.state
        return (
            <div>
-                <div className="searchdatemargin">
-                            <div className="dotmargin"></div>
-                            <div className="searchdatemargin" style={{width:'100%'}}>
-                            <div className="input-group">
-                                <Col xs={4}><span className="input-group-text"><span className="startdatetext">귀속년월</span></span></Col>
-                                <Col className="spanaline spanalineright"><span className="startdatetext">{startyear}</span></Col>
-                                <Col className="spanaline"><span className="startdatetext">년</span></Col>
-                                <Col className="spanaline"><span className="startdatetext">{startmonth}</span></Col>
-                                <Col className="spanborderend"><span className="startdatetext">월</span></Col>
+                <div className="searchdatemarginreq">
+
+                            <div className="searchdatemarginreq" style={{width:'100%'}}>
+                            <div className="input-group" >
+                                <Col xs={4}><span className="input-group-text" style={{backgroundColor:"dodgerblue",color:"white"}}><span className="startdatetext" >귀속년월</span></span></Col>
+                                <Col  className="spanaline spanalineright"><span className="startdatetext">{startyear}</span><span className="startdatetext">년</span></Col>
+                                <Col  className="spanaline spanalineright spanborderend"><span className="startdatetext">{startmonth}</span><span className="startdatetext">월</span></Col>
                             </div>
 
                     </div>

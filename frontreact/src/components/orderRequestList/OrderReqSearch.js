@@ -34,12 +34,21 @@ class OrderReqSearch extends Component {
 
     render() {
         const {allcnt,prevparchasecnt,parchasecnt} = this.state
+        let color = ["transparent","transparent","transparent"]
+        if(this.props.orderreqstate == "all"){
+            color[0] = 'rgb(156,252,252)';color[1] = 'transparent';color[2] = 'transparent';
+        }else if(this.props.orderreqstate == "prevparchase"){
+            color[1] = "rgb(156,252,252)";color[0] = 'transparent';color[2] = 'transparent';
+        }else if(this.props.orderreqstate === "parchase"){
+            color[2] = "rgb(156,252,252)";color[0] = 'transparent';color[1] = 'transparent';
+        }
+        
         return (
             <div>
                 <Row style={{width: '100%'}}>
                     <Col>
                         <div className="cardcontain">
-                            <Card style={{width: '95%'}}>
+                            <Card style={{width: '95%',backgroundColor:color[0]}}>
                                 <Card.Body   onClick={(e) => {this.statechange(e,"all")}}>
                                     <Card.Text className=" cardtitletext">전체</Card.Text>
                                         <Container>
@@ -54,9 +63,9 @@ class OrderReqSearch extends Component {
                     </Col>
                     <Col>
                         <div className="cardcontain">
-                            <Card style={{width: '95%'}}>
+                            <Card style={{width: '95%',backgroundColor:color[1]}}>
                                 <Card.Body  onClick={(e) => {this.statechange(e,"prevparchase")}}>
-                                    <Card.Text className="cardtitletext">구매전</Card.Text>
+                                    <Card.Text className="cardtitletext">구매대기</Card.Text>
 
                                         <Container>
                                             <Row>
@@ -70,7 +79,7 @@ class OrderReqSearch extends Component {
                     </Col>
                     <Col>
                         <div className="cardcontain">
-                            <Card style={{width: '95%'}}>
+                            <Card style={{width: '95%',backgroundColor:color[2]}}>
                                 <Card.Body  onClick={(e) => {this.statechange(e,"parchase")}}>
                                     <Card.Text className="cardtitletext">구매완료</Card.Text>
                                         <Container>

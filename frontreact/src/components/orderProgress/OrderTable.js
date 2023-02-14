@@ -28,23 +28,21 @@ class OrderTable extends Component {
             <Table bordered hover>
                 <thead>
                 <tr className={"listTh"}>
-                    <th>No</th>
-                    <th>상품코드</th>
-                    <th>사무용품</th>
-                    <th>수량</th>
-                    <th>가격</th>
-                    <th>요청자</th>
+                    <th style={{width:"6%"}}>No</th>
+                    <th style={{width:"40%"}}>사무용품</th>
+                    <th style={{width:"13%"}}>수량</th>
+                    <th style={{width:"21%"}}>가격</th>
+                    <th style={{width:"10%"}}>요청자</th>
                 </tr>
                 </thead>
                 <tbody>
                 {reqdata && reqdata.map((num, i) => (
                     <tr key={num+i}>
-                        <td> {i+1} </td>
-                        <td>{num.prodnum}</td>
-                        <td>{num.prodname}</td>
-                        <td>{num.reqcount}</td>
-                        <td>{num.reqprice && new CommonUtil().numberComma(num.reqprice)}</td>
-                        <td>{num.username}</td>
+                        <td style={{fontSize:"15px"}}> {i+1} </td>
+                        <td style={{fontSize:"15px"}}>{num.prodname}</td>
+                        <td style={{fontSize:"15px"}}>{num.reqcount+"개"}</td>
+                        <td style={{fontSize:"15px"}}>{num.reqprice && new CommonUtil().numberComma(num.reqprice)+"원"}</td>
+                        <td style={{fontSize:"15px"}}>{num.username}</td>
                     </tr>
                 ))}
                 </tbody>

@@ -148,17 +148,17 @@ class Request extends Component {
                 <div className="request">
                     <div className="request-select-button-filter-wrapper">
                         <div className="request-select-button-wrapper">
-                        {reqtermList[0] !== 'reqtermList' &&
-                            <SelectReqterm
-                                reqtermList={reqtermList}
-                                updateState={this.updateState}
-                                pageNum={pageNum}
-                                pageCount={pageCount}
-                            />
-                        }
-                        {available === 1 &&
-                            <RequestButtons updateState={this.updateState} checkedRequest={checkedRequest}/>
-                        }
+                            {reqtermList[0] !== 'reqtermList' &&
+                                <SelectReqterm
+                                    reqtermList={reqtermList}
+                                    updateState={this.updateState}
+                                    pageNum={pageNum}
+                                    pageCount={pageCount}
+                                />
+                            }
+                            {available === 1 &&
+                                <RequestButtons updateState={this.updateState} checkedRequest={checkedRequest}/>
+                            }
                         </div>
                         {requestList[0] !== 'requestList' &&
                             <ReqFilter
@@ -200,7 +200,8 @@ class Request extends Component {
                             selectedReqterm={selectedReqterm}
                             checkedRequest={checkedRequest}
                             updateState={this.updateState}
-                        />}
+                        />
+                    }
                 </div>
             </div>);
     }
