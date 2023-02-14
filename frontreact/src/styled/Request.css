@@ -108,15 +108,34 @@
 }
 
 .request-list-table-col.name {
-    width: 500px
+    width: 800px
+}
+.request-list-table-col.count {
+    width: 100px
 }
 
+.request-list-table-col.date {
+    width: 200px
+}
+.request-list-table-col.writer {
+    width: 100px
+}
+.request-list-table-col.state {
+    width: 100px
+}
 thead > tr, tbody > tr > td {
     font-size: 1rem;
-    /*color:red;*/
+}
+.request-list-table-td.name {
+    text-align: start;
+    padding-left: 20px;
 }
 
-.request-list-click-able > td:nth-child(7),
-.request-list-click-able > td:nth-child(7):hover {
+.request-list-click.able > td:nth-child(7),
+.request-list-click.able > td:nth-child(7):hover {
     color: rgb(108, 194, 205);
+}
+
+.request-list-click.able {
+    cursor: pointer;
 }

@@ -148,7 +148,7 @@ class ReqList extends Component {
                                     onClick={(e) => {
                                         this.handleShowReajectReason(request.reqrejectreason)
                                     }}
-                                    className={request.reqstate === '반려' ? "request-list-click-able" : "request-list-click-disable"}>
+                                    className={request.reqstate === '반려' ? "request-list-click able" : "request-list-click disable"}>
                                     <td>
                                         <Form.Check
                                             name={`request${request.reqnum}`}
@@ -158,7 +158,7 @@ class ReqList extends Component {
                                         />
                                     </td>
                                     <td>{i + 1 + (this.props.pageNum - 1) * 10}</td>
-                                    <td>{request.prodname}</td>
+                                    <td className="request-list-table-td name">{request.prodname}</td>
                                     <td>{request.reqcount}</td>
                                     <td>{request.reqdate}</td>
                                     <td>{request.username}</td>
