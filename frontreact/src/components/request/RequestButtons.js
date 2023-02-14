@@ -17,12 +17,14 @@ class RequestButtons extends Component {
 
     render() {
         const checkedRequest = this.props.checkedRequest;
-        console.log(checkedRequest.length);
+
         return (
-            <>
-                <Button disabled={checkedRequest.length < 1} onClick={this.approve} style={{backgroundColor: "rgb(52, 152, 219)", borderColor:"rgb(52, 152, 219)"}}>승인</Button>
-                <Button disabled={checkedRequest.length < 1} onClick={this.reject} style={{backgroundColor: "rgb(52, 152, 219)", borderColor:"rgb(52, 152, 219)"}}>반려</Button>
-            </>
+            <div className="request-button-wrapper">
+                <Button className="request-button"
+                    disabled={checkedRequest.length < 1} onClick={this.approve} style={{backgroundColor: "#8EA6C0", borderColor:"#8EA6C0"}}>승인</Button>
+                <Button className="request-button"
+                    disabled={checkedRequest.length < 1} onClick={this.reject} style={{backgroundColor: "#8EA6C0", borderColor:"#8EA6C0"}}>반려</Button>
+            </div>
         );
     }
 }

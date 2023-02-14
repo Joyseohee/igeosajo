@@ -24,14 +24,13 @@ class ReqList extends Component {
                 }
 
                 let checkInPage = pages[this.props.pageNum - 1].filter((page) => (page.reqstate === "대기"));
-
                 newState = {
                     ...prevState,
                     requestList: prevProps.requestList.map((request) => {
-                        let checked = false;
+                        let checked = !request.checked;
                         pages.forEach((page) => {
                             if (page.includes(request)) {
-                                checked = true;
+                                checked = !request.checked;
                             }
                         });
                         return {
@@ -41,8 +40,7 @@ class ReqList extends Component {
                     }),
                     allChecked: checked,
                     checkedRequest: checked
-                        ? checkInPage
-                        : [],
+                        ? checkInPage : [],
                 };
             } else {
                 let index = parseInt(name.slice(7), 10);
@@ -93,12 +91,12 @@ class ReqList extends Component {
         }
 
         return (
-            <div className="wrapper">
-                <div>요청 수: {requestList.length}</div>
-                <Table>
-                    <thead>
+            <div className="request-list-wrapper">
+                <div className="request-list-number">
+                    <span>요청 수</span><span>{requestList.length}</span></div>
+                <Table className="request-list-table">
+                    <thead className="request-list-table-head">
                     <tr>
-                        {/*<th>reqnum</th>*/}
                         <th>
                             <Form.Check
                                 name="allChecked"
@@ -118,7 +116,6 @@ class ReqList extends Component {
                     {pages[this.props.pageNum - 1].map((request, i) => {
                         return (
                             <tr key={request.reqnum}>
-                                {/*<td>{request.reqnum}</td>*/}
                                 <td>
                                     <Form.Check
                                         name={`request${request.reqnum}`}

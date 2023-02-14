@@ -77,12 +77,12 @@ class Request extends Component {
         this.setState({pageNum: e})
         new Api().read("request", {
             termyearmonth: this.state.selectedReqterm,
-            reqstate: this.state.requestFilter!=='전체'?this.state.requestFilter:null,
+            reqstate: this.state.requestFilter !== '전체' ? this.state.requestFilter : null,
         }, null)
             .then((response) => {
                 return response.json();
             }).then((response) => {
-            this.setState(() =>({
+            this.setState(() => ({
                 requestFilteredList: response.map((request) => ({
                     ...request,
                     checked: false,
@@ -146,28 +146,32 @@ class Request extends Component {
             <div className="page-top request-wrapper">
                 <Goal comment={"신청 관리"}/>
                 <div className="request">
-                    {reqtermList[0] !== 'reqtermList' &&
-                        <SelectReqterm
-                            reqtermList={reqtermList}
-                            updateState={this.updateState}
-                            pageNum={pageNum}
-                            pageCount={pageCount}
-                        />
-                    }
-                    {requestList[0] !== 'requestList'&&
-                        <ReqFilter
-                            selectedFilter={requestFilter}
-                            requestList={requestList}
-                            selectedReqterm={selectedReqterm}
-                            updateState={this.updateState}
-                            pageNum={pageNum}
-                            pageCount={pageCount}
-                        />
-                    }
-                    {available === 1 &&
-                        <RequestButtons updateState={this.updateState} checkedRequest={checkedRequest}/>
-                    }
-                    {requestFilteredList[0] !== 'requestFilteredList'  && requestFilteredList.length > 0  &&
+                    <div className="request-select-button-filter-wrapper">
+                        <div className="request-select-button-wrapper">
+                        {reqtermList[0] !== 'reqtermList' &&
+                            <SelectReqterm
+                                reqtermList={reqtermList}
+                                updateState={this.updateState}
+                                pageNum={pageNum}
+                                pageCount={pageCount}
+                            />
+                        }
+                        {available === 1 &&
+                            <RequestButtons updateState={this.updateState} checkedRequest={checkedRequest}/>
+                        }
+                        </div>
+                        {requestList[0] !== 'requestList' &&
+                            <ReqFilter
+                                selectedFilter={requestFilter}
+                                requestList={requestList}
+                                selectedReqterm={selectedReqterm}
+                                updateState={this.updateState}
+                                pageNum={pageNum}
+                                pageCount={pageCount}
+                            />
+                        }
+                    </div>
+                    {requestFilteredList[0] !== 'requestFilteredList' && requestFilteredList.length > 0 &&
                         <>
                             <ReqList
                                 allChecked={allChecked}
@@ -187,6 +191,7 @@ class Request extends Component {
                     }
                     {showConfirmModal &&
                         <ConfirmModal
+                            requestFilter={requestFilter}
                             show={showConfirmModal}
                             text={modalMessage}
                             confirm={confirmText}

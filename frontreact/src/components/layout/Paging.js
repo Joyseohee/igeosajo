@@ -59,9 +59,9 @@ class Paging extends Component {
         return (
             <div className={"paginationDiv"}>
                 <Pagination>
-                    <Pagination.Prev onClick={() => this.handlePrevClick(pageNum)}/>
+                    <Pagination.Prev onClick={() => this.handlePrevClick(pageNum)} style={{fontFamily:"Helvetica Nene"}}/>
                     {this.pageBtn(pageNum, pageCount)}
-                    <Pagination.Next onClick={() => this.handleNextClick(pageNum, pageCount)}/>
+                    <Pagination.Next onClick={() => this.handleNextClick(pageNum, pageCount)}  style={{fontFamily:"Helvetica Nene"}}/>
                 </Pagination>
             </div>
         );
