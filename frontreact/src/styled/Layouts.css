@@ -20,23 +20,33 @@ a:link, a:visited, a:hover {
 
 .header .bar-wrapper {
     color: white;
-    background-color: rgb(52, 152, 219);
+    background-color: #1C91FB;
+    justify-items: center;
     padding: 5px 20px;
-    height: 30px;
+    height: 50px;
+    display: flex;
+    box-shadow: 3px 3px 10px rgba(0,0,0,0.3);
+    font-size: 1.2rem;
 }
 
 .header .container {
     padding: 0 20px;
+}
+.header .info {
+    font-size: 0.9rem;
 }
 
 .header .logout {
     display: flex;
     justify-content: flex-start;
     align-self: center;
+    cursor: pointer;
 }
 
 .header .bar {
     text-align: start;
+    display: flex;
+    align-items: center;
 }
 
 .header .logo-wrapper,
@@ -51,7 +61,7 @@ a:link, a:visited, a:hover {
     font-weight: 900;
     font-size: larger;
     text-align: start;
-    color: rgb(52, 152, 219);
+    color: #1C91FB;
 }
 
 .header .photo {
@@ -72,7 +82,30 @@ a:link, a:visited, a:hover {
     min-width: 200px;
     min-height: 100vh;
     background-color: rgb(224, 224, 224);
+    box-shadow: 3px 3px 10px rgba(0,0,0,0.3);
 }
+
+/*.selected-menu {*/
+/*  color: rgb(80, 160, 255);*/
+/*}*/
+/*.selected {*/
+/*  color: rgb(80, 160, 255);*/
+/*}*/
+
+.menu1, .menu2 {
+    /*color: rgb(80, 160, 255);*/
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.menu1:hover, .menu2:hover {
+    color: cadetblue;
+}
+
+.menu1.active, .menu2.active, .selected {
+    color: #1C91FB;
+}
+
 
 .sidebar-wrapper .sidebar {
     padding: 20px;

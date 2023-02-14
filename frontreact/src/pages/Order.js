@@ -12,7 +12,6 @@ class Order extends Component {
     }
 
     render() {
-        console.log("come")
         return (
             <div className="page-top">
                 {/*전부 고정이고 바뀌는 건 <Requestmain />에 컴포넌트명 변경*/}

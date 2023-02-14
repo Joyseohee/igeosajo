@@ -23,7 +23,6 @@ class OrderReqSearch extends Component {
 
     statechange = (e,state) => {
         this.props.orderdocsearchstate(state);
-        console.log(state)
     }
     componentDidMount() {
          fetch('http://127.0.0.1:8000/api/order?func=orderreqcount&&termyearmonth=' + this.state.reqterm+'&&state=parchase')
@@ -35,17 +34,26 @@ class OrderReqSearch extends Component {
 
     render() {
         const {allcnt,prevparchasecnt,parchasecnt} = this.state
+        let color = ["transparent","transparent","transparent"]
+        if(this.props.orderreqstate == "all"){
+            color[0] = 'rgb(156,252,252)';color[1] = 'transparent';color[2] = 'transparent';
+        }else if(this.props.orderreqstate == "prevparchase"){
+            color[1] = "rgb(156,252,252)";color[0] = 'transparent';color[2] = 'transparent';
+        }else if(this.props.orderreqstate === "parchase"){
+            color[2] = "rgb(156,252,252)";color[0] = 'transparent';color[1] = 'transparent';
+        }
+        
         return (
             <div>
                 <Row style={{width: '100%'}}>
                     <Col>
                         <div className="cardcontain">
-                            <Card style={{width: '95%'}}>
+                            <Card style={{width: '95%',backgroundColor:color[0]}}>
                                 <Card.Body   onClick={(e) => {this.statechange(e,"all")}}>
                                     <Card.Text className=" cardtitletext">전체</Card.Text>
                                         <Container>
                                             <Row>
-                                                <Col className="cardtext">{allcnt}</Col>
+                                                <Col className="cardtext"><span>{allcnt}</span><span>{" "}</span><span style={{fontSize:"17px",fontWeight:"bold"}}>건</span></Col>
                                                 <Col> <img src={all} alt="logo"/></Col>
                                             </Row>
                                         </Container>
@@ -55,13 +63,13 @@ class OrderReqSearch extends Component {
                     </Col>
                     <Col>
                         <div className="cardcontain">
-                            <Card style={{width: '95%'}}>
+                            <Card style={{width: '95%',backgroundColor:color[1]}}>
                                 <Card.Body  onClick={(e) => {this.statechange(e,"prevparchase")}}>
-                                    <Card.Text className="cardtitletext">구매전</Card.Text>
+                                    <Card.Text className="cardtitletext">구매대기</Card.Text>
 
                                         <Container>
                                             <Row>
-                                                <Col className="cardtext">{prevparchasecnt}</Col>
+                                                <Col className="cardtext"><span>{prevparchasecnt}</span><span>{" "}</span><span style={{fontSize:"17px",fontWeight:"bold"}}>건</span></Col>
                                                 <Col> <img src={parchase} alt="logo"/></Col>
                                             </Row>
                                         </Container>
@@ -71,12 +79,12 @@ class OrderReqSearch extends Component {
                     </Col>
                     <Col>
                         <div className="cardcontain">
-                            <Card style={{width: '95%'}}>
+                            <Card style={{width: '95%',backgroundColor:color[2]}}>
                                 <Card.Body  onClick={(e) => {this.statechange(e,"parchase")}}>
                                     <Card.Text className="cardtitletext">구매완료</Card.Text>
                                         <Container>
                                             <Row>
-                                                <Col className="cardtext">{parchasecnt}</Col>
+                                                <Col className="cardtext"><span>{parchasecnt}</span><span>{" "}</span><span style={{fontSize:"17px",fontWeight:"bold"}}>건</span></Col>
                                                 <Col> <img src={parchase} alt="logo"/></Col>
                                             </Row>
                                         </Container>

@@ -19,22 +19,12 @@ class OrderView extends Component {
         this.state = {
 
         }
-
-
     }
-    componentDidMount() {
-
-    }
-
-    componentDidUpdate(prevProps) {
-
-    }
-
 
     changeorderstate=(state)=>{
-        console.log(JSON.stringify(checklist))
+        console.log(state + "+" +checklist )
         if(checklist.length ===0){
-            console.log("선택된 항목이 없습니다.")
+            this.props.handleshow(true,"선택된 항목이 없습니다.")
         }
         else{
             if(state==='deliver')
@@ -50,9 +40,9 @@ class OrderView extends Component {
               }),
             })
               .then((response) => response.json())
-              .then((data) => data);
+              .then( data=> data);
             }
-            if(state==='finish')
+            else if(state==='finish')
             {
                 fetch("http://127.0.0.1:8000/api/order" , {
               method: "PUT",
@@ -65,13 +55,14 @@ class OrderView extends Component {
               }),
             })
               .then((response) => response.json())
-              .then((data) => data);
+              .then(data=> data);
             }
-        }
-        checklist = []
+            this.checkclear()
+        this.props.ordersearchstate(state)
+        this.props.ordernumdata(state,this.props.startdate,this.props.enddate)
         this.props.ordercntdata(this.props.startdate,this.props.enddate)
-        this.props.ordernumdata(this.props.orderstate,this.props.startdate,this.props.enddate)
-
+        }
+        
     }
     checkenable=(state,ordernum)=>{
         if(state=="불출완료") {
@@ -93,7 +84,7 @@ class OrderView extends Component {
         }
     }
 
-    checkclear=(state)=>{
+    checkclear=()=>{
         checklist = []
         const check = document.getElementsByName('check');
         const checkall = document.getElementsByName('checkall');
@@ -120,30 +111,60 @@ class OrderView extends Component {
             checklist = checklist.filter((element)=>element !== num)
         }
     }
+    
+    statebtn=(state)=>{
+        if(state=="allselect") {
+            return (
+                <div className="btndivmargin">
+                    <Form.Check className="orderallselect" inline label="전체선택" name="checkall" id={`1`} onClick={this.checkall}/>
+                    <button type="button" className="btn btn-success submitbutton" id={'finish'} onClick={(e) => {this.changeorderstate(e.target.id)}}>불출완료</button>
+                    <button type="button" className="btn btn-primary deliverbutton" id={'deliver'} onClick={(e) => {this.changeorderstate(e.target.id)}}>배송완료</button>
+                </div>
+            )
+        }
+        else if(state=="parchase") {
+            return (
+               <div className="btndivmargin">
+                    <Form.Check className="orderallselect" inline label="전체선택" name="checkall" id={`1`} onClick={this.checkall}/>
+                    <button type="button" className="btn btn-primary submitbutton" style={{width:"15%"}} id={'deliver'} onClick={(e) => {this.changeorderstate(e.target.id)}}>배송완료</button>
+                </div>
+            )
+            
+        }else if(state=="deliver") {
+            return (
+                <div className="btndivmargin">
+                    <Form.Check className="orderallselect" inline label="전체선택" name="checkall" id={`1`} onClick={this.checkall}/>
+                    <button type="button" className="btn btn-success submitbutton" style={{width:"15%"}} id={'finish'} onClick={(e) => {this.changeorderstate(e.target.id)}}>불출완료</button>
+                </div>
+            )
+        } else if(state=="finish") {
+            return (
+                 <div className="btndivmargin">
+
+                </div>
+            )
+        }
+    }
+    
 
     render() {
         const  ordernum  = this.props.ordernum
-
         return (
             <div>
                 <Row>
-                    <div className="btndivmargin">
-                        <Form.Check className="orderallselect" inline label="전체선택" name="checkall" id={`1`} onClick={this.checkall}/>
-                        <button type="button" className="btn btn-success submitbutton" id={'finish'} onClick={(e) => {this.changeorderstate(e.target.id)}}>불출완료</button>
-                        <button type="button" className="btn btn-primary deliverbutton" id={'deliver'} onClick={(e) => {this.changeorderstate(e.target.id)}}>배송완료</button>
-                    </div>
+                    {this.statebtn(this.props.orderstate)}
                 </Row>
                 <div className="orderviewmargin">
                     {ordernum && ordernum.map((num,i) => (
-                        <Row style={{width: '100%'}}>
-                        <div className="cardcontain">
+                        <Row style={{width: '101.5%'}} key={num.ordernum}>
+                        <div className="cardcontainprogress" >
                             <Card style={{width: '95%'}}>
                                 <Card.Body>
                                     <Container className="containermargin">
                                         <Row>
                                             {this.checkenable(num.orderstate,num.ordernum)}
-                                            <Col xs lg="2"><span className="ordercardtext">{num.orderdate}</span></Col>
-                                            <Col xs lg="2"><span className="ordercardtext">{num.orderstate}</span></Col>
+                                            <Col xs lg="2" tyle={{width:"10%"}}><span className="ordercardtext">{num.orderdate}</span></Col>
+                                            <Col xs lg="2" style={{width:"10%"}}><span className="ordercardtext">{num.orderstate}</span></Col>
                                         </Row>
                                     </Container>
                                     <OrderTable ordernum={num.ordernum} />

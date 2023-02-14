@@ -18,12 +18,13 @@ import OrderParchase from "./pages/OrderParchase";
 import Order from "./pages/Order";
 import DocPaymentList from "./pages/DocPaymentList";
 import Api from "./api/Api";
+import DocApprovalDetail from "./pages/DocApprovalDetail";
 
 class App extends Component {
     constructor() {
         super();
         this.state = {
-            user: "fakenum",
+            user: "user",
             pagename: "페이지",
             logined: 'N',
         }
@@ -66,14 +67,14 @@ class App extends Component {
             <>
                 <Layouts user={user} pagename={pagename}>
                     <Switch>
-                        {user === "fakenum" &&
+                        {user === "user" &&
                             <>
                                 <Route exact path="/">
                                     <Login setpagename={() => this.setpagename()} changeLogined={this.changeLogined}/>
                                 </Route>
                             </>
                         }
-                        {user !== "fakenum" &&
+                        {user !== "user" &&
                             <>
                                 <Route exact path="/main">
                                     <Main user={user} setpagename={this.setpagename}/>
@@ -103,16 +104,19 @@ class App extends Component {
                                     <OrderParchase usernum={usernum} setpagename={this.setpagename}/>
                                 </Route>
                                 <Route exact path="/docrequest">
-                                    <DocRequest usernum={usernum} setpagename={this.setpagename}/>
+                                    <DocRequest user={user} setpagename={this.setpagename}/>
                                 </Route>
                                 <Route exact path="/docreqdetail">
-                                    <DocReqDetail usernum={usernum} setpagename={this.setpagename}/>
+                                    <DocReqDetail user={user} setpagename={this.setpagename}/>
                                 </Route>
                                 <Route exact path="/docpaydetail">
-                                    <DocPaymentDetail usernum={usernum} setpagename={this.setpagename}/>
+                                    <DocPaymentDetail user={user} setpagename={this.setpagename}/>
                                 </Route>
                                 <Route exact path="/docpaylist">
-                                    <DocPaymentList usernum={usernum} setpagename={this.setpagename}/>
+                                    <DocPaymentList user={user} setpagename={this.setpagename}/>
+                                </Route>
+                                <Route exact path="/docappro">
+                                    <DocApprovalDetail user={user} setpagename={this.setpagename}/>
                                 </Route>
                             </>
                         }

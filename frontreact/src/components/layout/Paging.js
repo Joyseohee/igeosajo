@@ -8,6 +8,7 @@ class Paging extends Component {
     };
 
     pageBtn = (pageNum, pageCount) => {
+
         let active = pageNum;
         let items = [];
         let start = this.state.start;
@@ -16,11 +17,13 @@ class Paging extends Component {
         for (let number = start; number <= end; number++) {
             items.push(
                 <Pagination.Item
+                    className={"pagingDiv"}
                     key={number}
                     active={number === active}
                     onClick={(e) => {
                         this.props.setPageNum(number);
                     }}
+
                 >
                     {number}
                 </Pagination.Item>
@@ -51,15 +54,15 @@ class Paging extends Component {
     };
 
     render() {
-        let pageNum = this.props.pageNum;
-        let pageCount = this.props.pageCount;
+        let pageNum = this.props.pageNum ? this.props.pageNum :1;
+        let pageCount = this.props.pageCount ? this.props.pageCount :1;
 
         return (
             <div className={"paginationDiv"}>
                 <Pagination>
-                    <Pagination.Prev onClick={() => this.handlePrevClick(pageNum)}/>
+                    <Pagination.Prev onClick={() => this.handlePrevClick(pageNum)} style={{fontFamily:"Helvetica Nene"}}/>
                     {this.pageBtn(pageNum, pageCount)}
-                    <Pagination.Next onClick={() => this.handleNextClick(pageNum, pageCount)}/>
+                    <Pagination.Next onClick={() => this.handleNextClick(pageNum, pageCount)}  style={{fontFamily:"Helvetica Nene"}}/>
                 </Pagination>
             </div>
         );

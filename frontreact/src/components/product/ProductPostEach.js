@@ -2,20 +2,19 @@ import Table from "react-bootstrap/Table";
 import Form from "react-bootstrap/Form";
 import React, {Component} from 'react';
 import Product from "../../pages/Product";
-import Counter from "./cartcount";
+import Counter from "./Productcount";
 import PostCartModal from "./PostCartModal";
+import myImage from '../../img/shopping-cart.png';
+import "../../styled/Product.css"
 
 class ProductPostEach extends Component {
     constructor(props) {
         super(props);
         this.state = {
-
             posted: false,
             gocart: false
-
         };
         this.postClick = this.postClick.bind(this);
-
     }
 
     //post
@@ -77,10 +76,8 @@ class ProductPostEach extends Component {
         let disabled = count !== 0 ? 0 : 1
 
         return (
-            <div>
-                <button className="btn btn-primary" onClick={this.postClick2} disabled={disabled}>cart</button>
-
-
+            <div className="buttonc" >
+                <button className="btn-primary btn button_cart" onClick={this.postClick2} disabled={disabled}> <img className="img_cart" src={myImage} alt=""/></button>
                 {posted && <PostCartModal show={true} id={1}
                                           confirm={"담기"} handleClose={this.handleClose}
                                           handleConfirm={this.handleConfirm}
@@ -91,13 +88,10 @@ class ProductPostEach extends Component {
                                           handleConfirm={this.handleConfirm}
                                           modalInfo={this.props.modalInfo}
                 />}
-
             </div>
 
         )
     }
-
-
 }
 
 export default ProductPostEach

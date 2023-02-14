@@ -10,48 +10,117 @@ import SubGoal from "../components/SubGoal";
 import ReqCountCard from "../components/adminMainPage/ReqCountCard";
 import OrderCountCard from "../components/adminMainPage/OrderCountCard";
 import DocCountCard from "../components/adminMainPage/DocCountCard";
-let now = new Date();
+import { withRouter } from 'react-router-dom';
 
+let now = new Date();
 
 class AdminMain extends Component {
     constructor(props) {
         super(props);
-
+        let startdate = now.getFullYear() + "-" + (now.getMonth() + 1)+"-"+"01"
+        let day = new Date(now.getFullYear(),(now.getMonth()+1),0).getDate()
+        let enddate = now.getFullYear() + "-" + (now.getMonth() + 1)+"-"+ day
+        let month = now.getMonth()+1
+        if(month <10)
+        {
+            month = "0"+String(month)
+        }
+        let termyearmonth = String(now.getFullYear()) + month
         this.state = {
             items: [],
-            reqCount: 0,
-            reqBasket: 0
+            count: [],
+            termyearmonth: termyearmonth,
+            startdate: startdate,
+            enddate: enddate,
+            reqcount :0,
+            prevparchase:0,
+            docsubmit:0,
+            reject:0,
+            approval:0,
+
         };
+
     }
 
     async componentDidMount() {
-
-        let nowdate
+        const startdate = now.getFullYear() + "-" + (now.getMonth() + 1)+"-"+"01"
+        const day = new Date(now.getFullYear(),(now.getMonth()+1),0).getDate()
+        const enddate = now.getFullYear() + "-" + (now.getMonth() + 1)+"-"+ day
+        let month = now.getMonth()+1
+        if(month <10)
+        {
+            month = "0"+String(month)
+        }
+        const termyearmonth = String(now.getFullYear()) + month
 
         // 신청기간 조회
-        fetch('http://127.0.0.1:8000/api/reqterm/202303')
+        fetch('http://127.0.0.1:8000/api/main?termyearmonth='+termyearmonth + '&startdate='+startdate+'&enddate='+ enddate)
             .then(response => response.json())
             .then(response => {
+                this.setState({
+                    count: response,
+                    reqcount :response[0],
+                    prevparchase:response[1],
+                    parchase:response[2],
+                    docsubmit:response[3],
+                    reject:response[4],
+                    approval:response[5],
+                    })
+            })
+          // 신청기간 조회
+        fetch('http://127.0.0.1:8000/api/reqterm/' + termyearmonth)
+            .then(response => response.json())
+            .then(response => {
+
                 this.setState({items: response})
             })
-
-        // 신청 내역 건수
-        fetch('http://127.0.0.1:8000/api/request?usernum=' + this.props.user.usernum.toString())
-            .then(response => response.json())
-            .then(response => {
-                this.setState({reqCount: response.length})
-            })
-
-        // 장바구니 건수
-        fetch('http://127.0.0.1:8000/api/cart?usernum=' + this.props.user.usernum.toString())
-            .then(response => response.json())
-            .then(response => {
-                this.setState({reqBasket: response.length})
-            })
-
     };
 
+    routerpath = (e,state) =>{
+        if(state == "/request")
+        {
+            this.props.history.push({
+                pathname : state,
+            })
+        }
+        else if(state == "/orderreq" || state == "/Order")
+        {
+            let orderstate = ""
+            if(state == "/orderreq"){
+               orderstate = "prevparchase"
+            }else if(state == "/Order"){
+                orderstate = "parchase"
+            }
+            this.props.history.push({
+                pathname : state, 
+                state: {
+                     orderstate:orderstate
+                 },
+            })
+        }
+        else if(state == "/docsubmit" || state == "/docreject" || state == "/docapproval")
+        {
+            let docstate = ""
+            if(state == "/docsubmit"){
+                docstate = "대기"
+            }else if(state == "/docreject"){
+                docstate = "반려"
+            }else if(state == "/docapproval"){
+                docstate = "승인"
+            }
+            this.props.history.push({
+                pathname : "/docpaylist",
+                state: {
+                     docstate:docstate
+                 },
+            })
+        }
+
+    }
+
     render() {
+        const {reqcount,prevparchase,parchase,docsubmit,reject,approval} = this.state
+
         return (
             <>
                 <Container fluid style={{margin: 0, padding: 0}}>
@@ -59,15 +128,15 @@ class AdminMain extends Component {
                     <CheckPeriod items = {this.state.items}/>
                     <Row style={{marginBottom:"40px",marginTop:"40px"}}>
                         <Col xs={5}>
-                            <SubGoal className={"colDiv"} comment={"사무용품 구매 요청 현황"}/>
+                            <SubGoal className={"colDiv"} comment={"당월 사무용품 구매 요청 현황"}/>
                             <Row>
-                                <ReqCountCard></ReqCountCard>
+                                <ReqCountCard reqcount={reqcount} routerpath={this.routerpath}></ReqCountCard>
                             </Row>
                         </Col>
                         <Col xs={7}>
-                            <SubGoal comment={"구매 진행 현황"}/>
+                            <SubGoal comment={"당월 구매 진행 현황"}/>
                             <Row>
-                                <OrderCountCard></OrderCountCard>
+                                <OrderCountCard prevparchase={prevparchase} parchase={parchase} routerpath={this.routerpath}></OrderCountCard>
                             </Row>
                         </Col>
                     </Row>
@@ -77,7 +146,7 @@ class AdminMain extends Component {
                         </Col>
                     </Row>
                     <Row>
-                        <DocCountCard></DocCountCard>
+                        <DocCountCard docsubmit={docsubmit} reject={reject} approval={approval} routerpath={this.routerpath}></DocCountCard>
                     </Row>
                 </Container>
             </>
@@ -85,4 +154,4 @@ class AdminMain extends Component {
     }
 }
 
-export default AdminMain;
+export default withRouter(AdminMain);

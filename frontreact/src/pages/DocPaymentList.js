@@ -5,14 +5,26 @@ import "../styled/DocRequestCss.css"
 import DocList from "../components/docreq/DocList";
 import Goal from "../components/Goal";
 import Paging from "../components/layout/Paging";
+import {withRouter} from "react-router-dom";
+
+let select = "allselect";
 
 class DocPaymentList extends Component {
 
     constructor(props) {
         super(props);
         this.props.setpagename("전자 결재");
+
+        try {
+            if (this.props.location.state.docstate != null) {
+                select = this.props.location.state.docstate;
+            }
+        } catch (e) {
+            select = "allselect";
+        }
+
         this.state = {
-            listState: "allselect",
+            listState: select,
             doclist: [],
             allcnt: 0,
             approvalcnt: 0,
@@ -24,36 +36,62 @@ class DocPaymentList extends Component {
     }
 
     async componentDidMount() {
-        fetch('http://127.0.0.1:8000/api/document?checkDetail=1&pagenum=' + this.state.pageNum.toString())
+
+        let word;
+        let wordarr = [];
+        //  각각 수량
+        await fetch('http://127.0.0.1:8000/api/document?checkDetail=1')
             .then(response => response.json())
             .then(response => {
-                this.setState({doclist: response})
+                this.setState({allcnt: response.length})
+                wordarr.push(response.length)
+            })
+        await fetch('http://127.0.0.1:8000/api/document?state=승인&checkDetail=1')
+            .then(response => response.json())
+            .then(response => {
+                this.setState({approvalcnt: response.length})
+                wordarr.push(response.length)
+            })
+        await fetch('http://127.0.0.1:8000/api/document?state=반려&checkDetail=1')
+            .then(response => response.json())
+            .then(response => {
+                this.setState({rejectcnt: response.length})
+                wordarr.push(response.length)
+            })
+        await fetch('http://127.0.0.1:8000/api/document?state=대기&checkDetail=1')
+            .then(response => response.json())
+            .then(response => {
+                this.setState({waitcnt: response.length})
+                wordarr.push(response.length)
             })
 
-        //  각각 수량
-        fetch('http://127.0.0.1:8000/api/document?checkDetail=1')
-            .then(res => res.json())
-            .then(data => {
-                this.setState({allcnt: data.length, pageCount: data.length})
-            })
-        fetch('http://127.0.0.1:8000/api/document?state=승인&checkDetail=1')
-            .then(res => res.json())
-            .then(data => {
-                this.setState({approvalcnt: data.length})
-            })
-        fetch('http://127.0.0.1:8000/api/document?state=반려&checkDetail=1')
-            .then(res => res.json())
-            .then(data => {
-                this.setState({rejectcnt: data.length})
-            });
-        fetch('http://127.0.0.1:8000/api/document?state=대기&checkDetail=1')
-            .then(res => res.json())
-            .then(data => {
-                this.setState({waitcnt: data.length})
-            });
+        // 테이블 생성
+        if (this.state.listState === "allselect") {
+            fetch('http://127.0.0.1:8000/api/document?checkDetail=1&pagenum=1')
+                .then(response => response.json())
+                .then(response => {
+                    this.setState({doclist: response, pageCount: this.state.allcnt})
+                })
+        } else {
+            switch (this.state.listState) {
+                case "승인":
+                    word = wordarr[1]
+                    break;
+                case "대기":
+                    word = wordarr[3]
+                    break;
+                case "반려":
+                    word = wordarr[2]
+                    break;
+            }
 
+            fetch('http://127.0.0.1:8000/api/document?state=' + this.state.listState + '&checkDetail=1&pagenum=1')
+                .then(response => response.json())
+                .then(response => {
+                    this.setState({doclist: response, pageCount: word})
+                })
+        }
     }
-
 
     statechange = (e) => {
         this.setState({listState: e, pageNum: 1})
@@ -121,7 +159,8 @@ class DocPaymentList extends Component {
                 <DocList
                     doclist={this.state.doclist}
                     statechange={this.statechange}
-                    pageNum={this.state.pageNum}/>
+                    pageNum={this.state.pageNum}
+                    user={this.props.user}/>
                 <Paging
                     pageNum={this.state.pageNum}
                     setPageNum={this.setPageNum}
@@ -131,4 +170,4 @@ class DocPaymentList extends Component {
     }
 }
 
-export default DocPaymentList;
+export default withRouter(DocPaymentList);

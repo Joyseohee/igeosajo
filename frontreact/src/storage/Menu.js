@@ -6,7 +6,7 @@ export default class Menu {
         {
             index: "depth1-1",
             name: "전자결재",
-            path: "/docrequest",
+            path: "/docpaylist",
         }
     ];
 
@@ -15,6 +15,7 @@ export default class Menu {
         {
             index: "depth1-2",
             name: "사무용품 신청 관리",
+            path: "/reqterm",
             menu2: [
                 {
                     index: "depth2-1",
@@ -31,6 +32,7 @@ export default class Menu {
         {
             index: "depth1-3",
             name: "전자결재",
+            path: "/docrequest",
             menu2: [
                 {
                     index: "depth2-3",
@@ -47,6 +49,7 @@ export default class Menu {
         {
             index: "depth1-4",
             name: "사무용품 구매",
+            path: "/orderreq",
             menu2: [
                 {
                     index: "depth2-5",
@@ -72,6 +75,7 @@ export default class Menu {
         {
             index: "depth1-5",
             name: "사무용품 구매",
+            path: "/product",
             menu2: [
                 {
                     index: "depth2-8",

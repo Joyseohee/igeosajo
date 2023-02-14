@@ -88,4 +88,8 @@
     border-radius: 10px;
 }
 
+.requestStatusDiv div:nth-child(1):hover, .requestStatusDiv div:nth-child(3):hover{
+    cursor: pointer;
+}
+
 

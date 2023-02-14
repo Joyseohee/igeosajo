@@ -1,5 +1,6 @@
 import React, {Component} from "react";
 import {Form, Table} from "react-bootstrap";
+import ConfirmModal from "./ConfirmModal";
 
 class ReqList extends Component {
     constructor(props) {
@@ -7,31 +8,47 @@ class ReqList extends Component {
         this.state = {
             requestList: null,
             allChecked: false,
-            checkedRequests: null,
+            checkedRequest: null,
+            showRejectReasonModal: 0,
         };
     }
 
     handleCheckboxChange = (event) => {
         const {name, checked} = event.target;
         this.setState((prevState, prevProps) => {
-            console.log(prevProps);
             let newState;
             if (name === "allChecked") {
+                let prevRequestList = prevProps.requestList;
+                let pageCount = Math.ceil(prevRequestList.length / 10);
+                let pages = [];
+                for (let i = 0; i < pageCount; i++) {
+                    pages.push(prevRequestList.slice(i * 10, (i + 1) * 10));
+                }
+
+                let checkInPage = pages[this.props.pageNum - 1].filter((page) => (page.reqstate === "대기"));
                 newState = {
                     ...prevState,
-                    requestList: prevProps.requestList.map((request) => ({
-                        ...request,
-                        checked: checked,
-                    })),
+                    requestList: prevProps.requestList.map((request) => {
+                        let checked = !request.checked;
+                        pages.forEach((page) => {
+                            if (page.includes(request)) {
+                                checked = !prevProps.allChecked;
+                            }
+                        });
+                        return {
+                            ...request,
+                            checked: checked,
+                        };
+                    }),
                     allChecked: checked,
-                    checkedRequests: checked
-                        ? prevProps.requestList.filter((request) => request.reqstate === "대기")
-                        : [],
+                    checkedRequest: checked
+                        ? checkInPage : [],
                 };
             } else {
-                let index = name.charAt(name.length - 1) - 1;
+                let index = parseInt(name.slice(7), 10);
                 let newRequestList = [...prevProps.requestList];
-                newRequestList[index].checked = checked;
+                const indexOfRequest = newRequestList.findIndex((request) => request.reqnum === index);
+                newRequestList[indexOfRequest].checked = checked;
 
                 newState = {
                     ...prevState,
@@ -45,75 +62,120 @@ class ReqList extends Component {
                     allChecked: allChecked,
                 };
 
-                let checkedRequests = prevProps.checkedRequest.filter(
-                    (request) => request.reqnum !== newRequestList[index].reqnum
+                let checkedRequest = prevProps.checkedRequest.filter(
+                    (request) => request.reqnum !== newRequestList[indexOfRequest].reqnum
                 );
 
                 if (checked) {
-                    checkedRequests = [...checkedRequests, newRequestList[index]];
+                    checkedRequest = [...checkedRequest, newRequestList[indexOfRequest]];
                 }
 
                 newState = {
                     ...newState,
-                    checkedRequests: checkedRequests,
+                    checkedRequest: checkedRequest,
                 };
             }
-            this.props.storeChecked(newState.checkedRequests, newState.requestList);
+            this.props.updateState({
+                requestFilteredList: newState.requestList,
+                allChecked: newState.allChecked,
+                checkedRequest: newState.checkedRequest,
+            })
             return newState
         });
+    };
 
+    handleShowReajectReason = (reqrejectreason) => {
+        if (reqrejectreason !== null) {
+            this.setState({
+                showRejectReasonModal: reqrejectreason
+            })
+        }
+    }
+    updateState = (newValues) => {
+        this.setState(newValues);
     };
 
     render() {
-        const {requestList, checkedRequest} = this.props;
-        const {allChecked} = this.state;
-        console.log(requestList);
-        console.log(checkedRequest);
+        const {requestList, allChecked} = this.props;
+        const {showRejectReasonModal} = this.state;
+        let pageCount = requestList && Math.ceil(requestList.length / 10);
+        let pages = [];
+        for (let i = 0; i < pageCount; i++) {
+            pages.push(requestList.slice(i * 10, (i + 1) * 10));
+        }
+
+
+        let showConfirmModal;
+        let modalType;
+        let modalMessage;
+        let confirmText;
+
+        if (showRejectReasonModal !== 0) {
+            showConfirmModal = true;
+            modalType = "반려이유확인";
+            modalMessage = showRejectReasonModal;
+            confirmText = "확인";
+        } else {
+            showConfirmModal = false;
+        }
 
         return (
-            <div className="wrapper">
-                <div>요청 수: {requestList.length}</div>
-                <Table>
-                    <thead>
-                    <tr>
-                        <th>번호</th>
-                        <th>reqnum</th>
-                        <th>
-                            <Form.Check
-                                name="allChecked"
-                                checked={allChecked}
-                                onChange={this.handleCheckboxChange}
-                            />
-                        </th>
-                        <th>품목명</th>
-                        <th>수량</th>
-                        <th>요청일자</th>
-                        <th>요청자</th>
-                        <th>상태</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {requestList.map((request, i) => {
-                        return (
-                            <tr key={request.reqnum}>
-                                <td>{i + 1}</td>
-                                <td>{request.reqnum}</td>
-                                <td><Form.Check name={`request${i + 1}`}
-                                                checked={request.checked}
-                                                hidden={request.reqstate !== '대기'}
-                                                onChange={(e) => this.handleCheckboxChange(e)}
-                                /></td>
-                                <td>{request.prodname}</td>
-                                <td>{request.reqcount}</td>
-                                <td>{request.reqdate}</td>
-                                <td>{request.username}</td>
-                                <td>{request.reqstate}</td>
-                            </tr>
-                        );
-                    })}
-                    </tbody>
-                </Table>
-            </div>
+            <>
+                <div className="request-list-wrapper">
+                    <Table bordered hover>
+                        <thead className="request-list-table-head">
+                        <tr>
+                            <th className="request-list-table-col check">
+                                <Form.Check
+                                    name="allChecked"
+                                    checked={allChecked}
+                                    onChange={this.handleCheckboxChange}
+                                />
+                            </th>
+                            <th className="request-list-table-col num">번호</th>
+                            <th className="request-list-table-col name">품목명</th>
+                            <th className="request-list-table-col count">수량</th>
+                            <th className="request-list-table-col date">요청일자</th>
+                            <th className="request-list-table-col writer">요청자</th>
+                            <th className="request-list-table-col state">상태</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {pages[this.props.pageNum - 1].map((request, i) => {
+                            return (
+                                <tr key={request.reqnum}
+                                    value={request.reqrejectreason}
+                                    onClick={(e) => {
+                                        this.handleShowReajectReason(request.reqrejectreason)
+                                    }}
+                                    className={request.reqstate === '반려' ? "request-list-click able" : "request-list-click disable"}>
+                                    <td>
+                                        <Form.Check
+                                            name={`request${request.reqnum}`}
+                                            checked={request.checked}
+                                            hidden={request.reqstate !== '대기'}
+                                            onChange={e => this.handleCheckboxChange(e)}
+                                        />
+                                    </td>
+                                    <td>{i + 1 + (this.props.pageNum - 1) * 10}</td>
+                                    <td className="request-list-table-td name">{request.prodname}</td>
+                                    <td>{request.reqcount}</td>
+                                    <td>{request.reqdate}</td>
+                                    <td>{request.username}</td>
+                                    <td>{request.reqstate}</td>
+                                </tr>
+                            );
+                        })}
+                        </tbody>
+                    </Table>
+                </div>
+                <ConfirmModal
+                    show={showConfirmModal}
+                    text={modalMessage}
+                    confirm={confirmText}
+                    modalType={modalType}
+                    updateState={this.updateState}/>
+            </>
         );
     }
 }
