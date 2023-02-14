@@ -9,6 +9,9 @@ export default class CommonUtil extends Component {
     convertDateType = (date) => {
         return date.getFullYear().toString()+"-"+((date.getMonth()+1).toString().length===2?(date.getMonth()+1).toString():"0"+(date.getMonth()+1).toString())+"-"+(date.getDate().toString().length===2?date.getDate().toString():"0"+date.getDate().toString());
     }
+    getLocalDate = (date) => {
+        return date.toString().slice(0, 4)+"년 "+(date.toString().slice(5)==='0'?date.toString().slice(6):date.toString().slice(5, 7))+'월 '+(date.toString().slice(8)===0?date.toString().slice(9):date.toString().slice(8,10))+'일';
+    }
     getFirstDayInMonth = (date) => {
         return date.getFullYear().toString()+"-"+((date.getMonth()+1).toString().length===2?(date.getMonth()+1).toString():"0"+(date.getMonth()+1).toString())+"-01";
     }

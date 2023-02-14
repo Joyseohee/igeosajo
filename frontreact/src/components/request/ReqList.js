@@ -92,24 +92,24 @@ class ReqList extends Component {
 
         return (
             <div className="request-list-wrapper">
-                <div className="request-list-number">
-                    <span>요청 수</span><span>{requestList.length}</span></div>
-                <Table className="request-list-table">
+                {/*<div className="request-list-number">*/}
+                {/*    <span>요청 수 </span><span>{requestList.length}</span></div>*/}
+                <Table bordered hover>
                     <thead className="request-list-table-head">
                     <tr>
-                        <th>
+                        <th className="request-list-table-col check">
                             <Form.Check
                                 name="allChecked"
                                 checked={allChecked}
                                 onChange={this.handleCheckboxChange}
                             />
                         </th>
-                        <th>번호</th>
-                        <th>품목명</th>
-                        <th>수량</th>
-                        <th>요청일자</th>
-                        <th>요청자</th>
-                        <th>상태</th>
+                        <th className="request-list-table-col num">번호</th>
+                        <th className="request-list-table-col name">품목명</th>
+                        <th className="request-list-table-col count">수량</th>
+                        <th className="request-list-table-col date">요청일자</th>
+                        <th className="request-list-table-col writer">요청자</th>
+                        <th className="request-list-table-col state">상태</th>
                     </tr>
                     </thead>
                     <tbody>
