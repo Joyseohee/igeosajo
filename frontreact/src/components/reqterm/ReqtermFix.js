@@ -76,29 +76,32 @@ class ReqtermFix extends Component {
 
         return (
             <>
-                <Form>
-                    <br/>
                     {!disabled &&
-                        <Alert>이번 달 신청기간이 이미 등록돼있습니다.</Alert>
+                        <div className="reqterm-alert">이번 달 신청기간이 이미 등록돼있습니다.</div>
                     }
-                    <Form.Group className="mb-3" controlId="formStartDate">
-                        <Form.Label>시작일</Form.Label>
-                        <Form.Control type="date" value={this.state.termstartdate} name="termstartdate"
-                                      min={defaultStart}
-                                      max={maxDate}
-                                      onChange={(e) => this.setValue(e)}
-                                      disabled={!disabled}/>
-                    </Form.Group>
-                    <Form.Group className="mb-3" controlId="formEndDate">
-                        <Form.Label>마감일</Form.Label>
-                        <Form.Control type="date" value={this.state.termenddate} name="termenddate"
-                                      min={minEndDate}
-                                      max={maxDate}
-                                      onChange={(e) => this.setValue(e)}
-                                      disabled={!disabled}/>
-                    </Form.Group>
-                    <Button onClick={(e) => this.handleSubmit(e)}
-                            style={{backgroundColor: "rgb(82, 150, 213)", borderColor: "rgb(82, 150, 213)"}}
+                    <Form className="reqterm-input-wrapper">
+                        <div className="reqterm-input-group">
+                        <Form.Group className="reqterm-input mb-3" controlId="formStartDate">
+                            <Form.Label className="reqterm-input-label">시작일</Form.Label>
+                            <Form.Control className="reqterm-input-date"
+                                          type="date" value={this.state.termstartdate} name="termstartdate"
+                                          min={defaultStart}
+                                          max={maxDate}
+                                          onChange={(e) => this.setValue(e)}
+                                          disabled={!disabled}/>
+                        </Form.Group>
+                        <Form.Group className="reqterm-input mb-3" controlId="formEndDate">
+                            <Form.Label className="reqterm-input-label">마감일</Form.Label>
+                            <Form.Control className="reqterm-input-date"
+                                          type="date" value={this.state.termenddate} name="termenddate"
+                                          min={minEndDate}
+                                          max={maxDate}
+                                          onChange={(e) => this.setValue(e)}
+                                          disabled={!disabled}/>
+                        </Form.Group>
+</div>
+                    <Button className="reqterm-button mb-3" onClick={(e) => this.handleSubmit(e)}
+                            style={{backgroundColor: "#8EA6C0", borderColor:"#8EA6C0"}}
                             disabled={!disabled}>
                         설정
                     </Button>

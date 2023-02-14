@@ -19,10 +19,10 @@ class Header extends Component {
         return (
             <div className="header">
                 <Row className="header-wrapper">
-                    <Col sm="8" className="logo-wrapper">
-                        <div className="logo"><Link to="/main">Office</Link></div>
+                    <Col sm="9" className="logo-wrapper">
+                        <Link to="/main"><img src={"/logo.png"} className="logo"></img></Link>
                     </Col>
-                    <Col sm="3" className="profile">
+                    <Col sm="2" className="profile">
                         <Row>
                             <Col sm="3" className="photo">
                                 {user !== "user" && <div>

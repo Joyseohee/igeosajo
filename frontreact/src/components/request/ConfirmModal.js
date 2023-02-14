@@ -29,6 +29,8 @@ class ConfirmModal extends Component {
             this.props.updateState({showApproveConfirmModal: false});
         } else if (modalType === "반려") {
             this.props.updateState({showRejectConfirmModal: false});
+        } else if (modalType === "반려이유확인") {
+            this.props.updateState({showRejectReasonModal: 0});
         } else {
             this.props.updateState({showFinalModal: false});
         }
@@ -43,30 +45,33 @@ class ConfirmModal extends Component {
             }, request.reqnum)
         });
         setTimeout(() => {
-            new Api().read("request", {termyearmonth: this.props.selectedReqterm}, null)
-                .then((response) => response.json())
-                .then((response) => {
+            Promise.all([
+                new Api().read("request", {termyearmonth: this.props.selectedReqterm}, null),
+                new Api().read("request", {
+                    termyearmonth: this.props.selectedReqterm,
+                    reqstate: this.props.requestFilter==='전체'?null:this.props.requestFilter,
+                }, null)
+            ]).then(([requestList, requestFilteredList]) =>
+                Promise.all([requestList.json(), requestFilteredList.json()]))
+                .then(([requestList, requestFilteredList]) => {
                     this.props.updateState({
-                        requestList: response.map((request) => ({
+                        requestList: requestList.map((request) => ({
                             ...request,
                             checked: false,
                         })),
-                        requestFilteredList: response.map((request) => ({
+                        requestFilteredList: requestFilteredList.map((request) => ({
                             ...request,
                             checked: false,
                         })),
-                        filter: '전체',
+                        requestFilter: this.props.requestFilter,
                         checkedRequest: [],
                         allChecked: false,
-                        pageCount: response.length,
-                    });
-                })
-                .catch((error) => console.error(error));
+                        pageCount: requestFilteredList.length,
+                    })}
+                ).catch((error) => console.error(error));
         }, 500);
         this.props.updateState({showFinalModal: true});
-        this.setState({
-            finalModalType: reqstate,
-        })
+        this.setState({finalModalType: reqstate})
     };
 
     setReqRejectReason = (e) => {
@@ -90,7 +95,7 @@ class ConfirmModal extends Component {
                     backdrop="static"
                     keyboard={false}
                 >
-                    {modalType === "반려확인" ?
+                    {modalType === "반려확인" || modalType === "반려이유확인" ?
                         <>
                             <Modal.Header closeButton>
                                 <Modal.Title>반려 사유</Modal.Title>
@@ -102,6 +107,7 @@ class ConfirmModal extends Component {
                                                       rows={3}
                                                       onBlur={(e) => this.setReqRejectReason(e)}
                                                       placeholder={text}
+                                                      readOnly={modalType==='반려이유확인'}
                                                       autoFocus/>
                                     </Form.Group>
                                 </Form>
@@ -111,8 +117,14 @@ class ConfirmModal extends Component {
                         <Modal.Body>{text}</Modal.Body>
                     }
                     <Modal.Footer>
-                        <Button variant="secondary" onClick={this.handleClose}>취소</Button>
-                        <Button variant="primary" value={modalType} onClick={(e) => {this.handleConfirm(e.target.value)}} style={{backgroundColor: "rgb(52, 152, 219)", borderColor:"rgb(52, 152, 219)"}}>{confirm}</Button>
+                        {modalType !=='반려이유확인'&&
+                            <Button variant="secondary" onClick={this.handleClose}>취소</Button>}
+                        <Button variant="primary" value={modalType} onClick={(e) => {
+                            this.handleConfirm(e.target.value)
+                        }} style={{
+                            backgroundColor: "rgb(52, 152, 219)",
+                            borderColor: "rgb(52, 152, 219)"
+                        }}>{confirm}</Button>
                     </Modal.Footer>
                 </Modal>
             </>
