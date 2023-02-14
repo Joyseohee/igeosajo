@@ -86,9 +86,10 @@ class OrderParchase extends Component {
             }
             fullAddress += (extraAddress !== '' ? ` (${extraAddress})` : '');
         }
-        this.handleClose()
+        
         this.setState({fullAddress:fullAddress})
         this.setState({zoneCode:zoneCode})
+        this.handleClose()
     }
 
     // 팝업창 열기
@@ -189,7 +190,7 @@ class OrderParchase extends Component {
                         {paymentcontent}
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button>확인</Button>
+                        <Button onClick={this.handleClose}>확인</Button>
                     </Modal.Footer>
                  </Modal>
                 <Modal

@@ -1,6 +1,4 @@
 import React, {Component} from 'react';
-// import Product from "../../pages/Product";
-// import Counter from "../common/cartcount";
 import PostCartModal from "../product/PostCartModal";
 
 class DeleteCart extends Component {
@@ -14,16 +12,11 @@ class DeleteCart extends Component {
     //delete
     async deleteClick() {
         const prodnum = this.props.prodnum2;
-        //'5' + '1'
-        console.log(prodnum)
-        console.log(this.props.usernum)
         const response = await fetch('http://127.0.0.1:8000/api/cart?usernum=' + this.props.usernum + '&prodnum=' + prodnum, {
             method: 'DELETE'
         }).then(() => {
             this.props.postcheck()
         });
-        // const body = await response.json();
-
     }
     handleClose = () => {
         this.setState({
@@ -47,12 +40,10 @@ class DeleteCart extends Component {
 
         return (
             <div>
-                <button onClick={(e) => {
+                <button className='btn btn-outline-secondary' onClick={(e) => {
                     this.postClick2()
                 }}>삭제
                 </button>
-
-
                 {posted && <PostCartModal show={true} id={4}
                                           confirm={"삭제하기"} handleClose={this.handleClose}
                                           handleConfirm={this.handleConfirm}
@@ -65,7 +56,6 @@ class DeleteCart extends Component {
                 />}
             </div>
         )
-
     }
 }
 

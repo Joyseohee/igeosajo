@@ -11,25 +11,6 @@ class TotalPrice extends Component {
             totalprice: 0,
         }
 
-        // fetch('http://127.0.0.1:8000/api/order?func=reqnumget&ordernum=' + ordernum)
-        //     .then(res => res.json())
-        //     .then(data => {
-        //         {
-        //             let totalprice = 0
-        //             data && data.map((num, i) => (
-        //                 fetch('http://127.0.0.1:8000/api/request/' + num.reqnum)
-        //                     .then(res => res.json())
-        //                     .then(data => {
-        //                             this.setState({reqnum: this.state.reqnum.concat(...data)})
-        //                             {data && data.map((num, i) => (
-        //                                 totalprice = totalprice + parseInt(num.reqprice)
-        //                             ))}
-        //                             this.setState({totalprice: totalprice})
-        //                         }
-        //                     )))
-        //         }
-        //         })
-
     }
     componentDidMount() {
 
@@ -46,9 +27,9 @@ class TotalPrice extends Component {
     render() {
         const {totalprice} = this.state
         return (
-            <div>
+            <div className={"totalprice"} >
                 <span>Total Price : </span>
-                <span>{totalprice && new CommonUtil().numberComma(totalprice)}</span>
+                <span>{totalprice && new CommonUtil().numberComma(totalprice) + "원"}</span>
             </div>
         )
     }

@@ -8,6 +8,8 @@ import OrderSearch from '../components/orderProgress/OrderSearch'
 import OrderView from '../components/orderProgress/OrderView'
 import Goal from "../components/Goal";
 import { withRouter } from 'react-router-dom';
+import Modal from "react-bootstrap/Modal";
+import {Button} from "react-bootstrap";
 
 
 let  defaultstate = 'allselect'
@@ -44,6 +46,8 @@ class OrderProgress extends Component {
             delivercnt: 0,
             finishcnt: 0,
             render:0,
+            show:false,
+            content:"",
         }
     }
 
@@ -142,7 +146,13 @@ class OrderProgress extends Component {
                 })
             });
     };
-
+    handleClose = () => {
+        this.setState({show:false})
+    }
+    handleShow = (state,content) => {
+        this.setState({show:state})
+        this.setState({content:content})
+    }
     render() {
         const {
             ordernum,
@@ -157,6 +167,8 @@ class OrderProgress extends Component {
             parchasecnt,
             delivercnt,
             finishcnt,
+            show,
+            content
         } = this.state;
         const date = [startyear, startmonth, endyear, endmonth]
         const ordercnt = [allcnt, parchasecnt, delivercnt, finishcnt]
@@ -166,10 +178,23 @@ class OrderProgress extends Component {
                 <Container fluid style={{margin: 0, padding: 0}}>
                     {/*<Headertitle title="구매 진행 현황"></Headertitle>*/}
                     <Goal comment={"구매 진행 현황"}/>
-                    <DateSetting date={date} datesetting={this.datesetting}></DateSetting>
-                    <OrderSearch orderstate={this.ordersearchstate} ordercnt={ordercnt} ></OrderSearch>
-                    <OrderView ordernum={ordernum} ordercntdata={this.ordercntdata} startdate={startdate} enddate={enddate} ordernumdata={this.ordernumdata} ordersearchstate={this.ordersearchstate} ></OrderView>
+                    <DateSetting date={date} datesetting={this.datesetting} handleshow={this.handleShow}></DateSetting>
+                    <OrderSearch orderearchstate={this.ordersearchstate} ordercnt={ordercnt} orderstate={orderstate} ></OrderSearch>
+                    <OrderView orderstate = {orderstate} ordernum={ordernum} ordercntdata={this.ordercntdata} startdate={startdate} enddate={enddate} ordernumdata={this.ordernumdata} ordersearchstate={this.ordersearchstate} handleshow={this.handleShow}></OrderView>
                 </Container>
+                <Modal
+                    show={show}
+                    onHide={this.handleClose}
+                    backdrop="static"
+                    keyboard={false}
+                  >
+                    <Modal.Body>
+                        {content}
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button onClick={this.handleClose}>확인</Button>
+                    </Modal.Footer>
+                 </Modal>
             </div>
         );
     }

@@ -16,7 +16,6 @@ class ProductFilter extends Component {
 
     async componentDidMount() {
         await this.getCate1name();
-       // await this.getCate2name()
     }
 
     async getCate1name() {
@@ -27,9 +26,6 @@ class ProductFilter extends Component {
             await this.setState({
                 items1
             });
-            console.log("pl")
-
-            console.log("pl")
         } catch (e) {
             console.log(e);
         }
@@ -40,37 +36,28 @@ class ProductFilter extends Component {
         try {
             const category1code = this.state.category1code
             let url = 'http://127.0.0.1:8000/api/category2';
-            console.log('카테1확인'+category1code)
-            console.log(url)
 
             if (category1code !== '') {
-                console.log('get2name')
                 url += '?category1code=' + category1code
             }
             let res = await fetch(url);
-            console.log("pl")
-
             const items2 = await res.json();
             await this.setState({
                 items2
             });
 
-            console.log('하위카테'+items2)
         } catch (e) {
             console.log(e);
         }
     }
 
     select1 = (value) => {
-        console.log('select1')
         this.setState({
             category1code: value,
             category2code: '',
             items2:[]
 
         }, () => {
-            console.log("카테1확인1:"+this.state.category1code)
-             console.log("카테1확인1:"+this.state.category2code)
             if (this.state.category1code!==''){
             this.getCate2name();}
             this.props.callbackFilter(this.state.category1code, this.state.category2code);
@@ -78,7 +65,6 @@ class ProductFilter extends Component {
 
     }
     sendfilter = (value) => {
-
         this.setState({
             category2code: value
         }, () => {
@@ -89,10 +75,10 @@ class ProductFilter extends Component {
 
     render() {
         const category1code = this.state.category1code
-        const category2code = this.state.category2code
         return (
             <div>
-                <FormSelect onChange={(e) => this.select1(e.target.value)}>
+                  <div className="inline">
+                <FormSelect className="form-select" style={{width:'130px', height:'45px'}} onChange={(e) => this.select1(e.target.value)}>
                     <option value={''}
                                     >전체</option>
                     {this.state.items1.map((cate1) => {
@@ -101,10 +87,9 @@ class ProductFilter extends Component {
                                     value={cate1.category1code}>{cate1.category1name}</option>)
                     })}
                 </FormSelect>
-                {category1code}
-                <br></br>
-
-                <FormSelect onClick={(e) => this.sendfilter(e.target.value)} >
+                &nbsp;&nbsp;
+                <FormSelect className="form-select" style={{width:'130px', height:'45px'}} onClick={(e) => this.sendfilter(e.target.value)}
+                     disabled= {category1code !=='' ? 0 : 1}>
                     {category1code !=='' ? <option value={''}
                                     >전체</option> : null}
                     {this.state.items2.map((cate1) => {
@@ -113,6 +98,7 @@ class ProductFilter extends Component {
                                     value={cate1.category2code}>{cate1.category2name}</option>)
                     })}
                 </FormSelect>
+                  </div>
             </div>
         );
     }

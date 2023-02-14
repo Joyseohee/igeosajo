@@ -1,8 +1,10 @@
 import Table from "react-bootstrap/Table";
 import Form from "react-bootstrap/Form";
 import React, {Component} from 'react';
-import Counter from "./cartcount";
+import Counter from "./Productcount";
 import ProductPostEach from "./ProductPostEach";
+import CommonUtil from "../../util/CommonUtil";
+import "../../styled/Product.css"
 
 class ProductDetail extends Component {
 
@@ -15,8 +17,7 @@ class ProductDetail extends Component {
                 id: 0,
                 count: 0
             }],
-            prodnumList: [],
-            data2: 1
+            prodnumList: this.props.prodnumList,
         }
         ;
         // this.cartcount = this.cartcount.bind(this);
@@ -27,7 +28,6 @@ class ProductDetail extends Component {
     choiceAll() {
         let prodnumList = this.state.prodnumList
 
-
         const checkboxes = document.getElementsByName('select');
         let selectAll = document.getElementsByName('selectAll');
 
@@ -36,59 +36,49 @@ class ProductDetail extends Component {
             if (checkbox.disabled) {
                 checkbox.checked = false
             }
-            if (checkbox.checked) {
-                console.log(checkbox.checked)
-                prodnumList.push(parseInt(checkbox.value));
+            if (selectAll[0].checked) {
+                if (checkbox.checked) {
+                    prodnumList.push(parseInt(checkbox.value));
+                    this.setState({
+                        prodnumList: prodnumList
+                    }, () => {
+                        this.props.func1(this.state.prodnumList)
+                    })
+                }
+            } else {
+                prodnumList = []
                 this.setState({
                     prodnumList: prodnumList
                 }, () => {
-                    console.log("11111111111   " + prodnumList)
+                    this.props.func1(this.state.prodnumList)
                 })
             }
         })
-        this.props.func1(this.state.prodnumList)
-        console.log(prodnumList);
     }
 
     choiceUnit(check, val) {
 
         const prodnumList = this.state.prodnumList
-        console.log("unit list2")
 
         if (check) {
-
-            console.log("unit val")
-            console.log(val);
-
             prodnumList.push(parseInt(val));
-            //cartcountList.push(parseInt(returnValue.count));
-            console.log(prodnumList)
-            // console.log(cartcountList)
-
         } else {
             const prodnumList = this.state.prodnumList
-            console.log('else1')
+
             for (let i = 0; i < prodnumList.length; i++) {
-                console.log('else2')
 
                 if (prodnumList[i] === parseInt(val)) {
-                    console.log('else3')
-
                     prodnumList.splice(i, 1);
                     break;
                 }
             }
-
-            this.setState({
-                prodnumList: prodnumList
-            })
-            console.log("1: " + prodnumList)
-
-            // console.log("2"+pprodnumList)
         }
 
-        console.log(prodnumList);
-        this.props.func1(this.state.prodnumList);
+        this.setState({
+            prodnumList: prodnumList
+        }, () => {
+            this.props.func1(this.state.prodnumList);
+        })
     }
 
     checkcleanall = () => {
@@ -107,127 +97,58 @@ class ProductDetail extends Component {
         })
     }
 
-    // cartcount = (res, res2) => {
-    //     var {productItemList2} = this.state;
-    //     console.log("cartfunc")
-    //     console.log("count:" + res)
-    //     console.log("prodnum:" + res2)
-    //     console.log("빼기전")
-    //
-    //     console.log("state1:" + JSON.stringify(this.state.productItemList2))
-    //     var productItemList3 = productItemList2.filter((productItemList2) => productItemList2.id !== res2);
-    //
-    //     productItemList3.push({
-    //         id: res2,
-    //         count: res,
-    //     });
-    //     console.log("뺸후")
-    //     console.log(productItemList3)
-    //
-    //
-    //     this.setState((prevState) => ({
-    //         productItemList2: productItemList3
-    //     }), () => {
-    //         console.log("state2:" + JSON.stringify(this.state.productItemList2));
-    //         this.props.func2(this.state.productItemList2);
-    //     });
-    //
-    //     console.log("뺸후")
-    //     console.log(productItemList3)
-    //
-    //     console.log("더한후")
-    //     console.log(productItemList3[res2])
-    //     console.log(productItemList3)
-    //
-    //     console.log("state2:" + JSON.stringify(this.state.productItemList2))
-    //     // return {
-    //     //     productItemList2
-    //
-    //
-    //     //
-    // }
-
-    // callcheck1 = (posted) => {
-    //     console.log('callcheck1')
-    //     console.log(posted)
-    //
-    //
-    //     const cartcount = document.getElementsByName('counter');
-    //     cartcount.forEach((state) => {state.checked = false})
-    //     if (posted === false) {
-    //        this.setState({
-    //            data2:0
-    //        })
-    //           this.ref.current.countReset();
-    //     }
-    //     // })
-    //
-    // }
-
-    // checkclear(state) {
-    //
-    //     const count = document.getElementsByName('counter');
-    //     count.forEach((state) => {
-    //         state.data2 = 0
-    //     })
-    // }
-
 
     render() {
-
-
         let list = this.props.productItemList.map((list, idx) => (
             <tbody>
-            <tr key={list.prodnum}>
-                <td>{idx + 1}</td>
-                <td><Form.Check aria-label="option 1" name={"select"}
-                                value={[list.prodnum]}
-                                onChange={(e) => {
-                                    this.choiceUnit(e.target.checked, e.target.value);
-                                }} disabled={!list.ccount}/></td>
-                <td>{list.prodname}</td>
-                <td>{list.prodnum}</td>
-                <td><img src={list.prodimg}/></td>
-                <td>{list.prodprice}</td>
-                <td>
-                    <Counter name="counter"
-                             func={this.cartcount}
-                             data={list.prodnum}
-                             count={list.ccount}
-                             prodnum={list.prodnum}
-                             callback1={this.props.callback1}
-                             callback2={this.props.callback2}
-                    /><ProductPostEach prodnum={list.prodnum} count={list.ccount} usernum={this.props.usernum}
-                                       postcheck={this.props.postcheck} modalInfo={this.props.modalInfo}/>
-                </td>
-            </tr>
-
-
+                <tr className='tr1' key={list.prodnum}>
+                    <td><Form.Check aria-label="option 1" name={"select"}
+                                    value={[list.prodnum]}
+                                    onChange={(e) => {
+                                        this.choiceUnit(e.target.checked, e.target.value);
+                                    }} disabled={!list.ccount}/></td>
+                    <td>{idx + 1}</td>
+                    <td><img className='img1' src={list.prodimg}/></td>
+                    <td>{list.prodname}</td>
+                    <td>{new CommonUtil().numberComma(list.prodprice)} \</td>
+                    <td className='td1'>
+                        <div className='inline'>
+                            <Counter name="counter"
+                                     func={this.cartcount}
+                                     data={list.prodnum}
+                                     count={list.ccount}
+                                     prodnum={list.prodnum}
+                                     callback1={this.props.callback1}
+                                     callback2={this.props.callback2}/> &nbsp;
+                            <ProductPostEach prodnum={list.prodnum} count={list.ccount} usernum={this.props.usernum}
+                                             postcheck={this.props.postcheck} modalInfo={this.props.modalInfo}/>
+                        </div>
+                    </td>
+                </tr>
             </tbody>
 
 
         ))
-        console.log("list")
-        console.log(list);
-        // console.log(list.prodnum);
-        //console.log(list[0].count);
         return (
             <div>
-                <Table striped>
+
+                <Table className='table1'>
                     <thead>
-                    <tr>
-                        <th>No</th>
-                        <th><Form.Check aria-label="option 1" name={"selectAll"} onClick={this.choiceAll}/></th>
+                    <tr className='table-primary'>
+
+                        <th className='th2'><Form.Check aria-label="option 1" name={"selectAll"}
+                                                        onClick={this.choiceAll}/></th>
+                        <th className='th2'>No</th>
+                        <th className='th1'>이미지</th>
                         <th>품목명</th>
-                        <th>번호</th>
-                        <th>이미지</th>
                         <th>가격</th>
-                        <th>수량</th>
+                        <th className='th1'>수량</th>
                     </tr>
                     </thead>
                     {list}
-                </Table>
 
+                </Table>
+                {list.length === 0 ? <div className='nonefoundmsg' >상품이 없습니다 <br/><br/></div>  : null}
             </div>
         );
     }

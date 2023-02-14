@@ -45,30 +45,30 @@ class OrderTotalReq extends Component {
                     <Card.Body>
                         <Container>
                             <Table bordered hover>
-                                <thead className="orderdelivertable orderdelivertablefont">
+                                <thead >
                                 <tr className={"listTh"}>
-                                    <th>No</th>
-                                    <th>상품코드</th>
-                                    <th>상품명</th>
-                                    <th>상품수량</th>
-                                    <th>상품가격</th>
+                                    <th style={{width:"8%"}}>No</th>
+                                    {/*<th>상품코드</th>*/}
+                                    <th style={{width:"42%"}}>상품명</th>
+                                    <th style={{width:"25%"}}>상품수량</th>
+                                    <th style={{width:"25%"}}>상품가격</th>
                                 </tr>
                                 </thead>
-                                <tbody className="orderdelivertablebe">
+                                <tbody >
                                 {reqdata && reqdata.map((data, i) => (
-                                    <tr className="orderdelivertablebe">
-                                        <td>{i + 1}</td>
-                                        <td>{data[0]}</td>
-                                        <td>{data[1]}</td>
-                                        <td>{data[2]}</td>
-                                        <td>{data[3] && new CommonUtil().numberComma(data[3])}</td>
+                                    <tr key={data+i}>
+                                        <td style={{fontSize:"15px"}}>{i + 1}</td>
+                                        {/*<td>{data[0]}</td>*/}
+                                        <td style={{fontSize:"15px"}}>{data[1]}</td>
+                                        <td style={{fontSize:"15px"}}>{data[2] + "개"}</td>
+                                        <td style={{fontSize:"15px"}}>{data[3] && new CommonUtil().numberComma(data[3])+"원"}</td>
                                     </tr>
                                 ))}
                                 </tbody>
                             </Table>
-                            <div>
+                            <div className={"totalprice"}>
                                 <span>TotalPrice : </span>
-                                <span>{totalprice && new CommonUtil().numberComma(totalprice)}</span>
+                                <span>{totalprice && new CommonUtil().numberComma(totalprice) + "원"}</span>
                             </div>
                         </Container>
                     </Card.Body>

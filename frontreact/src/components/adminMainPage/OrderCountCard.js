@@ -26,7 +26,7 @@ class OrderCountCard extends Component {
     render() {
         let prevparchase = this.props.prevparchase
         let parchase = this.props.parchase
-        console.log(prevparchase)
+
         return (
             <div>
                 <Row style={{width: '100%'}}>

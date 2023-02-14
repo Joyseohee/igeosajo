@@ -50,7 +50,7 @@ class OrderRequestList extends Component {
         fetch('http://127.0.0.1:8000/api/order?func=orderreq&&termyearmonth=' + this.state.reqterm+'&&state=' +state)
             .then(res => res.json())
             .then(data => {
-                    this.setState({reqdata: data})
+                    this.setState({reqdata: data,orderreqstate:state})
             })
     }
     handleClose = () => {
@@ -77,7 +77,7 @@ class OrderRequestList extends Component {
                 <Container fluid style={{margin: 0, padding: 0}}>
                     <Goal comment={"구매 신청"}/>
                     <OrderReqDate></OrderReqDate>
-                    <OrderReqSearch orderdocsearchstate={this.orderdocsearchstate} reqterm={reqterm} ></OrderReqSearch>
+                    <OrderReqSearch orderdocsearchstate={this.orderdocsearchstate} reqterm={reqterm} orderreqstate={orderreqstate} ></OrderReqSearch>
                     <OrderReqTable reqdata={reqdata} handleShow = {this.handleShow}></OrderReqTable>
                 </Container>
                 <Modal
@@ -86,14 +86,12 @@ class OrderRequestList extends Component {
                     backdrop="static"
                     keyboard={false}
                   >
-                    <Modal.Header closeButton>
-                      <Modal.Title>알림</Modal.Title>
-                    </Modal.Header>
+
                     <Modal.Body>
                         {content}
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button>확인</Button>
+                        <Button onClick={this.handleClose}>확인</Button>
                     </Modal.Footer>
                  </Modal>
             </div>

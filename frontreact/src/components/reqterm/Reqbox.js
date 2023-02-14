@@ -13,7 +13,7 @@ class Reqbox extends Component {
 
         return (
             <div className="reqterm-box-wrapper">
-                <div>{menuname}</div>
+                <div className="reqterm-box-title">{menuname}</div>
                 {today !== null &&
                     <>
                         {type === "reqterm-fix" ?

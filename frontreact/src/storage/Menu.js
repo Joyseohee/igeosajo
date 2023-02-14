@@ -6,7 +6,7 @@ export default class Menu {
         {
             index: "depth1-1",
             name: "전자결재",
-            path: "/docrequest",
+            path: "/docpaylist",
         }
     ];
 

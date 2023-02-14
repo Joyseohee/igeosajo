@@ -1,0 +1,65 @@
+.img2 {
+    width: 80px;
+    height: 80px;
+
+}
+
+.inline2 {
+    display: inline-flex;
+
+}
+.display_btn2 {
+    display: inline-flex;
+    float: right;
+}
+
+
+
+.buttonc1 {
+
+    display: flex;
+    justify-content: center;
+
+}
+
+.textsize11{
+    margin: 0;
+    padding: 0;
+}
+
+.td11{
+    vertical-align: middle;
+}
+.table11{
+    padding: 0;
+    width: 100%;
+}
+.th4{
+        width: 15%;
+}
+.th3{
+        width: 5%;
+}
+.tr11{
+   padding: 0px;
+}
+.margin2{
+    margin-right: 30px;
+}
+.input2{
+  width: 300px;
+  height: 45px;
+  font-size: 15px;
+  border: 0;
+  border-radius: 15px;
+  outline: none;
+  padding-left: 23px;
+  background-color: rgb(233, 233, 233);
+
+}
+
+
+.nonefoundmsg2 {
+font-size: xx-large;
+   text-align: center;
+}

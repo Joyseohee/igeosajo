@@ -79,39 +79,39 @@ class OrderTable extends Component {
             <div>
               <div className="subtitle">
                   <div className="dotmargin"></div>
-                  <div style={{width:'64%',fontWeight:"bold",fontSize:"21px",paddingTop:"4px",paddingLeft:"10px"}}>목록</div>
-                  <div className="subtitle" style={{width:'25%'}}>
-                      <Button style={{width:"100%"}} onClick={this.orderparchasepath}>
+                  <div style={{width:'64%',fontWeight:"bold",fontSize:"18px",paddingTop:"4px",paddingLeft:"10px"}}>목록</div>
+                  <div className="subtitle" style={{width:'36%',paddingLeft:"10%"}}>
+                      <Button style={{width:"90.5%"}} onClick={this.orderparchasepath}>
                           구매하기
                       </Button>
                   </div>
               </div>
-           <div className="searchdatemargin">
+           <div className="subtablemargin">
             <Table bordered hover>
                 <thead>
                 <tr className={"listTh"}>
-                    <th><Form.Check className="ordercardtext" name="checkall" id={ordernum} onClick={this.checkall} /></th>
-                    <th>No</th>
-                    <th>상품명</th>
-                    <th>수량</th>
-                    <th>가격</th>
-                    <th>요청일자</th>
-                    <th>요청자</th>
-                    <th>상태</th>
+                    <th style={{width:"3%"}}><Form.Check className="ordercardtext" name="checkall" id={ordernum} onClick={this.checkall} /></th>
+                    <th style={{width:"5%"}}>No</th>
+                    <th style={{width:"23%"}}>상품명</th>
+                    <th style={{width:"10%"}}>수량</th>
+                    <th style={{width:"13%"}}>가격</th>
+                    <th style={{width:"11%"}}>요청일자</th>
+                    <th style={{width:"7%"}}>요청자</th>
+                    <th style={{width:"7%"}}>상태</th>
                 </tr>
                 </thead>
-                <tbody>
+                <tbody style={{fontSize:"10px"}}>
 
                 {reqdata && reqdata.map((num, i) => (
-                    <tr key = {num+i}>
+                    <tr key = {num+i} >
                         {this.checkenable(num.reqorder,num.reqnum)}
-                        <td>{i+1}</td>
-                        <td>{num.prodname}</td>
-                        <td>{num.reqcount}</td>
-                        <td>{num.reqprice && new CommonUtil().numberComma(num.reqprice)}</td>
-                        <td>{num.reqdate}</td>
-                        <td>{num.username}</td>
-                        <td>{num.reqorder}</td>
+                        <td style={{fontSize:"15px"}}>{i+1}</td>
+                        <td style={{fontSize:"15px"}}>{num.prodname}</td>
+                        <td style={{fontSize:"15px"}}>{num.reqcount+"개"}</td>
+                        <td style={{fontSize:"15px"}}>{num.reqprice && new CommonUtil().numberComma(num.reqprice)+"원"}</td>
+                        <td style={{fontSize:"15px"}}>{num.reqdate}</td>
+                        <td style={{fontSize:"15px"}}>{num.username}</td>
+                        <td style={{fontSize:"15px"}}>{num.reqorder}</td>
 
                     </tr>
                 ))}

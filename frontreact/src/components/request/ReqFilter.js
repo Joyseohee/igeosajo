@@ -37,6 +37,7 @@ class ReqFilter extends Component {
                                       selectedReqterm={selectedReqterm}
                                       updateState={this.props.updateState}
                                       color={selectedFilter !== reqstate.reqstate ? "rgb(224, 224, 224)" : "#FAFBFF"}
+                                      usernum ={this.props.usernum}
                         />
                     )
                 })}
