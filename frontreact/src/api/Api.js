@@ -22,7 +22,7 @@ export default class Api extends Component {
                 api += '?';
                 api += arrayParamKeys
                     .map((param) => {
-                        if (param === 'usernum') {
+                        if (param === 'usernum' && params.usernum !== null) {
                             return `usernum=${params.usernum}`;
                         } else if (param === 'reqstate' && params.reqstate !== null) {
                             return `reqstate=${params.reqstate}`;

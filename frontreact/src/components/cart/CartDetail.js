@@ -251,18 +251,19 @@ class CartDetail extends Component {
                 <thead >
                 <tr className='table-primary tr11'>
 
-                    <th className='td1'>No</th>
-                    <th className='td1'>이미지</th>
-                    <th className='td1'>상품명</th>
-                    <th className='td1'>가격</th>
-                    <th className='td1'>수량</th>
-                    <th className='td1'>상품코드</th>
-                     <th>삭제<Form.Check aria-label="option 1" name={"selectAll2"} onClick={this.choiceAll2}/></th>
-                    <th>선택<Form.Check aria-label="option 1" name={"selectAll1"} onClick={this.choiceAll}/></th>
+                    <th>No</th>
+                    <th >이미지</th>
+                    <th >상품명</th>
+                    <th >가격</th>
+                    <th >수량</th>
+                    <th>상품코드</th>
+                     <th className='inline2'>삭제<Form.Check aria-label="option 1" name={"selectAll2"} onClick={this.choiceAll2}/></th>
+                    <th  className='inline2'>선택<Form.Check aria-label="option 1" name={"selectAll1"} onClick={this.choiceAll}/></th>
                 </tr>
                 </thead>
                 {list}
             </Table>
+                {list.length === 0 ? <div className='nonefoundmsg2' > 장바구니가 비었습니다 <br/><br/></div> : null}
             </div>
         )
     }

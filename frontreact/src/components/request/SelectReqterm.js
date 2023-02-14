@@ -11,7 +11,7 @@ class SelectReqterm extends Component {
         const termyearmonth = e.target.value;
         let available = this.props.reqtermList.filter(term => term.termyearmonth.toString() === termyearmonth.toString());
         available = available.length > 0 ? available[0].termavailable : 0;
-        new Api().read("request", {termyearmonth: termyearmonth}, null)
+        new Api().read("request", {termyearmonth: termyearmonth, usernum: this.props.usernum!==undefined?this.props.usernum:null}, null)
             .then((response) => {
                 return response.json();
             }).then((response) => {

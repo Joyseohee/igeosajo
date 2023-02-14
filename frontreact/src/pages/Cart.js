@@ -10,6 +10,7 @@ import ProductDetail from "../components/product/ProductDetail";
 import CartDetail from "../components/cart/CartDetail";
 import Api from "../api/Api";
 import '../styled/Cart.css';
+import Paging from "../components/layout/Paging";
 
 
 class Cart extends Component {
@@ -52,7 +53,9 @@ class Cart extends Component {
                 }
             ],
             available: 0,
-            termyearmonth: ''
+            termyearmonth: '',
+            pageNum :1,
+            pageCount: 1,
         };
 
         // this.handleClick2 = this.handleClick2.bind(this);
@@ -79,16 +82,19 @@ class Cart extends Component {
     async getlist() {
 
         const usernum = this.props.usernum;
+         const pagenum = this.state.pageNum;
 
 
         try {
-            console.log('dsd');
+            const res2 = await fetch('http://127.0.0.1:8000/api/cart?usernum=' + usernum )
+             const items2 = await res2.json();
 
-            const res = await fetch('http://127.0.0.1:8000/api/cart?usernum=' + usernum);
+            const res = await fetch('http://127.0.0.1:8000/api/cart?usernum=' + usernum +'&pagenum='+pagenum);
 
             const items = await res.json();
             await this.setState({
-                items
+                items: items,
+                 pageCount: items2.length
             });
             console.log(items)
             console.log('getlist')
@@ -171,6 +177,20 @@ class Cart extends Component {
         // });
 
     }
+    setPageNum = (e) => {
+        const pageNum = this.state.pageNum
+        if (e !== pageNum) {
+            const productItemList = [];
+
+            this.setState({pageNum: e, productItemList: productItemList, prodnumList: []}, () => {
+                console.log("pr" + this.state.prodnumList);
+                console.log("prL:" + this.state.productItemList);
+                this.ref.current.checkcleanall();
+                this.getlist();
+            })
+        }
+
+    }
 
     render() {
         const {select, available} = this.state;
@@ -206,21 +226,27 @@ class Cart extends Component {
                 <a>장바구니 </a>
                 <br/>
                 {available ?
-                    <div className='display_btn'>
-                         <DeleteCart style={{float: 'right'}} usernum={this.props.usernum} prodnum2={this.state.prodnum2}
+                    <div className='display_btn2'>
+                        <DeleteCart style={{float: 'right'}} usernum={this.props.usernum} prodnum2={this.state.prodnum2}
                                     postcheck={this.postcheck}
-                                    modalInfo={this.state.modalInfo}/> &nbsp;&nbsp;&nbsp;
+                                    modalInfo={this.state.modalInfo}/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         <PostCartToRequest postcheck={this.postcheck} usernum={this.props.usernum}
                                            prodnumList={this.state.prodnumList}
                                            reqcountList={this.state.reqcountList}
                                            reqpriceList={this.state.reqpriceList}
-                                           posted={this.state.posted} modalInfo={this.state.modalInfo}/>
+                                           posted={this.state.posted}
+                                           modalInfo={this.state.modalInfo}/>&nbsp;&nbsp;&nbsp;
                     </div> : '현재 신청기간이 아닙니다. 신청 및 장바구니 삭제가 불가능합니다.'}
-                <br/>
+                <br/><br/>
 
                 <CartDetail items={this.state.items} func1={this.checksend1}
                             func2={this.checksend2}
                             ref={this.ref}
+                />
+                <Paging
+                    pageNum={this.state.pageNum}
+                    setPageNum={this.setPageNum}
+                    pageCount={this.state.pageCount}
                 />
             </div>
         );

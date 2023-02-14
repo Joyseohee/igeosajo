@@ -107,7 +107,7 @@ class Product extends Component {
         const category1code = this.state.category1code;
         const category2code = this.state.category2code;
         const prodname = this.state.prodname;
-        const pageNum = this.state.pageNum;
+        const pagenum = this.state.pageNum;
 
         console.log("usernum" + usernum)
         console.log("usernum2:" + this.props.usernum)
@@ -127,7 +127,7 @@ class Product extends Component {
             const res = await fetch(url);
             const items2 = await res.json();
 
-            url += '&pageNum=' + pageNum;
+            url += '&pagenum=' + pagenum;
             const res2 = await fetch(url);
             const items = await res2.json();
             console.log(">>>items", items)
@@ -160,7 +160,6 @@ class Product extends Component {
 
             item.ccount = 0
             this.ref.current.checkcleanall();
-
             return item
         })
 
@@ -256,21 +255,6 @@ class Product extends Component {
             })
         }
 
-
-        // if (this.state.listState === "allselect") {
-        //     fetch('http://127.0.0.1:8000/api/product&pageNum=' + String(e))
-        //         .then(response => response.json())
-        //         .then(response => {
-        //             this.setState({productItemList: response})
-        //         })
-        //
-        // } else {
-        //     fetch('http://127.0.0.1:8000/api/product&pageNum=' + String(e))
-        //         .then(response => response.json())
-        //         .then(response => {
-        //             this.setState({productItemList: response})
-        //         })
-        // }
     }
 
 

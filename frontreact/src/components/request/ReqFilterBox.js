@@ -15,7 +15,7 @@ class ReqFilterBox extends Component {
     filteredState = () => {
         let param = this.props.filter.reqstate;
         let filter = param === '전체' ? null : param;
-        new Api().read("request", {termyearmonth: this.props.selectedReqterm, reqstate: filter}, null)
+        new Api().read("request", {termyearmonth: this.props.selectedReqterm, reqstate: filter, usernum: this.props.usernum!==undefined?this.props.usernum:null}, null)
             .then((response) => {
                 return response.json();
             }).then((response) => {

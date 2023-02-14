@@ -221,37 +221,23 @@ def post_login(self):
 
 def get_cart(self):
     usernum = self.GET.get('usernum', None)
+    pagenum = self.GET.get('pagenum', None)
     cursor = connection.cursor()
 
     query = 'SELECT *, (SELECT prodname FROM product WHERE prodnum = cartinfo.prodnum),' \
             '(SELECT prodimg FROM product WHERE prodnum = cartinfo.prodnum), ' \
             '(SELECT prodprice FROM product WHERE prodnum = cartinfo.prodnum) ' \
-            'FROM cart AS cartinfo WHERE usernum = %s ORDER BY prodnum DESC'
+            'FROM cart AS cartinfo WHERE usernum = %s ORDER BY prodnum DESC '
 
-    val = usernum,
+    if pagenum :
+        query += 'limit 10 offset ' + str((int(pagenum) - 1) * 10)
+    val = usernum
     cursor.execute(query, val)
     data = dictfetchall(cursor)
     response = JsonResponse(data, safe=False)
     return response
 
 
-def get_cart2(self):
-    cursor = connection.cursor()
-    # 토큰 해석
-    token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyaWQiOiInaWQnIiwic3RhcnRfYXQiOjE2NzQxOTgwMTAsImV4cCI6MTY3NDIwODAxMH0.P9Gh3dxTHvWiryYajjLdc1XJVNOKCS_SZy_4gGGeSIM"
-    public_key = 'very_secret'
-    decoded = jwt.decode(token, public_key, algorithms='HS256')
-    userid = decoded["userid"]
-    query = 'SELECT usernum FROM users WHERE userid = ' + userid
-    cursor.execute(query)
-    data = dictfetchall(cursor)
-    usernum = str(data[0]['USERNUM'])
-    query = 'SELECT * FROM cart WHERE usernum = %s'
-    val = usernum,
-    cursor.execute(query, val)
-    data = dictfetchall(cursor)
-    response = JsonResponse(data, safe=False)
-    return response
 
 
 def post_cart(self):
@@ -310,7 +296,7 @@ def get_product(self):
     category1code = self.GET.get('category1code', None)
     category2code = self.GET.get('category2code', None)
     prodname = self.GET.get('prodname', None)
-    pageNum = self.GET.get('pageNum', None)
+    pagenum = self.GET.get('pagenum', None)
     
 
     cursor = connection.cursor()
@@ -345,8 +331,8 @@ def get_product(self):
         val = (category2code, '%' + prodname + '%')
 
        
-    if pageNum:
-        query +=  ' limit 10 offset ' + str((int(pageNum) - 1) * 10)
+    if pagenum:
+        query +=  ' limit 10 offset ' + str((int(pagenum) - 1) * 10)
 
     cursor.execute(query, val)
     data = dictfetchall(cursor)

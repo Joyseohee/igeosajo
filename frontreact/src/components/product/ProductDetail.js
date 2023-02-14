@@ -4,6 +4,7 @@ import React, {Component} from 'react';
 import Counter from "./Productcount";
 import ProductPostEach from "./ProductPostEach";
 import CommonUtil from "../../util/CommonUtil";
+import "../../styled/Product.css"
 
 class ProductDetail extends Component {
 
@@ -124,38 +125,42 @@ class ProductDetail extends Component {
     }
 
 
-
     render() {
 
 
         let list = this.props.productItemList.map((list, idx) => (
             <tbody>
-            <tr className='tr1' key={list.prodnum}>
+            {list.length !== 0 ?
 
-                <td><Form.Check aria-label="option 1" name={"select"}
-                                value={[list.prodnum]}
-                                onChange={(e) => {
-                                    this.choiceUnit(e.target.checked, e.target.value);
-                                }} disabled={!list.ccount}/></td>
-                <td>{idx + 1}</td>
-                <td><img className='img1' src={list.prodimg}/></td>
-                <td>{list.prodname}</td>
-                <td>{new CommonUtil().numberComma(list.prodprice)} \</td>
-                <td className='td1'>
-                    <div className='inline'>
-                        <Counter name="counter"
-                                 func={this.cartcount}
-                                 data={list.prodnum}
-                                 count={list.ccount}
-                                 prodnum={list.prodnum}
-                                 callback1={this.props.callback1}
-                                 callback2={this.props.callback2}/> &nbsp;
-                        <ProductPostEach prodnum={list.prodnum} count={list.ccount} usernum={this.props.usernum}
-                                         postcheck={this.props.postcheck} modalInfo={this.props.modalInfo}/>
-                    </div>
-                </td>
-            </tr>
+                <tr className='tr1' key={list.prodnum}>
 
+                    <td><Form.Check aria-label="option 1" name={"select"}
+                                    value={[list.prodnum]}
+                                    onChange={(e) => {
+                                        this.choiceUnit(e.target.checked, e.target.value);
+                                    }} disabled={!list.ccount}/></td>
+                    <td>{idx + 1}</td>
+                    <td><img className='img1' src={list.prodimg}/></td>
+                    <td>{list.prodname}</td>
+                    <td>{new CommonUtil().numberComma(list.prodprice)} \</td>
+                    <td className='td1'>
+                        <div className='inline'>
+                            <Counter name="counter"
+                                     func={this.cartcount}
+                                     data={list.prodnum}
+                                     count={list.ccount}
+                                     prodnum={list.prodnum}
+                                     callback1={this.props.callback1}
+                                     callback2={this.props.callback2}/> &nbsp;
+                            <ProductPostEach prodnum={list.prodnum} count={list.ccount} usernum={this.props.usernum}
+                                             postcheck={this.props.postcheck} modalInfo={this.props.modalInfo}/>
+                        </div>
+                    </td>
+
+                </tr>
+                : <tr>
+                    <td>상품이 없습니다.</td>
+                </tr>}
 
             </tbody>
 
@@ -167,6 +172,7 @@ class ProductDetail extends Component {
         //console.log(list[0].count);
         return (
             <div>
+
                 <Table className='table1'>
                     <thead>
                     <tr className='table-primary'>
@@ -176,15 +182,14 @@ class ProductDetail extends Component {
                         <th className='th2'>No</th>
                         <th className='th1'>이미지</th>
                         <th>품목명</th>
-
-
                         <th>가격</th>
                         <th className='th1'>수량</th>
                     </tr>
                     </thead>
                     {list}
-                </Table>
 
+                </Table>
+                {list.length === 0 ? <div className='nonefoundmsg' >상품이 없습니다 <br/><br/></div>  : null}
             </div>
         );
     }
