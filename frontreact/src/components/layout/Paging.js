@@ -22,6 +22,7 @@ class Paging extends Component {
                     onClick={(e) => {
                         this.props.setPageNum(number);
                     }}
+
                 >
                     {number}
                 </Pagination.Item>

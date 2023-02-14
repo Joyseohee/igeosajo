@@ -3,6 +3,7 @@ import Form from "react-bootstrap/Form";
 import React, {Component} from 'react';
 import Counter from "./Productcount";
 import ProductPostEach from "./ProductPostEach";
+import CommonUtil from "../../util/CommonUtil";
 
 class ProductDetail extends Component {
 
@@ -15,7 +16,7 @@ class ProductDetail extends Component {
                 id: 0,
                 count: 0
             }],
-            prodnumList: [],
+            prodnumList: this.props.prodnumList,
             data2: 1
         }
         ;
@@ -64,7 +65,9 @@ class ProductDetail extends Component {
     choiceUnit(check, val) {
 
         const prodnumList = this.state.prodnumList
+
         console.log("unit list2")
+        console.log(prodnumList)
 
         if (check) {
 
@@ -89,17 +92,19 @@ class ProductDetail extends Component {
                     break;
                 }
             }
-
-            this.setState({
-                prodnumList: prodnumList
-            })
-            console.log("1: " + prodnumList)
-
-            // console.log("2"+pprodnumList)
         }
 
-        console.log(prodnumList);
-        this.props.func1(this.state.prodnumList);
+        this.setState({
+            prodnumList: prodnumList
+        }, () => {
+            console.log("1: " + prodnumList);
+            this.props.func1(this.state.prodnumList);
+        })
+
+
+        // console.log("2"+pprodnumList)
+
+
     }
 
     checkcleanall = () => {
@@ -118,70 +123,6 @@ class ProductDetail extends Component {
         })
     }
 
-    // cartcount = (res, res2) => {
-    //     var {productItemList2} = this.state;
-    //     console.log("cartfunc")
-    //     console.log("count:" + res)
-    //     console.log("prodnum:" + res2)
-    //     console.log("빼기전")
-    //
-    //     console.log("state1:" + JSON.stringify(this.state.productItemList2))
-    //     var productItemList3 = productItemList2.filter((productItemList2) => productItemList2.id !== res2);
-    //
-    //     productItemList3.push({
-    //         id: res2,
-    //         count: res,
-    //     });
-    //     console.log("뺸후")
-    //     console.log(productItemList3)
-    //
-    //
-    //     this.setState((prevState) => ({
-    //         productItemList2: productItemList3
-    //     }), () => {
-    //         console.log("state2:" + JSON.stringify(this.state.productItemList2));
-    //         this.props.func2(this.state.productItemList2);
-    //     });
-    //
-    //     console.log("뺸후")
-    //     console.log(productItemList3)
-    //
-    //     console.log("더한후")
-    //     console.log(productItemList3[res2])
-    //     console.log(productItemList3)
-    //
-    //     console.log("state2:" + JSON.stringify(this.state.productItemList2))
-    //     // return {
-    //     //     productItemList2
-    //
-    //
-    //     //
-    // }
-
-    // callcheck1 = (posted) => {
-    //     console.log('callcheck1')
-    //     console.log(posted)
-    //
-    //
-    //     const cartcount = document.getElementsByName('counter');
-    //     cartcount.forEach((state) => {state.checked = false})
-    //     if (posted === false) {
-    //        this.setState({
-    //            data2:0
-    //        })
-    //           this.ref.current.countReset();
-    //     }
-    //     // })
-    //
-    // }
-
-    // checkclear(state) {
-    //
-    //     const count = document.getElementsByName('counter');
-    //     count.forEach((state) => {
-    //         state.data2 = 0
-    //     })
-    // }
 
 
     render() {
@@ -197,11 +138,11 @@ class ProductDetail extends Component {
                                     this.choiceUnit(e.target.checked, e.target.value);
                                 }} disabled={!list.ccount}/></td>
                 <td>{idx + 1}</td>
-                <td><img src={list.prodimg}/></td>
+                <td><img className='img1' src={list.prodimg}/></td>
                 <td>{list.prodname}</td>
-                <td>{list.prodprice} \</td>
+                <td>{new CommonUtil().numberComma(list.prodprice)} \</td>
                 <td className='td1'>
-                    <div className='count'>
+                    <div className='inline'>
                         <Counter name="counter"
                                  func={this.cartcount}
                                  data={list.prodnum}

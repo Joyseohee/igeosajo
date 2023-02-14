@@ -1,11 +1,12 @@
-.img1 {
-    width: 110px;
-    height: 110px;
+.img2 {
+    width: 80px;
+    height: 80px;
 
 }
 
 .inline {
     display: inline-flex;
+
 }
 .display_btn {
     display: inline-flex;
@@ -52,18 +53,17 @@
     vertical-align: middle;
 }
 .table1{
+    padding: 0;
     width: 100%;
 }
 .th1{
         width: 15%;
-
 }
 .th2{
         width: 5%;
-
 }
-.tr1{
-    height: 130px;
+.tr11{
+   padding: 0px;
 }
 .margin1{
     margin-right: 30px;
@@ -79,4 +79,5 @@
   background-color: rgb(233, 233, 233);
 
 }
+
 

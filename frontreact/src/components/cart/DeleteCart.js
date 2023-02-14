@@ -47,7 +47,7 @@ class DeleteCart extends Component {
 
         return (
             <div>
-                <button onClick={(e) => {
+                <button className='btn btn-outline-secondary' onClick={(e) => {
                     this.postClick2()
                 }}>삭제
                 </button>

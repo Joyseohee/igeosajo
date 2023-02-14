@@ -9,6 +9,7 @@ import PostCartToRequest from "../components/cart/PostCartToRequest";
 import ProductDetail from "../components/product/ProductDetail";
 import CartDetail from "../components/cart/CartDetail";
 import Api from "../api/Api";
+import '../styled/Cart.css';
 
 
 class Cart extends Component {
@@ -38,7 +39,7 @@ class Cart extends Component {
                     text: "신청 내역을 확인하시겠습니까?",
                     path: "/requestuser"
                 }, {
-                    id:3,
+                    id: 3,
                     type: 'alert',
                     text: "선택한 물품이 없습니다.",
                     path: ''
@@ -202,18 +203,21 @@ class Cart extends Component {
         console.log(list);
         return (
             <div>
-                <div><a>장바구니 </a>
-                    {available ?
-                        <div><PostCartToRequest postcheck={this.postcheck} usernum={this.props.usernum}
-                                                prodnumList={this.state.prodnumList}
-                                                reqcountList={this.state.reqcountList}
-                                                reqpriceList={this.state.reqpriceList}
-                                                posted={this.state.posted} modalInfo={this.state.modalInfo}/>
-                            <DeleteCart usernum={this.props.usernum} prodnum2={this.state.prodnum2}
-                                        postcheck={this.postcheck}
-                                        modalInfo={this.state.modalInfo}/>
-                        </div> : '현재 신청기간이 아닙니다. 신청 및 장바구니 삭제가 불가능합니다.'}
-                </div>
+                <a>장바구니 </a>
+                <br/>
+                {available ?
+                    <div className='display_btn'>
+                         <DeleteCart style={{float: 'right'}} usernum={this.props.usernum} prodnum2={this.state.prodnum2}
+                                    postcheck={this.postcheck}
+                                    modalInfo={this.state.modalInfo}/> &nbsp;&nbsp;&nbsp;
+                        <PostCartToRequest postcheck={this.postcheck} usernum={this.props.usernum}
+                                           prodnumList={this.state.prodnumList}
+                                           reqcountList={this.state.reqcountList}
+                                           reqpriceList={this.state.reqpriceList}
+                                           posted={this.state.posted} modalInfo={this.state.modalInfo}/>
+                    </div> : '현재 신청기간이 아닙니다. 신청 및 장바구니 삭제가 불가능합니다.'}
+                <br/>
+
                 <CartDetail items={this.state.items} func1={this.checksend1}
                             func2={this.checksend2}
                             ref={this.ref}

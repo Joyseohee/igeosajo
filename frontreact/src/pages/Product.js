@@ -26,7 +26,6 @@ class Product extends Component {
             data: {},
             productItemList2: [],
             productItemList: [],
-
             prodnumList: [],
             prodnumList2: [],
             cartcountList: [],
@@ -55,7 +54,10 @@ class Product extends Component {
                 }
             ],
             available: 1,
-            termyearmonth: ''
+            termyearmonth: '',
+            pageNum: 1,
+            pageCount: 1,
+            items2: []
         };
         this.checksend = this.checksend.bind(this);
         //  this.componentDidUpdate = this.componentDidUpdate.bind(this);
@@ -69,9 +71,9 @@ class Product extends Component {
 
     //post
     async componentDidMount() {
-
-        await this.getlist();
         this.checkterm();
+        await this.getlist();
+
     }
 
     checkterm() {
@@ -105,7 +107,7 @@ class Product extends Component {
         const category1code = this.state.category1code;
         const category2code = this.state.category2code;
         const prodname = this.state.prodname;
-
+        const pageNum = this.state.pageNum;
 
         console.log("usernum" + usernum)
         console.log("usernum2:" + this.props.usernum)
@@ -121,9 +123,13 @@ class Product extends Component {
             if (prodname !== '') {
                 url += '&prodname=' + prodname
             }
-            const res = await fetch(url);
-            const items = await res.json();
 
+            const res = await fetch(url);
+            const items2 = await res.json();
+
+            url += '&pageNum=' + pageNum;
+            const res2 = await fetch(url);
+            const items = await res2.json();
             console.log(">>>items", items)
             const productItemList = items.map((item) => {
                 item.ccount = 0;
@@ -131,8 +137,9 @@ class Product extends Component {
             })
 
 
-            this.setState({
-                productItemList
+            await this.setState({
+                productItemList: productItemList,
+                pageCount: items2.length
             });
             console.log("pl")
             console.log(productItemList)
@@ -199,6 +206,8 @@ class Product extends Component {
 
         this.setState({
             productItemList: newProductItemList
+        }, () => {
+            console.log("ppp " + JSON.stringify(productItemList[prodnum - 1]))
         })
     }
     handleDecrease = (prodnum) => {
@@ -235,22 +244,33 @@ class Product extends Component {
             () => this.getlist())
     }
     setPageNum = (e) => {
-        this.setState({pageNum: e})
-
-        if (this.state.listState === "allselect") {
-            fetch('http://127.0.0.1:8000/api/document?checkDetail=1&pagenum=' + String(e))
-                .then(response => response.json())
-                .then(response => {
-                    this.setState({doclist: response})
-                })
-
-        } else {
-            fetch('http://127.0.0.1:8000/api/document?state=' + this.state.listState + '&checkDetail=1&pagenum=' + String(e))
-                .then(response => response.json())
-                .then(response => {
-                    this.setState({doclist: response})
-                })
+        const pageNum = this.state.pageNum
+        if (e !== pageNum) {
+            const productItemList = [];
+            const prodnumList = [];
+            this.setState({pageNum: e, productItemList: productItemList, prodnumList: []}, () => {
+                console.log("pr" + this.state.prodnumList);
+                console.log("prL:" + this.state.productItemList);
+                this.ref.current.checkcleanall();
+                this.getlist();
+            })
         }
+
+
+        // if (this.state.listState === "allselect") {
+        //     fetch('http://127.0.0.1:8000/api/product&pageNum=' + String(e))
+        //         .then(response => response.json())
+        //         .then(response => {
+        //             this.setState({productItemList: response})
+        //         })
+        //
+        // } else {
+        //     fetch('http://127.0.0.1:8000/api/product&pageNum=' + String(e))
+        //         .then(response => response.json())
+        //         .then(response => {
+        //             this.setState({productItemList: response})
+        //         })
+        // }
     }
 
 
@@ -260,23 +280,25 @@ class Product extends Component {
         console.log("productItemList2rrr: " + this.state.productItemList2)
         const {
             posted,
-            available
+            available,
+            prodnumList
         } = this.state
         console.log('available: ' + available)
         return (
             <div>
-            <a>상품목록 </a> <br/>
-                    <div className="display_btn"><Search callbackSearch={this.callbackSearch}/>
-                        {available ? <ProductPost postcheck={this.postcheck}
+                <a>상품목록 </a> <br/>
+                <div className="display_btn"><Search callbackSearch={this.callbackSearch}/>
+                    {available ? <ProductPost postcheck={this.postcheck}
                                               productItemList={this.state.productItemList}
-                                              prodnumList={this.state.prodnumList}
+                                              prodnumList={prodnumList}
                                               usernum={this.props.usernum}
                                               modalInfo={this.state.modalInfo}/> : '현재는 신청기간이 아닙니다. 장바구니 담기가 불가능 합니다'}
-                        &nbsp;&nbsp;&nbsp;
-                        <ProductFilter callbackFilter={this.callbackFilter}/> </div>
+                    &nbsp;&nbsp;&nbsp;
+                    <ProductFilter callbackFilter={this.callbackFilter}/></div>
 
-<br/><br/><br/>
+                <br/><br/><br/>
                 <ProductDetail productItemList={this.state.productItemList}
+                               prodnumList={this.state.prodnumList}
                                usernum={this.props.usernum}
                                func1={this.checksend}
                                ref={this.ref}
@@ -288,7 +310,8 @@ class Product extends Component {
                 <Paging
                     pageNum={this.state.pageNum}
                     setPageNum={this.setPageNum}
-                    pageCount={this.state.pageCount}/>
+                    pageCount={this.state.pageCount}
+                />
 
             </div>
         );

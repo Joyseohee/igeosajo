@@ -1,7 +1,7 @@
 import Table from "react-bootstrap/Table";
 import Form from "react-bootstrap/Form";
 import React, {Component} from 'react';
-
+import '../../styled/Cart.css';
 
 class CartDetail extends Component {
     constructor(props) {
@@ -224,20 +224,21 @@ class CartDetail extends Component {
         //console.login(usernum);
 
         const list = this.props.items.map((list, idx) => (
+
             <tbody>
             <tr key={list.prodnum}>
-                <td>{idx + 1}</td>
-                <td><Form.Check aria-label="option 1" name={"select2"}
-                                value={[list.prodnum]}
-                                onChange={(e) => {
-                                    this.choiceUnit2(e.target.checked, e.target.value);
-                                }}/></td>
 
-                <td><img src={list.prodimg}/></td>
+                <td>{idx + 1}</td>
+                <td><img className='img2' src={list.prodimg}/></td>
                 <td>{list.prodname}</td>
                 <td>{list.prodprice}</td>
                 <td>{list.cartcount}</td>
                 <td>{list.prodnum}</td>
+                  <td><Form.Check aria-label="option 1" name={"select2"}
+                                value={[list.prodnum]}
+                                onChange={(e) => {
+                                    this.choiceUnit2(e.target.checked, e.target.value);
+                                }}/></td>
                 <td><Form.Check aria-label="option 1" name={"select1"}
                                 value={[list.prodnum, list.cartcount, list.prodprice]}
                                 onChange={(e) => {
@@ -245,22 +246,24 @@ class CartDetail extends Component {
                                 }}/></td>
             </tr>
             </tbody>))
-        return (
-            <Table striped>
-                <thead>
-                <tr>
-                    <th>No</th>
-                    <th>삭제<Form.Check aria-label="option 1" name={"selectAll2"} onClick={this.choiceAll2}/></th>
-                    <th>이미지</th>
-                    <th>상품명</th>
-                    <th>가격</th>
-                    <th>수량</th>
-                    <th>상품코드</th>
+        return (<div>
+            <Table className='table1'>
+                <thead >
+                <tr className='table-primary tr11'>
+
+                    <th className='td1'>No</th>
+                    <th className='td1'>이미지</th>
+                    <th className='td1'>상품명</th>
+                    <th className='td1'>가격</th>
+                    <th className='td1'>수량</th>
+                    <th className='td1'>상품코드</th>
+                     <th>삭제<Form.Check aria-label="option 1" name={"selectAll2"} onClick={this.choiceAll2}/></th>
                     <th>선택<Form.Check aria-label="option 1" name={"selectAll1"} onClick={this.choiceAll}/></th>
                 </tr>
                 </thead>
                 {list}
             </Table>
+            </div>
         )
     }
 }

@@ -51,7 +51,7 @@ class Counter extends Component {
         const {prodnum, count} = this.props;
 
         return (<div>
-            <div className="count">
+            <div className="inline">
 
                 <button className='btn btn-outline-secondary button_updown' onClick={this.handleDecrease}><div className='textsize1'>-</div></button>
                  &nbsp;<div className='textsize1'>{count}</div> &nbsp;

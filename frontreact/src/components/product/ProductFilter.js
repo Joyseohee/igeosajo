@@ -92,7 +92,7 @@ class ProductFilter extends Component {
         const category2code = this.state.category2code
         return (
             <div>
-                  <div className="count">
+                  <div className="inline">
                 <FormSelect className="form-select" style={{width:'130px', height:'45px'}} onChange={(e) => this.select1(e.target.value)}>
                     <option value={''}
                                     >전체</option>
