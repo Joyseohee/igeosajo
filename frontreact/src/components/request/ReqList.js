@@ -30,7 +30,7 @@ class ReqList extends Component {
                         let checked = !request.checked;
                         pages.forEach((page) => {
                             if (page.includes(request)) {
-                                checked = !request.checked;
+                                checked = !prevProps.allChecked;
                             }
                         });
                         return {
@@ -92,8 +92,6 @@ class ReqList extends Component {
 
         return (
             <div className="request-list-wrapper">
-                {/*<div className="request-list-number">*/}
-                {/*    <span>요청 수 </span><span>{requestList.length}</span></div>*/}
                 <Table bordered hover>
                     <thead className="request-list-table-head">
                     <tr>
@@ -142,39 +140,3 @@ class ReqList extends Component {
 }
 
 export default ReqList;
-{/*{requestList.map((request, i) => {*/
-}
-{/*    return (*/
-}
-{/*        <tr key={request.reqnum}>*/
-}
-{/*            <td>{i + 1}</td>*/
-}
-{/*            <td>{request.reqnum}</td>*/
-}
-{/*            <td><Form.Check name={`request${i + 1}`}*/
-}
-{/*                            checked={request.checked}*/
-}
-{/*                            hidden={request.reqstate !== '대기'}*/
-}
-{/*                            onChange={(e) => this.handleCheckboxChange(e)}*/
-}
-{/*            /></td>*/
-}
-{/*            <td>{request.prodname}</td>*/
-}
-{/*            <td>{request.reqcount}</td>*/
-}
-{/*            <td>{request.reqdate}</td>*/
-}
-{/*            <td>{request.username}</td>*/
-}
-{/*            <td>{request.reqstate}</td>*/
-}
-{/*        </tr>*/
-}
-{/*    );*/
-}
-{/*})}*/
-}
