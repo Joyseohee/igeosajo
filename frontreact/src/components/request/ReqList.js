@@ -98,8 +98,7 @@ class ReqList extends Component {
                 <Table>
                     <thead>
                     <tr>
-                        <th>번호</th>
-                        <th>reqnum</th>
+                        {/*<th>reqnum</th>*/}
                         <th>
                             <Form.Check
                                 name="allChecked"
@@ -107,6 +106,7 @@ class ReqList extends Component {
                                 onChange={this.handleCheckboxChange}
                             />
                         </th>
+                        <th>번호</th>
                         <th>품목명</th>
                         <th>수량</th>
                         <th>요청일자</th>
@@ -118,8 +118,7 @@ class ReqList extends Component {
                     {pages[this.props.pageNum - 1].map((request, i) => {
                         return (
                             <tr key={request.reqnum}>
-                                <td>{i + 1 + (this.props.pageNum - 1) * 10}</td>
-                                <td>{request.reqnum}</td>
+                                {/*<td>{request.reqnum}</td>*/}
                                 <td>
                                     <Form.Check
                                         name={`request${request.reqnum}`}
@@ -128,6 +127,7 @@ class ReqList extends Component {
                                         onChange={e => this.handleCheckboxChange(e)}
                                     />
                                 </td>
+                                <td>{i + 1 + (this.props.pageNum - 1) * 10}</td>
                                 <td>{request.prodname}</td>
                                 <td>{request.reqcount}</td>
                                 <td>{request.reqdate}</td>

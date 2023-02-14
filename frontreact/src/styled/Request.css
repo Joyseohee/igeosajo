@@ -1,15 +1,39 @@
-.reqfilter-box-wrapper {
+.reqfilter-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     margin-top: 30px;
+}
+
+.reqfilter-box-wrapper {
     padding: 20px;
     background-color: rgb(224, 224, 224);
     border-radius: 5px / 5px;
-    display: inline-block;
-    margin-left: 20px;
-    width: 200px;
+    flex: 1 1 0;
+    max-width: 260px;
     height: 150px;
+    box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.2);
     cursor: pointer;
 }
 
 .request {
     margin-top: 20px;
+}
+
+.reqfilter-box-name {
+    font-size: 1.2rem;
+}
+
+.reqfilter-align-row {
+    display: flex;
+    justify-content: space-between;
+}
+
+
+.reqfilter-box {
+    display: inline-block;
+    align-content:flex-end;
+}
+.reqfilter-box-icon {
+    align-content:flex-end;
 }

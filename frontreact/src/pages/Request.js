@@ -165,7 +165,7 @@ class Request extends Component {
                         />
                     }
                     {available === 1 &&
-                        <RequestButtons updateState={this.updateState}/>
+                        <RequestButtons updateState={this.updateState} checkedRequest={checkedRequest}/>
                     }
                     {requestFilteredList[0] !== 'requestFilteredList'  && requestFilteredList.length > 0  &&
                         <>
