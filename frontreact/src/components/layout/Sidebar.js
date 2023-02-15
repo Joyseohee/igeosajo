@@ -49,9 +49,9 @@ class Sidebar extends Component {
         }
     }
 
-    handleMainMenuClick = (index) => {
-        this.setState({currentMainMenu: index, currentSubMenu: 0});
-    };
+    // handleMainMenuClick = (index) => {
+    //     this.setState({currentMainMenu: index, currentSubMenu: 0});
+    // };
 
     handleSubMenuClick = (index) => {
         this.setState({currentSubMenu: index});
@@ -75,31 +75,33 @@ class Sidebar extends Component {
                                                     : "menu1 unselected"
                                             }
                                             value={menu.index}
-                                            onClick={() => this.handleMainMenuClick(index)}
+                                            // onClick={() => this.handleMainMenuClick(index)}
                                         >
                                             {menu.name}
                                         </div>
                                     </Link>
-                                    {index === currentMainMenu &&
+                                    {
+                                        // index === currentMainMenu &&
                                         menu.menu2 &&
-                                        menu.menu2.map((submenu, subIndex) => {
+                                        menu.menu2.map((submenu) => {
                                             return (
                                                 <div key={submenu.index}>
                                                     <Link to={submenu.path}>
                                                         <div
                                                             className={
-                                                                subIndex === currentSubMenu
+                                                                submenu.index === currentSubMenu
                                                                     ? "menu2 selected"
                                                                     : "menu2 unselected"
                                                             }
-                                                            onClick={() => this.handleSubMenuClick(subIndex)}
+                                                            onClick={() => this.handleSubMenuClick(submenu.index)}
                                                         >
                                                             {submenu.name}
                                                         </div>
                                                     </Link>
                                                 </div>
                                             );
-                                        })}
+                                        })
+                                    }
                                 </div>
                             );
                         })}
