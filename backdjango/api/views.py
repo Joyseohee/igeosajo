@@ -306,8 +306,8 @@ def get_product(self):
                 ' FROM product p' \
                 ' JOIN category2 ct ON ct.category2code= p.category2code' \
                 ' JOIN category1 co ON ct.category1code=co.category1code ' \
-                ' WHERE co.category1code = %s ORDER BY prodnum' 
-                
+                ' WHERE co.category1code = %s ORDER BY prodnum'
+
         val = category1code,
 
 
@@ -344,7 +344,6 @@ def get_product(self):
     data = dictfetchall(cursor)
     response = JsonResponse(data, safe=False)
     return response
-
 
 def get_request(self):
     termyearmonth = self.GET.get('termyearmonth', None)

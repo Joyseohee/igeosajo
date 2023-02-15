@@ -31,6 +31,8 @@ class ConfirmModal extends Component {
             this.props.updateState({showRejectConfirmModal: false});
         } else if (modalType === "반려이유확인") {
             this.props.updateState({showRejectReasonModal: 0});
+        } else if (modalType === "신청없음") {
+            this.props.updateState({showApproveConfirmModal: false, showRejectModal: false});
         } else {
             this.props.updateState({showFinalModal: false});
         }
@@ -84,7 +86,7 @@ class ConfirmModal extends Component {
         let finalModalType = this.state.finalModalType;
         if (finalModalType !== null) {
             modalType = finalModalType + "완료";
-            text = finalModalType + "완료됐습니다.";
+            text = finalModalType + " 완료되었습니다.";
         }
 
         return (
@@ -117,7 +119,7 @@ class ConfirmModal extends Component {
                         <Modal.Body>{text}</Modal.Body>
                     }
                     <Modal.Footer>
-                        {modalType !=='반려이유확인'&&
+                        {(modalType ==='승인' || modalType === '반려' || modalType === '반려확인') &&
                             <Button variant="secondary" onClick={this.handleClose}>취소</Button>}
                         <Button variant="primary" value={modalType} onClick={(e) => {
                             this.handleConfirm(e.target.value)

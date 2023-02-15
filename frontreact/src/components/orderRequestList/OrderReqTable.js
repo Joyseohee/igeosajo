@@ -5,6 +5,7 @@ import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
 import { withRouter } from "react-router-dom";
 import CommonUtil from "../../util/CommonUtil";
+import Row from "react-bootstrap/Row";
 let ordernum
 let checklist = []
 class OrderTable extends Component {
@@ -57,7 +58,7 @@ class OrderTable extends Component {
         }else{
             checklist = checklist.filter((element)=>element !== num)
         }
-        console.log(checklist)
+
     }
     orderparchasepath = () => {
         if(checklist.length ==0){
@@ -73,12 +74,25 @@ class OrderTable extends Component {
         }
         checklist = []
     }
-    render() {
-        const {reqdata} = this.props;
-        return (
-            <div>
-              <div className="subtitle">
-                  <div className="dotmargin"></div>
+    
+    statebtn=(state)=>{
+        if(state=="all") {
+            return (
+               <div className="subtitle" style={{height:'37.5px'}}>
+                  <div className="dotmargin" ></div>
+                  <div style={{width:'64%',fontWeight:"bold",fontSize:"18px",paddingTop:"4px",paddingLeft:"10px"}}>목록</div>
+                  <div className="subtitle" style={{width:'36%',paddingLeft:"10%"}}>
+                      <Button style={{width:"90.5%"}} onClick={this.orderparchasepath} hidden>
+                          구매하기
+                      </Button>
+                  </div>
+              </div>
+            )
+        }
+        else if(state=="prevparchase") {
+            return (
+               <div className="subtitle">
+                  <div className="dotmargin" ></div>
                   <div style={{width:'64%',fontWeight:"bold",fontSize:"18px",paddingTop:"4px",paddingLeft:"10px"}}>목록</div>
                   <div className="subtitle" style={{width:'36%',paddingLeft:"10%"}}>
                       <Button style={{width:"90.5%"}} onClick={this.orderparchasepath}>
@@ -86,6 +100,37 @@ class OrderTable extends Component {
                       </Button>
                   </div>
               </div>
+            )
+            
+        }else if(state=="parchase") {
+            return (
+                <div className="subtitle" style={{height:'37.5px'}}>
+                  <div className="dotmargin" ></div>
+                  <div style={{width:'64%',fontWeight:"bold",fontSize:"18px",paddingTop:"4px",paddingLeft:"10px"}}>목록</div>
+                  <div className="subtitle" style={{width:'36%',paddingLeft:"10%"}}>
+                        <Button style={{width:"90.5%"}} onClick={this.orderparchasepath} hidden>
+                          구매하기
+                      </Button>
+                  </div>
+              </div>
+            )
+        } 
+    }
+    dataempty =(data)=>{
+        const text = "데이터가 존재하지 않습니다.";
+        if(data.length == 0)
+        {
+            return(
+                    <td colspan={8} style={{textAlign:"center",fontWeight:"bold",fontSize:"18px"}}>{text}</td>
+            )
+        }
+    }
+
+    render() {
+        const {reqdata} = this.props;
+        return (
+            <div>
+                {this.statebtn(this.props.orderreqstate)}
            <div className="subtablemargin">
             <Table bordered hover>
                 <thead>
@@ -101,7 +146,7 @@ class OrderTable extends Component {
                 </tr>
                 </thead>
                 <tbody style={{fontSize:"10px"}}>
-
+                {this.dataempty(reqdata)}
                 {reqdata && reqdata.map((num, i) => (
                     <tr key = {num+i} >
                         {this.checkenable(num.reqorder,num.reqnum)}

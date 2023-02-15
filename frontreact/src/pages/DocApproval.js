@@ -27,31 +27,31 @@ class DocApproval extends Component {
     async componentDidMount() {
 
         let word;
-        let wordarr = [];
+        let word1, word2, word3, word4;
         //  각각 수량
-        await fetch('http://127.0.0.1:8000/api/document?checkDetail=1')
+        fetch('http://127.0.0.1:8000/api/document?checkDetail=1')
             .then(response => response.json())
             .then(response => {
                 this.setState({allcnt: response.length})
-                wordarr.push(response.length)
+                word1 = response.length;
             })
-        await fetch('http://127.0.0.1:8000/api/document?state=승인&checkDetail=1')
+        fetch('http://127.0.0.1:8000/api/document?state=승인&checkDetail=1')
             .then(response => response.json())
             .then(response => {
                 this.setState({approvalcnt: response.length})
-                wordarr.push(response.length)
+                word2 = response.length;
             })
-        await fetch('http://127.0.0.1:8000/api/document?state=반려&checkDetail=1')
+        fetch('http://127.0.0.1:8000/api/document?state=반려&checkDetail=1')
             .then(response => response.json())
             .then(response => {
                 this.setState({rejectcnt: response.length})
-                wordarr.push(response.length)
+                word3 = response.length;
             })
-        await fetch('http://127.0.0.1:8000/api/document?state=대기&checkDetail=1')
+        fetch('http://127.0.0.1:8000/api/document?state=대기&checkDetail=1')
             .then(response => response.json())
             .then(response => {
                 this.setState({waitcnt: response.length})
-                wordarr.push(response.length)
+                word4 = response.length;
             })
 
         // 테이블 생성
@@ -64,13 +64,13 @@ class DocApproval extends Component {
         } else {
             switch (this.state.listState) {
                 case "승인":
-                    word = wordarr[1]
+                    word = word2
                     break;
                 case "대기":
-                    word = wordarr[3]
+                    word = word4
                     break;
                 case "반려":
-                    word = wordarr[2]
+                    word = word3
                     break;
             }
 
@@ -138,6 +138,8 @@ class DocApproval extends Component {
             <>
                 <Goal comment={"전자 결재 목록"}/>
                 <DocListKind
+                    cardMent={["승인", "반려", "승인 대기"]}
+
                     listState={this.state.listState}
                     statechange={this.statechange}
                     allcnt={this.state.allcnt}
@@ -146,6 +148,7 @@ class DocApproval extends Component {
                     waitcnt={this.state.waitcnt}
                     setPageNum={this.setPageNum}/>
                 <DocList
+                    listState={this.state.listState}
                     doclist={this.state.doclist}
                     statechange={this.statechange}
                     pageNum={this.state.pageNum}

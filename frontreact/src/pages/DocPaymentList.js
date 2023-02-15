@@ -149,6 +149,7 @@ class DocPaymentList extends Component {
             <>
                 <Goal comment={"전자 결재 목록"}/>
                 <DocListKind
+                    cardMent={["결재 완료", "결재 반려", "상신 완료"]}
                     listState={this.state.listState}
                     statechange={this.statechange}
                     allcnt={this.state.allcnt}
@@ -157,6 +158,7 @@ class DocPaymentList extends Component {
                     waitcnt={this.state.waitcnt}
                     setPageNum={this.setPageNum}/>
                 <DocList
+                    listState={this.state.listState}
                     doclist={this.state.doclist}
                     statechange={this.statechange}
                     pageNum={this.state.pageNum}
