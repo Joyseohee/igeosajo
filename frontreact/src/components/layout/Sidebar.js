@@ -53,8 +53,8 @@ class Sidebar extends Component {
         this.setState({currentMainMenu: index, currentSubMenu: index2});
     };
 
-    handleSubMenuClick = (index) => {
-        this.setState({currentSubMenu: index});
+    handleSubMenuClick = (index, index2) => {
+        this.setState({currentMainMenu: index, currentSubMenu: index2});
     };
 
     render() {
@@ -93,7 +93,7 @@ class Sidebar extends Component {
                                                                     ? "menu2 selected"
                                                                     : "menu2 unselected"
                                                             }
-                                                            onClick={() => this.handleSubMenuClick(submenu.index)}
+                                                            onClick={() => this.handleSubMenuClick(menu.index, submenu.index)}
                                                         >
                                                             {submenu.name}
                                                         </div>
