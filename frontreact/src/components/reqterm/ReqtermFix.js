@@ -77,7 +77,7 @@ class ReqtermFix extends Component {
         return (
             <>
                     {!disabled &&
-                        <div className="reqterm-alert">이번 달 신청기간이 이미 등록돼있습니다.</div>
+                        <div className="reqterm-alert">이번 달 신청기간이 이미 등록되어있습니다.</div>
                     }
                     <Form className="reqterm-input-wrapper">
                         <div className="reqterm-input-group">

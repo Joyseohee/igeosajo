@@ -25,8 +25,8 @@ class SelectReqterm extends Component {
                     checked: false,
                 })),
                 selectedReqterm: termyearmonth,
+                checkedRequest: [],
                 requestFilter: '전체',
-                reqRejectReason: null,
                 available: available,
                 allChecked: false,
                 pageCount: response.length

@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import {Form, Table} from "react-bootstrap";
 import ConfirmModal from "./ConfirmModal";
+import CommonUtil from "../../util/CommonUtil";
 
 class ReqList extends Component {
     constructor(props) {
@@ -96,7 +97,7 @@ class ReqList extends Component {
     };
 
     render() {
-        const {requestList, allChecked} = this.props;
+        const {requestList, allChecked, available} = this.props;
         const {showRejectReasonModal} = this.state;
         let pageCount = requestList && Math.ceil(requestList.length / 10);
         let pages = [];
@@ -118,6 +119,7 @@ class ReqList extends Component {
         } else {
             showConfirmModal = false;
         }
+        console.log(available);
 
         return (
             <>
@@ -129,44 +131,54 @@ class ReqList extends Component {
                                 <Form.Check
                                     name="allChecked"
                                     checked={allChecked}
+                                    hidden={available === 0}
                                     onChange={this.handleCheckboxChange}
                                 />
                             </th>
                             <th className="request-list-table-col num">번호</th>
                             <th className="request-list-table-col name">품목명</th>
                             <th className="request-list-table-col count">수량</th>
+                            <th className="request-list-table-col price">가격</th>
                             <th className="request-list-table-col date">요청일자</th>
                             <th className="request-list-table-col writer">요청자</th>
                             <th className="request-list-table-col state">상태</th>
                         </tr>
                         </thead>
-                        <tbody>
-                        {pages[this.props.pageNum - 1].map((request, i) => {
-                            return (
-                                <tr key={request.reqnum}
-                                    value={request.reqrejectreason}
-                                    onClick={(e) => {
-                                        this.handleShowReajectReason(request.reqrejectreason)
-                                    }}
-                                    className={request.reqstate === '반려' ? "request-list-click able" : "request-list-click disable"}>
-                                    <td>
-                                        <Form.Check
-                                            name={`request${request.reqnum}`}
-                                            checked={request.checked}
-                                            hidden={request.reqstate !== '대기'}
-                                            onChange={e => this.handleCheckboxChange(e)}
-                                        />
-                                    </td>
-                                    <td>{i + 1 + (this.props.pageNum - 1) * 10}</td>
-                                    <td className="request-list-table-td name">{request.prodname}</td>
-                                    <td>{request.reqcount}</td>
-                                    <td>{request.reqdate}</td>
-                                    <td>{request.username}</td>
-                                    <td>{request.reqstate}</td>
-                                </tr>
-                            );
-                        })}
-                        </tbody>
+                        {pages.length > 0 ?
+                            <tbody>
+                            {pages[this.props.pageNum - 1].map((request, i) => {
+                                return (
+                                    <tr key={request.reqnum}
+                                        value={request.reqrejectreason}
+                                        onClick={(e) => {
+                                            this.handleShowReajectReason(request.reqrejectreason)
+                                        }}
+                                        className={request.reqstate === '반려' ? "request-list-click able" : "request-list-click disable"}>
+                                        <td>
+                                            <Form.Check
+                                                name={`request${request.reqnum}`}
+                                                checked={request.checked}
+                                                hidden={request.reqstate !== '대기' || available === 0}
+                                                onChange={e => this.handleCheckboxChange(e)}
+                                            />
+                                        </td>
+                                        <td>{i + 1 + (this.props.pageNum - 1) * 10}</td>
+                                        <td className="request-list-table-td name">{request.prodname}</td>
+                                        <td>{request.reqcount}</td>
+                                        <td>{new CommonUtil().numberComma(request.reqprice)}원</td>
+                                        <td>{request.reqdate}</td>
+                                        <td>{request.username}</td>
+                                        <td>{request.reqstate}</td>
+                                    </tr>
+                                );
+                            })}
+                            </tbody> :
+                            <tbody>
+                            <tr>
+                                <td colSpan={8}>신청 내역이 없습니다.</td>
+                            </tr>
+                            </tbody>
+                        }
                     </Table>
                 </div>
                 <ConfirmModal

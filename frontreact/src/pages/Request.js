@@ -68,7 +68,6 @@ class Request extends Component {
             .catch(error => console.error(error));
     }
 
-
     updateState = (newValues) => {
         this.setState(newValues);
     };
@@ -116,8 +115,12 @@ class Request extends Component {
         let modalType;
         let modalMessage;
         let confirmText;
-
-        if (showRejectModal) {
+        if (checkedRequest.length < 1 && (showRejectModal || showApproveConfirmModal)) {
+            showConfirmModal = true;
+            modalType = "신청없음";
+            modalMessage = "선택한 신청 내역이 없습니다.";
+            confirmText = "확인";
+        } else if (showRejectModal) {
             showConfirmModal = true;
             modalType = "반려확인";
             modalMessage = "반려 사유를 입력해주세요.";
@@ -171,10 +174,11 @@ class Request extends Component {
                             />
                         }
                     </div>
-                    {requestFilteredList[0] !== 'requestFilteredList' && requestFilteredList.length > 0 &&
+                    {(requestFilteredList[0] !== 'requestFilteredList') &&
                         <>
                             <ReqList
                                 allChecked={allChecked}
+                                available={available}
                                 requestList={requestFilteredList}
                                 requestFilter={requestFilter}
                                 checkedRequest={checkedRequest}
@@ -183,6 +187,7 @@ class Request extends Component {
                                 pageCount={this.state.pageCount}
                             />
                             <Paging
+                                showNum={10}
                                 pageNum={this.state.pageNum}
                                 setPageNum={this.setPageNum}
                                 pageCount={this.state.pageCount}

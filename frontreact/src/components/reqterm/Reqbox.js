@@ -1,5 +1,4 @@
 import React, {Component} from "react";
-import "../../styled/Reqterm.css"
 import ReqtermFix from "./ReqtermFix";
 import ReqtermSet from "./ReqtermSet";
 
