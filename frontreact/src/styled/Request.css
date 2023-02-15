@@ -97,34 +97,37 @@
     text-align: end;
 }
 .request-list-table-col {
-    font-size: 1rem;
+    font-size: 15px;
 }
 
 .request-list-table-col.check {
-    width: 50px
+    width: 5%;
 }
 .request-list-table-col.num {
-    width: 50px
+    width: 10%;
 }
 
 .request-list-table-col.name {
-    width: 800px
+    width: 30%;
 }
 .request-list-table-col.count {
-    width: 100px
+    width: 10%;
 }
-
+.request-list-table-col.price {
+    width: 10%;
+}
 .request-list-table-col.date {
-    width: 200px
+    width: 15%;
 }
 .request-list-table-col.writer {
-    width: 100px
+    width: 10%;
 }
 .request-list-table-col.state {
-    width: 100px
+    width: 10%;
 }
-thead > tr, tbody > tr > td {
-    font-size: 1rem;
+
+thead > tr > td, tbody > tr > td {
+    font-size: 15px;
 }
 .request-list-table-td.name {
     text-align: start;

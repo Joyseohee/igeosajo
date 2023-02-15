@@ -174,10 +174,11 @@ class Request extends Component {
                             />
                         }
                     </div>
-                    {requestFilteredList[0] !== 'requestFilteredList' && requestFilteredList.length > 0 &&
+                    {(requestFilteredList[0] !== 'requestFilteredList' && requestFilteredList.length > 0) ?
                         <>
                             <ReqList
                                 allChecked={allChecked}
+                                available={available}
                                 requestList={requestFilteredList}
                                 requestFilter={requestFilter}
                                 checkedRequest={checkedRequest}
@@ -191,6 +192,9 @@ class Request extends Component {
                                 setPageNum={this.setPageNum}
                                 pageCount={this.state.pageCount}
                             />
+                        </>:
+                        <>
+                            {/*<RequestEmptyList />*/}
                         </>
                     }
                     {showConfirmModal &&

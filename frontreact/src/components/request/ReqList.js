@@ -97,7 +97,7 @@ class ReqList extends Component {
     };
 
     render() {
-        const {requestList, allChecked} = this.props;
+        const {requestList, allChecked, available} = this.props;
         const {showRejectReasonModal} = this.state;
         let pageCount = requestList && Math.ceil(requestList.length / 10);
         let pages = [];
@@ -119,6 +119,7 @@ class ReqList extends Component {
         } else {
             showConfirmModal = false;
         }
+        console.log(available);
 
         return (
             <>
@@ -130,13 +131,14 @@ class ReqList extends Component {
                                 <Form.Check
                                     name="allChecked"
                                     checked={allChecked}
+                                    hidden={available === 0}
                                     onChange={this.handleCheckboxChange}
                                 />
                             </th>
                             <th className="request-list-table-col num">번호</th>
                             <th className="request-list-table-col name">품목명</th>
                             <th className="request-list-table-col count">수량</th>
-                            <th className="request-list-table-col count">가격</th>
+                            <th className="request-list-table-col price">가격</th>
                             <th className="request-list-table-col date">요청일자</th>
                             <th className="request-list-table-col writer">요청자</th>
                             <th className="request-list-table-col state">상태</th>
@@ -155,7 +157,7 @@ class ReqList extends Component {
                                         <Form.Check
                                             name={`request${request.reqnum}`}
                                             checked={request.checked}
-                                            hidden={request.reqstate !== '대기'}
+                                            hidden={request.reqstate !== '대기' || available === 0}
                                             onChange={e => this.handleCheckboxChange(e)}
                                         />
                                     </td>
