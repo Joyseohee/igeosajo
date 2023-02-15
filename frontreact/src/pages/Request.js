@@ -68,7 +68,6 @@ class Request extends Component {
             .catch(error => console.error(error));
     }
 
-
     updateState = (newValues) => {
         this.setState(newValues);
     };

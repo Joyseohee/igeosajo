@@ -131,8 +131,8 @@ thead > tr, tbody > tr > td {
     padding-left: 20px;
 }
 
-.request-list-click.able > td:nth-child(7),
-.request-list-click.able > td:nth-child(7):hover {
+.request-list-click.able > td:nth-child(8),
+.request-list-click.able > td:nth-child(8):hover {
     color: rgb(108, 194, 205);
 }
 

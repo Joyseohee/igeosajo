@@ -25,6 +25,7 @@ class ReqFilterBox extends Component {
                     checked: false,
                 })),
                 allChecked: false,
+                checkedRequest: [],
                 pageCount: response.length,
                 pageNum: 1,
                 requestFilter: param,

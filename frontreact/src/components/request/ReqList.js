@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import {Form, Table} from "react-bootstrap";
 import ConfirmModal from "./ConfirmModal";
+import CommonUtil from "../../util/CommonUtil";
 
 class ReqList extends Component {
     constructor(props) {
@@ -135,6 +136,7 @@ class ReqList extends Component {
                             <th className="request-list-table-col num">번호</th>
                             <th className="request-list-table-col name">품목명</th>
                             <th className="request-list-table-col count">수량</th>
+                            <th className="request-list-table-col count">가격</th>
                             <th className="request-list-table-col date">요청일자</th>
                             <th className="request-list-table-col writer">요청자</th>
                             <th className="request-list-table-col state">상태</th>
@@ -160,6 +162,7 @@ class ReqList extends Component {
                                     <td>{i + 1 + (this.props.pageNum - 1) * 10}</td>
                                     <td className="request-list-table-td name">{request.prodname}</td>
                                     <td>{request.reqcount}</td>
+                                    <td>{new CommonUtil().numberComma(request.reqprice)}원</td>
                                     <td>{request.reqdate}</td>
                                     <td>{request.username}</td>
                                     <td>{request.reqstate}</td>
