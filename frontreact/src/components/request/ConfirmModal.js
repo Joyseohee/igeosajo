@@ -86,7 +86,7 @@ class ConfirmModal extends Component {
         let finalModalType = this.state.finalModalType;
         if (finalModalType !== null) {
             modalType = finalModalType + "완료";
-            text = finalModalType + "완료됐습니다.";
+            text = finalModalType + " 완료되었습니다.";
         }
 
         return (
