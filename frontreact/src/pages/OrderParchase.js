@@ -29,6 +29,8 @@ class OrderParchase extends Component {
             paymentcheckshow:false,
             paymentcheckcontent:"",
             paymentflag:false,
+            paymentconfirmationshow:false,
+            paymentconfirmationcontent:false,
             deliverdata:[],
         };
 
@@ -46,7 +48,10 @@ class OrderParchase extends Component {
                     this.totalpricecal(response)
                   });
     }
-    
+    componentWillUnmount() {
+        this.handleClose()
+    }
+
     totalpricecal= (data) =>{
         let totalprice = 0
         {data && data.map((price,i) => (
@@ -55,9 +60,9 @@ class OrderParchase extends Component {
         this.setState({totalprice: totalprice })
     }
    
-    handleClose = () => {
-        this.setState({show:false,paymentshow:false,paymentcheckshow:false})
-        this.closePostCode()
+    handleClose = (option) => {
+            this.setState({show:false,paymentshow:false,paymentcheckshow:false})
+            this.closePostCode()
     }
     handleShow = (state,btn) => {
         if(btn=="deliver"){
@@ -136,10 +141,15 @@ class OrderParchase extends Component {
             this.handleShow(true,"paymentcheck")
         }
     }
+    purchaseConfirmationCheck=()=>{
+        const text = "결제가 완료되었습니다.";
+        this.setState({paymentcheckshow:false,paymentconfirmationshow:true,paymentconfirmationcontent:text})
+        
+    }
     purchaseConfirmation=()=>{
-        this.handleClose()
-         fetch("http://127.0.0.1:8000/api/order", {
-                method: "POST",          
+        this.setState({paymentconfirmationshow:false})
+        fetch("http://127.0.0.1:8000/api/order", {
+                method: "POST",
                 headers: {
                     "Content-Type": "application/json"
                 },
@@ -152,11 +162,10 @@ class OrderParchase extends Component {
                 this.props.history.push({
                 pathname: "/Order",
                 })
-        
     }
   
     render() {
-        const {reqdata,totalprice,show,fullAddress,zoneCode,paymentcontent,paymentshow,paymentcheckshow,paymentcheckcontent} = this.state
+        const {reqdata,totalprice,show,fullAddress,zoneCode,paymentcontent,paymentshow,paymentcheckshow,paymentcheckcontent,paymentconfirmationshow,paymentconfirmationcontent} = this.state
         return (
             <div className="page-top">
                 <Container fluid style={{margin: 0, padding: 0}}>
@@ -194,6 +203,19 @@ class OrderParchase extends Component {
                     </Modal.Footer>
                  </Modal>
                 <Modal
+                    show={paymentconfirmationshow}
+                    onHide={this.purchaseConfirmation}
+                    backdrop="static"
+                    keyboard={false}
+                  >
+                    <Modal.Body>
+                        {paymentconfirmationcontent}
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button onClick={this.purchaseConfirmation}>확인</Button>
+                    </Modal.Footer>
+                 </Modal>
+                <Modal
                     show={paymentcheckshow}
                     onHide={this.handleClose}
                     backdrop="static"
@@ -203,7 +225,7 @@ class OrderParchase extends Component {
                         {paymentcheckcontent}
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button onClick={this.purchaseConfirmation}>확인</Button>
+                        <Button onClick={this.purchaseConfirmationCheck}>확인</Button>
                         <Button onClick={this.handleClose}>취소</Button>
                     </Modal.Footer>
                  </Modal>

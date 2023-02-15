@@ -25,7 +25,9 @@ class OrderProgress extends Component {
         try {
             if(this.props.location.state.orderstate != null)
             {
-                defaultstate = this.props.location.state.orderstate
+               defaultstate = this.props.location.state.orderstate
+                console.log(this.props.location.state.orderstate)
+                console.log(defaultstate)
             }
         } catch (e) {
 
@@ -55,6 +57,10 @@ class OrderProgress extends Component {
         this.ordernumdata(this.state.orderstate,this.state.startdate,this.state.enddate)
         this.ordercntdata(this.state.startdate,this.state.enddate)
     }
+    // componentWillUnmount() {
+    //     this.handleClose()
+    // }
+
 
     datesetting = (startyear, startmonth, endyear, endmonth) => {
 
@@ -153,6 +159,7 @@ class OrderProgress extends Component {
         this.setState({show:state})
         this.setState({content:content})
     }
+
     render() {
         const {
             ordernum,
