@@ -144,34 +144,41 @@ class ReqList extends Component {
                             <th className="request-list-table-col state">상태</th>
                         </tr>
                         </thead>
-                        <tbody>
-                        {pages[this.props.pageNum - 1].map((request, i) => {
-                            return (
-                                <tr key={request.reqnum}
-                                    value={request.reqrejectreason}
-                                    onClick={(e) => {
-                                        this.handleShowReajectReason(request.reqrejectreason)
-                                    }}
-                                    className={request.reqstate === '반려' ? "request-list-click able" : "request-list-click disable"}>
-                                    <td>
-                                        <Form.Check
-                                            name={`request${request.reqnum}`}
-                                            checked={request.checked}
-                                            hidden={request.reqstate !== '대기' || available === 0}
-                                            onChange={e => this.handleCheckboxChange(e)}
-                                        />
-                                    </td>
-                                    <td>{i + 1 + (this.props.pageNum - 1) * 10}</td>
-                                    <td className="request-list-table-td name">{request.prodname}</td>
-                                    <td>{request.reqcount}</td>
-                                    <td>{new CommonUtil().numberComma(request.reqprice)}원</td>
-                                    <td>{request.reqdate}</td>
-                                    <td>{request.username}</td>
-                                    <td>{request.reqstate}</td>
-                                </tr>
-                            );
-                        })}
-                        </tbody>
+                        {pages.length > 0 ?
+                            <tbody>
+                            {pages[this.props.pageNum - 1].map((request, i) => {
+                                return (
+                                    <tr key={request.reqnum}
+                                        value={request.reqrejectreason}
+                                        onClick={(e) => {
+                                            this.handleShowReajectReason(request.reqrejectreason)
+                                        }}
+                                        className={request.reqstate === '반려' ? "request-list-click able" : "request-list-click disable"}>
+                                        <td>
+                                            <Form.Check
+                                                name={`request${request.reqnum}`}
+                                                checked={request.checked}
+                                                hidden={request.reqstate !== '대기' || available === 0}
+                                                onChange={e => this.handleCheckboxChange(e)}
+                                            />
+                                        </td>
+                                        <td>{i + 1 + (this.props.pageNum - 1) * 10}</td>
+                                        <td className="request-list-table-td name">{request.prodname}</td>
+                                        <td>{request.reqcount}</td>
+                                        <td>{new CommonUtil().numberComma(request.reqprice)}원</td>
+                                        <td>{request.reqdate}</td>
+                                        <td>{request.username}</td>
+                                        <td>{request.reqstate}</td>
+                                    </tr>
+                                );
+                            })}
+                            </tbody> :
+                            <tbody>
+                            <tr>
+                                <td colSpan={8}>신청 내역이 없습니다.</td>
+                            </tr>
+                            </tbody>
+                        }
                     </Table>
                 </div>
                 <ConfirmModal

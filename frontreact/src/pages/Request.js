@@ -115,7 +115,7 @@ class Request extends Component {
         let modalType;
         let modalMessage;
         let confirmText;
-        if(checkedRequest.length < 1 && (showRejectModal||showApproveConfirmModal) ) {
+        if (checkedRequest.length < 1 && (showRejectModal || showApproveConfirmModal)) {
             showConfirmModal = true;
             modalType = "신청없음";
             modalMessage = "선택한 신청 내역이 없습니다.";
@@ -174,7 +174,7 @@ class Request extends Component {
                             />
                         }
                     </div>
-                    {(requestFilteredList[0] !== 'requestFilteredList' && requestFilteredList.length > 0) ?
+                    {(requestFilteredList[0] !== 'requestFilteredList') &&
                         <>
                             <ReqList
                                 allChecked={allChecked}
@@ -192,9 +192,6 @@ class Request extends Component {
                                 setPageNum={this.setPageNum}
                                 pageCount={this.state.pageCount}
                             />
-                        </>:
-                        <>
-                            {/*<RequestEmptyList />*/}
                         </>
                     }
                     {showConfirmModal &&

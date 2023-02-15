@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Button, FormSelect} from "react-bootstrap";
+import {Button} from "react-bootstrap";
 
 class RequestButtons extends Component {
     constructor(props) {
