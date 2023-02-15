@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
-import Form from 'react-bootstrap/Form';
 import DeleteCart from "../components/cart/DeleteCart";
 import PostCartToRequest from "../components/cart/PostCartToRequest";
 import CartDetail from "../components/cart/CartDetail";
@@ -8,6 +7,7 @@ import Api from "../api/Api";
 import '../styled/Cart.css';
 import Paging from "../components/layout/Paging";
 import Goal from "../components/Goal";
+import CheckPeriod from "../components/userMainPage/CheckPeriod";
 
 
 class Cart extends Component {
@@ -16,7 +16,7 @@ class Cart extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            items: [],
+            items: ['items'],
             select: "False",
             posted: false,
             prodnumList: [],
@@ -49,19 +49,21 @@ class Cart extends Component {
                     path: ""
                 }
             ],
-            available: 0,
+            available: 1,
             termyearmonth: '',
             pageNum: 1,
             pageCount: 1,
+            dates:[]
         };
         this.getlist = this.getlist.bind(this);
-        this.props.setpagename("장바구니");
+        this.props.setpagename("사무용품 구매");
     }
 
     async componentDidMount() {
         this.getlist();
         this.checkterm();
     }
+
 
     async getlist() {
 
@@ -107,6 +109,14 @@ class Cart extends Component {
                     termyearmonth: termyearmonth
                 })
             });
+
+        // 신청기간 조회
+        fetch('http://127.0.0.1:8000/api/reqterm/' + termyearmonth)
+            .then(response => response.json())
+            .then(response => {
+                console.log(response)
+                this.setState({dates: response})
+            })
     }
 
     checksend1 = (res1, res2, res3) => {
@@ -117,11 +127,11 @@ class Cart extends Component {
         })
     }
 
-    checksend2 = (res) => {
-        this.setState({
-            prodnum2: res
-        })
-    }
+    // checksend2 = (res) => {
+    //     this.setState({
+    //         prodnum2: res
+    //     })
+    // }
 
     postcheck = () => {
         this.getlist();
@@ -140,38 +150,42 @@ class Cart extends Component {
             this.setState({pageNum: e, productItemList: productItemList, prodnumList: []}, () => {
                 this.ref.current.checkcleanall();
                 this.getlist();
+
             })
         }
     }
 
+
     render() {
-        const {available} = this.state;
+        const {available} =this.state;
+
         return (
             <div>
                 <Goal comment={"장바구니"}/>
-                {available ?
+                {available ?<div>
                     <div className='display_btn2'>
-                        <DeleteCart style={{float: 'right'}} usernum={this.props.usernum} prodnum2={this.state.prodnum2}
+                        <DeleteCart style={{float: 'right'}} usernum={this.props.usernum} prodnumList={this.state.prodnumList}
                                     postcheck={this.postcheck}
-                                    modalInfo={this.state.modalInfo}/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    modalInfo={this.state.modalInfo}/>&nbsp;&nbsp;&nbsp;&nbsp;
                         <PostCartToRequest postcheck={this.postcheck} usernum={this.props.usernum}
                                            prodnumList={this.state.prodnumList}
                                            reqcountList={this.state.reqcountList}
                                            reqpriceList={this.state.reqpriceList}
                                            posted={this.state.posted}
-                                           modalInfo={this.state.modalInfo}/>&nbsp;&nbsp;&nbsp;
-                    </div> : '현재 신청기간이 아닙니다. 신청 및 장바구니 삭제가 불가능합니다.'}
+                                           modalInfo={this.state.modalInfo}/>&nbsp;&nbsp;&nbsp; </div>
+
                 <br/><br/>
 
                 <CartDetail items={this.state.items} func1={this.checksend1}
-                            func2={this.checksend2}
                             ref={this.ref}
                 />
                 <Paging
+                    showNum={5}
                     pageNum={this.state.pageNum}
                     setPageNum={this.setPageNum}
                     pageCount={this.state.pageCount}
                 />
+    </div> :  <CheckPeriod items = {this.state.dates}/>}
             </div>
         );
     }

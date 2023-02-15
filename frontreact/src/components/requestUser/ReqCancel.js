@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import {Button} from "react-bootstrap";
 import PostCartModal from "../product/PostCartModal";
 import Api from "../../api/Api";
+import "../../styled/Request.css"
 
 class ReqCancel extends Component {
     constructor(props) {
@@ -76,7 +77,7 @@ class ReqCancel extends Component {
     render() {
         const {posted} = this.state
         return (<div>
-                <Button className="btn btn-primary" onClick={() => {
+                <Button className="request-button" style={{backgroundColor: "#8EA6C0", borderColor:"#8EA6C0", width:"130px"}} onClick={() => {
                     this.postClick2()
                 }}>신청 취소</Button>
                 {posted && <PostCartModal show={true} id={1}

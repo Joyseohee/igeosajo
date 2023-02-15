@@ -105,9 +105,7 @@ def doc_view(self):
 
 @csrf_exempt
 def doc_detail_view(self, DOCNUM):
-    print(type(DOCNUM))
     if self.method == 'GET':
-        print(type(DOCNUM))
         return get_doc_detail(self, DOCNUM)
     elif self.method == 'PUT':
         return patch_doc_detail(self, DOCNUM)
@@ -119,13 +117,13 @@ def doc_detail_view(self, DOCNUM):
 def main_view(self):
     if self.method == 'GET':
         return get_main(self)
-   
+
 
 def accesstoken(request):
     pw = '1234'
     pw_hash = bcrypt.hashpw(pw.encode('utf-8'), bcrypt.gensalt())
     pw_hash = pw_hash.decode('utf-8')
-    
+
 
 # ---------------------------------------------------------------
 # ---------------------------------------------------------------
@@ -184,7 +182,6 @@ def post_login(self):
         data = data[0]["token"]
         public_key = 'very_secret'
         decoded = jwt.decode(data, public_key, algorithms='HS256')
-        print(decoded)
         response = JsonResponse(decoded)
 
     except:
@@ -229,8 +226,8 @@ def get_cart(self):
             '(SELECT prodprice FROM product WHERE prodnum = cartinfo.prodnum) ' \
             'FROM cart AS cartinfo WHERE usernum = %s ORDER BY prodnum DESC '
 
-    if pagenum :
-        query += 'limit 10 offset ' + str((int(pagenum) - 1) * 10)
+    if pagenum:
+        query += 'limit 5 offset ' + str((int(pagenum) - 1) * 5)
     val = usernum
     cursor.execute(query, val)
     data = dictfetchall(cursor)
@@ -238,30 +235,27 @@ def get_cart(self):
     return response
 
 
-
-
 def post_cart(self):
     request = json.loads(self.body)
     prodnum = request['prodnum']
     cartcount = request['cartcount']
     usernum = request['usernum']
-    print(prodnum)
 
     cursor = connection.cursor()
 
     for num, count in zip(prodnum, cartcount):
-        
-        if count !=0: 
-            query = 'select usernum, prodnum, cartcount from cart where usernum= ' + str(usernum) + ' and prodnum =' + str(num)
+
+        if count != 0:
+            query = 'select usernum, prodnum, cartcount from cart where usernum= ' + str(
+                usernum) + ' and prodnum =' + str(num)
             cursor.execute(query)
             data = dictfetchall(cursor)
 
             if data:
-                print(data[0].get('cartcount'))
                 cartcountprev = data[0].get('cartcount')
                 count += cartcountprev
-                print(count)
-                query = 'update cart set cartcount=' + str(count) + ' where prodnum = ' + str(num) + 'and usernum = ' + str(
+                query = 'update cart set cartcount=' + str(count) + ' where prodnum = ' + str(
+                    num) + 'and usernum = ' + str(
                     usernum)
                 cursor.execute(query)
             else:
@@ -278,9 +272,6 @@ def delete_cart(self):
     # prodnum = [10, 2]
     usernum = str(self.GET.get('usernum', None))
 
-    print("prodnum:" + str(prodnum))
-    print("prodnumList:" + str(prodnumList))
-    print("usernum:" + usernum)
     cursor = connection.cursor()
 
     for i in prodnumList:
@@ -297,42 +288,57 @@ def get_product(self):
     category2code = self.GET.get('category2code', None)
     prodname = self.GET.get('prodname', None)
     pagenum = self.GET.get('pagenum', None)
-    
 
     cursor = connection.cursor()
     if prodname is None and category1code is None and category2code is None:
-        query = 'SELECT * FROM product ORDER BY prodnum '
-        val ='',
+        query = 'SELECT p.*, ct.category2name, co.category1name FROM product p ' \
+                'JOIN category2 ct on ct.category2code= p.category2code ' \
+                'JOIN category1 co on ct.category1code=co.category1code ORDER BY prodnum'
+        val = '',
 
     elif prodname is None and category2code is not None:
-        query = 'SELECT * FROM product WHERE category2code= %s ORDER BY prodnum '
+        query = 'SELECT p.*, ct.category2name, co.category1name FROM product p JOIN category2 ct ON ct.category2code= p.category2code JOIN category1 co ON ct.category1code=co.category1code WHERE p.category2code= %s ORDER BY prodnum '
         val = category2code,
-    
+
 
     elif prodname is None and category1code is not None and category2code is None:
-        query = 'SELECT prodnum, prodname, prodprice, prodimg FROM product INNER JOIN category2 ' \
-                'ON product.category2code = category2.category2code WHERE category1code = %s ORDER BY prodnum '
+        query = 'SELECT p.*, ct.category2name, co.category1name' \
+                ' FROM product p' \
+                ' JOIN category2 ct ON ct.category2code= p.category2code' \
+                ' JOIN category1 co ON ct.category1code=co.category1code ' \
+                ' WHERE co.category1code = %s ORDER BY prodnum' 
+                
         val = category1code,
-     
+
 
     elif prodname is not None and category1code is None and category2code is None:
-        query = 'SELECT * FROM product WHERE prodname LIKE %s ORDER BY prodnum'
+        query = 'SELECT p.*, ct.category2name, co.category1name ' \
+                'FROM product p ' \
+                'JOIN category2 ct ON ct.category2code= p.category2code ' \
+                'JOIN category1 co ON ct.category1code=co.category1code ' \
+                'WHERE p.prodname LIKE %s ORDER BY prodnum'
+
         val = '%' + prodname + '%',
-        
+
 
     elif prodname is not None and category1code is not None and category2code is None:
-        query = 'SELECT prodnum, prodname, prodprice, prodimg FROM product INNER JOIN category2 ' \
-                'ON product.category2code = category2.category2code ' \
-                'WHERE category1code = %s and prodname LIKE %s ORDER BY prodnum '
+        query = 'SELECT p.*, ct.category2name, co.category1name ' \
+                'FROM product p ' \
+                'JOIN category2 ct ON ct.category2code= p.category2code ' \
+                'JOIN category1 co ON ct.category1code=co.category1code ' \
+                'WHERE co.category1code = %s and p.prodname LIKE %s ORDER BY prodnum'
         val = (category1code, '%' + prodname + '%')
-       
+
     elif prodname is not None and category2code is not None:
-        query = 'SELECT * FROM product WHERE category2code= %s and prodname like %s ORDER BY prodnum ' 
+        query = 'SELECT p.*, ct.category2name, co.category1name ' \
+                'FROM product p ' \
+                'JOIN category2 ct ON ct.category2code= p.category2code ' \
+                'JOIN category1 co ON ct.category1code=co.category1code ' \
+                'WHERE ct.category2code= %s and p.prodname LIKE %s ORDER BY prodnum '
         val = (category2code, '%' + prodname + '%')
 
-       
     if pagenum:
-        query +=  ' limit 10 offset ' + str((int(pagenum) - 1) * 10)
+        query += ' limit 5 offset ' + str((int(pagenum) - 1) * 5)
 
     cursor.execute(query, val)
     data = dictfetchall(cursor)
@@ -347,7 +353,7 @@ def get_request(self):
     reqorder = self.GET.get('reqorder', None)
     usernum = self.GET.get('usernum', None)
     pagenum = self.GET.get('pagenum', None)
-    
+
     params = {}
     if usernum is not None:
         params['u.usernum'] = usernum
@@ -383,8 +389,6 @@ def post_request(self):
 
         query = 'DELETE FROM cart WHERE usernum=' + str(usernum) + ' and prodnum=' + str(num)
         cursor.execute(query)
-
-
 
     response = HttpResponse("성공")
     return response
@@ -462,9 +466,8 @@ def get_order_view(self):
     enddate = self.GET.get('enddate')
     orderstate = self.GET.get('orderstate')
     ordernum = self.GET.get('ordernum')
-    termyearmonth =self.GET.get('termyearmonth')
+    termyearmonth = self.GET.get('termyearmonth')
     state = self.GET.get('state')
-    print(termyearmonth)
     cursor = connection.cursor()
     if (func == 'allselect'):
         query = 'SELECT * FROM "order"  WHERE "orderdate" > %s AND "orderdate" < %s AND "orderstate" = %s'
@@ -495,14 +498,14 @@ def get_order_view(self):
 
     elif (func == 'distinctordernumcnt'):
         resultdata = []
-        textval = ['구매완료','배송완료','불출완료']
+        textval = ['구매완료', '배송완료', '불출완료']
         query = 'SELECT COUNT(DISTINCT ordernum) FROM "order" WHERE "orderdate" > %s AND "orderdate" < %s '
         val = (startdate, enddate)
-        cursor.execute(query,val)
+        cursor.execute(query, val)
         reqnumarray = dictfetchall(cursor)
         resultdata.append(reqnumarray[0]['count'])
-        
-        for i in textval: 
+
+        for i in textval:
             query = 'SELECT COUNT(DISTINCT ordernum) FROM "order" WHERE "orderdate" > %s AND "orderdate" < %s AND "orderstate" = %s '
             val = (startdate, enddate, i)
             cursor.execute(query, val)
@@ -511,12 +514,10 @@ def get_order_view(self):
         response = JsonResponse(resultdata, safe=False)
 
     elif (func == 'reqdataget'):
-        print(ordernum)
         query = 'SELECT reqnum FROM "order" WHERE "ordernum" = ' + str(ordernum)
         cursor.execute(query)
         reqnumarray = dictfetchall(cursor)
         templen = len(reqnumarray)
-        print(reqnumarray)
         reqdata = []
         for i in range(0, templen):
             reqnum = reqnumarray[i]['reqnum']
@@ -526,34 +527,28 @@ def get_order_view(self):
             reqtemp = dictfetchall(cursor)
             reqdata.append(reqtemp[0])
         response = JsonResponse(reqdata, safe=False)
-        
+
     elif (func == 'orderreq'):
         if (state == 'all'):
-            print(ordernum)
             query = 'SELECT r.reqnum,r.prodnum,p.prodname,r.reqcount,r.reqprice,r.reqdate,u.username,r.reqorder FROM request r JOIN users u on u.usernum = r.usernum JOIN product p on p.prodnum = r.prodnum WHERE (reqstaging= %s  or reqstaging = %s) and termyearmonth=%s'
-            val=("처리중","처리완료",termyearmonth)
-            cursor.execute(query,val) 
+            val = ("처리중", "처리완료", termyearmonth)
+            cursor.execute(query, val)
             reqnumarray = dictfetchall(cursor)
             templen = len(reqnumarray)
-            print(reqnumarray)
         elif (state == 'prevparchase'):
-            print(ordernum)
             query = 'SELECT r.reqnum,r.prodnum,p.prodname,r.reqcount,r.reqprice,r.reqdate,u.username,r.reqorder FROM request r JOIN users u on u.usernum = r.usernum JOIN product p on p.prodnum = r.prodnum WHERE (reqstaging= %s  or reqstaging = %s) and termyearmonth=%s and reqorder = %s'
-            val = ("처리중", "처리완료", termyearmonth,"구매전")
+            val = ("처리중", "처리완료", termyearmonth, "구매전")
             cursor.execute(query, val)
             reqnumarray = dictfetchall(cursor)
             templen = len(reqnumarray)
-            print(reqnumarray)
         elif (state == 'parchase'):
-            print(ordernum)
             query = 'SELECT r.reqnum,r.prodnum,p.prodname,r.reqcount,r.reqprice,r.reqdate,u.username,r.reqorder FROM request r JOIN users u on u.usernum = r.usernum JOIN product p on p.prodnum = r.prodnum WHERE (reqstaging= %s  or reqstaging = %s) and termyearmonth=%s and reqorder = %s'
-            val = ("처리중", "처리완료", termyearmonth,"구매완료")
+            val = ("처리중", "처리완료", termyearmonth, "구매완료")
             cursor.execute(query, val)
             reqnumarray = dictfetchall(cursor)
             templen = len(reqnumarray)
-            print(reqnumarray)
         response = JsonResponse(reqnumarray, safe=False)
-        
+
     elif (func == 'orderreqcount'):
         resultdata = []
         query = 'SELECT COUNT(*) FROM request r JOIN users u on u.usernum = r.usernum JOIN product p on p.prodnum = r.prodnum WHERE (reqstaging= %s  or reqstaging = %s) and termyearmonth=%s'
@@ -571,7 +566,7 @@ def get_order_view(self):
         cursor.execute(query, val)
         reqnumarray = dictfetchall(cursor)
         resultdata.append(reqnumarray[0]['count'])
-        
+
         response = JsonResponse(resultdata, safe=False)
     return response
 
@@ -580,20 +575,18 @@ def post_order_view(self):
     request = json.loads(self.body)
     reqdata = None
     deliverdata = None
-    
+
     try:
         reqdata = request['reqdata']
     except:
-        print('data없음')
+        reqdata = None
     try:
         deliverdata = request['deliverdata']
     except:
-        print('deliverdata없음')
-        
+        deliverdata = None
+
     if reqdata is not None and deliverdata is not None:
         # deliverdata값만있을때
-        print(deliverdata)
-        print(reqdata)
         orderdate = deliverdata[0],
         orderstate = "구매완료",
         orderaddr = deliverdata[1],
@@ -603,13 +596,13 @@ def post_order_view(self):
         query = 'SELECT Max(ordernum) FROM "order"'
         cursor.execute(query)
         orderdata = dictfetchall(cursor)
-        if(orderdata[0]['max'] == None):
+        if (orderdata[0]['max'] == None):
             orderdata[0]['max'] = 0
         ordernum = orderdata[0]['max'] + 1
         for i in reqdata:
             reqnum = i
             query = 'INSERT INTO "order" (ordernum,reqnum,orderdate, orderstate, orderaddr, ordertel, ordermemo) ' \
-                            'VALUES (%s,%s, %s, %s, %s, %s,%s)'
+                    'VALUES (%s,%s, %s, %s, %s, %s,%s)'
             val = (str(ordernum), str(reqnum), orderdate, orderstate, orderaddr, ordertel, ordermeno)
             cursor.execute(query, val)
             query = 'update "request" set reqorder = %s WHERE reqnum = %s'
@@ -617,7 +610,7 @@ def post_order_view(self):
             cursor.execute(query, val)
         response = HttpResponse("성공")
         return response
-    
+
     if deliverdata is None and reqdata is not None:
         # reqdata값만있을때
         cursor = connection.cursor()
@@ -626,7 +619,7 @@ def post_order_view(self):
         if reqdata:
 
             datalen = len(reqdata)
-            print(datalen)
+
             for i in reqdata:
                 reqnum = i
                 query = 'SELECT r.reqnum,r.prodnum,p.prodname,r.reqcount,r.reqprice,u.username FROM request r JOIN users u on u.usernum = r.usernum JOIN product p on p.prodnum = r.prodnum WHERE reqnum = ' + str(
@@ -638,20 +631,15 @@ def post_order_view(self):
                     temparr[2] += reqtemp[0]['reqcount']
                     temparr[3] += reqtemp[0]['reqprice']
                     data[(str(reqtemp[0]['prodnum']))] = temparr
-                    print(data)
+
                 else:
                     temparr = [reqtemp[0]['prodnum'], reqtemp[0]['prodname'], reqtemp[0]['reqcount'],
                                reqtemp[0]['reqprice']]
                     data[str(reqtemp[0]['prodnum'])] = temparr
-                    print(data)
+
             for value in data.values():
                 resultdata.append(value)
-            print(resultdata)
-    
 
-   
-
- 
     response = JsonResponse(resultdata, safe=False)
     return response
 
@@ -671,7 +659,7 @@ def put_order_view(self):
         searchstate = data[0]['orderstate']
         if (orderstate == "deliver"):
             if (searchstate == "구매완료"):
-                query = 'update "order" set orderstate = %s WHERE ordernum = %s' 
+                query = 'update "order" set orderstate = %s WHERE ordernum = %s'
                 val = ("배송완료", ordernum[i])
                 cursor.execute(query, val)
 
@@ -687,7 +675,7 @@ def put_order_view(self):
                 reqtemplen = len(reqdata)
                 for i in range(0, reqtemplen):
                     reqnum = reqdata[i]['reqnum']
-                    print(reqnum)
+
                     query = 'update "request" set reqstaging = %s WHERE reqnum = %s'
                     val = ("처리완료", str(reqnum))
                     cursor.execute(query, val)
@@ -714,19 +702,17 @@ def get_doc(self):
     state = self.GET.get('docstate')
     docNum = self.GET.get('docNum')
 
-    print(startdate)
-    print(enddate)
     if data:
         if data == '요청상세':
             docDetail = self.GET.get('docDetail')
 
             if docDetail:
-                query = 'select docnum,D.reqnum , docwdate ,prodname, R.prodnum, reqcount, reqprice, docstate, docrejectreason ' \
+                query = 'select docnum,D.reqnum , docwdate ,prodname, R.prodnum, reqcount, reqprice, docstate, docrejectreason, docrdate' \
                         ' from request R join doc D on R.reqnum = D.reqnum ' \
                         ' join product P on P.prodnum = R.prodnum' \
                         ' where doccancled = 0 and docnum =' + docDetail
             else:
-                query = 'select docnum,D.reqnum , docwdate ,prodname, R.prodnum, reqcount, reqprice, docstate, docrejectreason ' \
+                query = 'select docnum,D.reqnum , docwdate ,prodname, R.prodnum, reqcount, reqprice, docstate, docrejectreason, docrdate ' \
                         ' from request R join doc D on R.reqnum = D.reqnum ' \
                         ' join product P on P.prodnum = R.prodnum' \
                         ' where docnum = (select docnum from doc order by docnum desc limit 1) ' \
@@ -751,11 +737,14 @@ def get_doc(self):
                     prodCount[prodList.index(r[3])] += r[5]
 
             wdate = docreq[0][2]  # 작성일자
+            rdate = docreq[0][9]
+
             prodList = str(prodList).replace('\'', '\"')
 
             passString = '{"reqnum": ' + str(docreqList) + ', "wdate" : "' + str(wdate) + '", "prodname":' + str(
-                prodList) + ', "prodcount":' + str(prodCount) + ', "sum":' + str(sum) + ', "docstate": "'\
-                        + str(docreq[0][7]) + '", "rejectreason": "' + str(docreq[0][8]) + '"}'
+                prodList) + ', "prodcount":' + str(prodCount) + ', "sum":' + str(sum) + ', "docstate": "' \
+                         + str(docreq[0][7]) + '", "rejectreason": "' + str(docreq[0][8]) + '", "rdate": "' + str(
+                rdate) + '"}'
             data = json.loads(passString)
             response = JsonResponse(data, safe=False)
 
@@ -767,7 +756,8 @@ def get_doc(self):
                 docstate = '\'' + data + '\''
 
                 if pagenum:
-                    query = 'select distinct docnum, docstate, docwdate from doc where doccancled = 0 and docstate=' + docstate + ' order by docnum desc limit 10 offset ' + str((int(pagenum) - 1) * 10)
+                    query = 'select distinct docnum, docstate, docwdate from doc where doccancled = 0 and docstate=' + docstate + ' order by docnum desc limit 10 offset ' + str(
+                        (int(pagenum) - 1) * 10)
                 else:
                     query = 'select distinct docnum, docstate, docwdate from doc where doccancled = 0 and docstate=' + docstate + ' order by docnum desc'
                 cursor.execute(query)
@@ -810,7 +800,8 @@ def get_doc(self):
         if checkDetail:
             pagenum = self.GET.get('pagenum')
             if pagenum:
-                query = 'SELECT distinct docnum, docstate, docwdate FROM doc where doccancled = 0 order by docnum desc limit 10 offset ' + str((int(pagenum) - 1) * 10)
+                query = 'SELECT distinct docnum, docstate, docwdate FROM doc where doccancled = 0 order by docnum desc limit 10 offset ' + str(
+                    (int(pagenum) - 1) * 10)
             else:
                 query = 'SELECT distinct docnum, docstate, docwdate FROM doc where doccancled = 0 order by docnum'
         else:
@@ -833,7 +824,6 @@ def post_doc(self):
         }
     ]
     """
-
     cursor = connection.cursor()
 
     data = json.loads(self.body)
@@ -886,9 +876,6 @@ def put_doc(self):
     request = json.loads(self.body)
     docnum = request['docnum']
 
-
-    print(docnum)
-
     ordernum = 1
     query = 'update doc set docordered = %s WHERE docnum = %s'
     val = (ordernum, docnum)
@@ -917,6 +904,7 @@ def put_put_doc(self):
     response = HttpResponse("성공")
     return response
 
+
 @csrf_exempt
 def delete_doc(self):
     """
@@ -929,9 +917,6 @@ def delete_doc(self):
     cursor.execute(query)
 
     data = cursor.fetchall()
-    print(len(data))
-
-    print(data)
 
     for i in range(0, len(data)):
         query = 'update request set reqstaging = \'처리전\' where reqstate = \'승인\' and reqnum = ' + str(data[i][0])
@@ -984,13 +969,10 @@ def patch_doc_detail(self, DOCNUM):
 
     reqnum = cursor.fetchall()
 
-    print(reqnum)
-
     date = datetime.today().strftime("%Y-%m-%d")
     date = '\'' + str(date) + '\''
 
     data = json.loads(self.body)
-    print(data)
 
     docstate = '\'' + data[0]['state'] + '\''
 
@@ -1047,11 +1029,11 @@ def request_select_query(columns):
             'JOIN product AS P on P.prodnum = R.prodnum '
     val = ()
     paging = None
-    
-    if columns.get('pagenum') is not None :
+
+    if columns.get('pagenum') is not None:
         paging = columns.get('pagenum')
         del columns['pagenum']
-   
+
     if len(columns) != 0:
         query += 'WHERE '
         i = 0
@@ -1062,7 +1044,7 @@ def request_select_query(columns):
             i += 1
             val += (columns.get(column),)
     query += ' ORDER BY reqnum DESC'
-    if paging is not None : 
+    if paging is not None:
         query += ' limit 10 offset ' + str((int(paging) - 1) * 10)
     cursor.execute(query, val)
     data = dictfetchall(cursor)
@@ -1132,15 +1114,16 @@ def get_category1(self):
     response = JsonResponse(data, safe=False)
     return response
 
+
 def get_category2(self):
     category1code = self.GET.get('category1code', '')
-    print(category1code)
+
     cursor = connection.cursor()
-    
+
     query = 'SELECT * FROM CATEGORY2'
-    if (category1code !='') : 
-        query += ' WHERE CATEGORY1CODE ='+str(category1code)
-    
+    if (category1code != ''):
+        query += ' WHERE CATEGORY1CODE =' + str(category1code)
+
     cursor.execute(query)
     data = dictfetchall(cursor)
     response = JsonResponse(data, safe=False)
@@ -1152,13 +1135,11 @@ def get_main(self):
     startdate = self.GET.get('startdate')
     enddate = self.GET.get('enddate')
     resultdata = []
-    print(termyearmonth)
-    print(startdate)
-    print(enddate)
-    docval = ['대기','반려','승인']
+
+    docval = ['대기', '반려', '승인']
 
     cursor = connection.cursor()
-    
+
     query = 'SELECT COUNT(*) FROM "request" WHERE "reqstate" = %s AND "termyearmonth"  = %s'
     val = ("대기", termyearmonth)
     cursor.execute(query, val)
