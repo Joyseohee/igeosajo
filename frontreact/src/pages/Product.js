@@ -7,7 +7,7 @@ import Api from "../api/Api";
 import Paging from "../components/layout/Paging";
 import "../styled/Product.css";
 import Goal from "../components/Goal";
-
+import CheckPeriod from "../components/userMainPage/CheckPeriod";
 
 
 class Product extends Component {
@@ -23,7 +23,7 @@ class Product extends Component {
             prodname: '',
             category2code: '',
             category1code: '',
-            productItemList: [],
+            productItemList: ['productItemList'],
             prodnumList: [],
             prodnumList2: [],
             cartcountList: [],
@@ -55,13 +55,14 @@ class Product extends Component {
             termyearmonth: '',
             pageNum: 1,
             pageCount: 1,
-            items2: []
+            items2: [],
+            dates: []
         };
         this.checksend = this.checksend.bind(this);
         this.postcheck = this.postcheck.bind(this);
         this.getlist = this.getlist.bind(this);
         this.checkterm = this.checkterm.bind(this)
-        this.props.setpagename("상품목록");
+        this.props.setpagename("사무용품 구매");
 
     }
 
@@ -91,6 +92,12 @@ class Product extends Component {
                     termyearmonth: termyearmonth
                 })
             });
+        fetch('http://127.0.0.1:8000/api/reqterm/' + termyearmonth)
+            .then(response => response.json())
+            .then(response => {
+                console.log(response)
+                this.setState({dates: response})
+            })
     }
 
     async getlist() {
@@ -212,43 +219,47 @@ class Product extends Component {
                 this.getlist();
             })
         }
-
     }
-
 
     render() {
         const {
+            available,
             prodnumList
         } = this.state
         return (
             <div>
+
                 <Goal comment={"물품보기"}/> <br/>
-                <div><div style={{float: "left"}}> <Search callbackSearch={this.callbackSearch}/></div>
-                    <div style={{float: "right"}} className="display_btn"><ProductPost postcheck={this.postcheck}
-                                              productItemList={this.state.productItemList}
-                                              prodnumList={prodnumList}
-                                              usernum={this.props.usernum}
-                                              modalInfo={this.state.modalInfo}/>
-                    &nbsp;&nbsp;&nbsp;
-                        <ProductFilter callbackFilter={this.callbackFilter}/></div></div>
+                {available ? <div>
+                    <div>
+                        <div style={{float: "left"}}><Search callbackSearch={this.callbackSearch}/></div>
+                        <div style={{float: "right"}} className="display_btn"><ProductPost postcheck={this.postcheck}
+                                                                                           productItemList={this.state.productItemList}
+                                                                                           prodnumList={prodnumList}
+                                                                                           usernum={this.props.usernum}
+                                                                                           modalInfo={this.state.modalInfo}/>
+                            &nbsp;&nbsp;&nbsp;
+                            <ProductFilter callbackFilter={this.callbackFilter}/></div>
+                    </div>
 
-                <br/><br/><br/>
-                <ProductDetail productItemList={this.state.productItemList}
-                               prodnumList={this.state.prodnumList}
-                               usernum={this.props.usernum}
-                               func1={this.checksend}
-                               ref={this.ref}
-                               callback1={{handleIncrease: this.handleIncrease}}
-                               callback2={{handleDecrease: this.handleDecrease}}
-                               modalInfo={this.state.modalInfo}
-                               postcheck={this.postcheck}
-                />
-                <Paging
-                    pageNum={this.state.pageNum}
-                    setPageNum={this.setPageNum}
-                    pageCount={this.state.pageCount}
-                />
-
+                    <br/><br/><br/>
+                    <ProductDetail productItemList={this.state.productItemList}
+                                   prodnumList={this.state.prodnumList}
+                                   usernum={this.props.usernum}
+                                   func1={this.checksend}
+                                   ref={this.ref}
+                                   callback1={{handleIncrease: this.handleIncrease}}
+                                   callback2={{handleDecrease: this.handleDecrease}}
+                                   modalInfo={this.state.modalInfo}
+                                   postcheck={this.postcheck}
+                    />
+                    <Paging
+                        showNum={5}
+                        pageNum={this.state.pageNum}
+                        setPageNum={this.setPageNum}
+                        pageCount={this.state.pageCount}
+                    />
+                </div> : this.state.dates !== [] && <CheckPeriod items={this.state.dates}/>}
             </div>
         );
     }

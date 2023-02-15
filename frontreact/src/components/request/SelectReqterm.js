@@ -38,7 +38,7 @@ class SelectReqterm extends Component {
     render() {
         const {reqtermList} = this.props;
         return (
-            <FormSelect onChange={(e) => this.handleSelect(e)} defaultValue={reqtermList[0]} className="request-select-wrapper">
+            <FormSelect onChange={(e) => this.handleSelect(e)} defaultValue={reqtermList[0]} className="request-select-wrapper" style={{cursor:"pointer"}}>
                 {reqtermList.map((reqterm) => {
                     return (
                         <option key={reqterm.termyearmonth}

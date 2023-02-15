@@ -18,6 +18,7 @@ class ProductDetail extends Component {
                 count: 0
             }],
             prodnumList: this.props.prodnumList,
+            length: 1,
         }
         ;
         // this.cartcount = this.cartcount.bind(this);
@@ -99,7 +100,9 @@ class ProductDetail extends Component {
 
 
     render() {
-        let list = this.props.productItemList.map((list, idx) => (
+         let list
+        if (this.props.productItemList[0] !== 'productItemList') {
+      list = this.props.productItemList.map((list, idx) => (
             <tbody>
                 <tr className='tr1' key={list.prodnum}>
                     <td><Form.Check aria-label="option 1" name={"select"}
@@ -109,8 +112,9 @@ class ProductDetail extends Component {
                                     }} disabled={!list.ccount}/></td>
                     <td>{idx + 1}</td>
                     <td><img className='img1' src={list.prodimg}/></td>
-                    <td>{list.prodname}</td>
-                    <td>{new CommonUtil().numberComma(list.prodprice)} \</td>
+                    <td style={{textAlign:"left"}}>{list.prodname}<br/><br/>
+                        <div style={{fontSize:"7px"}}> {list.category1name}>>{list.category2name}</div></td>
+                    <td>\ {new CommonUtil().numberComma(list.prodprice)}</td>
                     <td className='td1'>
                         <div className='inline'>
                             <Counter name="counter"
@@ -128,27 +132,27 @@ class ProductDetail extends Component {
             </tbody>
 
 
-        ))
+        )) } else list =['']
+
         return (
             <div>
 
-                <Table className='table1'>
+                <Table bordered className='table1'>
                     <thead>
-                    <tr className='table-primary'>
+                    <tr className='doclistTh'>
 
-                        <th className='th2'><Form.Check aria-label="option 1" name={"selectAll"}
+                        <th className='prdth2'><Form.Check aria-label="option 1" name={"selectAll"}
                                                         onClick={this.choiceAll}/></th>
-                        <th className='th2'>No</th>
-                        <th className='th1'>이미지</th>
-                        <th>품목명</th>
-                        <th>가격</th>
-                        <th className='th1'>수량</th>
+                        <th className='prdth2'>No</th>
+                        <th className='prdth1'>이미지</th>
+                        <th className='prdth3'>품목명</th>
+                        <th className='prdth1'>가격</th>
+                        <th className='prdth1'>수량</th>
                     </tr>
                     </thead>
                     {list}
-
                 </Table>
-                {list.length === 0 ? <div className='nonefoundmsg' >상품이 없습니다 <br/><br/></div>  : null}
+                {list.length !== 0 ? null : <div className='nonefoundmsg' >상품이 없습니다 <br/><br/></div>}
             </div>
         );
     }
