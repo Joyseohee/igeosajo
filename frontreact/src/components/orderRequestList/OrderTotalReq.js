@@ -31,14 +31,13 @@ class OrderTotalReq extends Component {
     componentDidUpdate(prevProps, prevState, snapshot) {
         if (this.props.reqdata !== prevProps.reqdata) {
             this.setState({reqdata: this.props.reqdata});
-            console.log(this.props.reqdata)
         }
     }
 
     render() {
         const {reqdata} = this.state
         const totalprice = this.props.totalprice
-        console.log(this.props.totalprice)
+
         return (
             <div className="orderdelivercard">
                 <Card style={{width: '95%'}} className="orderdelivercardborder">
@@ -48,7 +47,6 @@ class OrderTotalReq extends Component {
                                 <thead >
                                 <tr className={"listTh"}>
                                     <th style={{width:"8%"}}>No</th>
-                                    {/*<th>상품코드</th>*/}
                                     <th style={{width:"42%"}}>상품명</th>
                                     <th style={{width:"25%"}}>상품수량</th>
                                     <th style={{width:"25%"}}>상품가격</th>
@@ -58,7 +56,6 @@ class OrderTotalReq extends Component {
                                 {reqdata && reqdata.map((data, i) => (
                                     <tr key={data+i}>
                                         <td style={{fontSize:"15px"}}>{i + 1}</td>
-                                        {/*<td>{data[0]}</td>*/}
                                         <td style={{fontSize:"15px"}}>{data[1]}</td>
                                         <td style={{fontSize:"15px"}}>{data[2] + "개"}</td>
                                         <td style={{fontSize:"15px"}}>{data[3] && new CommonUtil().numberComma(data[3])+"원"}</td>
@@ -67,7 +64,7 @@ class OrderTotalReq extends Component {
                                 </tbody>
                             </Table>
                             <div className={"totalprice"}>
-                                <span>TotalPrice : </span>
+                                <span>총 결제금액 : </span>
                                 <span>{totalprice && new CommonUtil().numberComma(totalprice) + "원"}</span>
                             </div>
                         </Container>

@@ -49,12 +49,12 @@ class Sidebar extends Component {
         }
     }
 
-    handleMainMenuClick = (index) => {
-        this.setState({currentMainMenu: index, currentSubMenu: 0});
+    handleMainMenuClick = (index, index2) => {
+        this.setState({currentMainMenu: index, currentSubMenu: index2});
     };
 
-    handleSubMenuClick = (index) => {
-        this.setState({currentSubMenu: index});
+    handleSubMenuClick = (index, index2) => {
+        this.setState({currentMainMenu: index, currentSubMenu: index2});
     };
 
     render() {
@@ -64,42 +64,44 @@ class Sidebar extends Component {
             <div className="sidebar-wrapper">
                 <div className="sidebar">
                     <div className="menu-wrapper">
-                        {menus.map((menu, index) => {
+                        {menus.map((menu) => {
                             return (
                                 <div key={menu.index}>
                                     <Link to={menu.path}>
                                         <div
                                             className={
-                                                index === currentMainMenu
+                                                menu.index === currentMainMenu
                                                     ? "menu1 selected"
                                                     : "menu1 unselected"
                                             }
                                             value={menu.index}
-                                            onClick={() => this.handleMainMenuClick(index)}
+                                            onClick={() => this.handleMainMenuClick(menu.index, menu.menu2[0].index)}
                                         >
                                             {menu.name}
                                         </div>
                                     </Link>
-                                    {index === currentMainMenu &&
+                                    {
+                                        // index === currentMainMenu &&
                                         menu.menu2 &&
-                                        menu.menu2.map((submenu, subIndex) => {
+                                        menu.menu2.map((submenu) => {
                                             return (
                                                 <div key={submenu.index}>
                                                     <Link to={submenu.path}>
                                                         <div
                                                             className={
-                                                                subIndex === currentSubMenu
+                                                                submenu.index === currentSubMenu
                                                                     ? "menu2 selected"
                                                                     : "menu2 unselected"
                                                             }
-                                                            onClick={() => this.handleSubMenuClick(subIndex)}
+                                                            onClick={() => this.handleSubMenuClick(menu.index, submenu.index)}
                                                         >
                                                             {submenu.name}
                                                         </div>
                                                     </Link>
                                                 </div>
                                             );
-                                        })}
+                                        })
+                                    }
                                 </div>
                             );
                         })}

@@ -18,11 +18,17 @@ class Search extends Component {
   sendSearch =(e) => {
         this.props.callbackSearch(this.state.prodname)
   }
+
+  activeEnter = (e) => {
+    if(e.key === "Enter") {
+      this.sendSearch();
+    }
+  }
     render() {
         const prodname =this.state.prodname
         return (
             <div className="inline margin1">
-                <input className='input1' onChange={this.onChange} value={prodname} placeholder='상품이름으로 검색' /> &nbsp;<button className='btn btn-outline-secondary' style={{width : '45px'}} onClick={this.sendSearch}> <img className="img_cart" src={myImage} alt=""/></button>
+                <input className='input1' onChange={this.onChange} onKeyDown={(e) => this.activeEnter(e)} value={prodname} placeholder='상품이름으로 검색' /> &nbsp;<button className='btn btn-outline-secondary' style={{width : '45px'}} onClick={this.sendSearch}> <img className="img_cart" src={myImage} alt=""/></button>
             </div>
 
 

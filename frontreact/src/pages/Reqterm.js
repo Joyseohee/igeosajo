@@ -3,6 +3,7 @@ import Reqbox from "../components/reqterm/Reqbox";
 import Api from "../api/Api";
 import Goal from "../components/Goal";
 import CommonUtil from "../util/CommonUtil";
+import "../styled/Reqterm.css"
 
 class Reqterm extends Component {
     constructor(props) {

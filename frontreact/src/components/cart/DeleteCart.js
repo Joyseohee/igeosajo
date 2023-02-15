@@ -11,8 +11,8 @@ class DeleteCart extends Component {
 
     //delete
     async deleteClick() {
-        const prodnum = this.props.prodnum2;
-        const response = await fetch('http://127.0.0.1:8000/api/cart?usernum=' + this.props.usernum + '&prodnum=' + prodnum, {
+        const prodnumList = this.props.prodnumList;
+        const response = await fetch('http://127.0.0.1:8000/api/cart?usernum=' + this.props.usernum + '&prodnum=' + prodnumList, {
             method: 'DELETE'
         }).then(() => {
             this.props.postcheck()
@@ -36,7 +36,7 @@ class DeleteCart extends Component {
 
     render() {
         const posted = this.state.posted
-        const prodnum = this.props.prodnum2;
+        const prodnumList = this.props.prodnumList;
 
         return (
             <div>
@@ -49,7 +49,7 @@ class DeleteCart extends Component {
                                           handleConfirm={this.handleConfirm}
                                           modalInfo={this.props.modalInfo}
                 />}
-                {posted && prodnum.length === 0 && <PostCartModal show={true} id={3}
+                {posted && prodnumList.length === 0 && <PostCartModal show={true} id={3}
                                                                       confirm={"확인"} handleClose={this.handleClose}
                                                                       handleConfirm={this.handleClose}
                                                                       modalInfo={this.props.modalInfo}

@@ -89,7 +89,7 @@ class AdminMain extends Component {
             if(state == "/orderreq"){
                orderstate = "prevparchase"
             }else if(state == "/Order"){
-                orderstate = "parchase"
+                orderstate = "deliver"
             }
             this.props.history.push({
                 pathname : state, 

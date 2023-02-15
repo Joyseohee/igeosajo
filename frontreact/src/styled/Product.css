@@ -10,6 +10,10 @@
 .display_btn {
     display: inline-flex;
 }
+.doclistTh {
+    background-color: #848484;
+    color: white;
+}
 
 
 .img_cart {
@@ -54,14 +58,17 @@
 .table1{
     width: 100%;
 }
-.th1{
+.prdth1{
         width: 15%;
-
 }
-.th2{
+.prdth2{
         width: 5%;
-
 }
+.prdth3{
+        width: 45%;
+}
+
+
 .tr1{
     height: 130px;
 }

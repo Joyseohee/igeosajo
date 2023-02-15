@@ -116,9 +116,9 @@ class OrderView extends Component {
         if(state=="allselect") {
             return (
                 <div className="btndivmargin">
-                    <Form.Check className="orderallselect" inline label="전체선택" name="checkall" id={`1`} onClick={this.checkall}/>
-                    <button type="button" className="btn btn-success submitbutton" id={'finish'} onClick={(e) => {this.changeorderstate(e.target.id)}}>불출완료</button>
-                    <button type="button" className="btn btn-primary deliverbutton" id={'deliver'} onClick={(e) => {this.changeorderstate(e.target.id)}}>배송완료</button>
+                    {/*<Form.Check className="orderallselect" inline label="전체선택" name="checkall" id={`1`} onClick={this.checkall}/>*/}
+                    {/*<button type="button" className="btn btn-success submitbutton" id={'finish'} onClick={(e) => {this.changeorderstate(e.target.id)}}>불출완료</button>*/}
+                    {/*<button type="button" className="btn btn-primary deliverbutton" id={'deliver'} onClick={(e) => {this.changeorderstate(e.target.id)}}>배송완료</button>*/}
                 </div>
             )
         }
@@ -145,7 +145,17 @@ class OrderView extends Component {
             )
         }
     }
-    
+    datampty =(data)=>{
+        const text = "데이터가 존재하지 않습니다.";
+        if(data.length == 0)
+        {
+            return(
+                <Row style={{width: '101.5%'}}>
+                    <div style={{textAlign:"center",fontWeight:"bold",fontSize:"18px"}}>{text}</div>
+                </Row>
+            )
+        }
+    }
 
     render() {
         const  ordernum  = this.props.ordernum
@@ -155,6 +165,7 @@ class OrderView extends Component {
                     {this.statebtn(this.props.orderstate)}
                 </Row>
                 <div className="orderviewmargin">
+                    {this.datampty(ordernum)}
                     {ordernum && ordernum.map((num,i) => (
                         <Row style={{width: '101.5%'}} key={num.ordernum}>
                         <div className="cardcontainprogress" >
