@@ -8,6 +8,7 @@ import CommonUtil from "../../util/CommonUtil";
 import Modal2 from "../layout/Modal2";
 
 let reqnum;
+let arr;
 
 class DocPaymentTable extends Component {
 
@@ -33,10 +34,10 @@ class DocPaymentTable extends Component {
         this.props.reqSendClick(reqSend, reject);
     }
 
-    outcomeState = (e) => {
+    outcomeState = async (e) => {
         if (e === 2) {
             // 승인 처리
-            fetch("http://127.0.0.1:8000/api/document/" + this.props.docnum.toString(), {
+            await fetch("http://127.0.0.1:8000/api/document/" + this.props.docnum.toString(), {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
@@ -49,20 +50,20 @@ class DocPaymentTable extends Component {
                 ]),
             })
 
-            this.props.history.push({
+            await this.props.history.push({
                 pathname: "/main"
             })
         }
 
-        this.reqSendClick(false, false)
-        this.props.openModal(false, false)
+        await this.reqSendClick(false, false)
+        await this.props.openModal(false, false)
     }
 
-    inputReject = (e) => {
+    inputReject = async (e) => {
         // 반려 처리
-        if (e !== "취소"){
+        if (e !== "취소") {
             // 여기에 하면 됨
-            fetch("http://127.0.0.1:8000/api/document/" + this.props.docnum.toString(), {
+            await fetch("http://127.0.0.1:8000/api/document/" + this.props.docnum.toString(), {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
@@ -75,24 +76,26 @@ class DocPaymentTable extends Component {
                 ]),
             })
 
-            this.props.history.push({
+            await this.reqSendClick(false, false)
+            await this.props.openModal(false, false)
+
+            await this.props.history.push({
                 pathname: "/main"
             })
         }
 
-        this.reqSendClick(false, false)
-        this.props.openModal(false, false)
+        await this.reqSendClick(false, false)
+        await this.props.openModal(false, false)
     }
-
     render() {
         let modalOpen = this.props.modalOpen
         let items = this.props.items
         let words = this.props.words
         let reject = this.props.reject
+        let prodnamearr = this.props.prodnamearr
+        let countarr = this.props.countarr
 
         reqnum = this.props.items.reqnum
-
-        console.log(items)
 
         return (
             <div className={"docPaymentTable"}>
@@ -124,7 +127,26 @@ class DocPaymentTable extends Component {
                     </tr>
                     <tr>
                         <td>상품명</td>
-                        <td>{words}</td>
+                        <td>
+                            <Table bordered>
+                                <tbody className={"prodnameTable"}>
+                                <tr>
+                                    <td>상품명</td>
+                                    <td>수량</td>
+                                </tr>
+                                {
+                                    prodnamearr.map( (prodname, idx) => {
+                                        return (
+                                            <tr>
+                                                <td>{prodname}</td>
+                                                <td>{countarr[idx]}</td>
+                                            </tr>
+                                        )
+                                    } )
+                                }
+                                </tbody>
+                            </Table>
+                        </td>
                     </tr>
                     <tr>
                         <td>금액 총합</td>

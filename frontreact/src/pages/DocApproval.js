@@ -29,37 +29,48 @@ class DocApproval extends Component {
         let word;
         let word1, word2, word3, word4;
         //  각각 수량
-        fetch('http://127.0.0.1:8000/api/document?checkDetail=1')
-            .then(response => response.json())
-            .then(response => {
-                this.setState({allcnt: response.length})
-                word1 = response.length;
-            })
-        fetch('http://127.0.0.1:8000/api/document?state=승인&checkDetail=1')
-            .then(response => response.json())
-            .then(response => {
-                this.setState({approvalcnt: response.length})
-                word2 = response.length;
-            })
-        fetch('http://127.0.0.1:8000/api/document?state=반려&checkDetail=1')
-            .then(response => response.json())
-            .then(response => {
-                this.setState({rejectcnt: response.length})
-                word3 = response.length;
-            })
-        fetch('http://127.0.0.1:8000/api/document?state=대기&checkDetail=1')
-            .then(response => response.json())
-            .then(response => {
-                this.setState({waitcnt: response.length})
-                word4 = response.length;
-            })
+        // Promise.all([
+            await fetch('http://127.0.0.1:8000/api/document?checkDetail=1')
+                .then(response => response.json())
+                .then(response => {
+                    this.setState({allcnt: response.length})
+                    word1 = response.length;
+                })
+        await fetch('http://127.0.0.1:8000/api/document?state=승인&checkDetail=1')
+                .then(response => response.json())
+                .then(response => {
+                    this.setState({approvalcnt: response.length})
+                    word2 = response.length;
+                })
+        await fetch('http://127.0.0.1:8000/api/document?state=반려&checkDetail=1')
+                .then(response => response.json())
+                .then(response => {
+                    this.setState({rejectcnt: response.length})
+                    word3 = response.length;
+                })
+        await fetch('http://127.0.0.1:8000/api/document?state=대기&checkDetail=1')
+                .then(response => response.json())
+                .then(response => {
+                    this.setState({waitcnt: response.length})
+                    word4 = response.length;
+                })
+        // ])
+        //     .then(([requestRes, reqtermRes]) => Promise.all([requestRes.json(), reqtermRes.json()]))
+        //     .then(([requestData, reqtermData]) => this.setState({
+        //         requestlist: requestData,
+        //         reqtermlist: reqtermData
+        //     }))
+        //     .catch(error => console.error(error));
 
         // 테이블 생성
         if (this.state.listState === "allselect") {
-            fetch('http://127.0.0.1:8000/api/document?checkDetail=1&pagenum=1')
+
+            word = word1
+
+            await fetch('http://127.0.0.1:8000/api/document?checkDetail=1&pagenum=1')
                 .then(response => response.json())
                 .then(response => {
-                    this.setState({doclist: response, pageCount: this.state.allcnt})
+                    this.setState({doclist: response, pageCount: word})
                 })
         } else {
             switch (this.state.listState) {
@@ -74,13 +85,14 @@ class DocApproval extends Component {
                     break;
             }
 
-            fetch('http://127.0.0.1:8000/api/document?state=' + this.state.listState + '&checkDetail=1&pagenum=1')
+            await fetch('http://127.0.0.1:8000/api/document?state=' + this.state.listState + '&checkDetail=1&pagenum=1')
                 .then(response => response.json())
                 .then(response => {
                     this.setState({doclist: response, pageCount: word})
                 })
         }
     }
+
 
     statechange = (e) => {
         this.setState({listState: e, pageNum: 1})
@@ -134,8 +146,9 @@ class DocApproval extends Component {
 
 
     render() {
+
         return (
-            <>
+            <div>
                 <Goal comment={"전자 결재 목록"}/>
                 <DocListKind
                     cardMent={["승인", "반려", "승인 대기"]}
@@ -157,7 +170,7 @@ class DocApproval extends Component {
                     pageNum={this.state.pageNum}
                     setPageNum={this.setPageNum}
                     pageCount={this.state.pageCount}/>
-            </>
+            </div>
         );
     }
 }

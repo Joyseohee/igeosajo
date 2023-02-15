@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import Goal from "../components/Goal";
 import DocPaymentTable from "../components/docreq/DocPaymentTable";
 import DocPaymentDetailBtn from "../components/docreq/DocPaymentDetailBtn";
+import {withRouter} from "react-router-dom";
 
 class DocPaymentDetail extends Component {
 
@@ -20,16 +21,31 @@ class DocPaymentDetail extends Component {
         this.openModal(e);
     }
 
-    openModal = (e) =>{
-        if(e){
+    openModal = (e) => {
+        if (e) {
             this.setState({modalOpen: true});
-        }else{
+        } else {
             this.setState({modalOpen: false});
         }
     }
 
+    showBtn = () => {
+
+        let listState = this.props.location.listState.listKind;
+        console.log(listState)
+
+        return (
+            <DocPaymentDetailBtn
+                reqSend={this.state.reqSend}
+                reqSendClick={this.reqSendClick}
+                // listState={listState}
+            />
+        )
+    }
+
 
     render() {
+
         return (
             <div>
                 <div>
@@ -41,7 +57,8 @@ class DocPaymentDetail extends Component {
                                 reqSendClick={this.reqSendClick}
                                 modalOpen={this.state.modalOpen}
                                 openModal={this.openModal}/>
-                            <DocPaymentDetailBtn reqSend={this.state.reqSend} reqSendClick={this.reqSendClick}/>
+
+                            {this.showBtn()}
                         </div>
                     </div>
                 </div>
@@ -50,4 +67,4 @@ class DocPaymentDetail extends Component {
     }
 }
 
-export default DocPaymentDetail;
+export default withRouter(DocPaymentDetail);
