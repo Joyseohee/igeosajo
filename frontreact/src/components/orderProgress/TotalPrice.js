@@ -28,7 +28,7 @@ class TotalPrice extends Component {
         const {totalprice} = this.state
         return (
             <div className={"totalprice"} >
-                <span>Total Price : </span>
+                <span>총 결제금액 : </span>
                 <span>{totalprice && new CommonUtil().numberComma(totalprice) + "원"}</span>
             </div>
         )

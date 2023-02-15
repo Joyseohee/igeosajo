@@ -9,6 +9,7 @@ import Goal from "../components/Goal";
 import { withRouter } from 'react-router-dom';
 import Modal from "react-bootstrap/Modal";
 import {Button} from "react-bootstrap";
+import Form from "react-bootstrap/Form";
 
 class OrderRequestList extends Component {
     constructor(props) {
@@ -45,6 +46,9 @@ class OrderRequestList extends Component {
                     this.setState({reqdata: data})
             })
     }
+    // componentWillUnmount() {
+    //     this.handleClose()
+    // }
 
     orderdocsearchstate = (state) => {
         fetch('http://127.0.0.1:8000/api/order?func=orderreq&&termyearmonth=' + this.state.reqterm+'&&state=' +state)
@@ -63,6 +67,7 @@ class OrderRequestList extends Component {
         this.openPostCode()
     }
 
+
     render() {
         const {
             orderreqstate,
@@ -78,7 +83,7 @@ class OrderRequestList extends Component {
                     <Goal comment={"구매 신청"}/>
                     <OrderReqDate></OrderReqDate>
                     <OrderReqSearch orderdocsearchstate={this.orderdocsearchstate} reqterm={reqterm} orderreqstate={orderreqstate} ></OrderReqSearch>
-                    <OrderReqTable reqdata={reqdata} handleShow = {this.handleShow}></OrderReqTable>
+                    <OrderReqTable reqdata={reqdata} handleShow = {this.handleShow} orderreqstate={orderreqstate}></OrderReqTable>
                 </Container>
                 <Modal
                     show={show}
