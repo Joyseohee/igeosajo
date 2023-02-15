@@ -21,30 +21,16 @@ class DocPaymentTable extends Component {
         fetch('http://127.0.0.1:8000/api/document?state=요청상세&docDetail=' + this.props.location.document.detailDocNum)
             .then(response => response.json())
             .then(response => this.setState({items: response, isLoaded: true}))
-            .then(response => this.printArr())
     };
-
-    printArr = () => {
-
-        let word = "";
-
-        for (let i = 0; i < this.state.items["prodname"].length; i++) {
-            word += i + 1 + ". "
-            word += this.state.items["prodname"][i];
-            word += " -> " + this.state.items["prodcount"][i] + "개 \n";
-        }
-
-        this.setState({words: word})
-    }
 
     reqSendClick = (e) => {
         this.props.reqSendClick(e)
     }
 
-    outcomeState = (e) => {
+    outcomeState = async (e) => {
         if (e === 1) {
 
-            fetch("http://127.0.0.1:8000/api/document?docDetail=" + this.props.location.document.detailDocNum.toString(), {
+            await fetch("http://127.0.0.1:8000/api/document?docDetail=" + this.props.location.document.detailDocNum.toString(), {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
@@ -52,20 +38,19 @@ class DocPaymentTable extends Component {
                 body: JSON.stringify({
                     reqnum: this.state.items.reqnum
                 }),
-            }).then(
-                this.props.history.push({
-                    pathname: "/docpaylist"
-                })
-            )
+            })
+
+            await this.props.history.push({
+                pathname: "/docpaylist"
+            })
         }
 
-        this.reqSendClick(false)
-        this.props.openModal(false)
+        await this.reqSendClick(false)
+        await this.props.openModal(false)
     }
 
     render() {
         let modalOpen = this.props.modalOpen
-
 
         let {isLoaded} = this.state;
         if (!isLoaded) {
@@ -75,7 +60,7 @@ class DocPaymentTable extends Component {
         return (
             <div className={"docPaymentTable"}>
                 <Table striped="columns">
-                    <tbody >
+                    <tbody>
                     <tr>
                         <td>제목</td>
                         <td>비품 구매 결재 요청</td>
@@ -102,7 +87,26 @@ class DocPaymentTable extends Component {
                     </tr>
                     <tr>
                         <td>상품명</td>
-                        <td>{this.state.words}</td>
+                        <td>
+                            <Table bordered>
+                                <tbody className={"prodnameTable"}>
+                                <tr>
+                                    <td>상품명</td>
+                                    <td>수량</td>
+                                </tr>
+                                {
+                                    this.state.items["prodname"].map( (prodname, idx) => {
+                                        return (
+                                            <tr>
+                                                <td>{prodname}</td>
+                                                <td>{this.state.items["prodcount"][idx]}</td>
+                                            </tr>
+                                        )
+                                    } )
+                                }
+                                </tbody>
+                            </Table>
+                        </td>
                     </tr>
                     <tr>
                         <td>금액 총합</td>
@@ -110,7 +114,8 @@ class DocPaymentTable extends Component {
                             this.state.items["sum"] &&
                             new CommonUtil().numberComma(this.state.items["sum"])
 
-                        }원</td>
+                        }원
+                        </td>
                     </tr>
                     <tr>
                         <td>진행 현황</td>

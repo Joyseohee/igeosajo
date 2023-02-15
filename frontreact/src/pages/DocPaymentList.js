@@ -36,7 +36,6 @@ class DocPaymentList extends Component {
     }
 
     async componentDidMount() {
-
         let word;
         let wordarr = [];
         //  각각 수량

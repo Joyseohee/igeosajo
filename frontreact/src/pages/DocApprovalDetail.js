@@ -14,7 +14,8 @@ class DocApprovalDetail extends Component {
             reqSend: false,
             reject: false,
             modalOpen: false,
-            words: ""
+            prodnamearr: [],
+            countarr:[]
         };
     }
 
@@ -29,12 +30,14 @@ class DocApprovalDetail extends Component {
 
     printArr = () => {
         let word = "";
+        let prodnamearr = [];
+        let countarr = [];
+
         for (let i = 0; i < this.state.items["prodname"].length; i++) {
-            word += i + 1 + ". "
-            word += this.state.items["prodname"][i];
-            word += " -> " + this.state.items["prodcount"][i] + "개 \n";
+            prodnamearr.push(this.state.items["prodname"][i]);
+            countarr.push(this.state.items["prodcount"][i]);
         }
-        this.setState({words: word})
+        this.setState({prodnamearr: prodnamearr, countarr:countarr})
     }
 
     reqSendClick = (reqSend, reject) => {
@@ -68,6 +71,7 @@ class DocApprovalDetail extends Component {
     }
 
     render() {
+
         return (
             <div>
                 <div>
@@ -85,7 +89,10 @@ class DocApprovalDetail extends Component {
 
                                 items={this.state.items}
                                 words={this.state.words}
-                                docnum={this.props.location.document.detailDocNum}/>
+                                docnum={this.props.location.document.detailDocNum}
+                                prodnamearr={this.state.prodnamearr}
+                                countarr={this.state.countarr}
+                            />
 
                             {this.showBtn()}
                         </div>
