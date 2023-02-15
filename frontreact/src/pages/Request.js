@@ -183,6 +183,7 @@ class Request extends Component {
                                 pageCount={this.state.pageCount}
                             />
                             <Paging
+                                showNum={10}
                                 pageNum={this.state.pageNum}
                                 setPageNum={this.setPageNum}
                                 pageCount={this.state.pageCount}

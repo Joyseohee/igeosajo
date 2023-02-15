@@ -13,8 +13,9 @@
     font-weight: 700;
     color: #444444;
 }
+
 .reqterm-alert {
-    width:100%;
+    width: 100%;
     margin-bottom: 20px;
     color: #1e81dc;
 }
@@ -35,28 +36,38 @@
     flex: 1;
     align-items: center;
 }
-.reqterm-input-label{
+
+.reqterm-input-label {
     display: flex;
     flex: 3;
     margin: 0 10px;
     justify-content: center;
 }
-.reqterm-input-date{
+
+.reqterm-input-date {
     display: flex;
     flex: 10;
 }
-.reqterm-input-group{
+
+.reqterm-input-group {
     display: flex;
     flex: 10;
-    margint-right:20px;
+    margint-right: 20px;
 }
-.reqterm-button{
-    flex:2;
+
+.reqterm-set-button-wrapper {
+    margin-top: 10px;
+}
+
+.reqterm-button {
+    flex: 2;
     margin-left: 20px;
 }
+
 .reqterm-date {
     color: #1e81dc;
 }
-.reqterm-set-term-check{
-    margin-bottom: 20px;
+
+.reqterm-set-term-check {
+    margin-bottom: 10px;
 }

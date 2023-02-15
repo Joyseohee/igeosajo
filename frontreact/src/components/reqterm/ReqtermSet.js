@@ -70,15 +70,15 @@ class ReqtermSet extends Component {
                     :
                     <div className="reqterm-set-alert">지금은 신청기간이 아닙니다.</div>
                 }
-                {/*{inTerm ? setreqtermend ?*/}
-                {/*            <div>마감 버튼을 눌러주시면 신청이 마감됩니다.</div>*/}
-                {/*            :*/}
-                {/*            <div>시작 버튼을 눌러주시면 신청이 가능해집니다.</div>*/}
-                {/*    : <div>아직 등록된 신청 기간이 없습니다. 신청 기간을 등록해주세요</div>*/}
-                {/*}*/}
+                {inTerm ? setreqtermend ?
+                            <div>신청을 받고 있습니다.<br/>마감 버튼을 눌러주시면 신청이 마감됩니다.</div>
+                            :
+                            <div>신청을 받고 있지 않습니다.<br/>시작 버튼을 눌러주시면 신청이 가능해집니다.</div>
+                    : <div>아직 등록된 신청 기간이 없습니다. 신청 기간을 등록해주세요</div>
+                }
 
                 {inTerm &&
-                    <>
+                    <div className="reqterm-set-button-wrapper">
                         <Button className="reqterm-set-button"
                                 onClick={(e) => this.handleStart(e)} disabled={disabled}
                                 style={{backgroundColor: "#8EA6C0", borderColor:"#8EA6C0", borderRadius:"5px 0 0 5px"}}>
@@ -89,7 +89,7 @@ class ReqtermSet extends Component {
                                 style={{backgroundColor: "#8EA6C0", borderColor:"#8EA6C0", borderRadius:"0 5px 5px 0"}}>
                             마감
                         </Button>
-                    </>
+                    </div>
                 }
             </>
         );
