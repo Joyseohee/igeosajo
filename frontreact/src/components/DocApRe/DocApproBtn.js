@@ -14,14 +14,10 @@ class DocApproBtn extends Component {
         this.props.reqSendClick(reqSend, reject);
     }
 
-    render() {
-        return (
-            <div className={"docPaymentDetailDiv"}>
-                <Button className={"docPaymentBtn cancleBtn"}
-                        style={{backgroundColor: "rgb(110, 117, 124)", border: "none"}} onClick={(e) => {
-                    this.props.history.push('/main');
-                }}> 목록 </Button>
+    showBtn = () => {
 
+        if (this.props.listState === "대기") {
+            return (
                 <div>
                     <Button className={"docPaymentBtn"} style={{backgroundColor: "rgb(110, 117, 124)", border: "none"}}
                             onClick={(e) => {
@@ -32,6 +28,19 @@ class DocApproBtn extends Component {
                                 this.reqSendClick(true, false);
                             }}>승인</Button>
                 </div>
+            )
+        }
+    }
+
+    render() {
+        return (
+            <div className={"docPaymentDetailDiv"}>
+                <Button className={"docPaymentBtn cancleBtn"}
+                        style={{backgroundColor: "rgb(110, 117, 124)", border: "none"}} onClick={(e) => {
+                    this.props.history.push('/main');
+                }}> 목록 </Button>
+
+                {this.showBtn()}
             </div>
         );
     }

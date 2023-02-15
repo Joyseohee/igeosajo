@@ -44,15 +44,27 @@ class DocApprovalDetail extends Component {
     }
 
     openModal = (reqSend, reject) => {
-        console.log(this.state.reject, "this.state.reject")
-        console.log(this.state.reqSend, "this.state.reqSend")
-        if(reject && reqSend){
+        if (reject && reqSend) {
             this.setState({modalOpen: true});
 
-        }else if(!reject && reqSend){
+        } else if (!reject && reqSend) {
             this.setState({modalOpen: true});
 
-        }else this.setState({modalOpen: false});
+        } else this.setState({modalOpen: false});
+    }
+
+    showBtn = () => {
+
+        let listState = this.props.location.listState.listKind;
+
+        return (
+            <DocApproBtn
+                reqSend={this.state.reqSend}
+                reqSendClick={this.reqSendClick}
+                reject={this.state.reject}
+                rejectChange={this.rejectChange}
+                listState={listState}/>
+        )
     }
 
     render() {
@@ -75,11 +87,7 @@ class DocApprovalDetail extends Component {
                                 words={this.state.words}
                                 docnum={this.props.location.document.detailDocNum}/>
 
-                            <DocApproBtn
-                                reqSend={this.state.reqSend}
-                                reqSendClick={this.reqSendClick}
-                                reject={this.state.reject}
-                                rejectChange={this.rejectChange}/>
+                            {this.showBtn()}
                         </div>
                     </div>
                 </div>

@@ -24,6 +24,7 @@ class DocList extends Component {
             this.props.history.push({
                 pathname: '/docappro',
                 document: {detailDocNum: e},
+                listState: {listKind: this.props.listState}
             })
         }
     }

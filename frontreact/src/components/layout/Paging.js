@@ -12,7 +12,7 @@ class Paging extends Component {
         let active = pageNum;
         let items = [];
         let start = this.state.start;
-        let end = Math.min(start + 9, Math.ceil(pageCount / 10));
+        let end = Math.min(start + 9, Math.ceil(pageCount / this.props.showNum));
 
         for (let number = start; number <= end; number++) {
             items.push(
@@ -46,7 +46,7 @@ class Paging extends Component {
             this.props.setPageNum(pageNum + 1);
         }
 
-        if ((this.state.start + 10) < Math.ceil(pageCount / 10)) {
+        if ((this.state.start + 10) < Math.ceil(pageCount / this.props.showNum)) {
             this.setState({
                 start: this.state.start + 10,
             });

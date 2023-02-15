@@ -85,6 +85,14 @@ class DocPaymentTable extends Component {
                         <td>{this.state.items["wdate"]}</td>
                     </tr>
                     <tr>
+                        <td>결재일자</td>
+                        {
+                            this.state.items["rdate"] === "None"
+                                ? <td></td>
+                                : <td>{this.state.items["rdate"]}</td>
+                        }
+                    </tr>
+                    <tr>
                         <td>기안자</td>
                         <td>성은 기 이름은 안자 이름하여 기안자</td>
                     </tr>

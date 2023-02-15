@@ -61,11 +61,11 @@ export default class Menu {
                     name: "구매 진행 현황",
                     path: "/order"
                 },
-                {
-                    index: "depth2-7",
-                    name: "과거 구매 신청",
-                    path: "/orderparchase"
-                }
+                // {
+                //     index: "depth2-7",
+                //     name: "과거 구매 신청",
+                //     path: "/orderparchase"
+                // }
             ]
         }
     ];

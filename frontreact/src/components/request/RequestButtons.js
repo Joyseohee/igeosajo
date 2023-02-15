@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Button, FormSelect} from "react-bootstrap";
+import {Button} from "react-bootstrap";
 
 class RequestButtons extends Component {
     constructor(props) {
@@ -21,9 +21,9 @@ class RequestButtons extends Component {
         return (
             <div className="request-button-wrapper">
                 <Button className="request-button"
-                    disabled={checkedRequest.length < 1} onClick={this.approve} style={{backgroundColor: "#8EA6C0", borderColor:"#8EA6C0"}}>승인</Button>
+                        onClick={this.approve} style={{backgroundColor: "#8EA6C0", borderColor:"#8EA6C0"}}>승인</Button>
                 <Button className="request-button"
-                    disabled={checkedRequest.length < 1} onClick={this.reject} style={{backgroundColor: "#8EA6C0", borderColor:"#8EA6C0"}}>반려</Button>
+                        onClick={this.reject} style={{backgroundColor: "#8EA6C0", borderColor:"#8EA6C0"}}>반려</Button>
             </div>
         );
     }
