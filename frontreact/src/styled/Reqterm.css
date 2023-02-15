@@ -71,3 +71,11 @@
 .reqterm-set-term-check {
     margin-bottom: 10px;
 }
+
+.reqterm-set-term-message.red{
+    color: #d85b5b;
+}
+
+.reqterm-set-term-message.blue{
+    color: #1e81dc;
+}
