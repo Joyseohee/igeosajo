@@ -60,9 +60,7 @@ class DocPaymentTable extends Component {
 
     inputReject = (e) => {
         // 반려 처리
-        if(e==="취소"){
-
-        }else{
+        if (e !== "취소"){
             // 여기에 하면 됨
             fetch("http://127.0.0.1:8000/api/document/" + this.props.docnum.toString(), {
                 method: "PUT",
@@ -94,6 +92,8 @@ class DocPaymentTable extends Component {
 
         reqnum = this.props.items.reqnum
 
+        console.log(items)
+
         return (
             <div className={"docPaymentTable"}>
                 <Table striped="columns">
@@ -105,6 +105,14 @@ class DocPaymentTable extends Component {
                     <tr>
                         <td>작성일자</td>
                         <td>{items["wdate"]}</td>
+                    </tr>
+                    <tr>
+                        <td>결재일자</td>
+                        {
+                            items["rdate"] === "None"
+                                ? <td></td>
+                                : <td>{items["rdate"]}</td>
+                        }
                     </tr>
                     <tr>
                         <td>기안자</td>
