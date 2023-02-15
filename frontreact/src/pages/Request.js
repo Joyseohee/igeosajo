@@ -115,8 +115,12 @@ class Request extends Component {
         let modalType;
         let modalMessage;
         let confirmText;
-
-        if (showRejectModal) {
+        if(checkedRequest.length < 1 && (showRejectModal||showApproveConfirmModal) ) {
+            showConfirmModal = true;
+            modalType = "신청없음";
+            modalMessage = "선택한 신청 내역이 없습니다.";
+            confirmText = "확인";
+        } else if (showRejectModal) {
             showConfirmModal = true;
             modalType = "반려확인";
             modalMessage = "반려 사유를 입력해주세요.";
