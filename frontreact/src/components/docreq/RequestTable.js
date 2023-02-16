@@ -66,9 +66,9 @@ class requestTable extends Component {
         this.props.openModal(false);
     }
 
-    outcomeState = (e) => {
+    outcomeState = async (e) => {
         if (e === 1) {
-            fetch("http://127.0.0.1:8000/api/document", {
+            await fetch("http://127.0.0.1:8000/api/document", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -77,26 +77,33 @@ class requestTable extends Component {
                     id: this.state.reqList
                 }),
             })
-            this.reqSendClick(false);
-            this.closeState();
+            await this.setState({reqList: []})
+            await this.reqSendClick(false);
+            await this.closeState();
 
-            window.location.assign("http://localhost:3000/docreqdetail");
+            await this.props.history.push({
+                pathname: "/docreqdetail"
+            })
         }
 
-        this.reqSendClick(false);
-        this.closeState();
+        await this.setState({reqList: []})
+        await this.reqSendClick(false);
+        await this.closeState();
     }
 
     reqTable = (modalOpen, items, pageNum) => {
 
-        if(pagenum !== pageNum){
+        if (pagenum !== pageNum) {
             pagenum = pageNum;
 
-            let selectAll = document.getElementsByName('selectAll')[0];
-            if (selectAll.checked) {
-                selectAll.checked = false
-            }
+            try {
+                let selectAll = document.getElementsByName('selectAll')[0];
+                if (selectAll.checked) {
+                    selectAll.checked = false
+                }
+            } catch (e) {
 
+            }
             requestList = [];
         }
 

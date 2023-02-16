@@ -84,14 +84,14 @@ class DocPaymentTable extends Component {
                                     <td>수량</td>
                                 </tr>
                                 {
-                                    prodnamearr.map( (prodname, idx) => {
+                                    prodnamearr.map((prodname, idx) => {
                                         return (
                                             <tr key={prodname}>
                                                 <td>{prodname}</td>
                                                 <td>{countarr[idx]}</td>
                                             </tr>
                                         )
-                                    } )
+                                    })
                                 }
                                 </tbody>
                             </Table>

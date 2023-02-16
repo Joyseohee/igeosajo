@@ -13,7 +13,7 @@ class DocPaymentList extends Component {
 
     constructor(props) {
         super(props);
-        this.props.setpagename("전자 결재");
+        this.props.setpagename("전자 결재 목록");
 
         try {
             if (this.props.location.state.docstate != null) {
@@ -39,30 +39,28 @@ class DocPaymentList extends Component {
         let word;
         let wordarr = [];
         //  각각 수량
-        await fetch('http://127.0.0.1:8000/api/document?checkDetail=1')
-            .then(response => response.json())
-            .then(response => {
-                this.setState({allcnt: response.length})
-                wordarr.push(response.length)
-            })
-        await fetch('http://127.0.0.1:8000/api/document?state=승인&checkDetail=1')
-            .then(response => response.json())
-            .then(response => {
-                this.setState({approvalcnt: response.length})
-                wordarr.push(response.length)
-            })
-        await fetch('http://127.0.0.1:8000/api/document?state=반려&checkDetail=1')
-            .then(response => response.json())
-            .then(response => {
-                this.setState({rejectcnt: response.length})
-                wordarr.push(response.length)
-            })
-        await fetch('http://127.0.0.1:8000/api/document?state=대기&checkDetail=1')
-            .then(response => response.json())
-            .then(response => {
-                this.setState({waitcnt: response.length})
-                wordarr.push(response.length)
-            })
+        await Promise.all([
+            fetch('http://127.0.0.1:8000/api/document?checkDetail=1'),
+            fetch('http://127.0.0.1:8000/api/document?state=승인&checkDetail=1'),
+            fetch('http://127.0.0.1:8000/api/document?state=반려&checkDetail=1'),
+            fetch('http://127.0.0.1:8000/api/document?state=대기&checkDetail=1')
+        ])
+            .then(([response1, response2, response3, response4]) =>
+                Promise.all([response1.json(), response2.json(), response3.json(), response4.json()]))
+
+            .then(([response1, response2, response3, response4]) => {
+                    this.setState({
+                        allcnt: response1.length,
+                        approvalcnt: response2.length,
+                        rejectcnt: response3.length,
+                        waitcnt: response4.length
+                    })
+                    wordarr.push(response1.length)
+                    wordarr.push(response2.length)
+                    wordarr.push(response3.length)
+                    wordarr.push(response4.length)
+                }
+            ).catch((error) => console.error(error));
 
         // 테이블 생성
         if (this.state.listState === "allselect") {

@@ -15,13 +15,13 @@ class DocList extends Component {
 
     moveDocDetail = (e) => {
 
-        if(this.props.user.userathority === 1){
+        if (this.props.user.userathority === 1) {
             this.props.history.push({
                 pathname: '/docpaydetail',
                 document: {detailDocNum: e},
                 listState: {listKind: this.props.listState}
             })
-        }else if(this.props.user.userathority === 0){
+        } else if (this.props.user.userathority === 0) {
             this.props.history.push({
                 pathname: '/docappro',
                 document: {detailDocNum: e},
@@ -37,7 +37,7 @@ class DocList extends Component {
 
         return (
             <div>
-                <Table bordered hover>
+                <Table bordered hover className={"DocListTable"}>
                     <thead>
                     <tr className={"listTh"}>
                         <th>No.</th>

@@ -87,6 +87,7 @@ class DocPaymentTable extends Component {
         await this.reqSendClick(false, false)
         await this.props.openModal(false, false)
     }
+
     render() {
         let modalOpen = this.props.modalOpen
         let items = this.props.items
@@ -134,14 +135,14 @@ class DocPaymentTable extends Component {
                                     <td>수량</td>
                                 </tr>
                                 {
-                                    prodnamearr.map( (prodname, idx) => {
+                                    prodnamearr.map((prodname, idx) => {
                                         return (
                                             <tr key={prodname}>
                                                 <td>{prodname}</td>
                                                 <td>{countarr[idx]}</td>
                                             </tr>
                                         )
-                                    } )
+                                    })
                                 }
                                 </tbody>
                             </Table>

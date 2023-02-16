@@ -7,7 +7,7 @@ class DocReqDetail extends Component {
 
     constructor(props) {
         super(props);
-        this.props.setpagename("전자 결재");
+        this.props.setpagename("전자 결재 작성");
         this.state = {
             reqSend: null,
             modalOpen: false,
@@ -15,7 +15,7 @@ class DocReqDetail extends Component {
             items: [],
             reqnum: [],
             prodnamearr: [],
-            countarr:[]
+            countarr: []
         };
     }
 
@@ -35,7 +35,7 @@ class DocReqDetail extends Component {
             prodnamearr.push(this.state.items["prodname"][i]);
             countarr.push(this.state.items["prodcount"][i]);
         }
-        this.setState({prodnamearr: prodnamearr, countarr:countarr})
+        this.setState({prodnamearr: prodnamearr, countarr: countarr})
     }
 
     reqSendClick = (e) => {
@@ -45,10 +45,10 @@ class DocReqDetail extends Component {
         this.openModal(true);
     }
 
-    openModal = (e) =>{
-        if(e){
+    openModal = (e) => {
+        if (e) {
             this.setState({modalOpen: true});
-        }else{
+        } else {
             this.setState({modalOpen: false});
         }
     }
@@ -59,15 +59,15 @@ class DocReqDetail extends Component {
                 <div>
                     <div>
                         <div className={"commentDiv"}>
-                            <Goal comment={"전자 결재 신청"}/>
+                            <Goal comment={"전자 결재 작성"}/>
                             <DocPayment
                                 reqSend={this.state.reqSend}
                                 reqSendClick={this.reqSendClick}
                                 modalOpen={this.state.modalOpen}
                                 openModal={this.openModal}
                                 checkState={this.state.checkState}
-                                items = {this.state.items}
-                                reqnum = {this.state.reqnum}
+                                items={this.state.items}
+                                reqnum={this.state.reqnum}
                                 prodnamearr={this.state.prodnamearr}
                                 countarr={this.state.countarr}
                             />

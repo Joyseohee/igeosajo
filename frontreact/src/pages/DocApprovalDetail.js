@@ -15,7 +15,7 @@ class DocApprovalDetail extends Component {
             reject: false,
             modalOpen: false,
             prodnamearr: [],
-            countarr:[]
+            countarr: []
         };
     }
 
@@ -36,7 +36,7 @@ class DocApprovalDetail extends Component {
             prodnamearr.push(this.state.items["prodname"][i]);
             countarr.push(this.state.items["prodcount"][i]);
         }
-        this.setState({prodnamearr: prodnamearr, countarr:countarr})
+        this.setState({prodnamearr: prodnamearr, countarr: countarr})
     }
 
     reqSendClick = (reqSend, reject) => {
@@ -59,7 +59,7 @@ class DocApprovalDetail extends Component {
 
         let listState = this.props.location.listState.listKind;
 
-        if(listState === 'allselect'){
+        if (listState === 'allselect') {
             listState = this.state.items["docstate"];
         }
 
