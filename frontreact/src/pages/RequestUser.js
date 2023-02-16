@@ -5,7 +5,6 @@ import ReqList from "../components/request/ReqList";
 import SelectReqterm from "../components/request/SelectReqterm";
 import "../styled/Request.css";
 import Goal from "../components/Goal";
-import reqtermList from "../components/reqterm/ReqtermList";
 import Paging from "../components/layout/Paging";
 import ReqCancel from "../components/requestUser/ReqCancel";
 
@@ -43,11 +42,10 @@ class Request extends Component {
                 }
             ]
         }
+        this.props.setpagename("사무용품 신청 내역");
     }
 
-
     componentDidMount() {
-        this.props.setpagename("사무용품 신청 내역");
         let reqtermList = [];
         let available = null;
         let now = new Date();
@@ -123,6 +121,7 @@ class Request extends Component {
             behavior: 'smooth'
         });
     };
+
     render() {
         const {
             requestList,
@@ -158,7 +157,10 @@ class Request extends Component {
                                            selectedReqterm={selectedReqterm}
                                            requestFilter={requestFilter}
                                            usernum={this.props.usernum}
-                                           updateState={this.updateState}/> : <div style={{ border: '2px solid rgb(224, 224, 224)', borderRadius: "10px"}}>&nbsp;&nbsp;<img src={"/img/alert.png"} style={{width:"20px", height:"20px"}}/> 현재 마감된 신청기간 입니다.<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;신청 취소가 불가능합니다.</div>}
+                                           updateState={this.updateState}/> :
+                                <div style={{border: '2px solid rgb(224, 224, 224)', borderRadius: "10px"}}>&nbsp;&nbsp;
+                                    <img src={"/img/alert.png"} style={{width: "20px", height: "20px"}}/> 현재 마감된 신청기간
+                                    입니다.<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;신청 취소가 불가능합니다.</div>}
                         </div>
                         {requestList[0] !== 'requestList' &&
                             <ReqFilter
@@ -172,17 +174,18 @@ class Request extends Component {
                             />
                         }
                     </div>
-                    {requestFilteredList[0] !== 'requestFilteredList' && requestFilteredList.length > 0 &&
+                    {(requestFilteredList[0] !== 'requestFilteredList') &&
                         <>
                             <ReqList
                                 allChecked={allChecked}
+                                available={available}
                                 requestList={requestFilteredList}
                                 requestFilter={requestFilter}
                                 checkedRequest={checkedRequest}
                                 updateState={this.updateState}
                                 pageNum={this.state.pageNum}
                                 pageCount={this.state.pageCount}
-                                 modalInfo={this.state.modalInfo}
+                                modalInfo={this.state.modalInfo}
                             />
                             <Paging
                                 pageNum={this.state.pageNum}
