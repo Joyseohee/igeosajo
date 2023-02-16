@@ -29,7 +29,6 @@ class DocApprovalDetail extends Component {
     };
 
     printArr = () => {
-        let word = "";
         let prodnamearr = [];
         let countarr = [];
 
@@ -60,6 +59,10 @@ class DocApprovalDetail extends Component {
 
         let listState = this.props.location.listState.listKind;
 
+        if(listState === 'allselect'){
+            listState = this.state.items["docstate"];
+        }
+
         return (
             <DocApproBtn
                 reqSend={this.state.reqSend}
@@ -88,7 +91,6 @@ class DocApprovalDetail extends Component {
                                 openModal={this.openModal}
 
                                 items={this.state.items}
-                                words={this.state.words}
                                 docnum={this.props.location.document.detailDocNum}
                                 prodnamearr={this.state.prodnamearr}
                                 countarr={this.state.countarr}

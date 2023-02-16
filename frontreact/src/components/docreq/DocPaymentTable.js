@@ -10,18 +10,9 @@ class DocPaymentTable extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-            items: [],
-            isLoaded: false,
-            words: ""
-        };
+
     }
 
-    async componentDidMount() {
-        fetch('http://127.0.0.1:8000/api/document?state=요청상세&docDetail=' + this.props.location.document.detailDocNum)
-            .then(response => response.json())
-            .then(response => this.setState({items: response, isLoaded: true}))
-    };
 
     reqSendClick = (e) => {
         this.props.reqSendClick(e)
@@ -36,7 +27,7 @@ class DocPaymentTable extends Component {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
-                    reqnum: this.state.items.reqnum
+                    reqnum: this.props.items.reqnum
                 }),
             })
 
@@ -51,11 +42,9 @@ class DocPaymentTable extends Component {
 
     render() {
         let modalOpen = this.props.modalOpen
-
-        let {isLoaded} = this.state;
-        if (!isLoaded) {
-            return (<div>Loading...</div>);
-        }
+        let items = this.props.items
+        let prodnamearr = this.props.prodnamearr
+        let countarr = this.props.countarr
 
         return (
             <div className={"docPaymentTable"}>
@@ -67,14 +56,14 @@ class DocPaymentTable extends Component {
                     </tr>
                     <tr>
                         <td>작성일자</td>
-                        <td>{this.state.items["wdate"]}</td>
+                        <td>{items["wdate"]}</td>
                     </tr>
                     <tr>
                         <td>결재일자</td>
                         {
-                            this.state.items["rdate"] === "None"
+                            items["rdate"] === "None"
                                 ? <td></td>
-                                : <td>{this.state.items["rdate"]}</td>
+                                : <td>{items["rdate"]}</td>
                         }
                     </tr>
                     <tr>
@@ -95,11 +84,11 @@ class DocPaymentTable extends Component {
                                     <td>수량</td>
                                 </tr>
                                 {
-                                    this.state.items["prodname"].map( (prodname, idx) => {
+                                    prodnamearr.map( (prodname, idx) => {
                                         return (
-                                            <tr>
+                                            <tr key={prodname}>
                                                 <td>{prodname}</td>
-                                                <td>{this.state.items["prodcount"][idx]}</td>
+                                                <td>{countarr[idx]}</td>
                                             </tr>
                                         )
                                     } )
@@ -111,22 +100,22 @@ class DocPaymentTable extends Component {
                     <tr>
                         <td>금액 총합</td>
                         <td>{
-                            this.state.items["sum"] &&
-                            new CommonUtil().numberComma(this.state.items["sum"])
+                            items["sum"] &&
+                            new CommonUtil().numberComma(items["sum"])
 
                         }원
                         </td>
                     </tr>
                     <tr>
                         <td>진행 현황</td>
-                        <td>{this.state.items["docstate"]}</td>
+                        <td>{items["docstate"]}</td>
                     </tr>
                     <tr>
                         <td>반려이유</td>
                         {
-                            this.state.items["rejectreason"] === "None"
+                            items["rejectreason"] === "None"
                                 ? (<td></td>)
-                                : (<td>{this.state.items["rejectreason"]}</td>)
+                                : (<td>{items["rejectreason"]}</td>)
                         }
 
                     </tr>

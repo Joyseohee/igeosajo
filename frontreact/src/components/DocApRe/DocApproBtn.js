@@ -18,12 +18,12 @@ class DocApproBtn extends Component {
 
         if (this.props.listState === "대기") {
             return (
-                <div>
-                    <Button className={"docPaymentBtn"} style={{backgroundColor: "rgb(110, 117, 124)", border: "none"}}
+                <div className={"awaitDocApproBtnDiv"}>
+                    <Button className={"awaitDocApproBtn"} style={{backgroundColor: "rgb(214, 87, 69)", border: "none"}}
                             onClick={(e) => {
                                 this.reqSendClick(true, true);
                             }}>반려</Button>
-                    <Button className={"docPaymentBtn"} style={{backgroundColor: "rgb(214, 87, 69)", border: "none"}}
+                    <Button className={"awaitDocApproBtn approvalBtn"} style={{backgroundColor: "rgb(82, 150, 213)", border: "none"}}
                             onClick={(e) => {
                                 this.reqSendClick(true, false);
                             }}>승인</Button>
@@ -34,8 +34,8 @@ class DocApproBtn extends Component {
 
     render() {
         return (
-            <div className={"docPaymentDetailDiv"}>
-                <Button className={"docPaymentBtn cancleBtn"}
+            <div className={"DocApproBtnDiv"}>
+                <Button className={"DocApproBtn"}
                         style={{backgroundColor: "rgb(110, 117, 124)", border: "none"}} onClick={(e) => {
                     this.props.history.push('/main');
                 }}> 목록 </Button>
