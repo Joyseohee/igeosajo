@@ -88,7 +88,6 @@ class OrderRequestList extends Component {
                     backdrop="static"
                     keyboard={false}
                   >
-
                     <Modal.Body>
                         {content}
                     </Modal.Body>

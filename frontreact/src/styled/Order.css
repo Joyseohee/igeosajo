@@ -136,6 +136,7 @@
     width:100%;
     font-size: 16px;
     font-weight: bold;
+
 }
 .settingbtn{
     width: 100%;
@@ -224,3 +225,66 @@
     font-weight: bold;
     font-size: 20px;
 }
+
+.datesearchfirstcol{
+    width:20%;
+}
+.datesearchfirstspan{
+    background-color:dodgerblue;
+    border-color: dodgerblue;
+    color:white;
+    border-bottom-right-radius:0px;
+    border-top-right-radius:0px;
+    height:38.5px;
+}
+.datesearchsecondcol{
+    width:8%;
+    border-top:1px solid;
+    border-bottom:1px solid;
+    border-color: dodgerblue;
+}
+.datesearchsecondinput{
+    width:90%;
+    height:30px;
+    margin-top:3px;
+    margin-left:5px;
+}
+.datesearchthirdcol{
+    width:3%;
+    border-top:1px solid;
+    border-bottom:1px solid;
+    border-color: dodgerblue;
+    font-weight:bold;
+    font-size:18px;
+    text-align:center;
+    display:flex;
+    align-items: center;
+    padding:5px;
+}
+.datesearchfourthcol{
+    width:5%;
+    border-top:1px solid;
+    border-bottom:1px solid;
+    border-color: dodgerblue;
+
+}
+.datesearchfourthinput{
+    width:90%;
+    height:30px;
+    margin-top:3px;
+    margin-left:5px;
+}
+.datesearchfivecol{
+    width:3%;
+    border-top:1px solid;
+    border-right:1px solid;
+    border-bottom:1px solid;
+    font-weight:bold;
+    font-size:18px;
+    text-align:center;
+    display:flex;
+    align-items: center;
+    padding:4px;
+    border-color: dodgerblue;
+}
+

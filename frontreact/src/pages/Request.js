@@ -13,6 +13,7 @@ import Paging from "../components/layout/Paging";
 class Request extends Component {
     constructor(props) {
         super(props);
+        this.props.setpagename("신청 관리");
         this.state = {
             requestList: ['requestList'],
             requestFilteredList: ['requestFilteredList'],
@@ -34,7 +35,6 @@ class Request extends Component {
 
 
     componentDidMount() {
-        this.props.setpagename("사무용품 신청 관리");
         let reqtermList = [];
         let available = null;
         new Api().read("reqterm", {usernum: this.props.user.usernum}, null)
@@ -88,6 +88,7 @@ class Request extends Component {
                 })),
                 allChecked: false,
                 checkedRequest: [],
+                pageNum: 1,
             }));
         })
     }
@@ -177,6 +178,7 @@ class Request extends Component {
                     {(requestFilteredList[0] !== 'requestFilteredList') &&
                         <>
                             <ReqList
+                                selectedFilter={requestFilter}
                                 allChecked={allChecked}
                                 available={available}
                                 requestList={requestFilteredList}

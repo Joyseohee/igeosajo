@@ -18,7 +18,7 @@ class OrderView extends Component {
     }
 
     changeorderstate=(state)=>{
-        console.log(state + "+" +checklist )
+
         if(checklist.length ===0){
             this.props.handleshow(true,"선택된 항목이 없습니다.")
         }
@@ -35,8 +35,7 @@ class OrderView extends Component {
                 ordernum: checklist,
               }),
             })
-              .then((response) => response.json())
-              .then( data=> data);
+
             }
             else if(state==='finish')
             {
@@ -50,8 +49,7 @@ class OrderView extends Component {
                 ordernum: checklist,
               }),
             })
-              .then((response) => response.json())
-              .then(data=> data);
+
             }
             this.checkclear()
         this.props.ordersearchstate(state)

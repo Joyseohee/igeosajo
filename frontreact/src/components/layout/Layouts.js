@@ -15,7 +15,7 @@ class Layouts extends Component {
             <>
                 <Header pagename={pagename} user={user}/>
                 <div className="container-content">
-                    {user !== "user" && <Sidebar userathority={user.userathority}/>}
+                    {user !== "user" && <Sidebar userathority={user.userathority} pagename={pagename}/>}
                     <div className="container-main">{this.props.children}</div>
                 </div>
             </>

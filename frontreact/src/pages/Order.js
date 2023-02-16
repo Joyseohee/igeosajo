@@ -5,16 +5,12 @@ import OrderProgress from "./OrderProgress";
 class Order extends Component {
     constructor(props) {
         super(props);
-        this.props.setpagename("구매 페이지");
-        // this.state = {
-        //     usernum: "2",
-        // };
+        this.props.setpagename("구매 진행 현황");
     }
 
     render() {
         return (
             <div className="page-top">
-                {/*전부 고정이고 바뀌는 건 <Requestmain />에 컴포넌트명 변경*/}
                 <OrderProgress/>
             </div>
         );

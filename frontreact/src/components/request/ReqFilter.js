@@ -1,6 +1,5 @@
 import React, {Component} from "react";
 import ReqFilterBox from "./ReqFilterBox";
-import Api from "../../api/Api";
 
 class ReqFilter extends Component {
     constructor(props) {
