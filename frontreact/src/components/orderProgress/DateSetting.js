@@ -15,7 +15,7 @@ class DateSetting extends Component {
         }
 
     }
-    
+
     componentDidMount() {
        document.getElementById('startyear').value = this.props.date[0];
        document.getElementById('startmonth').value = this.props.date[1];
@@ -60,16 +60,19 @@ class DateSetting extends Component {
                                 <div className="dottext">조회기간</div>
                     </div>
                    <div className="searchdatemargin">
-                            <Row style={{width:'100.5%'}}>
-                                <div className="input-group">
-                                    <Col xs={2}><span className="input-group-text" style={{backgroundColor:"dodgerblue",color:"white"}}><span className="startdatetext">시작일</span></span></Col>
-                                    <Col><input type="text"  id="startyear" className="form-control " placeholder="ex)2021 - year"  maxLength='4' onChange={(e) => {this.onChangeDate(e)}}/></Col>
-                                    <Col><input type="text" id="startmonth" className="form-control " placeholder="ex)1~12 - month" maxLength='2' onChange={(e) => {this.onChangeDate(e)}}/></Col>
-
-                                    <Col xs={2}><span className="input-group-text" style={{backgroundColor:"dodgerblue",color:"white"}}><span className="enddatetext">마감일</span></span></Col>
-                                    <Col><input type="text"  id="endyear"className="form-control" placeholder="ex)2021 - year" maxLength='4' onChange={(e) => {this.onChangeDate(e)}}/></Col>
-                                    <Col><input type="text"  id="endmonth"className="form-control" placeholder="ex)1~12 - month" maxLength='2' onChange={(e) => {this.onChangeDate(e)}}/></Col>
-                                    <Col xs={2}><Button className={"settingbtn"}  onClick={this.onChangeDateSet} >조회</Button></Col>
+                            <Row style={{width:"100%"}}>
+                                <div className="input-group rowDiv">
+                                    <Col xs={2} className="datesearchfirstcol"><span className="input-group-text datesearchfirstspan"><span className="startdatetext">시작일</span></span></Col>
+                                    <Col xs={1.5} className="datesearchsecondcol"><input type="text"  id="startyear"  className="form-control datesearchsecondinput " placeholder="2023"  maxLength='4' onChange={(e) => {this.onChangeDate(e)}}/></Col>
+                                    <Col xs={0.5} className="datesearchthirdcol">년</Col>
+                                    <Col xs={0.5} className="datesearchfourthcol"><input type="text" id="startmonth"  className="form-control datesearchfourthinput" placeholder="1" maxLength='2' onChange={(e) => {this.onChangeDate(e)}}/></Col>
+                                    <Col xs={0.5} className="datesearchfivecol" style={{borderBottomRightRadius:"5px",borderTopRightRadius:"5px"}}>월</Col>
+                                    <Col xs={2} className="datesearchfirstcol"><span className="input-group-text datesearchfirstspan" style={{marginLeft:"20px"}}><span className="enddatetext">마감일</span></span></Col>
+                                    <Col xs={1.5} className="datesearchsecondcol"><input type="text"  id="endyear"   className="form-control datesearchsecondinput" placeholder="2023" maxLength='4' onChange={(e) => {this.onChangeDate(e)}}/></Col>
+                                    <Col xs={0.5} className="datesearchthirdcol">년</Col>
+                                    <Col xs={0.5} className="datesearchfourthcol"><input type="text"  id="endmonth"  className="form-control datesearchfourthinput" placeholder="1" maxLength='2' onChange={(e) => {this.onChangeDate(e)}}/></Col>
+                                    <Col xs={0.5} className="datesearchfivecol" style={{borderBottomRightRadius:"5px",borderTopRightRadius:"5px"}}>월</Col>
+                                    <Col xs={2} style={{width:"21.35%",marginLeft:"15px"}}><Button style={{width:"100%"}} className={"settingbtn"}  onClick={this.onChangeDateSet} >조회</Button></Col>
                                 </div>
                             </Row>
                     </div>
