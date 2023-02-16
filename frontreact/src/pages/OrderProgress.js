@@ -175,7 +175,6 @@ class OrderProgress extends Component {
         return (
             <div>
                 <Container fluid style={{margin: 0, padding: 0}}>
-                    {/*<Headertitle title="구매 진행 현황"></Headertitle>*/}
                     <Goal comment={"구매 진행 현황"}/>
                     <DateSetting date={date} datesetting={this.datesetting} handleshow={this.handleShow}></DateSetting>
                     <OrderSearch orderearchstate={this.ordersearchstate} ordercnt={ordercnt} orderstate={orderstate} ></OrderSearch>

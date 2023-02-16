@@ -5,10 +5,7 @@ import OrderRequestList from "./OrderRequestList";
 class Order extends Component {
     constructor(props) {
         super(props);
-        this.props.setpagename("구매 신청 목록");
-        // this.state = {
-        //     usernum: "2",
-        // };
+        this.props.setpagename("구매 신청");
     }
 
     render() {

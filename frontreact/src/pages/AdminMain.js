@@ -52,28 +52,27 @@ class AdminMain extends Component {
             month = "0"+String(month)
         }
         const termyearmonth = String(now.getFullYear()) + month
-
-        // 신청기간 조회
-        fetch('http://127.0.0.1:8000/api/main?termyearmonth='+termyearmonth + '&startdate='+startdate+'&enddate='+ enddate)
-            .then(response => response.json())
-            .then(response => {
-                this.setState({
-                    count: response,
-                    reqcount :response[0],
-                    prevparchase:response[1],
-                    parchase:response[2],
-                    docsubmit:response[3],
-                    reject:response[4],
-                    approval:response[5],
+        
+        
+         Promise.all([
+                fetch('http://127.0.0.1:8000/api/main?termyearmonth='+termyearmonth + '&startdate='+startdate+'&enddate='+ enddate),
+                 fetch('http://127.0.0.1:8000/api/reqterm/' + termyearmonth)
+            ]).then(([response1, response2]) =>
+                Promise.all([response1.json(), response2.json()]))
+                  .then(([response1, response2]) => {
+                      this.setState({
+                        count: response1,
+                        reqcount :response1[0],
+                        prevparchase:response1[1],
+                        parchase:response1[2],
+                        docsubmit:response1[3],
+                        reject:response1[4],
+                        approval:response1[5],
+                          items: response2
                     })
-            })
-          // 신청기간 조회
-        fetch('http://127.0.0.1:8000/api/reqterm/' + termyearmonth)
-            .then(response => response.json())
-            .then(response => {
 
-                this.setState({items: response})
-            })
+                  }).catch((error) => console.error(error));
+
     };
 
     routerpath = (e,state) =>{
