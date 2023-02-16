@@ -1,11 +1,10 @@
 import React, {Component} from 'react';
 import Table from "react-bootstrap/Table";
 import Form from "react-bootstrap/Form";
-import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
 import { withRouter } from "react-router-dom";
 import CommonUtil from "../../util/CommonUtil";
-import Row from "react-bootstrap/Row";
+
 let ordernum
 let checklist = []
 class OrderTable extends Component {
@@ -121,7 +120,9 @@ class OrderTable extends Component {
         if(data.length == 0)
         {
             return(
-                    <td colspan={8} style={{textAlign:"center",fontWeight:"bold",fontSize:"18px"}}>{text}</td>
+                <tr>
+                    <td colSpan={8} style={{textAlign:"center",fontWeight:"bold",fontSize:"18px"}}>{text}</td>
+                </tr>
             )
         }
     }

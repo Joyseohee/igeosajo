@@ -7,7 +7,7 @@ import all from "../../img/allicon.png";
 import parchase from "../../img/iconsparchase.png";
 import deliver from "../../img/iconsdeliver.png";
 import finish from "../../img/iconsfinish.png";
-import DateSetting from "./DateSetting";
+
 
 
 class OrderSearch extends Component {
