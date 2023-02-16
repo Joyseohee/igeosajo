@@ -88,6 +88,7 @@ class Request extends Component {
                 })),
                 allChecked: false,
                 checkedRequest: [],
+                pageNum: 1,
             }));
         })
     }

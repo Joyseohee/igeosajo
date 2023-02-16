@@ -43,11 +43,12 @@ class Request extends Component {
                 }
             ]
         }
+        this.props.setpagename("사무용품 신청 내역");
     }
 
 
     componentDidMount() {
-        this.props.setpagename("사무용품 신청 내역");
+
         let reqtermList = [];
         let available = null;
         let now = new Date();

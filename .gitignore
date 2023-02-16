@@ -15,3 +15,6 @@ backdjango/venv/
 
 # node_modules 제외
 frontreact/node_modules/
+
+# 빌드 파일 제외
+#frontreact/build/
