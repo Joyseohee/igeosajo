@@ -20,14 +20,14 @@ class DocPayment extends Component {
         this.setState({reqSend: e});
     }
 
-    outcomeState = (e) => {
+    outcomeState = async (e) => {
 
-        this.setState({outcomeState: e})
+        await this.setState({outcomeState: e})
 
         if (e === 2) {
             // 확인 버튼 눌렀을 시
 
-            fetch('http://127.0.0.1:8000/api/document?docNum=' + this.props.reqnum[0].toString())
+            await fetch('http://127.0.0.1:8000/api/document?docNum=' + this.props.reqnum[0].toString())
                 .then(response => response.json())
                 .then(response => {
                         this.props.history.push({
@@ -38,23 +38,26 @@ class DocPayment extends Component {
                     }
                 )
 
-            this.reqSendClick(null)
-            this.props.openModal(false)
+            await this.reqSendClick(null)
+            await this.props.openModal(false)
 
         } else if (e === 1) {
             // 취소 버튼 누른 후 확인 눌렀을 시
-            fetch("http://127.0.0.1:8000/api/document", {
+            await fetch("http://127.0.0.1:8000/api/document", {
                 method: "DELETE",
             })
 
-            this.reqSendClick(null)
-            this.props.openModal(false)
+            await this.setState({detailDocNum: 0})
+            await this.reqSendClick(null)
+            await this.props.openModal(false)
 
-            window.location.assign("http://localhost:3000/docrequest");
+            await this.props.history.push({
+                pathname: "/docrequest"
+            })
 
         } else if (e === 0) {
-            this.reqSendClick(null)
-            this.props.openModal(false)
+            await this.reqSendClick(null)
+            await this.props.openModal(false)
         }
 
     }
@@ -98,14 +101,14 @@ class DocPayment extends Component {
                                     <td>수량</td>
                                 </tr>
                                 {
-                                    prodnamearr.map( (prodname, idx) => {
+                                    prodnamearr.map((prodname, idx) => {
                                         return (
                                             <tr key={prodname}>
                                                 <td>{prodname}</td>
                                                 <td>{countarr[idx]}</td>
                                             </tr>
                                         )
-                                    } )
+                                    })
                                 }
                                 </tbody>
                             </Table>

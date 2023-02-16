@@ -24,10 +24,13 @@ class DocListKind extends Component {
         return (
             <div className="containermargin">
 
-                <Row style={{width: '100%', marginTop:'3rem'}}>
+                <Row style={{width: '100%', marginTop: '3rem'}}>
                     <Col>
                         <div className="cardcontain">
-                            <Card style={{width: '95%', backgroundColor : listState ==="allselect" ? "rgb(224, 224, 224)" : "#FAFBFF"}}>
+                            <Card style={{
+                                width: '95%',
+                                backgroundColor: listState === "allselect" ? "rgb(224, 224, 224)" : "#FAFBFF"
+                            }}>
                                 <Card.Body onClick={(e) => {
                                     this.statechange("allselect")
                                 }}>
@@ -43,7 +46,10 @@ class DocListKind extends Component {
 
                     <Col>
                         <div className="cardcontain">
-                            <Card style={{width: '95%', backgroundColor : listState ==="대기" ? "rgb(224, 224, 224)" : "#FAFBFF"}}>
+                            <Card style={{
+                                width: '95%',
+                                backgroundColor: listState === "대기" ? "rgb(224, 224, 224)" : "#FAFBFF"
+                            }}>
                                 <Card.Body onClick={(e) => {
                                     this.statechange("대기")
                                 }}>
@@ -59,7 +65,10 @@ class DocListKind extends Component {
 
                     <Col>
                         <div className="cardcontain">
-                            <Card style={{width: '95%', backgroundColor : listState ==="승인" ? "rgb(224, 224, 224)" : "#FAFBFF"}}>
+                            <Card style={{
+                                width: '95%',
+                                backgroundColor: listState === "승인" ? "rgb(224, 224, 224)" : "#FAFBFF"
+                            }}>
                                 <Card.Body onClick={(e) => {
                                     this.statechange("승인")
                                 }}>
@@ -76,7 +85,10 @@ class DocListKind extends Component {
 
                     <Col>
                         <div className="cardcontain">
-                            <Card style={{width: '95%', backgroundColor : listState ==="반려" ? "rgb(224, 224, 224)" : "#FAFBFF"}}>
+                            <Card style={{
+                                width: '95%',
+                                backgroundColor: listState === "반려" ? "rgb(224, 224, 224)" : "#FAFBFF"
+                            }}>
                                 <Card.Body onClick={(e) => {
                                     this.statechange("반려")
                                 }}>

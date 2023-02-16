@@ -14,7 +14,7 @@ class DocPaymentDetail extends Component {
             reqSend: false,
             modalOpen: false,
             prodnamearr: [],
-            countarr:[]
+            countarr: []
         };
     }
 
@@ -34,7 +34,7 @@ class DocPaymentDetail extends Component {
             prodnamearr.push(this.state.items["prodname"][i]);
             countarr.push(this.state.items["prodcount"][i]);
         }
-        this.setState({prodnamearr: prodnamearr, countarr:countarr})
+        this.setState({prodnamearr: prodnamearr, countarr: countarr})
     }
 
     reqSendClick = (e) => {
@@ -66,7 +66,7 @@ class DocPaymentDetail extends Component {
                     listState={listState}
                 />
             )
-        }catch (e) {
+        } catch (e) {
             return (
                 <DocPaymentDetailBtn
                     reqSend={this.state.reqSend}

@@ -17,11 +17,12 @@ class requestSendButton extends Component {
 
     render() {
 
-        return(
+        return (
             <div>
-                <Button className={"sendButton"} style={{backgroundColor: "rgb(82, 150, 213)", border:"none"}} value={true} onClick={ (e) => {
+                <Button className={"sendButton"} style={{backgroundColor: "rgb(82, 150, 213)", border: "none"}}
+                        value={true} onClick={(e) => {
                     this.reqSendClick(true);
-                } }>{this.props.btnMent}</Button>
+                }}>{this.props.btnMent}</Button>
 
             </div>
         );

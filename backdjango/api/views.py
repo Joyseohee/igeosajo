@@ -707,7 +707,6 @@ def get_doc(self):
     cursor = connection.cursor()
 
     data = self.GET.get('state')
-    func = self.GET.get('func')
     startdate = self.GET.get('startdate')
     enddate = self.GET.get('enddate')
     state = self.GET.get('docstate')
@@ -784,28 +783,6 @@ def get_doc(self):
         cursor.execute(query)
         data = dictfetchall(cursor)
         response = JsonResponse(data, safe=False)
-
-    elif func:
-        if (func == 'distinctdocnum'):
-            query = 'SELECT DISTINCT docnum,docordered,docrdate FROM doc WHERE docstate = \'승인\' and docordered = 0'
-            cursor.execute(query)
-            data = dictfetchall(cursor)
-            response = JsonResponse(data, safe=False)
-
-        elif func == 'reqnumget':
-            docstate = '\'' + "승인" + '\''
-            startdate = '\'' + startdate + '\''
-            enddate = '\'' + enddate + '\''
-            if (state == 'all'):
-                # query = 'SELECT reqnum FROM doc WHERE docstate =' + docstate + '  and docrdate >' + startdate + ' and docrdate <' + enddate + ' order by reqnum'
-                query = 'SELECT r.reqnum FROM request r JOIN doc d ON r.reqnum = d.reqnum WHERE d.docstate =' + docstate + '  and d.docrdate >' + startdate + ' and d.docrdate <' + enddate + ' order by r.reqnum'
-            elif (state == 'prevparchase'):
-                # query = 'SELECT reqnum FROM doc WHERE docstate =' + docstate + ' and docordered = 0 and docrdate >' + startdate + ' and docrdate <' + enddate + ' order by reqnum'
-                query = 'SELECT r.reqnum FROM request r JOIN doc d ON r.reqnum = d.reqnum WHERE d.docstate =' + docstate + ' and reqorder = 0 and d.docrdate >' + startdate + ' and d.docrdate <' + enddate + ' order by r.reqnum'
-            elif (state == 'parchase'):
-                # query = 'SELECT reqnum FROM doc WHERE docstate =' + docstate + ' and docordered = 1 and docrdate >' + startdate + ' and docrdate <' + enddate + ' order by reqnum'
-                query = 'SELECT r.reqnum FROM request r JOIN doc d ON r.reqnum = d.reqnum WHERE d.docstate =' + docstate + ' and reqorder = 1 and d.docrdate >' + startdate + ' and d.docrdate <' + enddate + ' order by r.reqnum'
-
     else:
         checkDetail = self.GET.get('checkDetail')
         if checkDetail:
@@ -1164,9 +1141,8 @@ def get_main(self):
     count = dictfetchall(cursor)
     resultdata.append(count[0]['count'])
     for i in docval:
-        query = 'SELECT COUNT(DISTINCT docnum) FROM "doc" WHERE "docwdate" > %s AND "docwdate" < %s AND "docstate" = %s '
-        val = (startdate, enddate, i)
-        cursor.execute(query, val)
+        query = 'SELECT COUNT(DISTINCT docnum) FROM "doc" WHERE "doccancled" = 0 and "docstate" = \'' + i + '\''
+        cursor.execute(query)
         count = dictfetchall(cursor)
         resultdata.append(count[0]['count'])
     response = JsonResponse(resultdata, safe=False)

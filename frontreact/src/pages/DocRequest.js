@@ -22,18 +22,20 @@ class DocRequest extends Component {
     }
 
     async componentDidMount() {
+        await Promise.all([
+            fetch('http://127.0.0.1:8000/api/request?reqstaging=처리전&reqstate=승인'),
+            fetch('http://127.0.0.1:8000/api/request?reqstaging=처리전&reqstate=승인&pagenum=' + this.state.pageNum.toString())
+        ])
+            .then(([response1, response2]) =>
+                Promise.all([response1.json(), response2.json()]))
+            .then(([response1, response2]) => {
+                    this.setState({
+                        pageCount: response1.length,
+                        items: response2
+                    })
 
-        fetch('http://127.0.0.1:8000/api/request?reqstaging=처리전&reqstate=승인')
-            .then(response => response.json())
-            .then(response => {
-                this.setState({pageCount: response.length})
-            })
-
-        fetch('http://127.0.0.1:8000/api/request?reqstaging=처리전&reqstate=승인&pagenum=' + this.state.pageNum.toString())
-            .then(response => response.json())
-            .then(response => {
-                this.setState({items: response})
-            })
+                }
+            ).catch((error) => console.error(error));
     };
 
     reqSendClick = (fromChild) => {

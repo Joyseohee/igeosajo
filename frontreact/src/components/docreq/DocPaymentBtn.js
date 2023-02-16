@@ -16,15 +16,18 @@ class requestSendButton extends Component {
     }
 
     render() {
-        return(
+        return (
             <div className={"docPaymentDiv"}>
-                <Button className={"docPaymentBtn"} style={{backgroundColor: "rgb(82, 150, 213)", border:"none" , marginRight: "1rem"}} onClick={ (e) =>{
-                    this.reqSendClick(true);
-                } } >확인</Button>
+                <Button className={"docPaymentBtn"}
+                        style={{backgroundColor: "rgb(82, 150, 213)", border: "none", marginRight: "1rem"}}
+                        onClick={(e) => {
+                            this.reqSendClick(true);
+                        }}>확인</Button>
 
-                <Button className={"docPaymentBtn"} style={{backgroundColor: "rgb(110, 117, 124)", border:"none"}} onClick={(e) => {
-                    this.reqSendClick(false);
-                }}> 취소 </Button>
+                <Button className={"docPaymentBtn"} style={{backgroundColor: "rgb(110, 117, 124)", border: "none"}}
+                        onClick={(e) => {
+                            this.reqSendClick(false);
+                        }}> 취소 </Button>
             </div>
         );
     }
