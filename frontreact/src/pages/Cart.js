@@ -16,7 +16,7 @@ class Cart extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            items: ['items'],
+            items: [],
             select: "False",
             posted: false,
             prodnumList: [],
@@ -53,10 +53,11 @@ class Cart extends Component {
             termyearmonth: '',
             pageNum: 1,
             pageCount: 1,
-            dates:[]
+            dates:[],
+            message:''
         };
         this.getlist = this.getlist.bind(this);
-        this.props.setpagename("사무용품 구매");
+        this.props.setpagename("장바구니");
     }
 
     async componentDidMount() {
@@ -78,10 +79,20 @@ class Cart extends Component {
             const res = await fetch('http://127.0.0.1:8000/api/cart?usernum=' + usernum + '&pagenum=' + pagenum);
 
             const items = await res.json();
-            await this.setState({
-                items: items,
-                pageCount: items2.length
-            });
+            if (items2.length===0) {
+                await this.setState({
+                    items: items,
+                    pageCount: items2.length,
+                    message:'장바구니가 비었습니다.'
+                });
+            } else {
+                  await this.setState({
+                    items: items,
+                    pageCount: items2.length,
+
+                });
+            }
+
 
         } catch (e) {
             console.log(e);
@@ -114,7 +125,6 @@ class Cart extends Component {
         fetch('http://127.0.0.1:8000/api/reqterm/' + termyearmonth)
             .then(response => response.json())
             .then(response => {
-                console.log(response)
                 this.setState({dates: response})
             })
     }
@@ -146,8 +156,7 @@ class Cart extends Component {
     setPageNum = (e) => {
         const pageNum = this.state.pageNum
         if (e !== pageNum) {
-            const productItemList = [];
-            this.setState({pageNum: e, productItemList: productItemList, prodnumList: []}, () => {
+            this.setState({pageNum: e,  prodnumList: []}, () => {
                 this.ref.current.checkcleanall();
                 this.getlist();
 
@@ -178,6 +187,7 @@ class Cart extends Component {
 
                 <CartDetail items={this.state.items} func1={this.checksend1}
                             ref={this.ref}
+                            message={this.state.message}
                 />
                 <Paging
                     showNum={5}

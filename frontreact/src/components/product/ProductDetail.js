@@ -7,27 +7,19 @@ import CommonUtil from "../../util/CommonUtil";
 import "../../styled/Product.css"
 
 class ProductDetail extends Component {
-
-    ref = React.createRef();
-
     constructor(props) {
         super(props);
         this.state = {
-            productItemList2: [{
-                id: 0,
-                count: 0
-            }],
-            prodnumList: this.props.prodnumList,
-            length: 1,
+            prodnumList: [],
         }
         ;
         // this.cartcount = this.cartcount.bind(this);
         this.choiceAll = this.choiceAll.bind(this);
         this.choiceUnit = this.choiceUnit.bind(this);
     }
-
+    ref = React.createRef();
     choiceAll() {
-        let prodnumList = this.state.prodnumList
+        let prodnumList = []
 
         const checkboxes = document.getElementsByName('select');
         let selectAll = document.getElementsByName('selectAll');
@@ -83,7 +75,7 @@ class ProductDetail extends Component {
     }
 
     checkcleanall = () => {
-        let prodnumList = this.state.prodnumList
+
         const checkboxes = document.getElementsByName('select');
         const checkall = document.getElementsByName('selectAll');
         checkboxes.forEach((checkbox) => {
@@ -92,30 +84,30 @@ class ProductDetail extends Component {
         checkall.forEach((state) => {
             state.checked = false
         })
-        prodnumList = [];
+        let prodnumList = [];
         this.setState({
             prodnumList: prodnumList
         })
     }
 
 
-    render() {
-         let list
-        if (this.props.productItemList[0] !== 'productItemList') {
-      list = this.props.productItemList.map((list, idx) => (
-            <tbody>
-                <tr className='tr1' key={list.prodnum}>
-                    <td><Form.Check aria-label="option 1" name={"select"}
+    setList = (productItemList) => {
+        return (
+            productItemList.map((list, idx) => (
+                <tbody key={list.prodnum}>
+                <tr className='tr1' >
+                    <td className='prdth2'><Form.Check aria-label="option 1" name={"select"}
                                     value={[list.prodnum]}
                                     onChange={(e) => {
                                         this.choiceUnit(e.target.checked, e.target.value);
                                     }} disabled={!list.ccount}/></td>
-                    <td>{idx + 1}</td>
-                    <td><img className='img1' src={list.prodimg}/></td>
-                    <td style={{textAlign:"left"}}>{list.prodname}<br/><br/>
-                        <div style={{fontSize:"7px"}}> {list.category1name}>>{list.category2name}</div></td>
-                    <td>\ {new CommonUtil().numberComma(list.prodprice)}</td>
-                    <td className='td1'>
+                    <td className='prdth2'>{idx + 1}</td>
+                    <td className='prdth1'><img className='img1' src={list.prodimg}/></td>
+                    <td className='prdth3' style={{textAlign: "left"}}>{list.prodname}<br/><br/>
+                        <div style={{fontSize: "7px"}}> {list.category1name}>>{list.category2name}</div>
+                    </td>
+                    <td className='prdth1'>\ {new CommonUtil().numberComma(list.prodprice)}</td>
+                    <td className='prdth1'>
                         <div className='inline'>
                             <Counter name="counter"
                                      func={this.cartcount}
@@ -129,20 +121,25 @@ class ProductDetail extends Component {
                         </div>
                     </td>
                 </tr>
-            </tbody>
+                </tbody>
+            ))
+        )
+    }
 
-
-        )) } else list =['']
+    render() {
+        let list
+        if (this.props.productItemList.length !== 0) {
+            list = this.setList(this.props.productItemList)
+        }
 
         return (
             <div>
-
                 <Table bordered className='table1'>
                     <thead>
                     <tr className='doclistTh'>
 
-                        <th className='prdth2'><Form.Check aria-label="option 1" name={"selectAll"}
-                                                        onClick={this.choiceAll}/></th>
+                        <th ><Form.Check aria-label="option 1" name={"selectAll"}
+                                                           onClick={this.choiceAll}/></th>
                         <th className='prdth2'>No</th>
                         <th className='prdth1'>이미지</th>
                         <th className='prdth3'>품목명</th>
@@ -152,9 +149,9 @@ class ProductDetail extends Component {
                     </thead>
                     {list}
                 </Table>
-                {list.length !== 0 ? null : <div className='nonefoundmsg' >상품이 없습니다 <br/><br/></div>}
+                <div className='nonefoundmsg'>{this.props.message}<br/><br/></div>
             </div>
-        );
+        )
     }
 }
 

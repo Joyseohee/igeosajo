@@ -19,10 +19,7 @@ class PostCartModal extends Component {
 
     render() {
         const modalInfo = this.props.modalInfo
-        console.log(this.props.id)
         const result= modalInfo.filter((modalInfo)=>modalInfo.id === this.props.id);
-
-        console.log("---"+result[0].id)
         const text = result[0].text;
         const confirm = this.props.confirm;
 

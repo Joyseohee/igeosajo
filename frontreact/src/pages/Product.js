@@ -23,7 +23,7 @@ class Product extends Component {
             prodname: '',
             category2code: '',
             category1code: '',
-            productItemList: ['productItemList'],
+            productItemList: [],
             prodnumList: [],
             prodnumList2: [],
             cartcountList: [],
@@ -56,19 +56,20 @@ class Product extends Component {
             pageNum: 1,
             pageCount: 1,
             items2: [],
-            dates: []
+            dates: [],
+            message:''
         };
         this.checksend = this.checksend.bind(this);
         this.postcheck = this.postcheck.bind(this);
         this.getlist = this.getlist.bind(this);
         this.checkterm = this.checkterm.bind(this)
-        this.props.setpagename("사무용품 구매");
+        this.props.setpagename("물품보기");
 
     }
 
     async componentDidMount() {
+        this.getlist();
         this.checkterm();
-        await this.getlist();
     }
 
     checkterm() {
@@ -95,7 +96,6 @@ class Product extends Component {
         fetch('http://127.0.0.1:8000/api/reqterm/' + termyearmonth)
             .then(response => response.json())
             .then(response => {
-                console.log(response)
                 this.setState({dates: response})
             })
     }
@@ -128,12 +128,19 @@ class Product extends Component {
             const productItemList = items.map((item) => {
                 item.ccount = 0;
                 return item
-            })
-
-            await this.setState({
-                productItemList: productItemList,
-                pageCount: items2.length
             });
+            if (items.length === 0) {
+                await this.setState({
+                    message:'상품이 없습니다.',
+                    productItemList: productItemList,
+                    pageCount: items2.length
+                });
+            }else {
+                  await this.setState({
+                    productItemList: productItemList,
+                    pageCount: items2.length
+                });
+            }
         } catch (e) {
             console.log(e);
         }
@@ -212,9 +219,7 @@ class Product extends Component {
     setPageNum = (e) => {
         const pageNum = this.state.pageNum
         if (e !== pageNum) {
-            const productItemList = [];
-            const prodnumList = [];
-            this.setState({pageNum: e, productItemList: productItemList, prodnumList: prodnumList}, () => {
+            this.setState({pageNum: e,  prodnumList: []}, () => {
                 this.ref.current.checkcleanall();
                 this.getlist();
             })
@@ -228,7 +233,6 @@ class Product extends Component {
         } = this.state
         return (
             <div>
-
                 <Goal comment={"물품보기"}/> <br/>
                 {available ? <div>
                     <div>
@@ -252,6 +256,7 @@ class Product extends Component {
                                    callback2={{handleDecrease: this.handleDecrease}}
                                    modalInfo={this.state.modalInfo}
                                    postcheck={this.postcheck}
+                                   message={this.state.message}
                     />
                     <Paging
                         showNum={5}

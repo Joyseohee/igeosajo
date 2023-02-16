@@ -119,7 +119,6 @@ class ReqList extends Component {
         } else {
             showConfirmModal = false;
         }
-        console.log(available);
 
         return (
             <>

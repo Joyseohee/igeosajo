@@ -38,7 +38,6 @@ class ReqCancel extends Component {
             ]).then(([requestList, requestFilteredList]) =>
                 Promise.all([requestList.json(), requestFilteredList.json()]))
                 .then(([requestList, requestFilteredList]) => {
-                        console.log(requestList, requestFilteredList)
                         this.props.updateState({
                             requestList: requestList.map((request) => ({
                                 ...request,
