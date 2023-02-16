@@ -49,6 +49,8 @@ def request_view(self):
         return get_request(self)
     if self.method == 'POST':
         return post_request(self)
+    if self.method == 'PUT':
+        return put_request(self)
     if self.method == 'DELETE':
         return delete_request(self)
 
@@ -392,6 +394,18 @@ def post_request(self):
     response = HttpResponse("성공")
     return response
 
+def put_request(self):
+    request = json.loads(self.body)
+    termyearmonth = request['termyearmonth']
+    cursor = connection.cursor()
+    query = 'UPDATE request ' \
+            'SET reqstate = \'반려\', reqapvdate = CURRENT_TIMESTAMP, reqrejectreason = \'신청기간 마감\' ' \
+            'WHERE termyearmonth = ' + str(termyearmonth) + ' and reqstate = \'대기\''
+    cursor.execute(query)
+    response = HttpResponse("성공")
+    return response
+def put_request_pk(self, pk):
+    return request_update_query(self, str(pk))
 
 def get_request_pk(self, pk):
     usernum = self.GET.get('usernum', None)
@@ -401,10 +415,8 @@ def get_request_pk(self, pk):
         params['u.usernum'] = usernum
     return request_select_query(params)
 
-
 def put_request_pk(self, pk):
     return request_update_query(self, str(pk))
-
 
 def delete_request(self):
     reqnum = str(self.GET.get('reqnum', None))
@@ -1057,14 +1069,10 @@ def request_update_query(self, pk):
     reqstate = request['reqstate']
     reqstaging = request['reqstaging']
     reqrejectreason = request['reqrejectreason']
-    # usernum = request['usernum']
     cursor = connection.cursor()
-    # todo 확인하기
     query = 'UPDATE request ' \
             'SET reqstate = %s, reqapvdate = CURRENT_TIMESTAMP, reqstaging = %s, reqrejectreason = %s  ' \
             'WHERE reqnum = %s'
-    # 'WHERE reqnum = %s and usernum = %s'
-    # val = (reqstate, reqstaging, reqrejectreason, pk, usernum)
     val = (reqstate, reqstaging, reqrejectreason, pk)
     cursor.execute(query, val)
     response = HttpResponse("성공")

@@ -42,9 +42,8 @@ class Request extends Component {
                 }
             ]
         }
-        this.props.setpagename("사무용품 신청 내역")
+        this.props.setpagename("사무용품 신청 내역");
     }
-
 
     componentDidMount() {
         let reqtermList = [];

@@ -2,10 +2,15 @@ import React, {Component} from "react";
 import {Button} from "react-bootstrap";
 import Api from "../../api/Api";
 import CommonUtil from "../../util/CommonUtil";
+import ReqtermModal from "./ReqtermModal";
 
 class ReqtermSet extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+            showReqtermEndModal: false,
+            showRequestAllEndModal: false,
+        }
     }
 
     handleStart = (e) => {
@@ -23,23 +28,38 @@ class ReqtermSet extends Component {
     }
 
     handleEnd = (e) => {
-        const params = {
-            "usernum": this.props.usernum,
-            "termavailable": 0,
-        }
         this.setState({
-            setreqtermstart: false,
+            showReqtermEndModal: true
         })
-        new Api().update("reqterm", params, this.props.presentTerm.termyearmonth).then(() => {
-                this.props.getReqtermList();
-            }
-        )
     }
 
+    updateState = (newValues) => {
+        this.setState(newValues);
+    };
+
     render() {
-        const {presentTerm, today} = this.props;
+        const {presentTerm, today, getReqtermList, usernum} = this.props;
+        const {showReqtermEndModal, showRequestAllEndModal} = this.state;
         const disabled = (presentTerm !== null && presentTerm !== undefined) && presentTerm.termavailable;
         let {inTerm, setreqtermstart, setreqtermend} = false;
+
+        let showModal = "";
+        let text="";
+        let modalType="";
+        let confirm="";
+
+        if(showReqtermEndModal) {
+            showModal = true;
+            text = "신청 접수를 마감하면 처리되지 않은 신청은 자동으로 반려 처리됩니다. " +
+                "그래도 마감하시겠습니까?";
+            modalType = "마감반려";
+            confirm="마감";
+        } else if(showRequestAllEndModal) {
+            showModal = true;
+            text = "신청 접수가 마감되었습니다.";
+            modalType = "마감";
+            confirm="확인";
+        }
 
         if (presentTerm !== null && presentTerm !== undefined) {
             const date = new CommonUtil().convertDateType(today);
@@ -71,9 +91,9 @@ class ReqtermSet extends Component {
                     <div className="reqterm-set-alert">지금은 신청기간이 아닙니다.</div>
                 }
                 {inTerm ? setreqtermend ?
-                            <div className="reqterm-set-term-message blue">신청을 받고 있습니다.</div>
+                            <div className="reqterm-set-term-message blue">신청 접수가 진행중입니다.</div>
                             :
-                            <div className="reqterm-set-term-message red">신청을 받고 있지 않습니다.</div>
+                            <div className="reqterm-set-term-message red">신청 접수가 마감되었습니다.</div>
                     : <div>아직 등록된 신청 기간이 없습니다. 신청 기간을 등록해주세요</div>
                 }
 
@@ -91,6 +111,14 @@ class ReqtermSet extends Component {
                         </Button>
                     </div>
                 }
+                <ReqtermModal show={showModal}
+                              text={text}
+                              confirm={confirm}
+                              modalType={modalType}
+                              getReqtermList={getReqtermList}
+                              usernum = {usernum}
+                              presentTerm={presentTerm}
+                              updateState={this.updateState}/>
             </>
         );
     }

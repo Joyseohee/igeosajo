@@ -8,13 +8,6 @@ class Sidebar extends Component {
         super(props);
         this.state = {
             menus: false,
-            // [
-            //     {
-            //         index: "depth1",
-            //         name: "",
-            //         path: "",
-            //     },
-            // ],
             currentMainMenu: null,
             currentSubMenu: null,
         };
@@ -61,7 +54,9 @@ class Sidebar extends Component {
     render() {
         let {menus, currentMainMenu, currentSubMenu} = this.state;
         const {pagename} = this.props;
-        if (pagename !== '메인' && pagename !== '페이지') {
+        if(pagename === '사무용품 신청 내역') {
+            currentMainMenu = '사무용품 신청 내역';
+        } else if (pagename !== '메인' && pagename !== '페이지') {
             currentSubMenu = this.props.pagename;
             currentMainMenu = menus && menus.find(menu => menu.menu2.find(menu => menu.name === currentSubMenu)).name;
         }
