@@ -57,7 +57,7 @@ class Product extends Component {
             pageCount: 1,
             items2: [],
             dates: [],
-            message:''
+            message: ''
         };
         this.checksend = this.checksend.bind(this);
         this.postcheck = this.postcheck.bind(this);
@@ -82,22 +82,21 @@ class Product extends Component {
         const termyearmonth = year + '' + month
 
         let available = this.state.available
+        let dates = this.state.dates
+
         new Api().read("reqterm", null, null)
             .then((response) => {
                 return response.json();
             })
             .then((response) => {
+                dates = response.filter(term => term.termyearmonth !== termyearmonth);
                 available = response.filter(term => term.termyearmonth !== termyearmonth)[0].termavailable;
                 this.setState({
                     available: available,
-                    termyearmonth: termyearmonth
+                    termyearmonth: termyearmonth,
+                    dates:dates
                 })
             });
-        fetch('http://127.0.0.1:8000/api/reqterm/' + termyearmonth)
-            .then(response => response.json())
-            .then(response => {
-                this.setState({dates: response})
-            })
     }
 
     async getlist() {
@@ -131,14 +130,15 @@ class Product extends Component {
             });
             if (items.length === 0) {
                 await this.setState({
-                    message:'상품이 없습니다.',
+                    message: '상품이 없습니다.',
                     productItemList: productItemList,
                     pageCount: items2.length
                 });
-            }else {
-                  await this.setState({
+            } else {
+                await this.setState({
                     productItemList: productItemList,
-                    pageCount: items2.length
+                    pageCount: items2.length,
+                    message: '',
                 });
             }
         } catch (e) {
@@ -219,7 +219,7 @@ class Product extends Component {
     setPageNum = (e) => {
         const pageNum = this.state.pageNum
         if (e !== pageNum) {
-            this.setState({pageNum: e,  prodnumList: []}, () => {
+            this.setState({pageNum: e, prodnumList: []}, () => {
                 this.ref.current.checkcleanall();
                 this.getlist();
             })

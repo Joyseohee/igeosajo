@@ -13,6 +13,7 @@
 .doclistTh {
     background-color: #848484;
     color: white;
+
 }
 
 
@@ -60,12 +61,15 @@
 }
 .prdth1{
         width: 15%;
+        vertical-align: middle;
 }
 .prdth2{
         width: 5%;
+        vertical-align: middle;
 }
 .prdth3{
         width: 45%;
+        vertical-align: middle;
 }
 
 

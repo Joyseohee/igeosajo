@@ -5,7 +5,6 @@ import ReqList from "../components/request/ReqList";
 import SelectReqterm from "../components/request/SelectReqterm";
 import "../styled/Request.css";
 import Goal from "../components/Goal";
-import reqtermList from "../components/reqterm/ReqtermList";
 import Paging from "../components/layout/Paging";
 import ReqCancel from "../components/requestUser/ReqCancel";
 
@@ -43,11 +42,11 @@ class Request extends Component {
                 }
             ]
         }
+        this.props.setpagename("사무용품 신청 내역")
     }
 
 
     componentDidMount() {
-        this.props.setpagename("사무용품 신청 내역");
         let reqtermList = [];
         let available = null;
         let now = new Date();

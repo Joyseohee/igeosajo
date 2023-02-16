@@ -103,8 +103,8 @@ class ProductDetail extends Component {
                                     }} disabled={!list.ccount}/></td>
                     <td className='prdth2'>{idx + 1}</td>
                     <td className='prdth1'><img className='img1' src={list.prodimg}/></td>
-                    <td className='prdth3' style={{textAlign: "left"}}>{list.prodname}<br/><br/>
-                        <div style={{fontSize: "7px"}}> {list.category1name}>>{list.category2name}</div>
+                    <td className='prdth3' style={{textAlign: "left"}}><div style={{fontSize: "25px"}}>{list.prodname}</div>
+                        <div style={{fontSize: "15px"}}> [{list.category1name}&nbsp;>>&nbsp;{list.category2name}]</div>
                     </td>
                     <td className='prdth1'>\ {new CommonUtil().numberComma(list.prodprice)}</td>
                     <td className='prdth1'>
@@ -149,7 +149,7 @@ class ProductDetail extends Component {
                     </thead>
                     {list}
                 </Table>
-                <div className='nonefoundmsg'>{this.props.message}<br/><br/></div>
+                <div className='nonefoundmsg'>{this.props.message}<br/></div>
             </div>
         )
     }
