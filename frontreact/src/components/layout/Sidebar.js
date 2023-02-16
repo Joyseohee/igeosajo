@@ -7,13 +7,14 @@ class Sidebar extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            menus: [
-                {
-                    index: "depth1",
-                    name: "",
-                    path: "",
-                },
-            ],
+            menus: false,
+            // [
+            //     {
+            //         index: "depth1",
+            //         name: "",
+            //         path: "",
+            //     },
+            // ],
             currentMainMenu: null,
             currentSubMenu: null,
         };
@@ -58,24 +59,29 @@ class Sidebar extends Component {
     };
 
     render() {
-        const {menus, currentMainMenu, currentSubMenu} = this.state;
+        let {menus, currentMainMenu, currentSubMenu} = this.state;
+        const {pagename} = this.props;
+        if (pagename !== '메인' && pagename !== '페이지') {
+            currentSubMenu = this.props.pagename;
+            currentMainMenu = menus && menus.find(menu => menu.menu2.find(menu => menu.name === currentSubMenu)).name;
+        }
 
         return (
             <div className="sidebar-wrapper">
                 <div className="sidebar">
                     <div className="menu-wrapper">
-                        {menus.map((menu) => {
+                        {menus && menus.map((menu) => {
                             return (
                                 <div key={menu.index}>
                                     <Link to={menu.path}>
                                         <div
                                             className={
-                                                menu.index === currentMainMenu
+                                                menu.name === currentMainMenu
                                                     ? "menu1 selected"
                                                     : "menu1 unselected"
                                             }
                                             value={menu.index}
-                                            onClick={() => this.handleMainMenuClick(menu.index, menu.menu2[0].index)}
+                                            onClick={() => this.handleMainMenuClick(menu.index, menu.menus !== undefined ? menu.menu2[0].index : null)}
                                         >
                                             {menu.name}
                                         </div>
@@ -89,7 +95,7 @@ class Sidebar extends Component {
                                                     <Link to={submenu.path}>
                                                         <div
                                                             className={
-                                                                submenu.index === currentSubMenu
+                                                                submenu.name === currentSubMenu
                                                                     ? "menu2 selected"
                                                                     : "menu2 unselected"
                                                             }

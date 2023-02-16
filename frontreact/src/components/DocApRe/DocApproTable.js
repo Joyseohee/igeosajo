@@ -90,7 +90,6 @@ class DocPaymentTable extends Component {
     render() {
         let modalOpen = this.props.modalOpen
         let items = this.props.items
-        let words = this.props.words
         let reject = this.props.reject
         let prodnamearr = this.props.prodnamearr
         let countarr = this.props.countarr
@@ -137,7 +136,7 @@ class DocPaymentTable extends Component {
                                 {
                                     prodnamearr.map( (prodname, idx) => {
                                         return (
-                                            <tr>
+                                            <tr key={prodname}>
                                                 <td>{prodname}</td>
                                                 <td>{countarr[idx]}</td>
                                             </tr>

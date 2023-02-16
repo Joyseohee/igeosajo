@@ -13,7 +13,7 @@ class DocPaymentList extends Component {
 
     constructor(props) {
         super(props);
-        this.props.setpagename("전자 결재");
+        this.props.setpagename("전자 결재 목록");
 
         try {
             if (this.props.location.state.docstate != null) {
@@ -165,7 +165,8 @@ class DocPaymentList extends Component {
                 <Paging
                     pageNum={this.state.pageNum}
                     setPageNum={this.setPageNum}
-                    pageCount={this.state.pageCount}/>
+                    pageCount={this.state.pageCount}
+                    showNum={10}/>
             </>
         );
     }

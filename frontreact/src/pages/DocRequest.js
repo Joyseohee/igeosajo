@@ -11,7 +11,7 @@ class DocRequest extends Component {
 
     constructor(props) {
         super(props);
-        this.props.setpagename("전자 결재");
+        this.props.setpagename("전자 결재 작성");
         this.state = {
             reqSend: false,
             modalOpen: false,
@@ -22,6 +22,7 @@ class DocRequest extends Component {
     }
 
     async componentDidMount() {
+
         fetch('http://127.0.0.1:8000/api/request?reqstaging=처리전&reqstate=승인')
             .then(response => response.json())
             .then(response => {
@@ -85,6 +86,7 @@ class DocRequest extends Component {
                             pageNum={this.state.pageNum}
                             setPageNum={this.setPageNum}
                             pageCount={this.state.pageCount}
+                            showNum={10}
                         />
                     </div>
                 </div>

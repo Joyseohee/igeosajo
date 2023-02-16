@@ -78,7 +78,7 @@ a:link, a:visited, a:hover {
 
 /* 사이드바 */
 .sidebar-wrapper {
-    flex: 2;
+    /*flex: 2;*/
     min-width: 200px;
     min-height: 100vh;
     background-color: rgb(224, 224, 224);
@@ -128,5 +128,5 @@ a:link, a:visited, a:hover {
 .container-main {
     display: inline-block;
     flex: 10;
-    padding: 20px;
+    padding: 40px;
 }

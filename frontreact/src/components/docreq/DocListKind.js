@@ -43,6 +43,22 @@ class DocListKind extends Component {
 
                     <Col>
                         <div className="cardcontain">
+                            <Card style={{width: '95%', backgroundColor : listState ==="대기" ? "rgb(224, 224, 224)" : "#FAFBFF"}}>
+                                <Card.Body onClick={(e) => {
+                                    this.statechange("대기")
+                                }}>
+                                    <Card.Text className="cardtitletext">{this.props.cardMent[2]}</Card.Text>
+                                    <Row>
+                                        <Col className="cardtext">{waitcnt}</Col>
+                                        <Col> <img src={finish} alt="logo"/></Col>
+                                    </Row>
+                                </Card.Body>
+                            </Card>
+                        </div>
+                    </Col>
+
+                    <Col>
+                        <div className="cardcontain">
                             <Card style={{width: '95%', backgroundColor : listState ==="승인" ? "rgb(224, 224, 224)" : "#FAFBFF"}}>
                                 <Card.Body onClick={(e) => {
                                     this.statechange("승인")
@@ -53,22 +69,6 @@ class DocListKind extends Component {
                                         <Col> <img src={parchase} alt="logo"/></Col>
                                     </Row>
 
-                                </Card.Body>
-                            </Card>
-                        </div>
-                    </Col>
-
-                    <Col>
-                        <div className="cardcontain">
-                            <Card style={{width: '95%', backgroundColor : listState ==="대기" ? "rgb(224, 224, 224)" : "#FAFBFF"}}>
-                                <Card.Body onClick={(e) => {
-                                    this.statechange("대기")
-                                }}>
-                                    <Card.Text className="cardtitletext">{this.props.cardMent[2]}</Card.Text>
-                                    <Row>
-                                        <Col className="cardtext">{waitcnt}</Col>
-                                        <Col> <img src={finish} alt="logo"/></Col>
-                                    </Row>
                                 </Card.Body>
                             </Card>
                         </div>

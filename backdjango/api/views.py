@@ -474,7 +474,7 @@ def get_order_view(self):
         cursor.execute(query, val)
         data = dictfetchall(cursor)
         response = JsonResponse(data, safe=False)
-
+    # todo 중복 제거
     elif (func == 'distinctordernum'):
         if (orderstate == 'allselect'):
             query = 'SELECT DISTINCT ordernum,orderdate,orderstate FROM "order" WHERE "orderdate" > %s AND "orderdate" < %s ORDER BY "ordernum" DESC'
@@ -511,7 +511,7 @@ def get_order_view(self):
             reqnumarray = dictfetchall(cursor)
             resultdata.append(reqnumarray[0]['count'])
         response = JsonResponse(resultdata, safe=False)
-
+    # todo 중복 제거 후 get 해오기
     elif (func == 'reqdataget'):
         query = 'SELECT reqnum FROM "order" WHERE "ordernum" = ' + str(ordernum)
         cursor.execute(query)
@@ -585,7 +585,7 @@ def post_order_view(self):
         deliverdata = None
 
     if reqdata is not None and deliverdata is not None:
-        # deliverdata값만있을때
+        # deliverdata 값만 있을 때
         orderdate = deliverdata[0],
         orderstate = "구매완료",
         orderaddr = deliverdata[1],
@@ -1059,8 +1059,9 @@ def request_update_query(self, pk):
     reqrejectreason = request['reqrejectreason']
     # usernum = request['usernum']
     cursor = connection.cursor()
+    # todo 확인하기
     query = 'UPDATE request ' \
-            'SET reqstate = %s, reqapvdate = CURRENT_DATE, reqstaging = %s, reqrejectreason = %s  ' \
+            'SET reqstate = %s, reqapvdate = CURRENT_TIMESTAMP, reqstaging = %s, reqrejectreason = %s  ' \
             'WHERE reqnum = %s'
     # 'WHERE reqnum = %s and usernum = %s'
     # val = (reqstate, reqstaging, reqrejectreason, pk, usernum)

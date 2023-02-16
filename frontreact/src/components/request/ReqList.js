@@ -97,14 +97,13 @@ class ReqList extends Component {
     };
 
     render() {
-        const {requestList, allChecked, available} = this.props;
+        const {requestList, allChecked, available, selectedFilter, pageNum} = this.props;
         const {showRejectReasonModal} = this.state;
         let pageCount = requestList && Math.ceil(requestList.length / 10);
         let pages = [];
         for (let i = 0; i < pageCount; i++) {
             pages.push(requestList.slice(i * 10, (i + 1) * 10));
         }
-
 
         let showConfirmModal;
         let modalType;
@@ -130,7 +129,7 @@ class ReqList extends Component {
                                 <Form.Check
                                     name="allChecked"
                                     checked={allChecked}
-                                    hidden={available === 0}
+                                    hidden={available === 0 || selectedFilter==='승인' || selectedFilter==='반려'}
                                     onChange={this.handleCheckboxChange}
                                 />
                             </th>
@@ -139,13 +138,14 @@ class ReqList extends Component {
                             <th className="request-list-table-col count">수량</th>
                             <th className="request-list-table-col price">가격</th>
                             <th className="request-list-table-col date">요청일자</th>
+                            <th className="request-list-table-col date">승인일자</th>
                             <th className="request-list-table-col writer">요청자</th>
                             <th className="request-list-table-col state">상태</th>
                         </tr>
                         </thead>
                         {pages.length > 0 ?
                             <tbody>
-                            {pages[this.props.pageNum - 1].map((request, i) => {
+                            {pages[pageNum - 1].map((request, i) => {
                                 return (
                                     <tr key={request.reqnum}
                                         value={request.reqrejectreason}
@@ -166,6 +166,7 @@ class ReqList extends Component {
                                         <td>{request.reqcount}</td>
                                         <td>{new CommonUtil().numberComma(request.reqprice)}원</td>
                                         <td>{request.reqdate}</td>
+                                        <td>{request.reqapvdate ? request.reqapvdate : "신청 처리 전"}</td>
                                         <td>{request.username}</td>
                                         <td>{request.reqstate}</td>
                                     </tr>

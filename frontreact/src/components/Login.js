@@ -9,7 +9,7 @@ class Login extends Component {
         this.state = {
             userId: "",
             userPwd: "",
-            logined:'N',
+            logined: 'N',
         };
     }
 
@@ -38,7 +38,7 @@ class Login extends Component {
                 } else {
                     localStorage.setItem("secretcode", data);
                     this.setState({
-                        logined:'Y',
+                        logined: 'Y',
                     })
                 }
             });
@@ -50,49 +50,62 @@ class Login extends Component {
     }
 
     componentDidUpdate(preState) {
-        if(preState.logined !== this.state.logined && this.state.logined === 'Y'){
+        if (preState.logined !== this.state.logined && this.state.logined === 'Y') {
             this.props.changeLogined('Y');
             this.props.history.push('/main');
         }
     }
 
+    handleKeyDown = (e) => {
+        if (e.key === 'Enter') {
+            this.loginClick();
+        }
+    }
+성
     render() {
-            return (
-                <div className={"loginDiv"}>
-                    <img src={"/img/user.png"}/>
-                    <Container className="panel">
+        return (
+            <div className={"loginDiv"}>
+                <img src={"/img/user.png"}/>
+                <Container className="panel">
 
-                        <Form>
-                            <Form.Group as={Row} className="mb-3" controlId="formPlaintextId">
-                                <Col sm>
-                                    <Form.Control className={"userid"} type="text" placeholder="UserID"
-                                                  onChange={(e) => {
-                                                      this.setState({userId: e.target.value});
-                                                  }}/>
-                                </Col>
-                            </Form.Group>
+                    <Form>
+                        <Form.Group as={Row} className="mb-3" controlId="formPlaintextId">
+                            <Col sm>
+                                <Form.Control className={"userid"} type="text" placeholder="UserID"
+                                              onChange={(e) => {
+                                                  this.setState({userId: e.target.value});
+                                              }}/>
+                            </Col>
+                        </Form.Group>
 
-                            <Form.Group as={Row} className="mb-3" controlId="formPlaintextPassword">
-                                <Col sm>
-                                    <Form.Control className={"userpwd"} type="password" placeholder="Password"
-                                                  onChange={(e) => {
-                                                      this.setState({userPwd: e.target.value});
-                                                  }}/>
-                                </Col>
-                            </Form.Group>
-                            <br/>
+                        <Form.Group as={Row} className="mb-3" controlId="formPlaintextPassword">
+                            <Col sm>
+                                <Form.Control className={"userpwd"} type="password" placeholder="Password"
+                                              onChange={(e) => {
+                                                  this.setState({userPwd: e.target.value});
+                                              }}
+                                              onKeyUp={(e) => {
+                                                  this.handleKeyDown(e);
+                                              }}
+                                />
+                            </Col>
+                        </Form.Group>
+                        <br/>
 
-                            <div className="d-grid gap-1">
-                                <Button style={{backgroundColor: "rgb(82, 150, 213)", border: "none"}} onClick={(e) => {
-                                    this.loginClick();
-                                }}>
-                                    Sign In
-                                </Button>
-                            </div>
-                        </Form>
-                    </Container>
-                </div>
-            );
+                        <div className="d-grid gap-1">
+                            <Button style={{backgroundColor: "rgb(82, 150, 213)", border: "none"}}
+                                    onClick={(e) => {
+                                        this.loginClick();
+
+                                    }}
+                            >
+                                Sign In
+                            </Button>
+                        </div>
+                    </Form>
+                </Container>
+            </div>
+        );
     }
 }
 

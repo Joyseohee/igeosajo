@@ -8,6 +8,7 @@ import "../styled/Reqterm.css"
 class Reqterm extends Component {
     constructor(props) {
         super(props);
+        this.props.setpagename("신청기간 설정");
         this.state = {
             presentTerm: null,
             today: null,
@@ -15,7 +16,6 @@ class Reqterm extends Component {
     }
 
     componentDidMount() {
-        this.props.setpagename("사무용품 신청 관리");
         let date = new Date();
         let presentTermyearmonth = new CommonUtil().convertDateToReqtermPk(date);
         new Api().read("reqterm", null, presentTermyearmonth)

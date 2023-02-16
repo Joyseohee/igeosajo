@@ -48,7 +48,7 @@ class OrderCountCard extends Component {
                     <Col>
                         <div className="maincardcontainetc">
                             <Card style={{width: '95%'}}>
-                                <Card.Body  onClick={(e) => {this.props.routerpath(e,"/Order")}}>
+                                <Card.Body  onClick={(e) => {this.props.routerpath(e,"/order")}}>
                                     <Card.Text className="cardtitletext">배송 완료</Card.Text>
 
                                         <Container>
