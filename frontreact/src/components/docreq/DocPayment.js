@@ -33,6 +33,7 @@ class DocPayment extends Component {
                         this.props.history.push({
                             pathname: '/docpaydetail',
                             document: {detailDocNum: response[0].docnum},
+                            listState: {listKind: "대기"}
                         })
                     }
                 )
@@ -52,7 +53,6 @@ class DocPayment extends Component {
             window.location.assign("http://localhost:3000/docrequest");
 
         } else if (e === 0) {
-            console.log(123)
             this.reqSendClick(null)
             this.props.openModal(false)
         }
@@ -65,7 +65,8 @@ class DocPayment extends Component {
         let modalOpen = this.props.modalOpen
         let items = this.props.items
         let reqnum = this.props.reqnum
-        let words = this.props.words
+        let prodnamearr = this.props.prodnamearr
+        let countarr = this.props.countarr
 
         return (
             <div className={"docPaymentTable"}>
@@ -87,10 +88,28 @@ class DocPayment extends Component {
                         <td>작성일자</td>
                         <td>{items["wdate"]}</td>
                     </tr>
-
                     <tr>
                         <td>상품명</td>
-                        <td>{words}</td>
+                        <td>
+                            <Table bordered>
+                                <tbody className={"prodnameTable"}>
+                                <tr>
+                                    <td>상품명</td>
+                                    <td>수량</td>
+                                </tr>
+                                {
+                                    prodnamearr.map( (prodname, idx) => {
+                                        return (
+                                            <tr key={prodname}>
+                                                <td>{prodname}</td>
+                                                <td>{countarr[idx]}</td>
+                                            </tr>
+                                        )
+                                    } )
+                                }
+                                </tbody>
+                            </Table>
+                        </td>
                     </tr>
                     <tr>
                         <td>금액 총합</td>

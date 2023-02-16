@@ -165,7 +165,8 @@ class DocPaymentList extends Component {
                 <Paging
                     pageNum={this.state.pageNum}
                     setPageNum={this.setPageNum}
-                    pageCount={this.state.pageCount}/>
+                    pageCount={this.state.pageCount}
+                    showNum={10}/>
             </>
         );
     }

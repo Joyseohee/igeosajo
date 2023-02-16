@@ -14,7 +14,8 @@ class DocReqDetail extends Component {
             checkState: false,
             items: [],
             reqnum: [],
-            words: ""
+            prodnamearr: [],
+            countarr:[]
         };
     }
 
@@ -27,15 +28,14 @@ class DocReqDetail extends Component {
     };
 
     printArr = () => {
-        let word = "";
+        let prodnamearr = [];
+        let countarr = [];
 
         for (let i = 0; i < this.state.items["prodname"].length; i++) {
-            word += i + 1 + ". "
-            word += this.state.items["prodname"][i];
-            word += " -> " + this.state.items["prodcount"][i] + "개 \n";
+            prodnamearr.push(this.state.items["prodname"][i]);
+            countarr.push(this.state.items["prodcount"][i]);
         }
-
-        this.setState({words: word})
+        this.setState({prodnamearr: prodnamearr, countarr:countarr})
     }
 
     reqSendClick = (e) => {
@@ -68,7 +68,8 @@ class DocReqDetail extends Component {
                                 checkState={this.state.checkState}
                                 items = {this.state.items}
                                 reqnum = {this.state.reqnum}
-                                words = {this.state.words}
+                                prodnamearr={this.state.prodnamearr}
+                                countarr={this.state.countarr}
                             />
                             <DocPaymentBtn reqSend={this.state.reqSend} reqSendClick={this.reqSendClick}/>
                         </div>

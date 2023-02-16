@@ -25,7 +25,7 @@ class modal2 extends Component {
                     <Form>
                         <Form.Group className="mb-3">
                             <Form.Control as="textarea"
-                                          rows={3}
+                                          rows={5}
                                           onBlur={(e) => {rejectReason = e.target.value}}
                                           placeholder={"반려 사유를 입력 하세요"}
                                           autoFocus/>
@@ -35,7 +35,7 @@ class modal2 extends Component {
                 <Modal.Footer>
 
                     <Button className={"modal1btn"}
-                            style={{backgroundColor: "rgb(82, 150, 213)", border: "none"}}
+                            style={{backgroundColor: "rgb(110, 117, 124)", border: "none"}}
                             onClick={() => {
                                 this.props.inputReject("취소");
                             }}>취소</Button>

@@ -80,3 +80,27 @@ td{
     text-align: center;
     width: 50%;
 }
+
+/*결재자 버튼*/
+.DocApproBtnDiv{
+    display: flex;
+}
+
+.DocApproBtn{
+    height: 3rem;
+    width: 8rem;
+}
+
+.awaitDocApproBtn{
+    height: 3.3rem;
+    width: 7.4rem;
+}
+
+.awaitDocApproBtnDiv{
+    width: 100%;
+    text-align: right;
+}
+
+.approvalBtn{
+    margin-left: 1rem;
+}
