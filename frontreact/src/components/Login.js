@@ -94,9 +94,8 @@ class Login extends Component {
 
                         <div className="d-grid gap-1">
                             <Button style={{backgroundColor: "rgb(82, 150, 213)", border: "none"}}
-                                    onClick={(e) => {
+                                    onClick={() => {
                                         this.loginClick();
-
                                     }}
                             >
                                 Sign In

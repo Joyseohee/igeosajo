@@ -8,13 +8,6 @@ class Sidebar extends Component {
         super(props);
         this.state = {
             menus: false,
-            // [
-            //     {
-            //         index: "depth1",
-            //         name: "",
-            //         path: "",
-            //     },
-            // ],
             currentMainMenu: null,
             currentSubMenu: null,
         };

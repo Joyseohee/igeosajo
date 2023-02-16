@@ -31,20 +31,6 @@ class ReqtermSet extends Component {
         this.setState({
             showReqtermEndModal: true
         })
-        //
-        //
-        //
-        // const params = {
-        //     "usernum": this.props.usernum,
-        //     "termavailable": 0,
-        // }
-        // this.setState({
-        //     setreqtermstart: false,
-        // })
-        // new Api().update("reqterm", params, this.props.presentTerm.termyearmonth).then(() => {
-        //         this.props.getReqtermList();
-        //     }
-        // )
     }
 
     updateState = (newValues) => {

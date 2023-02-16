@@ -407,7 +407,6 @@ def put_request(self):
 def put_request_pk(self, pk):
     return request_update_query(self, str(pk))
 
-
 def get_request_pk(self, pk):
     usernum = self.GET.get('usernum', None)
     params = {}
@@ -416,10 +415,8 @@ def get_request_pk(self, pk):
         params['u.usernum'] = usernum
     return request_select_query(params)
 
-
 def put_request_pk(self, pk):
     return request_update_query(self, str(pk))
-
 
 def delete_request(self):
     reqnum = str(self.GET.get('reqnum', None))
@@ -1073,7 +1070,6 @@ def request_update_query(self, pk):
     reqstaging = request['reqstaging']
     reqrejectreason = request['reqrejectreason']
     cursor = connection.cursor()
-    # todo 확인하기
     query = 'UPDATE request ' \
             'SET reqstate = %s, reqapvdate = CURRENT_TIMESTAMP, reqstaging = %s, reqrejectreason = %s  ' \
             'WHERE reqnum = %s'
