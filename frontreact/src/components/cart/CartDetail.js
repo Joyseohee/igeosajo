@@ -2,6 +2,7 @@ import Table from "react-bootstrap/Table";
 import Form from "react-bootstrap/Form";
 import React, {Component} from 'react';
 import '../../styled/Cart.css';
+import CommonUtil from "../../util/CommonUtil";
 
 class CartDetail extends Component {
     constructor(props) {
@@ -10,7 +11,9 @@ class CartDetail extends Component {
             prodnumList: [],
             reqcountList: [],
             reqpriceList: [],
-           // prodnum2: [],
+            // prodnum2: [],
+
+            items: ['hello']
         };
     }
 
@@ -118,9 +121,9 @@ class CartDetail extends Component {
     checkcleanall = () => {
 
         const checkboxes1 = document.getElementsByName('select1');
-      //  const checkboxes2 = document.getElementsByName('select2');
+        //  const checkboxes2 = document.getElementsByName('select2');
         const checkall1 = document.getElementsByName('selectAll1');
-     //   const checkall2 = document.getElementsByName('selectAll2');
+        //   const checkall2 = document.getElementsByName('selectAll2');
 
         checkboxes1.forEach((checkbox) => {
             checkbox.checked = false;
@@ -137,42 +140,52 @@ class CartDetail extends Component {
         let prodnumList = []
         let reqcountList = []
         let reqpriceList = []
-       // let prodnum2 = []
+        // let prodnum2 = []
 
         this.setState({
             prodnumList: prodnumList,
             reqcountList: reqcountList,
             reqpriceList: reqpriceList,
-        //    prodnum2: prodnum2
+            //    prodnum2: prodnum2
         })
     }
 
-    render() {
-let list
-                if (this.props.items[0] !== 'items') {
-         list = this.props.items.map((list, idx) => (
+    setList = (items) => {
+        return (
+            items.map((list, idx) => (
 
-            <tbody>
-            <tr key={list.prodnum}>
-                <td className='cartth2'>{idx + 1}</td>
-                <td className='cartth1'><img className='img2' src={list.prodimg}/></td>
-                <td className='cartth3'>{list.prodname}</td>
-                <td className='cartth5'>{list.prodprice}</td>
-                <td className='cartth4'>{list.cartcount}</td>
-                <td className='cartth4'>{list.prodnum}</td>
-                {/*<td><Form.Check aria-label="option 1" name={"select2"}*/}
-                {/*                value={[list.prodnum]}*/}
-                {/*                onChange={(e) => {*/}
-                {/*                    this.choiceUnit2(e.target.checked, e.target.value);*/}
-                {/*                }}/></td>*/}
-                <td><Form.Check aria-label="option 1" name={"select1"}
-                                value={[list.prodnum, list.cartcount, list.prodprice]}
-                                onChange={(e) => {
-                                    this.choiceUnit(e.target.checked, e.target.value);
-                                }}/></td>
-            </tr>
-            </tbody>
-         ))  } else list =['']
+                <tbody key={list.prodnum}>
+                <tr>
+                    <td className='cartth2'>{idx + 1}</td>
+                    <td className='cartth1'><img className='img2' src={list.prodimg}/></td>
+                    <td className='cartth3'>{list.prodname}</td>
+                    <td className='cartth5'>\ {new CommonUtil().numberComma(list.prodprice)}</td>
+                    <td className='cartth4'>{list.cartcount}</td>
+                    <td className='cartth4'>{list.prodnum}</td>
+                    {/*<td><Form.Check aria-label="option 1" name={"select2"}*/}
+                    {/*                value={[list.prodnum]}*/}
+                    {/*                onChange={(e) => {*/}
+                    {/*                    this.choiceUnit2(e.target.checked, e.target.value);*/}
+                    {/*                }}/></td>*/}
+                    <td><Form.Check aria-label="option 1" name={"select1"}
+                                    value={[list.prodnum, list.cartcount, list.prodprice]}
+                                    onChange={(e) => {
+                                        this.choiceUnit(e.target.checked, e.target.value);
+                                    }}/></td>
+                </tr>
+                </tbody>
+            ))
+
+        )
+    }
+
+
+
+    render() {
+        let list
+        if (this.props.items.length !== 0) {
+            list = this.setList(this.props.items)
+        }
 
         return (
             <div>
@@ -186,9 +199,6 @@ let list
                         <th>가격</th>
                         <th>수량</th>
                         <th>상품코드</th>
-                        {/*<th><span>삭제</span> &nbsp;&nbsp;<Form.Check style={{display: "inline-block"}}*/}
-                        {/*                                            aria-label="option 1" name={"selectAll2"}*/}
-                        {/*                                            onClick={this.choiceAll2}/></th>*/}
                         <th><span>선택</span>&nbsp;&nbsp;<Form.Check style={{display: "inline-block"}}
                                                                    aria-label="option 1" name={"selectAll1"}
                                                                    onClick={this.choiceAll}/></th>
@@ -196,7 +206,7 @@ let list
                     </thead>
                     {list}
                 </Table>
-                {list.length === 0 ? <div className='nonefoundmsg2'> 장바구니가 비었습니다 <br/><br/></div> : null}
+                <div className='nonefoundmsg'>{this.props.message}<br/></div>
             </div>
         )
     }

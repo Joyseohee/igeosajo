@@ -16,7 +16,7 @@ class Cart extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            items: ['items'],
+            items: [],
             select: "False",
             posted: false,
             prodnumList: [],
@@ -53,10 +53,11 @@ class Cart extends Component {
             termyearmonth: '',
             pageNum: 1,
             pageCount: 1,
-            dates:[]
+            dates: [],
+            message: ''
         };
         this.getlist = this.getlist.bind(this);
-        this.props.setpagename("사무용품 구매");
+        this.props.setpagename("장바구니");
     }
 
     async componentDidMount() {
@@ -72,16 +73,39 @@ class Cart extends Component {
 
 
         try {
-            const res2 = await fetch('http://127.0.0.1:8000/api/cart?usernum=' + usernum)
-            const items2 = await res2.json();
+            let res2 = await fetch('http://127.0.0.1:8000/api/cart?usernum=' + usernum)
+            let items2 = await res2.json();
 
-            const res = await fetch('http://127.0.0.1:8000/api/cart?usernum=' + usernum + '&pagenum=' + pagenum);
+            let res = await fetch('http://127.0.0.1:8000/api/cart?usernum=' + usernum + '&pagenum=' + pagenum);
+            let items = await res.json();
+            if (items2.length === 0) {
+                await this.setState({
+                    items: items,
+                    pageCount: items2.length,
+                    message: '장바구니가 비었습니다.'
+                });
+            } else {
+                if (items.length !== 0) {
+                    await this.setState({
+                        items: items,
+                        pageCount: items2.length,
 
-            const items = await res.json();
-            await this.setState({
-                items: items,
-                pageCount: items2.length
-            });
+                    });
+                } else {
+                     console.log('모자라니?');
+                     res2 = await fetch('http://127.0.0.1:8000/api/cart?usernum=' + usernum)
+                     items2 = await res2.json();
+                     res = await fetch('http://127.0.0.1:8000/api/cart?usernum=' + usernum + '&pagenum=' + (pagenum-1));
+                     items = await res.json();
+                    await this.setState({
+                        items: items,
+                        pageCount: items2.length - 1,
+                        pageNum: pagenum-1
+
+                    });
+                }
+            }
+
 
         } catch (e) {
             console.log(e);
@@ -98,25 +122,20 @@ class Cart extends Component {
         const termyearmonth = year + '' + month
 
         let available = this.state.available
+         let dates = this.state.dates
         new Api().read("reqterm", null, null)
             .then((response) => {
                 return response.json();
             })
             .then((response) => {
+                dates = response.filter(term => term.termyearmonth !== termyearmonth);
                 available = response.filter(term => term.termyearmonth !== termyearmonth)[0].termavailable;
                 this.setState({
                     available: available,
-                    termyearmonth: termyearmonth
+                    termyearmonth: termyearmonth,
+                    dates:dates
                 })
             });
-
-        // 신청기간 조회
-        fetch('http://127.0.0.1:8000/api/reqterm/' + termyearmonth)
-            .then(response => response.json())
-            .then(response => {
-                console.log(response)
-                this.setState({dates: response})
-            })
     }
 
     checksend1 = (res1, res2, res3) => {
@@ -146,8 +165,7 @@ class Cart extends Component {
     setPageNum = (e) => {
         const pageNum = this.state.pageNum
         if (e !== pageNum) {
-            const productItemList = [];
-            this.setState({pageNum: e, productItemList: productItemList, prodnumList: []}, () => {
+            this.setState({pageNum: e, prodnumList: []}, () => {
                 this.ref.current.checkcleanall();
                 this.getlist();
 
@@ -157,14 +175,15 @@ class Cart extends Component {
 
 
     render() {
-        const {available} =this.state;
+        const {available} = this.state;
 
         return (
             <div>
                 <Goal comment={"장바구니"}/>
-                {available ?<div>
+                {available ? <div>
                     <div className='display_btn2'>
-                        <DeleteCart style={{float: 'right'}} usernum={this.props.usernum} prodnumList={this.state.prodnumList}
+                        <DeleteCart style={{float: 'right'}} usernum={this.props.usernum}
+                                    prodnumList={this.state.prodnumList}
                                     postcheck={this.postcheck}
                                     modalInfo={this.state.modalInfo}/>&nbsp;&nbsp;&nbsp;&nbsp;
                         <PostCartToRequest postcheck={this.postcheck} usernum={this.props.usernum}
@@ -174,18 +193,19 @@ class Cart extends Component {
                                            posted={this.state.posted}
                                            modalInfo={this.state.modalInfo}/>&nbsp;&nbsp;&nbsp; </div>
 
-                <br/><br/>
+                    <br/><br/>
 
-                <CartDetail items={this.state.items} func1={this.checksend1}
-                            ref={this.ref}
-                />
-                <Paging
-                    showNum={5}
-                    pageNum={this.state.pageNum}
-                    setPageNum={this.setPageNum}
-                    pageCount={this.state.pageCount}
-                />
-    </div> :  <CheckPeriod items = {this.state.dates}/>}
+                    <CartDetail items={this.state.items} func1={this.checksend1}
+                                ref={this.ref}
+                                message={this.state.message}
+                    />
+                    <Paging
+                        showNum={5}
+                        pageNum={this.state.pageNum}
+                        setPageNum={this.setPageNum}
+                        pageCount={this.state.pageCount}
+                    />
+                </div> : <CheckPeriod items={this.state.dates}/>}
             </div>
         );
     }
