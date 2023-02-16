@@ -5,12 +5,8 @@ import Row from "react-bootstrap/Row";
 import Card from "react-bootstrap/Card";
 import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
-import Table from "react-bootstrap/Table";
 import TotalPrice from "./TotalPrice";
 
-let orderstate = ""
-let sdate
-let edate
 let checklist = []
 
 class OrderView extends Component {

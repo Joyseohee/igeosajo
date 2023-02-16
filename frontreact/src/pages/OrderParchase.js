@@ -1,11 +1,6 @@
 import React, {Component} from "react";
 import "../styled/Layouts.css"
-import OrderProgress from "./OrderProgress";
 import Container from "react-bootstrap/Container";
-import Headertitle from "../components/orderProgress/HeaderTitle";
-import DateSetting from "../components/orderProgress/DateSetting";
-import OrderSearch from "../components/orderProgress/OrderSearch";
-import OrderView from "../components/orderProgress/OrderView";
 import OrderDataInput from "../components/orderRequestList/OrderDataInput";
 import { withRouter } from 'react-router-dom';
 import OrderTotalReq from "../components/orderRequestList/OrderTotalReq";

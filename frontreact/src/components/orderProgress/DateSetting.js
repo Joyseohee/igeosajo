@@ -2,10 +2,6 @@ import React, { Component } from 'react';
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
-import HeaderTitle from "./HeaderTitle";
-
-
-
 
 
 class DateSetting extends Component {
@@ -40,6 +36,7 @@ class DateSetting extends Component {
          let now = new Date();
          if (startyear == "" | startmonth == ""|endyear == ""|endmonth == ""){this.props.handleshow(true,"시작일과 마감일을 정확하게 입력해주세요.")}
          if((startyear>endyear)|startmonth < 1 | startmonth>12 | endmonth < 1 | endmonth>12){this.props.handleshow(true,"시작일과 마감일을 정확하게 입력해주세요.")}
+         if((startyear=endyear) &&(startmonth > endmonth)){this.props.handleshow(true,"시작일과 마감일을 정확하게 입력해주세요.")}
          else{
              this.setState({
                  startyear: startyear,
@@ -50,10 +47,7 @@ class DateSetting extends Component {
              this.props.datesetting(startyear,startmonth,endyear,endmonth)
              this.props.handleshow(true,"조회기간이 정상적으로 설정되었습니다.")
          }
-         // this.dateValueClear(startyeartar,startmonthtar,endyeartar,endmonthtar)
     }
-
-
 
     render() {
 
@@ -70,11 +64,11 @@ class DateSetting extends Component {
                                 <div className="input-group">
                                     <Col xs={2}><span className="input-group-text" style={{backgroundColor:"dodgerblue",color:"white"}}><span className="startdatetext">시작일</span></span></Col>
                                     <Col><input type="text"  id="startyear" className="form-control " placeholder="ex)2021 - year"  maxLength='4' onChange={(e) => {this.onChangeDate(e)}}/></Col>
-                                    <Col><input type="text" id="startmonth" className="form-control " placeholder="ex)01 - month" maxLength='2' onChange={(e) => {this.onChangeDate(e)}}/></Col>
+                                    <Col><input type="text" id="startmonth" className="form-control " placeholder="ex)1~12 - month" maxLength='2' onChange={(e) => {this.onChangeDate(e)}}/></Col>
 
                                     <Col xs={2}><span className="input-group-text" style={{backgroundColor:"dodgerblue",color:"white"}}><span className="enddatetext">마감일</span></span></Col>
                                     <Col><input type="text"  id="endyear"className="form-control" placeholder="ex)2021 - year" maxLength='4' onChange={(e) => {this.onChangeDate(e)}}/></Col>
-                                    <Col><input type="text"  id="endmonth"className="form-control" placeholder="ex)01 - month" maxLength='2' onChange={(e) => {this.onChangeDate(e)}}/></Col>
+                                    <Col><input type="text"  id="endmonth"className="form-control" placeholder="ex)1~12 - month" maxLength='2' onChange={(e) => {this.onChangeDate(e)}}/></Col>
                                     <Col xs={2}><Button className={"settingbtn"}  onClick={this.onChangeDateSet} >조회</Button></Col>
                                 </div>
                             </Row>

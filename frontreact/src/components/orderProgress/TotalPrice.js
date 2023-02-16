@@ -1,8 +1,6 @@
 import React, {Component} from 'react';
 import CommonUtil from "../../util/CommonUtil";
 
-let ordernum
-
 class TotalPrice extends Component {
     constructor(props) {
         super(props);

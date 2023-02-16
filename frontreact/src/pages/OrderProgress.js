@@ -1,8 +1,6 @@
 import React, {Component} from 'react';
-import '../css/header.css'
+import '../styled/Order.css'
 import Container from 'react-bootstrap/Container';
-
-import Headertitle from '../components/orderProgress/HeaderTitle'
 import DateSetting from '../components/orderProgress/DateSetting'
 import OrderSearch from '../components/orderProgress/OrderSearch'
 import OrderView from '../components/orderProgress/OrderView'
@@ -26,8 +24,6 @@ class OrderProgress extends Component {
             if(this.props.location.state.orderstate != null)
             {
                defaultstate = this.props.location.state.orderstate
-                console.log(this.props.location.state.orderstate)
-                console.log(defaultstate)
             }
         } catch (e) {
 
@@ -57,10 +53,6 @@ class OrderProgress extends Component {
         this.ordernumdata(this.state.orderstate,this.state.startdate,this.state.enddate)
         this.ordercntdata(this.state.startdate,this.state.enddate)
     }
-    // componentWillUnmount() {
-    //     this.handleClose()
-    // }
-
 
     datesetting = (startyear, startmonth, endyear, endmonth) => {
 

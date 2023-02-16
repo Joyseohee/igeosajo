@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
-import '../css/header.css'
+import '../styled/Order.css'
 import Container from 'react-bootstrap/Container';
-import Headertitle from '../components/orderProgress/HeaderTitle'
 import OrderReqSearch from '../components/orderRequestList/OrderReqSearch'
 import OrderReqTable from "../components/orderRequestList/OrderReqTable";
 import OrderReqDate from "../components/orderRequestList/OrderReqDate";
@@ -9,7 +8,7 @@ import Goal from "../components/Goal";
 import { withRouter } from 'react-router-dom';
 import Modal from "react-bootstrap/Modal";
 import {Button} from "react-bootstrap";
-import Form from "react-bootstrap/Form";
+
 
 class OrderRequestList extends Component {
     constructor(props) {
@@ -46,9 +45,7 @@ class OrderRequestList extends Component {
                     this.setState({reqdata: data})
             })
     }
-    // componentWillUnmount() {
-    //     this.handleClose()
-    // }
+
 
     orderdocsearchstate = (state) => {
         fetch('http://127.0.0.1:8000/api/order?func=orderreq&&termyearmonth=' + this.state.reqterm+'&&state=' +state)
