@@ -33,7 +33,7 @@ td{
 .commentDiv span{
     float: right;
     width: 15rem;
-    text-align: center;
+    text-align: right;
 }
 
 .sendButton{
@@ -65,4 +65,18 @@ td{
 
 .docPaymentDetailDiv Button:nth-child(2){
     float: right;
+}
+
+.prodnameTable td:nth-child(even){
+    text-align: center;
+}
+
+.prodnameTable tr:first-child{
+    background-color: darkgray;
+    font-weight: bold;
+}
+
+.prodnameTable td{
+    text-align: center;
+    width: 50%;
 }

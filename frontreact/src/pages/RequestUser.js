@@ -114,7 +114,15 @@ class Request extends Component {
             }));
         })
     }
+    handleScroll = (e) => {
+        if (!window.scrollY) return;
+        // 현재 위치가 이미 최상단일 경우 return
 
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    };
     render() {
         const {
             requestList,
@@ -131,7 +139,7 @@ class Request extends Component {
 
         return (
             <div className="page-top request-wrapper">
-                <Goal comment={"신청 내역"}/>
+                <Goal comment={"사무용품 신청 내역"}/>
                 <div className="request">
                     <div className="request-select-button-filter-wrapper">
                         <div className="request-select-button-wrapper">
@@ -150,7 +158,7 @@ class Request extends Component {
                                            selectedReqterm={selectedReqterm}
                                            requestFilter={requestFilter}
                                            usernum={this.props.usernum}
-                                           updateState={this.updateState}/> : <div>현재는 신청기간이 아닙니다.<br/>취소가 불가능합니다.</div>}
+                                           updateState={this.updateState}/> : <div style={{ border: '2px solid rgb(224, 224, 224)', borderRadius: "10px"}}>&nbsp;&nbsp;<img src={"/img/alert.png"} style={{width:"20px", height:"20px"}}/> 현재 마감된 신청기간 입니다.<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;신청 취소가 불가능합니다.</div>}
                         </div>
                         {requestList[0] !== 'requestList' &&
                             <ReqFilter

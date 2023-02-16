@@ -14,6 +14,20 @@ class DocPaymentDetailBtn extends Component {
         this.props.reqSendClick(e);
     }
 
+    showBtn = () => {
+
+
+        if (this.props.listState === "대기") {
+            return (
+                <Button className={"docPaymentBtn"} style={{backgroundColor: "rgb(214, 87, 69)", border:"none"}} onClick={ (e) =>{
+                    this.reqSendClick(true);
+                } } >상신 취소</Button>
+            )
+        }
+    }
+
+
+
     render() {
         return(
             <div className={"docPaymentDetailDiv"}>
@@ -21,9 +35,7 @@ class DocPaymentDetailBtn extends Component {
                     this.props.history.push('/docpaylist');
                 }}> 목록 </Button>
 
-                <Button className={"docPaymentBtn"} style={{backgroundColor: "rgb(214, 87, 69)", border:"none"}} onClick={ (e) =>{
-                    this.reqSendClick(true);
-                } } >상신 취소</Button>
+                {this.showBtn()}
             </div>
         );
     }

@@ -19,6 +19,7 @@ class DocList extends Component {
             this.props.history.push({
                 pathname: '/docpaydetail',
                 document: {detailDocNum: e},
+                listState: {listKind: this.props.listState}
             })
         }else if(this.props.user.userathority === 0){
             this.props.history.push({
