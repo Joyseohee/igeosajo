@@ -62,7 +62,7 @@ class Product extends Component {
         this.postcheck = this.postcheck.bind(this);
         this.getlist = this.getlist.bind(this);
         this.checkterm = this.checkterm.bind(this)
-        this.props.setpagename("사무용품 구매");
+        this.props.setpagename("물품보기");
 
     }
 

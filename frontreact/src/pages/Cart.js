@@ -56,7 +56,7 @@ class Cart extends Component {
             dates:[]
         };
         this.getlist = this.getlist.bind(this);
-        this.props.setpagename("사무용품 구매");
+        this.props.setpagename("장바구니");
     }
 
     async componentDidMount() {

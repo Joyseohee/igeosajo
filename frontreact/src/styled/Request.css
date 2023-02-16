@@ -104,11 +104,11 @@
     width: 5%;
 }
 .request-list-table-col.num {
-    width: 10%;
+    width: 5%;
 }
 
 .request-list-table-col.name {
-    width: 30%;
+    width: 20%;
 }
 .request-list-table-col.count {
     width: 10%;
@@ -134,8 +134,8 @@ thead > tr > td, tbody > tr > td {
     padding-left: 20px;
 }
 
-.request-list-click.able > td:nth-child(8),
-.request-list-click.able > td:nth-child(8):hover {
+.request-list-click.able > td:nth-child(9),
+.request-list-click.able > td:nth-child(9):hover {
     color: rgb(108, 194, 205);
 }
 

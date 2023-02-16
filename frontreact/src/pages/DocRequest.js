@@ -11,7 +11,7 @@ class DocRequest extends Component {
 
     constructor(props) {
         super(props);
-        this.props.setpagename("전자 결재");
+        this.props.setpagename("전자 결재 작성");
         this.state = {
             reqSend: false,
             modalOpen: false,
