@@ -22,24 +22,27 @@ class DocPayment extends Component {
 
     outcomeState = async (e) => {
 
+        let docnum;
+
         await this.setState({outcomeState: e})
 
         if (e === 2) {
             // 확인 버튼 눌렀을 시
-
             await fetch('http://127.0.0.1:8000/api/document?docNum=' + this.props.reqnum[0].toString())
                 .then(response => response.json())
                 .then(response => {
-                        this.props.history.push({
-                            pathname: '/docpaydetail',
-                            document: {detailDocNum: response[0].docnum},
-                            listState: {listKind: "대기"}
-                        })
+                        docnum = response[0].docnum
                     }
                 )
 
-            await this.reqSendClick(null)
             await this.props.openModal(false)
+            await this.reqSendClick(null)
+
+            await this.props.history.push({
+                pathname: '/docpaydetail',
+                document: {detailDocNum: docnum},
+                listState: {listKind: "대기"}
+            })
 
         } else if (e === 1) {
             // 취소 버튼 누른 후 확인 눌렀을 시
@@ -48,16 +51,16 @@ class DocPayment extends Component {
             })
 
             await this.setState({detailDocNum: 0})
-            await this.reqSendClick(null)
             await this.props.openModal(false)
+            await this.reqSendClick(null)
 
             await this.props.history.push({
                 pathname: "/docrequest"
             })
 
         } else if (e === 0) {
-            await this.reqSendClick(null)
             await this.props.openModal(false)
+            await this.reqSendClick(null)
         }
 
     }

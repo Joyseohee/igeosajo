@@ -139,7 +139,7 @@ class OrderView extends Component {
             )
         }
     }
-    datampty =(data)=>{
+    dataempty =(data)=>{
         const text = "데이터가 존재하지 않습니다.";
         if(data.length == 0)
         {
@@ -159,7 +159,7 @@ class OrderView extends Component {
                     {this.statebtn(this.props.orderstate)}
                 </Row>
                 <div className="orderviewmargin">
-                    {this.datampty(ordernum)}
+                    {this.dataempty(ordernum)}
                     {ordernum && ordernum.map((num,i) => (
                         <Row style={{width: '101.5%'}} key={num.ordernum}>
                         <div className="cardcontainprogress" >

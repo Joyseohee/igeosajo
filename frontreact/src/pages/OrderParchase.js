@@ -11,7 +11,7 @@ import Goal from "../components/Goal";
 class OrderParchase extends Component {
     constructor(props) {
         super(props);
-        this.props.setpagename("구매 페이지");
+        this.props.setpagename("구매 신청");
         this.state = {
             reqnum: this.props.location.state.data,
             reqdata: [],

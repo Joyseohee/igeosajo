@@ -80,7 +80,7 @@ class ProductFilter extends Component {
                   <div className="inline">
                 <FormSelect className="form-select" style={{width:'130px', height:'45px', cursor:"pointer"}} onChange={(e) => this.select1(e.target.value)}>
                     <option value={''}
-                                    >전체</option>
+                                    >전체 </option>
                     {this.state.items1.map((cate1) => {
                         return (
                             <option key={cate1.category1code}

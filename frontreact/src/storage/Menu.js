@@ -5,8 +5,8 @@ export default class Menu {
     user0menu = [
         {
             index: "depth1-1",
-            name: "전자결재",
-            path: "/docpaylist",
+            name: "전자 결재",
+            path: "/main",
         }
     ];
 

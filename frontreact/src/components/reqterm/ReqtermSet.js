@@ -50,8 +50,7 @@ class ReqtermSet extends Component {
 
         if(showReqtermEndModal) {
             showModal = true;
-            text = "신청 접수를 마감하면 처리되지 않은 신청은 자동으로 반려 처리됩니다. " +
-                "그래도 마감하시겠습니까?";
+            text = `신청 접수를 마감하면 처리되지 않은 신청은 자동으로 반려됩니다.\n그래도 마감하시겠습니까?`;
             modalType = "마감반려";
             confirm="마감";
         } else if(showRequestAllEndModal) {
@@ -94,7 +93,7 @@ class ReqtermSet extends Component {
                             <div className="reqterm-set-term-message blue">신청 접수가 진행중입니다.</div>
                             :
                             <div className="reqterm-set-term-message red">신청 접수가 마감되었습니다.</div>
-                    : <div>아직 등록된 신청 기간이 없습니다. 신청 기간을 등록해주세요</div>
+                    : <div className="reqterm-set-term-message">아직 등록된 신청 기간이 없습니다. 신청 기간을 등록해주세요</div>
                 }
 
                 {inTerm &&

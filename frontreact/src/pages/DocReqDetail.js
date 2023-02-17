@@ -55,27 +55,21 @@ class DocReqDetail extends Component {
 
     render() {
         return (
-            <div>
-                <div>
-                    <div>
-                        <div className={"commentDiv"}>
-                            <Goal comment={"전자 결재 작성"}/>
-                            <DocPayment
-                                reqSend={this.state.reqSend}
-                                reqSendClick={this.reqSendClick}
-                                modalOpen={this.state.modalOpen}
-                                openModal={this.openModal}
-                                checkState={this.state.checkState}
-                                items={this.state.items}
-                                reqnum={this.state.reqnum}
-                                prodnamearr={this.state.prodnamearr}
-                                countarr={this.state.countarr}
-                            />
-                            <DocPaymentBtn reqSend={this.state.reqSend} reqSendClick={this.reqSendClick}/>
-                        </div>
-                    </div>
+                <div className={"commentDiv"}>
+                    <Goal comment={"전자 결재 작성"}/>
+                    <DocPayment
+                        reqSend={this.state.reqSend}
+                        reqSendClick={this.reqSendClick}
+                        modalOpen={this.state.modalOpen}
+                        openModal={this.openModal}
+                        checkState={this.state.checkState}
+                        items={this.state.items}
+                        reqnum={this.state.reqnum}
+                        prodnamearr={this.state.prodnamearr}
+                        countarr={this.state.countarr}
+                    />
+                    <DocPaymentBtn reqSend={this.state.reqSend} reqSendClick={this.reqSendClick}/>
                 </div>
-            </div>
         );
     }
 }

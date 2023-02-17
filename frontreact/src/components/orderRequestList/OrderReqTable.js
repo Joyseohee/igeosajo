@@ -6,7 +6,7 @@ import { withRouter } from "react-router-dom";
 import CommonUtil from "../../util/CommonUtil";
 
 let ordernum
-let checklist = []
+
 class OrderTable extends Component {
     constructor(props) {
         super(props);
@@ -18,62 +18,6 @@ class OrderTable extends Component {
 
     }
 
-    checkenable =(state,reqnum)=>{
-        if(state=="구매완료") {
-            return (
-                <td><Form.Check className="ordercardtext"  name="check" id={reqnum} onChange={(e) => {this.checkindividal(e.target.checked, e.target.id)}}disabled/></td>
-            )
-        }
-        else {
-            return(
-           <td><Form.Check className="ordercardtext"  name="check" id={reqnum} onChange={(e) => {this.checkindividal(e.target.checked, e.target.id)}}/></td>
-            )
-        }
-    }
-
-    checkclear=(state)=>{
-        checklist = []
-        const check = document.getElementsByName('check');
-        const checkall = document.getElementsByName('checkall');
-        check.forEach((state) => {state.checked = false})
-        checkall.forEach((state)=>{state.checked = false})
-    }
-    checkall=()=>{
-        checklist = []
-        const check = document.getElementsByName('check');
-        let checkall = document.getElementsByName('checkall');
-        check.forEach((state) => {
-            if(state.disabled == false) {
-                state.checked = checkall[0].checked
-                 if(checkall[0].checked){
-                checklist.push(state.id)
-                 }
-            }
-        })
-    }
-    checkindividal=(check, num)=> {
-        if (check){
-            checklist.push(num);
-        }else{
-            checklist = checklist.filter((element)=>element !== num)
-        }
-
-    }
-    orderparchasepath = () => {
-        if(checklist.length ==0){
-            this.props.handleShow(true,"선택된 항목이 없습니다.")
-        }
-        else {
-            this.props.history.push({
-                pathname: "/OrderParchase",
-                state: {
-                    data: checklist
-                },
-            })
-        }
-        checklist = []
-    }
-    
     statebtn=(state)=>{
         if(state=="all") {
             return (
@@ -89,6 +33,7 @@ class OrderTable extends Component {
             )
         }
         else if(state=="prevparchase") {
+
             return (
                <div className="subtitle">
                   <div className="dotmargin" ></div>
@@ -102,6 +47,7 @@ class OrderTable extends Component {
             )
             
         }else if(state=="parchase") {
+
             return (
                 <div className="subtitle" style={{height:'37.5px'}}>
                   <div className="dotmargin" ></div>
@@ -115,6 +61,22 @@ class OrderTable extends Component {
             )
         } 
     }
+
+    orderparchasepath = () => {
+        if(this.props.checklist.length ==0){
+            this.props.handleShow(true,"선택된 항목이 없습니다.")
+        }
+        else {
+            this.props.history.push({
+                pathname: "/OrderParchase",
+                state: {
+                    data: this.props.checklist
+                },
+            })
+        }
+        this.props.checkclear()
+    }
+
     dataempty =(data)=>{
         const text = "데이터가 존재하지 않습니다.";
         if(data.length == 0)
@@ -136,7 +98,7 @@ class OrderTable extends Component {
             <Table bordered hover>
                 <thead>
                 <tr className={"listTh"}>
-                    <th style={{width:"3%"}}><Form.Check className="ordercardtext" name="checkall" id={ordernum} onClick={this.checkall} /></th>
+                    <th style={{width:"3%"}}><Form.Check className="ordercardtext" name="checkall" id={ordernum} onClick={this.props.checkall} /></th>
                     <th style={{width:"5%"}}>No</th>
                     <th style={{width:"23%"}}>상품명</th>
                     <th style={{width:"10%"}}>수량</th>
@@ -150,7 +112,7 @@ class OrderTable extends Component {
                 {this.dataempty(reqdata)}
                 {reqdata && reqdata.map((num, i) => (
                     <tr key = {num+i} >
-                        {this.checkenable(num.reqorder,num.reqnum)}
+                        {this.props.checkenable(this.props.orderreqstate,num.reqnum)}
                         <td style={{fontSize:"15px"}}>{i+1}</td>
                         <td style={{fontSize:"15px"}}>{num.prodname}</td>
                         <td style={{fontSize:"15px"}}>{num.reqcount+"개"}</td>

@@ -15,7 +15,11 @@ class ReqFilterBox extends Component {
     filteredState = () => {
         let param = this.props.filter.reqstate;
         let filter = param === '전체' ? null : param;
-        new Api().read("request", {termyearmonth: this.props.selectedReqterm, reqstate: filter, usernum: this.props.usernum!==undefined?this.props.usernum:null}, null)
+        new Api().read("request", {
+            termyearmonth: this.props.selectedReqterm,
+            reqstate: filter,
+            usernum: this.props.usernum !== undefined ? this.props.usernum : null
+        }, null)
             .then((response) => {
                 return response.json();
             }).then((response) => {
@@ -51,15 +55,13 @@ class ReqFilterBox extends Component {
             <div className="reqfilter-box-wrapper" onClick={this.filteredState}
                  style={{backgroundColor: `${this.props.color}`, border: "0.5px solid rgba(222, 222, 222, 0.8)"}}
             >
-                <div>
-                    <div className="reqfilter-box-name">{filter}</div>
-                    <div className={"reqfilter-align-row"}>
-                        <div className="reqfilter-box" style={{color: stateColor}}>
-                            {this.props.filter.length}건
-                        </div>
-                        <div className="reqfilter-box-icon">
-                            <DocumentIcon reqstate={filter}/>
-                        </div>
+                <div className="reqfilter-box-name">{filter}</div>
+                <div className={"reqfilter-align-row"}>
+                    <div className="reqfilter-box" style={{color: stateColor}}>
+                        {this.props.filter.length}건
+                    </div>
+                    <div className="reqfilter-box-icon">
+                        <DocumentIcon reqstate={filter}/>
                     </div>
                 </div>
             </div>

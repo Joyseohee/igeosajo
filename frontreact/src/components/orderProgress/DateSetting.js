@@ -35,8 +35,8 @@ class DateSetting extends Component {
 
          let now = new Date();
          if (startyear == "" | startmonth == ""|endyear == ""|endmonth == ""){this.props.handleshow(true,"시작일과 마감일을 정확하게 입력해주세요.")}
-         if((startyear>endyear)|startmonth < 1 | startmonth>12 | endmonth < 1 | endmonth>12){this.props.handleshow(true,"시작일과 마감일을 정확하게 입력해주세요.")}
-         if((startyear=endyear) &&(startmonth > endmonth)){this.props.handleshow(true,"시작일과 마감일을 정확하게 입력해주세요.")}
+         else if((startyear>endyear)|startmonth < 1 | startmonth>12 | endmonth < 1 | endmonth>12){this.props.handleshow(true,"시작일과 마감일을 정확하게 입력해주세요.")}
+         else if((startyear=endyear) &&(startmonth > endmonth)){this.props.handleshow(true,"시작일과 마감일을 정확하게 입력해주세요.")}
          else{
              this.setState({
                  startyear: startyear,

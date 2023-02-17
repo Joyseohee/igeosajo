@@ -43,7 +43,6 @@ class Reqterm extends Component {
             })
     }
 
-
     render() {
         const {presentTerm, today} = this.state;
         const {usernum} = this.props.user;
