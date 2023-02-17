@@ -539,8 +539,8 @@ def get_order_view(self):
 
     elif (func == 'orderreq'):
         if (state == 'all'):
-            query = 'SELECT r.reqnum,r.prodnum,p.prodname,r.reqcount,r.reqprice,r.reqdate,u.username,r.reqorder FROM request r JOIN users u on u.usernum = r.usernum JOIN product p on p.prodnum = r.prodnum WHERE (reqstaging= %s  or reqstaging = %s) and termyearmonth=%s'
-            val = ("처리중", "처리완료", termyearmonth)
+            query = 'SELECT r.reqnum,r.prodnum,p.prodname,r.reqcount,r.reqprice,r.reqdate,u.username,r.reqorder FROM request r JOIN users u on u.usernum = r.usernum JOIN product p on p.prodnum = r.prodnum WHERE (reqstaging= %s  or reqstaging = %s) and termyearmonth=%s and (reqorder = %s or reqorder = %s)'
+            val = ("처리중", "처리완료", termyearmonth,"구매전","구매완료")
             cursor.execute(query, val)
             reqnumarray = dictfetchall(cursor)
             templen = len(reqnumarray)
@@ -560,8 +560,8 @@ def get_order_view(self):
 
     elif (func == 'orderreqcount'):
         resultdata = []
-        query = 'SELECT COUNT(*) FROM request r JOIN users u on u.usernum = r.usernum JOIN product p on p.prodnum = r.prodnum WHERE (reqstaging= %s  or reqstaging = %s) and termyearmonth=%s'
-        val = ("처리중", "처리완료", termyearmonth)
+        query = 'SELECT COUNT(*) FROM request r JOIN users u on u.usernum = r.usernum JOIN product p on p.prodnum = r.prodnum WHERE (reqstaging= %s  or reqstaging = %s) and termyearmonth=%s and (reqorder = %s or reqorder = %s)'
+        val = ("처리중", "처리완료", termyearmonth,"구매전","구매완료")
         cursor.execute(query, val)
         reqnumarray = dictfetchall(cursor)
         resultdata.append(reqnumarray[0]['count'])
