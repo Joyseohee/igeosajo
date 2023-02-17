@@ -119,6 +119,13 @@ class ReqList extends Component {
             showConfirmModal = false;
         }
 
+        let checkAllHidden = false;
+        if (pages.length < 1) {
+            checkAllHidden = true;
+        } else {
+            checkAllHidden = !pages.some((page) => page.some((request) => request.reqstate.includes('대기')));
+        }
+
         return (
             <>
                 <div className="request-list-wrapper">
@@ -129,7 +136,7 @@ class ReqList extends Component {
                                 <Form.Check
                                     name="allChecked"
                                     checked={allChecked}
-                                    hidden={available === 0 || selectedFilter==='승인' || selectedFilter==='반려'}
+                                    hidden={available === 0 || selectedFilter==='승인' || selectedFilter==='반려' || checkAllHidden}
                                     onChange={this.handleCheckboxChange}
                                 />
                             </th>
@@ -175,7 +182,7 @@ class ReqList extends Component {
                             </tbody> :
                             <tbody>
                             <tr>
-                                <td colSpan={8}>신청 내역이 없습니다.</td>
+                                <td colSpan={9}>신청 내역이 없습니다.</td>
                             </tr>
                             </tbody>
                         }
