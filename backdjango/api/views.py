@@ -99,8 +99,6 @@ def doc_view(self):
         docDetail = self.GET.get('docDetail')
         if docDetail:
             return put_put_doc(self)
-        else:
-            return put_doc(self)
     elif self.method == 'DELETE':
         return delete_doc(self)
 
@@ -541,8 +539,8 @@ def get_order_view(self):
 
     elif (func == 'orderreq'):
         if (state == 'all'):
-            query = 'SELECT r.reqnum,r.prodnum,p.prodname,r.reqcount,r.reqprice,r.reqdate,u.username,r.reqorder FROM request r JOIN users u on u.usernum = r.usernum JOIN product p on p.prodnum = r.prodnum WHERE (reqstaging= %s  or reqstaging = %s) and termyearmonth=%s'
-            val = ("처리중", "처리완료", termyearmonth)
+            query = 'SELECT r.reqnum,r.prodnum,p.prodname,r.reqcount,r.reqprice,r.reqdate,u.username,r.reqorder FROM request r JOIN users u on u.usernum = r.usernum JOIN product p on p.prodnum = r.prodnum WHERE (reqstaging= %s  or reqstaging = %s) and termyearmonth=%s and (reqorder = %s or reqorder = %s)'
+            val = ("처리중", "처리완료", termyearmonth,"구매전","구매완료")
             cursor.execute(query, val)
             reqnumarray = dictfetchall(cursor)
             templen = len(reqnumarray)
@@ -562,8 +560,8 @@ def get_order_view(self):
 
     elif (func == 'orderreqcount'):
         resultdata = []
-        query = 'SELECT COUNT(*) FROM request r JOIN users u on u.usernum = r.usernum JOIN product p on p.prodnum = r.prodnum WHERE (reqstaging= %s  or reqstaging = %s) and termyearmonth=%s'
-        val = ("처리중", "처리완료", termyearmonth)
+        query = 'SELECT COUNT(*) FROM request r JOIN users u on u.usernum = r.usernum JOIN product p on p.prodnum = r.prodnum WHERE (reqstaging= %s  or reqstaging = %s) and termyearmonth=%s and (reqorder = %s or reqorder = %s)'
+        val = ("처리중", "처리완료", termyearmonth,"구매전","구매완료")
         cursor.execute(query, val)
         reqnumarray = dictfetchall(cursor)
         resultdata.append(reqnumarray[0]['count'])
@@ -817,10 +815,13 @@ def post_doc(self):
     data = json.loads(self.body)
 
     # 마지막 문서 번호 가져오기
-    query = 'select docnum from doc order by docnum desc limit 1'
+    # query = 'select docnum from doc order by docnum desc limit 1'
+    query = 'select docnum from doc'
     cursor.execute(query)
 
-    lastnum = cursor.fetchall()[0][0] + 1
+    # lastnum = cursor.fetchall()[0][0] + 1
+    lastnum = len(cursor.fetchall()) + 1
+
     lastnum = str(lastnum) + ','
 
     reqnum = data['id']
@@ -836,8 +837,7 @@ def post_doc(self):
 
         reqnumword = str(i) + ','
         wait = '\'대기\''
-        query = 'insert into doc values (' + lastnum + reqnumword + date + 'null,' + wait + ', null,' + str(
-            0) + ',' + str(usernum) + ',' + str(0) + ')'
+        query = 'insert into doc values (' + lastnum + reqnumword + date + 'null,' + wait + ', null,' + str(usernum) + ')'
         connection.commit()
         cursor.execute(query)
 
@@ -863,6 +863,9 @@ def put_put_doc(self):
     for i in docarr:
         query = 'update request set reqstaging = \'처리전\' where reqstate = \'승인\' and reqnum =' + str(i)
         cursor.execute(query)
+
+    query = 'delete from DOC where docnum = (select docnum from doc order by docnum desc limit 1)'
+    cursor.execute(query)
 
     response = HttpResponse("성공")
     return response

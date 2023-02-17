@@ -56,8 +56,8 @@ class DocList extends Component {
                             }}>
                                 <td> {(pageNum - 1) * 10 + i + 1} </td>
                                 <td>결재요청</td>
-                                <td>김연아</td>
-                                <td>홍길동</td>
+                                <td>진도준</td>
+                                <td>진양철</td>
                                 <td>{data.docstate}</td>
                                 <td>{data.docwdate}</td>
                             </tr>

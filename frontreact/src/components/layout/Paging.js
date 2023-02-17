@@ -7,6 +7,14 @@ class Paging extends Component {
         start: this.props.pageNum,
     };
 
+    componentDidUpdate(prevProps) {
+        if (Math.ceil(prevProps.pageNum / 10) != Math.ceil(this.props.pageNum / 10)) {
+            this.setState({
+                start: this.props.pageNum,
+            })
+        }
+    }
+
     pageBtn = (pageNum, pageCount) => {
 
         let active = pageNum;
