@@ -78,6 +78,7 @@ class requestTable extends Component {
                 }),
             })
             await this.setState({reqList: []})
+            requestList = [];
             await this.closeState(false);
             await this.reqSendClick(false);
 
