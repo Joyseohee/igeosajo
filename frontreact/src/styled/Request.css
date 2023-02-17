@@ -4,7 +4,7 @@
 
 .request-select-button-wrapper {
     display: flex;
-    flex:2;
+    flex: 2;
     flex-flow: column wrap;
     align-content: space-between;
     justify-content: space-between;
@@ -32,6 +32,9 @@
     height: 150px;
     box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.2);
     cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .reqfilter-box-wrapper:last-child {
@@ -64,7 +67,7 @@
 
 .reqfilter-box {
     display: flex;
-    align-content: flex-end;
+    align-items: flex-end;
 }
 
 .reqfilter-box-icon {
@@ -96,32 +99,39 @@
 .request-list-number {
     text-align: end;
 }
+
 .request-list-table-col {
     font-size: 15px;
 }
 
 .request-list-table-col.check {
-    width: 5%;
+    width: 3%;
 }
+
 .request-list-table-col.num {
     width: 5%;
 }
 
 .request-list-table-col.name {
-    width: 20%;
+    width: 27%;
 }
+
 .request-list-table-col.count {
     width: 10%;
 }
+
 .request-list-table-col.price {
     width: 10%;
 }
+
 .request-list-table-col.date {
-    width: 15%;
+    width: 12.5%;
 }
+
 .request-list-table-col.writer {
     width: 10%;
 }
+
 .request-list-table-col.state {
     width: 10%;
 }
@@ -129,6 +139,7 @@
 thead > tr > td, tbody > tr > td {
     font-size: 15px;
 }
+
 .request-list-table-td.name {
     text-align: start;
     padding-left: 20px;

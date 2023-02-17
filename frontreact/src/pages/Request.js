@@ -1,14 +1,14 @@
 import React, {Component} from "react";
-import Api from "../api/Api";
-import ReqFilter from "../components/request/ReqFilter";
-import ReqList from "../components/request/ReqList";
-import SelectReqterm from "../components/request/SelectReqterm";
-import ConfirmModal from "../components/request/ConfirmModal";
 import "../styled/Request.css";
+import Api from "../api/Api";
 import Goal from "../components/Goal";
+import SelectReqterm from "../components/request/SelectReqterm";
 import reqtermList from "../components/reqterm/ReqtermList";
+import ReqFilter from "../components/request/ReqFilter";
 import RequestButtons from "../components/request/RequestButtons";
+import ReqList from "../components/request/ReqList";
 import Paging from "../components/layout/Paging";
+import ConfirmModal from "../components/request/ConfirmModal";
 
 class Request extends Component {
     constructor(props) {
@@ -88,7 +88,6 @@ class Request extends Component {
                 })),
                 allChecked: false,
                 checkedRequest: [],
-                pageNum: 1,
             }));
         })
     }
@@ -160,7 +159,7 @@ class Request extends Component {
                                     pageCount={pageCount}
                                 />
                             }
-                            {available === 1 &&
+                            {available === 1 &&  (requestFilter === '대기' ||requestFilter === '전체') &&
                                 <RequestButtons updateState={this.updateState} checkedRequest={checkedRequest}/>
                             }
                         </div>

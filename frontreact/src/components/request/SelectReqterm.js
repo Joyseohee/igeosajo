@@ -29,7 +29,8 @@ class SelectReqterm extends Component {
                 requestFilter: '전체',
                 available: available,
                 allChecked: false,
-                pageCount: response.length
+                pageCount: response.length,
+                pageNum:1,
             });
         })
     };

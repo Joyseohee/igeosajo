@@ -57,7 +57,7 @@ class ReqtermModal extends Component {
                     backdrop="static"
                     keyboard={false}
                 >
-                    <Modal.Body>{text}</Modal.Body>
+                    <Modal.Body style={{whiteSpace:"pre-wrap"}}>{text}</Modal.Body>
                     <Modal.Footer>
                         {modalType === '마감반려' &&
                             <Button variant="secondary" onClick={this.handleClose}>취소</Button>}

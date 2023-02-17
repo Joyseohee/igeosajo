@@ -8,7 +8,7 @@ class DocPaymentDetail extends Component {
 
     constructor(props) {
         super(props);
-        this.props.setpagename("전자 결재");
+        this.props.setpagename("전자 결재 목록");
         this.state = {
             items: [],
             reqSend: false,
@@ -81,25 +81,19 @@ class DocPaymentDetail extends Component {
     render() {
 
         return (
-            <div>
-                <div>
-                    <div>
-                        <div className={"commentDiv"}>
-                            <Goal comment={"결재 문서"}/>
-                            <DocPaymentTable
-                                items={this.state.items}
-                                reqSend={this.state.reqSend}
-                                reqSendClick={this.reqSendClick}
-                                modalOpen={this.state.modalOpen}
-                                openModal={this.openModal}
-                                prodnamearr={this.state.prodnamearr}
-                                countarr={this.state.countarr}/>
+                <div className={"commentDiv"}>
+                    <Goal comment={"결재 문서"}/>
+                    <DocPaymentTable
+                        items={this.state.items}
+                        reqSend={this.state.reqSend}
+                        reqSendClick={this.reqSendClick}
+                        modalOpen={this.state.modalOpen}
+                        openModal={this.openModal}
+                        prodnamearr={this.state.prodnamearr}
+                        countarr={this.state.countarr}/>
 
-                            {this.showBtn()}
-                        </div>
-                    </div>
+                    {this.showBtn()}
                 </div>
-            </div>
         );
     }
 }
