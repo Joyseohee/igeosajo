@@ -26,6 +26,10 @@
     width: 18.5rem;
 }
 
+/*.login-img:before {*/
+/*    c*/
+/*}*/
+
 Form {
     display: flex;
     flex-direction: column;

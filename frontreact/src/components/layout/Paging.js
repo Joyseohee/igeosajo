@@ -7,6 +7,14 @@ class Paging extends Component {
         start: this.props.pageNum,
     };
 
+    componentDidUpdate(prevProps) {
+        if (Math.ceil(prevProps.pageNum / 10) != Math.ceil(this.props.pageNum / 10)) {
+            this.setState({
+                start: this.props.pageNum,
+            })
+        }
+    }
+
     pageBtn = (pageNum, pageCount) => {
 
         let active = pageNum;
@@ -54,15 +62,17 @@ class Paging extends Component {
     };
 
     render() {
-        let pageNum = this.props.pageNum ? this.props.pageNum :1;
-        let pageCount = this.props.pageCount ? this.props.pageCount :1;
+        let pageNum = this.props.pageNum ? this.props.pageNum : 1;
+        let pageCount = this.props.pageCount ? this.props.pageCount : 1;
 
         return (
             <div className={"paginationDiv"}>
                 <Pagination>
-                    <Pagination.Prev onClick={() => this.handlePrevClick(pageNum)} style={{fontFamily:"Helvetica Nene"}}/>
+                    <Pagination.Prev onClick={() => this.handlePrevClick(pageNum)}
+                                     style={{fontFamily: "Helvetica Nene"}}/>
                     {this.pageBtn(pageNum, pageCount)}
-                    <Pagination.Next onClick={() => this.handleNextClick(pageNum, pageCount)}  style={{fontFamily:"Helvetica Nene"}}/>
+                    <Pagination.Next onClick={() => this.handleNextClick(pageNum, pageCount)}
+                                     style={{fontFamily: "Helvetica Nene"}}/>
                 </Pagination>
             </div>
         );
