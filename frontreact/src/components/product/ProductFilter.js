@@ -88,7 +88,7 @@ class ProductFilter extends Component {
                     })}
                 </FormSelect>
                 &nbsp;&nbsp;
-                <FormSelect className="form-select" style={{width:'130px', height:'45px', cursor:"pointer"}} onClick={(e) => this.sendfilter(e.target.value)}
+                <FormSelect className="form-select" style={{width:'130px', height:'45px', cursor:"pointer"}} onChange={(e) => this.sendfilter(e.target.value)}
                      disabled= {category1code !=='' ? 0 : 1}>
                     {category1code !=='' ? <option value={''}
                                     >전체</option> : null}
