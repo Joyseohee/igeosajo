@@ -62,8 +62,8 @@ class requestTable extends Component {
         this.props.reqSendClick(e)
     }
 
-    closeState = () => {
-        this.props.openModal(false);
+    closeState = (e) => {
+        this.props.openModal(e);
     }
 
     outcomeState = async (e) => {
@@ -78,17 +78,17 @@ class requestTable extends Component {
                 }),
             })
             await this.setState({reqList: []})
+            await this.closeState(false);
             await this.reqSendClick(false);
-            await this.closeState();
+
 
             await this.props.history.push({
                 pathname: "/docreqdetail"
             })
+        }else{
+            await this.closeState(false);
+            await this.reqSendClick(false);
         }
-
-        await this.setState({reqList: []})
-        await this.reqSendClick(false);
-        await this.closeState();
     }
 
     reqTable = (modalOpen, items, pageNum) => {
