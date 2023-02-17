@@ -1081,7 +1081,7 @@ def get_category2(self):
 
     query = 'SELECT * FROM CATEGORY2'
     if (category1code != ''):
-        query += ' WHERE CATEGORY1CODE =' + str(category1code)
+        query += ' WHERE CATEGORY1CODE =' + str(category1code) +'ORDER BY category2code'
 
     cursor.execute(query)
     data = dictfetchall(cursor)

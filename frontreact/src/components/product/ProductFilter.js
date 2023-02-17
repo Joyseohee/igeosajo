@@ -60,7 +60,7 @@ class ProductFilter extends Component {
         }, () => {
             if (this.state.category1code!==''){
             this.getCate2name();}
-            this.props.callbackFilter(this.state.category1code, this.state.category2code);
+            this.props.callbackFilter(this.state.category1code, this.state.category2code,1);
         });
 
     }
@@ -68,7 +68,7 @@ class ProductFilter extends Component {
         this.setState({
             category2code: value
         }, () => {
-            this.props.callbackFilter(this.state.category1code, this.state.category2code);
+            this.props.callbackFilter(this.state.category1code, this.state.category2code,1);
         });
 
     }
@@ -88,7 +88,7 @@ class ProductFilter extends Component {
                     })}
                 </FormSelect>
                 &nbsp;&nbsp;
-                <FormSelect className="form-select" style={{width:'130px', height:'45px', cursor:"pointer"}} onClick={(e) => this.sendfilter(e.target.value)}
+                <FormSelect className="form-select" style={{width:'130px', height:'45px', cursor:"pointer"}} onChange={(e) => this.sendfilter(e.target.value)}
                      disabled= {category1code !=='' ? 0 : 1}>
                     {category1code !=='' ? <option value={''}
                                     >전체</option> : null}

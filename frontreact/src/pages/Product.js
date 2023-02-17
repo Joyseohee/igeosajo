@@ -93,7 +93,7 @@ class Product extends Component {
                 this.setState({
                     available: available,
                     termyearmonth: termyearmonth,
-                    dates:dates
+                    dates: dates
                 })
             });
     }
@@ -201,19 +201,24 @@ class Product extends Component {
         })
     }
 
-    callbackSearch = (res) => {
+    callbackSearch = (res1, res2) => {
         this.setState({
-                prodname: res
+                prodname: res1,
+                pageNum: res2,
+                pageCount: res2
+
             },
             () => this.getlist())
     }
 
-    callbackFilter = (res1, res2) => {
+    callbackFilter = (res1, res2, res3) => {
         this.setState({
                 category1code: res1,
-                category2code: res2
+                category2code: res2,
+                pageNum: res3,
+                pageCount: res3
             },
-            () => this.getlist())
+            () => {  this.ref.current.checkcleanall(); this.getlist();})
     }
     setPageNum = (e) => {
         const pageNum = this.state.pageNum

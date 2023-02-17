@@ -29,6 +29,7 @@ class CartDetail extends Component {
         checkboxes.forEach((checkbox) => {
             checkbox.checked = selectAll[0].checked;
             if (selectAll[0].checked) {
+
                 var valSplit = checkbox.value.split(',');
                 prodnumList.push(parseInt(valSplit[0]));
                 reqcountList.push(parseInt(valSplit[1]));
@@ -42,6 +43,10 @@ class CartDetail extends Component {
             reqpriceList: reqpriceList
 
         }, () => {
+            console.log(prodnumList)
+               console.log(reqcountList)
+               console.log(reqpriceList)
+
             this.props.func1(
                 this.state.prodnumList,
                 this.state.reqcountList,
@@ -67,21 +72,27 @@ class CartDetail extends Component {
     //     })
     // }
 
-    choiceUnit(check, val) {
+    choiceUnit(check, val1, val2, val3) {
         const prodnumList = this.state.prodnumList;
         const reqcountList = this.state.reqcountList;
         const reqpriceList = this.state.reqpriceList;
+        console.log(check)
+        console.log(val1);
+        console.log(val2);
+        console.log(val3);
 
         if (check) {
-            var valSplit = val.split(',');
-
-            prodnumList.push(parseInt(valSplit[0]));
-            reqcountList.push(parseInt(valSplit[1]));
-            reqpriceList.push(parseInt(valSplit[2]) * parseInt(valSplit[1]));
-
+            prodnumList.push(parseInt(val1));
+            reqcountList.push(parseInt(val2));
+            reqpriceList.push(parseInt(val3) * parseInt(val2));
+            console.log(prodnumList)
+            console.log(reqcountList)
+            console.log(reqpriceList)
         } else {
             for (let i = 0; i < prodnumList.length; i++) {
-                if (prodnumList[i] == val) {
+
+                if (prodnumList[i] === val1) {
+                    console.log("here")
                     prodnumList.splice(i, 1);
                     reqcountList.splice(i, 1);
                     reqpriceList.splice(i, 1);
@@ -89,6 +100,7 @@ class CartDetail extends Component {
                 }
             }
         }
+        console.log(prodnumList)
         this.setState({
             prodnumList: prodnumList,
             reqcountList: reqcountList,
@@ -168,9 +180,9 @@ class CartDetail extends Component {
                     {/*                    this.choiceUnit2(e.target.checked, e.target.value);*/}
                     {/*                }}/></td>*/}
                     <td><Form.Check aria-label="option 1" name={"select1"}
-                                    value={[list.prodnum, list.cartcount, list.prodprice]}
+                                    value={[list.prodnum ,list.cartcount, list.prodprice]}
                                     onChange={(e) => {
-                                        this.choiceUnit(e.target.checked, e.target.value);
+                                        this.choiceUnit(e.target.checked, list.prodnum, list.cartcount, list.prodprice);
                                     }}/></td>
                 </tr>
                 </tbody>
@@ -178,7 +190,6 @@ class CartDetail extends Component {
 
         )
     }
-
 
 
     render() {
