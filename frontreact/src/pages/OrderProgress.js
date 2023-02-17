@@ -53,6 +53,9 @@ class OrderProgress extends Component {
         this.ordernumdata(this.state.orderstate,this.state.startdate,this.state.enddate)
         this.ordercntdata(this.state.startdate,this.state.enddate)
     }
+    componentWillUnmount() {
+        defaultstate = 'allselect'
+    }
 
     datesetting = (startyear, startmonth, endyear, endmonth) => {
 
