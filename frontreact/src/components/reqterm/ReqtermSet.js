@@ -93,7 +93,7 @@ class ReqtermSet extends Component {
                             <div className="reqterm-set-term-message blue">신청 접수가 진행중입니다.</div>
                             :
                             <div className="reqterm-set-term-message red">신청 접수가 마감되었습니다.</div>
-                    : <div>아직 등록된 신청 기간이 없습니다. 신청 기간을 등록해주세요</div>
+                    : <div className="reqterm-set-term-message">아직 등록된 신청 기간이 없습니다. 신청 기간을 등록해주세요</div>
                 }
 
                 {inTerm &&
