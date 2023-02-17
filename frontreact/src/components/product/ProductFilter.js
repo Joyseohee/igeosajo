@@ -60,7 +60,7 @@ class ProductFilter extends Component {
         }, () => {
             if (this.state.category1code!==''){
             this.getCate2name();}
-            this.props.callbackFilter(this.state.category1code, this.state.category2code);
+            this.props.callbackFilter(this.state.category1code, this.state.category2code,1);
         });
 
     }
@@ -68,7 +68,7 @@ class ProductFilter extends Component {
         this.setState({
             category2code: value
         }, () => {
-            this.props.callbackFilter(this.state.category1code, this.state.category2code);
+            this.props.callbackFilter(this.state.category1code, this.state.category2code,1);
         });
 
     }

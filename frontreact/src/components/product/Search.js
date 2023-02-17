@@ -16,7 +16,7 @@ class Search extends Component {
 
   }
   sendSearch =(e) => {
-        this.props.callbackSearch(this.state.prodname)
+        this.props.callbackSearch(this.state.prodname,1)
   }
 
   activeEnter = (e) => {
