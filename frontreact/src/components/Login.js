@@ -61,11 +61,11 @@ class Login extends Component {
             this.loginClick();
         }
     }
-성
+
     render() {
         return (
             <div className={"loginDiv"}>
-                <img src={"/img/user.png"}/>
+                <img src={"/img/user.png"} className="login-img"/>
                 <Container className="panel">
 
                     <Form>
@@ -93,7 +93,7 @@ class Login extends Component {
                         <br/>
 
                         <div className="d-grid gap-1">
-                            <Button style={{backgroundColor: "rgb(82, 150, 213)", border: "none"}}
+                            <Button style={{backgroundColor: "#1C91FB", border: "none"}}
                                     onClick={() => {
                                         this.loginClick();
                                     }}

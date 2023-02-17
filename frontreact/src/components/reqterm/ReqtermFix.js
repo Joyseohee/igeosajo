@@ -32,10 +32,10 @@ class ReqtermFix extends Component {
     setValue = (e) => {
         if (e.target.name === "termstartdate") {
             let date = e.target.value;
-            this.setState({
+            this.setState((prevState) => ({
                 termstartdate: date,
-                termenddate: date,
-            });
+                termenddate: prevState.termenddate < date ? date : prevState.termenddate,
+            }));
         } else {
             let date = e.target.value;
             this.setState({
@@ -76,11 +76,11 @@ class ReqtermFix extends Component {
 
         return (
             <>
-                    {!disabled &&
-                        <div className="reqterm-alert">이번 달 신청기간이 이미 등록되어있습니다.</div>
-                    }
-                    <Form className="reqterm-input-wrapper">
-                        <div className="reqterm-input-group">
+                {!disabled &&
+                    <div className="reqterm-alert">이번 달 신청기간이 이미 등록되어있습니다.</div>
+                }
+                <Form className="reqterm-input-wrapper">
+                    <div className="reqterm-input-group">
                         <Form.Group className="reqterm-input mb-3" controlId="formStartDate">
                             <Form.Label className="reqterm-input-label">시작일</Form.Label>
                             <Form.Control className="reqterm-input-date"
@@ -99,9 +99,9 @@ class ReqtermFix extends Component {
                                           onChange={(e) => this.setValue(e)}
                                           disabled={!disabled}/>
                         </Form.Group>
-</div>
+                    </div>
                     <Button className="reqterm-button mb-3" onClick={(e) => this.handleSubmit(e)}
-                            style={{backgroundColor: "#8EA6C0", borderColor:"#8EA6C0"}}
+                            style={{backgroundColor: "#8EA6C0", borderColor: "#8EA6C0"}}
                             disabled={!disabled}>
                         설정
                     </Button>
