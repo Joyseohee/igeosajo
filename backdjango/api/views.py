@@ -815,10 +815,13 @@ def post_doc(self):
     data = json.loads(self.body)
 
     # 마지막 문서 번호 가져오기
-    query = 'select docnum from doc order by docnum desc limit 1'
+    # query = 'select docnum from doc order by docnum desc limit 1'
+    query = 'select docnum from doc'
     cursor.execute(query)
 
-    lastnum = cursor.fetchall()[0][0] + 1
+    # lastnum = cursor.fetchall()[0][0] + 1
+    lastnum = len(cursor.fetchall()) + 1
+
     lastnum = str(lastnum) + ','
 
     reqnum = data['id']
@@ -834,8 +837,7 @@ def post_doc(self):
 
         reqnumword = str(i) + ','
         wait = '\'대기\''
-        query = 'insert into doc values (' + lastnum + reqnumword + date + 'null,' + wait + ', null,' + str(
-            0) + ',' + str(usernum) + ',' + str(0) + ')'
+        query = 'insert into doc values (' + lastnum + reqnumword + date + 'null,' + wait + ', null,' + str(usernum) + ')'
         connection.commit()
         cursor.execute(query)
 
@@ -861,6 +863,9 @@ def put_put_doc(self):
     for i in docarr:
         query = 'update request set reqstaging = \'처리전\' where reqstate = \'승인\' and reqnum =' + str(i)
         cursor.execute(query)
+
+    query = 'delete from DOC where docnum = (select docnum from doc order by docnum desc limit 1)'
+    cursor.execute(query)
 
     response = HttpResponse("성공")
     return response
