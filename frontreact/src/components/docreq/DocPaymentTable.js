@@ -31,13 +31,16 @@ class DocPaymentTable extends Component {
                 }),
             })
 
+            await this.props.openModal(false)
+            await this.reqSendClick(false)
+
             await this.props.history.push({
                 pathname: "/docpaylist"
             })
+        }else {
+            await this.props.openModal(false)
+            await this.reqSendClick(false)
         }
-
-        await this.reqSendClick(false)
-        await this.props.openModal(false)
     }
 
     render() {
