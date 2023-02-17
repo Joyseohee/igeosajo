@@ -40,8 +40,7 @@ class Product extends Component {
                 {
                     id: 2,
                     type: 'move',
-                    text: "장바구니에 담았습니다." +
-                        "장바구니로 이동하시겠습니까?",
+                    text: `장바구니에 담았습니다. 장바구니로 이동하시겠습니까?`,
                     path: "/cart"
                 },
                 {

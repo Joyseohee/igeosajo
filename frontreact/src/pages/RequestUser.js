@@ -112,15 +112,6 @@ class Request extends Component {
             }));
         })
     }
-    handleScroll = (e) => {
-        if (!window.scrollY) return;
-        // 현재 위치가 이미 최상단일 경우 return
-
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-        });
-    };
 
     render() {
         const {
@@ -188,6 +179,7 @@ class Request extends Component {
                                 modalInfo={this.state.modalInfo}
                             />
                             <Paging
+                                showNum={10}
                                 pageNum={this.state.pageNum}
                                 setPageNum={this.setPageNum}
                                 pageCount={this.state.pageCount}
