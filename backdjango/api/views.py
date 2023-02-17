@@ -720,7 +720,7 @@ def get_doc(self):
                 query = 'select docnum,D.reqnum , docwdate ,prodname, R.prodnum, reqcount, reqprice, docstate, docrejectreason, docrdate' \
                         ' from request R join doc D on R.reqnum = D.reqnum ' \
                         ' join product P on P.prodnum = R.prodnum' \
-                        ' where doccancled = 0 and docnum =' + docDetail
+                        ' where docnum =' + docDetail
             else:
                 query = 'select docnum,D.reqnum , docwdate ,prodname, R.prodnum, reqcount, reqprice, docstate, docrejectreason, docrdate ' \
                         ' from request R join doc D on R.reqnum = D.reqnum ' \
@@ -766,14 +766,14 @@ def get_doc(self):
                 docstate = '\'' + data + '\''
 
                 if pagenum:
-                    query = 'select distinct docnum, docstate, docwdate from doc where doccancled = 0 and docstate=' + docstate + ' order by docnum desc limit 10 offset ' + str(
+                    query = 'select distinct docnum, docstate, docwdate from doc where docstate=' + docstate + ' order by docnum desc limit 10 offset ' + str(
                         (int(pagenum) - 1) * 10)
                 else:
-                    query = 'select distinct docnum, docstate, docwdate from doc where doccancled = 0 and docstate=' + docstate + ' order by docnum desc'
+                    query = 'select distinct docnum, docstate, docwdate from doc where docstate=' + docstate + ' order by docnum desc'
                 cursor.execute(query)
             else:
                 docstate = '\'' + data + '\''
-                query = 'select * from doc where doccancled = 0 and docstate=' + docstate + ' order by docnum'
+                query = 'select * from doc where docstate=' + docstate + ' order by docnum'
                 cursor.execute(query)
             data = dictfetchall(cursor)
             response = JsonResponse(data, safe=False)
@@ -788,10 +788,10 @@ def get_doc(self):
         if checkDetail:
             pagenum = self.GET.get('pagenum')
             if pagenum:
-                query = 'SELECT distinct docnum, docstate, docwdate FROM doc where doccancled = 0 order by docnum desc limit 10 offset ' + str(
+                query = 'SELECT distinct docnum, docstate, docwdate FROM doc order by docnum desc limit 10 offset ' + str(
                     (int(pagenum) - 1) * 10)
             else:
-                query = 'SELECT distinct docnum, docstate, docwdate FROM doc where doccancled = 0 order by docnum'
+                query = 'SELECT distinct docnum, docstate, docwdate FROM doc order by docnum'
         else:
             query = 'SELECT * FROM doc order by docnum'
         cursor.execute(query)
@@ -852,36 +852,11 @@ def post_doc(self):
 
     return response
 
-
-@csrf_exempt
-def put_doc(self):
-    """
-    PUT
-    docordered 상태를 1로 만든다
-    구매 했다는 것을 1로 표시 한다
-    """
-    cursor = connection.cursor()
-    request = json.loads(self.body)
-    docnum = request['docnum']
-
-    ordernum = 1
-    query = 'update doc set docordered = %s WHERE docnum = %s'
-    val = (ordernum, docnum)
-    cursor.execute(query, val)
-    response = HttpResponse("성공")
-    return response
-
-
-# 결재문서 삭제하며 처리중을 처리 전으로 바꾸면 됨 그리고 그 전 경로로 이동 하면 됨
-
 @csrf_exempt
 def put_put_doc(self):
     cursor = connection.cursor()
     docDetail = self.GET.get('docDetail')
     data = json.loads(self.body)
-
-    query = 'update doc set doccancled = 1 where docnum =' + str(docDetail)
-    cursor.execute(query)
 
     docarr = data["reqnum"]
 
@@ -891,7 +866,6 @@ def put_put_doc(self):
 
     response = HttpResponse("성공")
     return response
-
 
 @csrf_exempt
 def delete_doc(self):
@@ -1141,7 +1115,7 @@ def get_main(self):
     count = dictfetchall(cursor)
     resultdata.append(count[0]['count'])
     for i in docval:
-        query = 'SELECT COUNT(DISTINCT docnum) FROM "doc" WHERE "doccancled" = 0 and "docstate" = \'' + i + '\''
+        query = 'SELECT COUNT(DISTINCT docnum) FROM "doc" WHERE "docstate" = \'' + i + '\''
         cursor.execute(query)
         count = dictfetchall(cursor)
         resultdata.append(count[0]['count'])
