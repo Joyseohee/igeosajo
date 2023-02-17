@@ -88,7 +88,6 @@ class Request extends Component {
                 })),
                 allChecked: false,
                 checkedRequest: [],
-                pageNum: 1,
             }));
         })
     }
@@ -160,7 +159,7 @@ class Request extends Component {
                                     pageCount={pageCount}
                                 />
                             }
-                            {available === 1 &&
+                            {available === 1 &&  (requestFilter === '대기' ||requestFilter === '전체') &&
                                 <RequestButtons updateState={this.updateState} checkedRequest={checkedRequest}/>
                             }
                         </div>
