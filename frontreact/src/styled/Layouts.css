@@ -38,9 +38,10 @@ a:link, a:visited, a:hover {
 
 .header .logout {
     display: flex;
-    justify-content: flex-start;
+    justify-content: flex-end;
     align-self: center;
     cursor: pointer;
+    padding-right: 40px;
 }
 
 .header .bar {
@@ -49,13 +50,18 @@ a:link, a:visited, a:hover {
     align-items: center;
 }
 
-.header .logo-wrapper,
-.header .profile {
+.header .logo-wrapper {
     display: flex;
     justify-content: flex-start;
     align-self: center;
     /* border: 1px red solid; */
 }
+.header .profile {
+    display: flex;
+    justify-content: flex-end;
+    align-self: center;
+}
+
 
 .header .logo {
     font-weight: 900;
