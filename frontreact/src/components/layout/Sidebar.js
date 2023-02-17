@@ -54,7 +54,7 @@ class Sidebar extends Component {
     render() {
         let {menus, currentMainMenu, currentSubMenu} = this.state;
         const {pagename} = this.props;
-       
+
         if (pagename === '사무용품 신청 내역') {
             currentMainMenu = '사무용품 신청 내역';
         } else if (pagename === '전자 결재') {
@@ -84,9 +84,7 @@ class Sidebar extends Component {
                                             {menu.name}
                                         </div>
                                     </Link>
-                                    {
-                                        // index === currentMainMenu &&
-                                        menu.menu2 &&
+                                    {menu.menu2 &&
                                         menu.menu2.map((submenu) => {
                                             return (
                                                 <div key={submenu.index}>

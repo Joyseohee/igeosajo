@@ -136,7 +136,7 @@ class ReqList extends Component {
                                 <Form.Check
                                     name="allChecked"
                                     checked={allChecked}
-                                    hidden={available === 0 || selectedFilter==='승인' || selectedFilter==='반려' || checkAllHidden}
+                                    hidden={available === 0 || selectedFilter === '승인' || selectedFilter === '반려' || checkAllHidden}
                                     onChange={this.handleCheckboxChange}
                                 />
                             </th>
