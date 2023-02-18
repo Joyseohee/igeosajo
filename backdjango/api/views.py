@@ -841,7 +841,7 @@ def post_doc(self):
         connection.commit()
         cursor.execute(query)
 
-        query = 'update request set reqstaging = \'처리중\' where reqnum = ' + str(i)
+        query = 'update request set reqstaging = \'처리중\', reqorder = \'구매전\' where reqnum = ' + str(i)
         cursor.execute(query)
 
         connection.commit()
