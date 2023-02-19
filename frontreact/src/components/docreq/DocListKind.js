@@ -6,6 +6,7 @@ import all from "../../img/allicon.png";
 import parchase from "../../img/iconsparchase.png";
 import deliver from "../../img/iconsdeliver.png";
 import finish from "../../img/iconsfinish.png";
+import DocumentIcon from "../../storage/Icon";
 
 class DocListKind extends Component {
 
@@ -27,9 +28,9 @@ class DocListKind extends Component {
                 <Row style={{width: '100%', marginTop: '3rem'}}>
                     <Col>
                         <div className="cardcontain">
-                            <Card style={{
+                            <Card className="doc-filter-wrapper" style={{
                                 width: '95%',
-                                backgroundColor: listState === "allselect" ? "rgb(224, 224, 224)" : "#FAFBFF"
+                                backgroundColor: listState === "allselect" ? "#FAFBFF" : "rgb(224, 224, 224)"
                             }}>
                                 <Card.Body onClick={(e) => {
                                     this.statechange("allselect")
@@ -37,7 +38,11 @@ class DocListKind extends Component {
                                     <Card.Text className=" cardtitletext">전체</Card.Text>
                                     <Row>
                                         <Col className="cardtext">{allcnt}</Col>
-                                        <Col> <img src={all} alt="logo"/></Col>
+                                        <Col className="cardicon">
+                                            <div className="order-search-box-icon">
+                                                <DocumentIcon reqstate="전체"/>
+                                            </div>
+                                        </Col>
                                     </Row>
                                 </Card.Body>
                             </Card>
@@ -46,9 +51,9 @@ class DocListKind extends Component {
 
                     <Col>
                         <div className="cardcontain">
-                            <Card style={{
+                            <Card className="doc-filter-wrapper" style={{
                                 width: '95%',
-                                backgroundColor: listState === "대기" ? "rgb(224, 224, 224)" : "#FAFBFF"
+                                backgroundColor: listState === "대기" ? "#FAFBFF" : "rgb(224, 224, 224)"
                             }}>
                                 <Card.Body onClick={(e) => {
                                     this.statechange("대기")
@@ -56,7 +61,11 @@ class DocListKind extends Component {
                                     <Card.Text className="cardtitletext">{this.props.cardMent[2]}</Card.Text>
                                     <Row>
                                         <Col className="cardtext">{waitcnt}</Col>
-                                        <Col> <img src={finish} alt="logo"/></Col>
+                                        <Col className="cardicon">
+                                            <div className="order-search-box-icon">
+                                                <DocumentIcon/>
+                                            </div>
+                                        </Col>
                                     </Row>
                                 </Card.Body>
                             </Card>
@@ -65,9 +74,9 @@ class DocListKind extends Component {
 
                     <Col>
                         <div className="cardcontain">
-                            <Card style={{
+                            <Card className="doc-filter-wrapper" style={{
                                 width: '95%',
-                                backgroundColor: listState === "승인" ? "rgb(224, 224, 224)" : "#FAFBFF"
+                                backgroundColor: listState === "승인" ? "#FAFBFF" : "rgb(224, 224, 224)"
                             }}>
                                 <Card.Body onClick={(e) => {
                                     this.statechange("승인")
@@ -75,7 +84,11 @@ class DocListKind extends Component {
                                     <Card.Text className="cardtitletext">{this.props.cardMent[0]}</Card.Text>
                                     <Row>
                                         <Col className="cardtext">{approvalcnt}</Col>
-                                        <Col> <img src={parchase} alt="logo"/></Col>
+                                        <Col className="cardicon">
+                                            <div className="order-search-box-icon">
+                                                <DocumentIcon reqstate="승인"/>
+                                            </div>
+                                        </Col>
                                     </Row>
 
                                 </Card.Body>
@@ -85,9 +98,9 @@ class DocListKind extends Component {
 
                     <Col>
                         <div className="cardcontain">
-                            <Card style={{
+                            <Card className="doc-filter-wrapper" style={{
                                 width: '95%',
-                                backgroundColor: listState === "반려" ? "rgb(224, 224, 224)" : "#FAFBFF"
+                                backgroundColor: listState === "반려" ? "#FAFBFF" : "rgb(224, 224, 224)"
                             }}>
                                 <Card.Body onClick={(e) => {
                                     this.statechange("반려")
@@ -95,7 +108,11 @@ class DocListKind extends Component {
                                     <Card.Text className="cardtitletext">{this.props.cardMent[1]}</Card.Text>
                                     <Row>
                                         <Col className="cardtext">{rejectcnt}</Col>
-                                        <Col> <img src={deliver} alt="logo"/></Col>
+                                        <Col className="cardicon">
+                                            <div className="order-search-box-icon">
+                                                <DocumentIcon reqstate="반려"/>
+                                            </div>
+                                        </Col>
                                     </Row>
 
                                 </Card.Body>

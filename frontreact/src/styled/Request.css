@@ -1,3 +1,7 @@
+p {
+    margin: 0;
+}
+
 .request-select-button-filter-wrapper {
     display: flex;
 }
@@ -53,7 +57,11 @@
 }
 
 .reqfilter-box-name {
-    font-size: 1.2rem;
+    font-size: 1.5rem;
+}
+
+.reqfilter-box-count {
+    font-size: 1.5rem;
 }
 
 .reqfilter-align-row {
@@ -113,11 +121,11 @@
 }
 
 .request-list-table-col.name {
-    width: 27%;
+    width: 44%;
 }
 
 .request-list-table-col.count {
-    width: 10%;
+    width: 5%;
 }
 
 .request-list-table-col.price {
@@ -125,15 +133,15 @@
 }
 
 .request-list-table-col.date {
-    width: 12.5%;
+    width: 10%;
 }
 
 .request-list-table-col.writer {
-    width: 10%;
+    width: 8%;
 }
 
 .request-list-table-col.state {
-    width: 10%;
+    width: 5%;
 }
 
 thead > tr > td, tbody > tr > td {

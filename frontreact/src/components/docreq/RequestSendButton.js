@@ -19,7 +19,7 @@ class requestSendButton extends Component {
 
         return (
             <div>
-                <Button className={"sendButton"} style={{backgroundColor: "rgb(82, 150, 213)", border: "none"}}
+                <Button className={"sendButton"} style={{backgroundColor: "#1C91FB", border: "none"}}
                         value={true} onClick={(e) => {
                     this.reqSendClick(true);
                 }}>{this.props.btnMent}</Button>

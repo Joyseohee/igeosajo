@@ -72,7 +72,7 @@ class DateSetting extends Component {
                                     <Col xs={0.5} className="datesearchthirdcol">년</Col>
                                     <Col xs={0.5} className="datesearchfourthcol"><input type="text"  id="endmonth"  className="form-control datesearchfourthinput" placeholder="1" maxLength='2' onChange={(e) => {this.onChangeDate(e)}}/></Col>
                                     <Col xs={0.5} className="datesearchfivecol" style={{borderBottomRightRadius:"5px",borderTopRightRadius:"5px"}}>월</Col>
-                                    <Col xs={2} style={{width:"21.35%",marginLeft:"15px"}}><Button style={{width:"100%"}} className={"settingbtn"}  onClick={this.onChangeDateSet} >조회</Button></Col>
+                                    <Col xs={2} style={{width:"21.35%",marginLeft:"15px"}}><Button style={{width:"100%", backgroundColor: "#1C91FB", borderColor:"#1C91FB"}} className={"settingbtn"}  onClick={this.onChangeDateSet} >조회</Button></Col>
                                 </div>
                             </Row>
                     </div>

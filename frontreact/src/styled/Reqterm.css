@@ -1,10 +1,13 @@
 .reqterm-box-wrapper {
     margin-top: 30px;
+    margin-left: auto;
+    margin-right: auto;
     padding: 20px;
     background-color: #f6f6f6;
     border-radius: 5px / 5px;
     box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
     border: 1px solid rgba(222, 222, 222, 0.8);
+    width: 100%;
 }
 
 .reqterm-box-title {

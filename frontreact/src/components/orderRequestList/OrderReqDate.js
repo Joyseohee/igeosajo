@@ -32,7 +32,7 @@ class OrderReqDate extends Component {
 
                             <div className="searchdatemarginreq" style={{width:'100%'}}>
                             <div className="input-group" >
-                                <Col xs={4}><span className="input-group-text" style={{backgroundColor:"dodgerblue",color:"white"}}><span className="startdatetext" >귀속년월</span></span></Col>
+                                <Col xs={4}><span className="input-group-text" style={{backgroundColor: "#8EA6C0", border: "none", color:"white", borderRadius: "5px 0 0 5px"}}><span className="startdatetext" >귀속년월</span></span></Col>
                                 <Col  className="spanaline spanalineright"><span className="startdatetext">{startyear}</span><span className="startdatetext">년</span></Col>
                                 <Col  className="spanaline spanalineright spanborderend"><span className="startdatetext">{startmonth}</span><span className="startdatetext">월</span></Col>
                             </div>

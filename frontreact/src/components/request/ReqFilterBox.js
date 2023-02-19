@@ -58,7 +58,7 @@ class ReqFilterBox extends Component {
                 <div className="reqfilter-box-name">{filter}</div>
                 <div className={"reqfilter-align-row"}>
                     <div className="reqfilter-box" style={{color: stateColor}}>
-                        {this.props.filter.length}건
+                        <p><span className="reqfilter-box-count">{this.props.filter.length}</span>건</p>
                     </div>
                     <div className="reqfilter-box-icon">
                         <DocumentIcon reqstate={filter}/>

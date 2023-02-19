@@ -25,7 +25,7 @@ class OrderTable extends Component {
                   <div className="dotmargin" ></div>
                   <div style={{width:'64%',fontWeight:"bold",fontSize:"18px",paddingTop:"4px",paddingLeft:"10px"}}>목록</div>
                   <div className="subtitle" style={{width:'36%',paddingLeft:"10%"}}>
-                      <Button style={{width:"90.5%"}} onClick={this.orderparchasepath} hidden>
+                      <Button style={{width:"90.5%", backgroundColor: "#1C91FB", borderColor:"#1C91FB"}} onClick={this.orderparchasepath} hidden>
                           구매하기
                       </Button>
                   </div>
@@ -39,7 +39,7 @@ class OrderTable extends Component {
                   <div className="dotmargin" ></div>
                   <div style={{width:'64%',fontWeight:"bold",fontSize:"18px",paddingTop:"4px",paddingLeft:"10px"}}>목록</div>
                   <div className="subtitle" style={{width:'36%',paddingLeft:"10%"}}>
-                      <Button style={{width:"90.5%"}} onClick={this.orderparchasepath}>
+                      <Button style={{width:"90.5%", backgroundColor: "#1C91FB", borderColor:"#1C91FB"}} onClick={this.orderparchasepath}>
                           구매하기
                       </Button>
                   </div>
@@ -53,7 +53,7 @@ class OrderTable extends Component {
                   <div className="dotmargin" ></div>
                   <div style={{width:'64%',fontWeight:"bold",fontSize:"18px",paddingTop:"4px",paddingLeft:"10px"}}>목록</div>
                   <div className="subtitle" style={{width:'36%',paddingLeft:"10%"}}>
-                        <Button style={{width:"90.5%"}} onClick={this.orderparchasepath} hidden>
+                        <Button style={{width:"90.5%", backgroundColor: "#1C91FB", borderColor:"#1C91FB"}} onClick={this.orderparchasepath} hidden>
                           구매하기
                       </Button>
                   </div>
