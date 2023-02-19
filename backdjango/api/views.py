@@ -841,7 +841,7 @@ def post_doc(self):
         connection.commit()
         cursor.execute(query)
 
-        query = 'update request set reqstaging = \'처리중\', reqorder = \'구매전\' where reqnum = ' + str(i)
+        query = 'update request set reqstaging = \'처리중\' where reqnum = ' + str(i)
         cursor.execute(query)
 
         connection.commit()
@@ -957,8 +957,9 @@ def patch_doc_detail(self, DOCNUM):
         for i in reqnum:
             query = 'update doc set docrdate =' + date + ', docstate=' + docstate \
                     + ' where docnum=' + str(DOCNUM) + ' and reqnum=' + str(i[0])
-            query2 = 'update request set reqorder = \'구매전\' where reqnum = ' + str(i[0])
-            cursor.execute(query, query2)
+            query2 = 'update request set reqstaging=\'처리중\', reqorder = \'구매전\' where reqnum = ' + str(i[0])
+            cursor.execute(query)
+            cursor.execute(query2)
 
     response = HttpResponse("성공")
     return response
