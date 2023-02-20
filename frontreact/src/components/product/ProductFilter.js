@@ -78,7 +78,7 @@ class ProductFilter extends Component {
         return (
             <div>
                   <div className="inline">
-                <FormSelect className="form-select" style={{width:'130px', height:'45px', cursor:"pointer"}} onChange={(e) => this.select1(e.target.value)}>
+                <FormSelect className="form-select" style={{width:'140px', height:'45px', cursor:"pointer"}} onChange={(e) => this.select1(e.target.value)}>
                     <option value={''}
                                     >전체 </option>
                     {this.state.items1.map((cate1) => {
@@ -88,7 +88,7 @@ class ProductFilter extends Component {
                     })}
                 </FormSelect>
                 &nbsp;&nbsp;
-                <FormSelect className="form-select" style={{width:'130px', height:'45px', cursor:"pointer"}} onChange={(e) => this.sendfilter(e.target.value)}
+                <FormSelect className="form-select" style={{width:'140px', height:'45px', cursor:"pointer"}} onChange={(e) => this.sendfilter(e.target.value)}
                      disabled= {category1code !=='' ? 0 : 1}>
                     {category1code !=='' ? <option value={''}
                                     >전체</option> : null}
