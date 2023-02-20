@@ -125,7 +125,7 @@ class AdminMain extends Component {
                 <Container fluid style={{margin: 0, padding: 0}}>
                     <Goal comment={now.getFullYear() + "년 " + (now.getMonth() + 1) + "월"}/>
                     <CheckPeriod items = {this.state.items}/>
-                    <Row style={{marginBottom:"40px",marginTop:"40px"}}>
+                    <Row style={{marginTop:"40px"}}>
                         <Col xs={5}>
                             <SubGoal className={"colDiv"} comment={"당월 사무용품 구매 요청 현황"}/>
                             <Row>

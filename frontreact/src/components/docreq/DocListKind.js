@@ -2,10 +2,6 @@ import React, {Component} from 'react';
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Card from "react-bootstrap/Card";
-import all from "../../img/allicon.png";
-import parchase from "../../img/iconsparchase.png";
-import deliver from "../../img/iconsdeliver.png";
-import finish from "../../img/iconsfinish.png";
 import DocumentIcon from "../../storage/Icon";
 
 class DocListKind extends Component {
@@ -24,12 +20,11 @@ class DocListKind extends Component {
         let listState = this.props.listState;
         return (
             <div className="containermargin">
-
-                <Row style={{width: '100%', marginTop: '3rem'}}>
-                    <Col>
+                <Row style={{width: '100%', marginTop: '3rem', marginLeft: '0'}}>
+                    <Col className="doc-card-col">
                         <div className="cardcontain">
                             <Card className="doc-filter-wrapper" style={{
-                                width: '95%',
+                                width: '100%',
                                 backgroundColor: listState === "allselect" ? "#FAFBFF" : "rgb(224, 224, 224)"
                             }}>
                                 <Card.Body onClick={(e) => {
@@ -37,7 +32,9 @@ class DocListKind extends Component {
                                 }}>
                                     <Card.Text className=" cardtitletext">전체</Card.Text>
                                     <Row>
-                                        <Col className="cardtext">{allcnt}</Col>
+                                        <Col className="cardtext">{allcnt}
+                                            <span>{" "}</span>
+                                            <span style={{fontSize: "17px", fontWeight: "bold"}}>건</span></Col>
                                         <Col className="cardicon">
                                             <div className="order-search-box-icon">
                                                 <DocumentIcon reqstate="전체"/>
@@ -49,10 +46,10 @@ class DocListKind extends Component {
                         </div>
                     </Col>
 
-                    <Col>
+                     <Col className="doc-card-col">
                         <div className="cardcontain">
                             <Card className="doc-filter-wrapper" style={{
-                                width: '95%',
+                                width: '100%',
                                 backgroundColor: listState === "대기" ? "#FAFBFF" : "rgb(224, 224, 224)"
                             }}>
                                 <Card.Body onClick={(e) => {
@@ -60,7 +57,9 @@ class DocListKind extends Component {
                                 }}>
                                     <Card.Text className="cardtitletext">{this.props.cardMent[2]}</Card.Text>
                                     <Row>
-                                        <Col className="cardtext">{waitcnt}</Col>
+                                        <Col className="cardtext">{waitcnt}
+                                            <span>{" "}</span>
+                                            <span style={{fontSize: "17px", fontWeight: "bold"}}>건</span></Col>
                                         <Col className="cardicon">
                                             <div className="order-search-box-icon">
                                                 <DocumentIcon/>
@@ -72,10 +71,10 @@ class DocListKind extends Component {
                         </div>
                     </Col>
 
-                    <Col>
+                     <Col className="doc-card-col">
                         <div className="cardcontain">
                             <Card className="doc-filter-wrapper" style={{
-                                width: '95%',
+                                width: '100%',
                                 backgroundColor: listState === "승인" ? "#FAFBFF" : "rgb(224, 224, 224)"
                             }}>
                                 <Card.Body onClick={(e) => {
@@ -83,7 +82,9 @@ class DocListKind extends Component {
                                 }}>
                                     <Card.Text className="cardtitletext">{this.props.cardMent[0]}</Card.Text>
                                     <Row>
-                                        <Col className="cardtext">{approvalcnt}</Col>
+                                        <Col className="cardtext">{approvalcnt}
+                                            <span>{" "}</span>
+                                            <span style={{fontSize: "17px", fontWeight: "bold"}}>건</span></Col>
                                         <Col className="cardicon">
                                             <div className="order-search-box-icon">
                                                 <DocumentIcon reqstate="승인"/>
@@ -96,10 +97,10 @@ class DocListKind extends Component {
                         </div>
                     </Col>
 
-                    <Col>
+                     <Col className="doc-card-col">
                         <div className="cardcontain">
                             <Card className="doc-filter-wrapper" style={{
-                                width: '95%',
+                                width: '100%',
                                 backgroundColor: listState === "반려" ? "#FAFBFF" : "rgb(224, 224, 224)"
                             }}>
                                 <Card.Body onClick={(e) => {
@@ -107,7 +108,9 @@ class DocListKind extends Component {
                                 }}>
                                     <Card.Text className="cardtitletext">{this.props.cardMent[1]}</Card.Text>
                                     <Row>
-                                        <Col className="cardtext">{rejectcnt}</Col>
+                                        <Col className="cardtext">{rejectcnt}
+                                            <span>{" "}</span>
+                                            <span style={{fontSize: "17px", fontWeight: "bold"}}>건</span></Col>
                                         <Col className="cardicon">
                                             <div className="order-search-box-icon">
                                                 <DocumentIcon reqstate="반려"/>

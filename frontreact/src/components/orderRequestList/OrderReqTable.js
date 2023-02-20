@@ -24,8 +24,8 @@ class OrderTable extends Component {
                <div className="subtitle" style={{height:'37.5px'}}>
                   <div className="dotmargin" ></div>
                   <div style={{width:'64%',fontWeight:"bold",fontSize:"18px",paddingTop:"4px",paddingLeft:"10px"}}>목록</div>
-                  <div className="subtitle" style={{width:'36%',paddingLeft:"10%"}}>
-                      <Button style={{width:"90.5%", backgroundColor: "#1C91FB", borderColor:"#1C91FB"}} onClick={this.orderparchasepath} hidden>
+                  <div className="subtitle" style={{width:'36%'}}>
+                      <Button style={{width:"100px", backgroundColor: "#1C91FB", borderColor:"#1C91FB"}} onClick={this.orderparchasepath} hidden>
                           구매하기
                       </Button>
                   </div>
@@ -38,8 +38,8 @@ class OrderTable extends Component {
                <div className="subtitle">
                   <div className="dotmargin" ></div>
                   <div style={{width:'64%',fontWeight:"bold",fontSize:"18px",paddingTop:"4px",paddingLeft:"10px"}}>목록</div>
-                  <div className="subtitle" style={{width:'36%',paddingLeft:"10%"}}>
-                      <Button style={{width:"90.5%", backgroundColor: "#1C91FB", borderColor:"#1C91FB"}} onClick={this.orderparchasepath}>
+                  <div className="subtitle" style={{width:'36%'}}>
+                      <Button style={{width:"100px", backgroundColor: "#1C91FB", borderColor:"#1C91FB"}} onClick={this.orderparchasepath}>
                           구매하기
                       </Button>
                   </div>
@@ -52,7 +52,7 @@ class OrderTable extends Component {
                 <div className="subtitle" style={{height:'37.5px'}}>
                   <div className="dotmargin" ></div>
                   <div style={{width:'64%',fontWeight:"bold",fontSize:"18px",paddingTop:"4px",paddingLeft:"10px"}}>목록</div>
-                  <div className="subtitle" style={{width:'36%',paddingLeft:"10%"}}>
+                  <div className="subtitle" style={{width:'36%'}}>
                         <Button style={{width:"90.5%", backgroundColor: "#1C91FB", borderColor:"#1C91FB"}} onClick={this.orderparchasepath} hidden>
                           구매하기
                       </Button>
