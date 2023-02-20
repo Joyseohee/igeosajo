@@ -58,10 +58,6 @@ class Paging extends Component {
         if ((pageNum - 10) > 0) {
             this.props.setPageNum((Math.floor(pageNum / 10) - 1) * 10 + 1);
         }
-
-        // this.setState({
-        //     start: Math.max(1, this.state.start - 10),
-        // });
     };
 
     handleNextClick = (pageNum, pageCount) => {
@@ -70,12 +66,6 @@ class Paging extends Component {
         ) {
             this.props.setPageNum(Math.ceil(pageNum / 10) * 10 + 1);
         }
-
-        // if ((this.state.start + 10) < Math.ceil(pageCount / this.props.showNum)) {
-        //     this.setState({
-        //         start: this.state.start + 10,
-        //     });
-        // }
     };
 
     render() {
