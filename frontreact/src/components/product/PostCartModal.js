@@ -32,7 +32,7 @@ class PostCartModal extends Component {
                     backdrop="static"
                     keyboard={false}
                 >
-                    <Modal.Body style={{"white-space": "pre"}}>{text}</Modal.Body>
+                    <Modal.Body >{text}</Modal.Body>
                     <Modal.Footer>
                         <Button variant="secondary" onClick={this.props.handleClose}>취소</Button>
                         <Link to={result[0].path}>

@@ -214,12 +214,12 @@ def get_cart(self):
     query = 'SELECT *, (SELECT prodname FROM product WHERE prodnum = cartinfo.prodnum),' \
             '(SELECT prodimg FROM product WHERE prodnum = cartinfo.prodnum), ' \
             '(SELECT prodprice FROM product WHERE prodnum = cartinfo.prodnum) ' \
-            'FROM cart AS cartinfo WHERE usernum = %s ORDER BY prodnum DESC '
+            'FROM cart AS cartinfo WHERE usernum = '+str(usernum)+' ORDER BY prodnum DESC '
 
     if pagenum:
         query += 'limit 5 offset ' + str((int(pagenum) - 1) * 5)
-    val = usernum
-    cursor.execute(query, val)
+   
+    cursor.execute(query)
     data = dictfetchall(cursor)
     response = JsonResponse(data, safe=False)
     return response

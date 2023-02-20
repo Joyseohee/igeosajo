@@ -131,13 +131,15 @@ class Product extends Component {
                 await this.setState({
                     message: '상품이 없습니다.',
                     productItemList: productItemList,
-                    pageCount: items2.length
+                    pageCount: items2.length,
+                   // prodname:''
                 });
             } else {
                 await this.setState({
                     productItemList: productItemList,
                     pageCount: items2.length,
                     message: '',
+                   // prodname:''
                 });
             }
         } catch (e) {
