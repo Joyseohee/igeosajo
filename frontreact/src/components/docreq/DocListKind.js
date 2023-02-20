@@ -25,11 +25,11 @@ class DocListKind extends Component {
         return (
             <div className="containermargin">
 
-                <Row style={{width: '100%', marginTop: '3rem'}}>
-                    <Col>
+                <Row style={{width: '100%', marginTop: '3rem', marginLeft: '0'}}>
+                    <Col className="doc-card-col">
                         <div className="cardcontain">
                             <Card className="doc-filter-wrapper" style={{
-                                width: '95%',
+                                width: '100%',
                                 backgroundColor: listState === "allselect" ? "#FAFBFF" : "rgb(224, 224, 224)"
                             }}>
                                 <Card.Body onClick={(e) => {
@@ -49,10 +49,10 @@ class DocListKind extends Component {
                         </div>
                     </Col>
 
-                    <Col>
+                     <Col className="doc-card-col">
                         <div className="cardcontain">
                             <Card className="doc-filter-wrapper" style={{
-                                width: '95%',
+                                width: '100%',
                                 backgroundColor: listState === "대기" ? "#FAFBFF" : "rgb(224, 224, 224)"
                             }}>
                                 <Card.Body onClick={(e) => {
@@ -72,10 +72,10 @@ class DocListKind extends Component {
                         </div>
                     </Col>
 
-                    <Col>
+                     <Col className="doc-card-col">
                         <div className="cardcontain">
                             <Card className="doc-filter-wrapper" style={{
-                                width: '95%',
+                                width: '100%',
                                 backgroundColor: listState === "승인" ? "#FAFBFF" : "rgb(224, 224, 224)"
                             }}>
                                 <Card.Body onClick={(e) => {
@@ -96,10 +96,10 @@ class DocListKind extends Component {
                         </div>
                     </Col>
 
-                    <Col>
+                     <Col className="doc-card-col">
                         <div className="cardcontain">
                             <Card className="doc-filter-wrapper" style={{
-                                width: '95%',
+                                width: '100%',
                                 backgroundColor: listState === "반려" ? "#FAFBFF" : "rgb(224, 224, 224)"
                             }}>
                                 <Card.Body onClick={(e) => {

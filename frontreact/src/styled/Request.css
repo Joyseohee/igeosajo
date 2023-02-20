@@ -44,6 +44,11 @@ p {
 .reqfilter-box-wrapper:last-child {
     margin-right: 0;
 }
+.reqfilter-box-wrapper:hover {
+    box-shadow: 0 0 0 2px rgb(84,197,245) inset;
+    cursor:pointer;
+    transition: all 0.5s cubic-bezier(.5, .24, 0, 1);
+}
 
 .request-list-table-head {
     background-color: #848484;

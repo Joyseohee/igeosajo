@@ -36,25 +36,25 @@ class OrderSearch extends Component {
 
         let color = ["transparent", "transparent", "transparent", "transparent"]
         if (this.props.orderstate == "allselect") {
-            color[0] = 'rgb(156,252,252)';
-            color[1] = 'transparent';
-            color[2] = 'transparent';
-            color[3] = 'transparent';
+            color[0] = '#FAFBFF';
+            color[1] = 'rgb(224, 224, 224)';
+            color[2] = 'rgb(224, 224, 224)';
+            color[3] = 'rgb(224, 224, 224)';
         } else if (this.props.orderstate == "parchase") {
-            color[1] = "rgb(156,252,252)";
-            color[0] = 'transparent';
-            color[2] = 'transparent';
-            color[3] = 'transparent';
+            color[1] = '#FAFBFF';
+            color[0] = 'rgb(224, 224, 224)';
+            color[2] = 'rgb(224, 224, 224)';
+            color[3] = 'rgb(224, 224, 224)';
         } else if (this.props.orderstate === "deliver") {
-            color[2] = "rgb(156,252,252)";
-            color[0] = 'transparent';
-            color[1] = 'transparent';
-            color[3] = 'transparent';
+            color[2] = '#FAFBFF';
+            color[0] = 'rgb(224, 224, 224)';
+            color[1] = 'rgb(224, 224, 224)';
+            color[3] = 'rgb(224, 224, 224)';
         } else if (this.props.orderstate == "finish") {
-            color[3] = "rgb(156,252,252)";
-            color[0] = 'transparent';
-            color[1] = 'transparent';
-            color[2] = 'transparent';
+            color[3] = '#FAFBFF';
+            color[0] = 'rgb(224, 224, 224)';
+            color[1] = 'rgb(224, 224, 224)';
+            color[2] = 'rgb(224, 224, 224)';
         }
 
         return (

@@ -37,17 +37,17 @@ class OrderReqSearch extends Component {
         const {allcnt, prevparchasecnt, parchasecnt} = this.state
         let color = ["transparent", "transparent", "transparent"]
         if (this.props.orderreqstate == "all") {
-            color[0] = 'rgb(156,252,252)';
-            color[1] = 'transparent';
-            color[2] = 'transparent';
+            color[0] = '#FAFBFF';
+            color[1] = 'rgb(224, 224, 224)';
+            color[2] = 'rgb(224, 224, 224)';
         } else if (this.props.orderreqstate == "prevparchase") {
-            color[1] = "rgb(156,252,252)";
-            color[0] = 'transparent';
-            color[2] = 'transparent';
+            color[1] = "#FAFBFF";
+            color[0] = 'rgb(224, 224, 224)';
+            color[2] = 'rgb(224, 224, 224)';
         } else if (this.props.orderreqstate === "parchase") {
-            color[2] = "rgb(156,252,252)";
-            color[0] = 'transparent';
-            color[1] = 'transparent';
+            color[2] = "#FAFBFF";
+            color[0] = 'rgb(224, 224, 224)';
+            color[1] = 'rgb(224, 224, 224)';
         }
 
         return (
@@ -55,7 +55,7 @@ class OrderReqSearch extends Component {
                 <Row style={{width: '100%'}}>
                     <Col>
                         <div className="cardcontain">
-                            <Card className="order-card" style={{width: '95%', backgroundColor: color[0]}}>
+                            <Card className="order-card" style={{width: '100%', backgroundColor: color[0]}}>
                                 <Card.Body onClick={(e) => {
                                     this.statechange(e, "all")
                                 }}>
