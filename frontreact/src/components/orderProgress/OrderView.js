@@ -153,6 +153,7 @@ class OrderView extends Component {
 
     render() {
         const  ordernum  = this.props.ordernum
+        console.log(ordernum)
         return (
             <div>
                 <Row>
