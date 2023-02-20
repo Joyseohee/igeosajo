@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import Goal from "../components/Goal";
 import CheckPeriod from "../components/userMainPage/CheckPeriod";
 import RequestStatus from "../components/userMainPage/RequestStatus";
+import "../styled/UserMain.css";
 
 let now = new Date();
 

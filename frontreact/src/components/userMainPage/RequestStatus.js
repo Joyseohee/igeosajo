@@ -1,5 +1,4 @@
 import React, {Component} from "react";
-
 import "../../styled/UserMain.css"
 import {withRouter} from "react-router-dom";
 

@@ -51,7 +51,7 @@ class DocList extends Component {
                     <tbody>
                     {
                         doclist.map((data, i) => (
-                            <tr className={"doclistTd"} key={data.docnum} value={data.docnum} onClick={(e) => {
+                            <tr className={"doclistTd"} key={data.reqnum} value={data.docnum} onClick={(e) => {
                                 this.moveDocDetail(data.docnum)
                             }}>
                                 <td> {(pageNum - 1) * 10 + i + 1} </td>

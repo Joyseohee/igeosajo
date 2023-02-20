@@ -186,11 +186,11 @@
     margin-bottom: 20px;
 }
 .orderdelivercardborder{
-    border-color: rgb(52,152,219);
+    /*border-color: rgb(52,152,219);*/
     width: 95%;
 }
 .orderdeliverinputbordertop{
-    border-color: rgb(52,152,219);
+    /*border-color: rgb(52,152,219);*/
     border-width: 1px;
     border-bottom: none;
     width: 95%;
@@ -204,9 +204,9 @@
     background-Color:rgb(52,152,219);
 }
 .orderdelivercardsideline{
-    border-Color:white;
-    border-Style:solid;
-    border-Width:1px;
+    border-color:white;
+    border-style:solid;
+    border-width:1px;
 }
 .orderdelivertable{
     background: rgb(52,152,219);
@@ -231,17 +231,17 @@
 }
 .datesearchfirstspan{
     background-color:dodgerblue;
-    border-color: dodgerblue;
     color:white;
     border-bottom-right-radius:0px;
     border-top-right-radius:0px;
     height:38.5px;
+    border-color: #8EA6C0;
 }
 .datesearchsecondcol{
     width:8%;
     border-top:1px solid;
     border-bottom:1px solid;
-    border-color: dodgerblue;
+    border-color: #8EA6C0;
 }
 .datesearchsecondinput{
     width:90%;
@@ -253,20 +253,19 @@
     width:3%;
     border-top:1px solid;
     border-bottom:1px solid;
-    border-color: dodgerblue;
     font-weight:bold;
     font-size:18px;
     text-align:center;
     display:flex;
     align-items: center;
     padding:5px;
+    border-color: #8EA6C0;
 }
 .datesearchfourthcol{
     width:5%;
     border-top:1px solid;
     border-bottom:1px solid;
-    border-color: dodgerblue;
-
+    border-color: #8EA6C0;
 }
 .datesearchfourthinput{
     width:90%;
@@ -285,6 +284,23 @@
     display:flex;
     align-items: center;
     padding:4px;
-    border-color: dodgerblue;
+    border-color: #8EA6C0;
 }
 
+.order-card {
+    box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.2);
+}
+.cardicon {
+    display: flex;
+    justify-content: end;
+    align-items: end;
+    margin-right: 20px;
+    margin-bottom: 10px;
+}
+
+.input-group-text {
+    background-color: #8EA6C0;
+    border: none;
+    color:white;
+    border-radius: 5px 0 0 5px;
+}

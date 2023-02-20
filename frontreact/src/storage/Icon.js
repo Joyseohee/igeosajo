@@ -4,15 +4,18 @@ class DocumentIcon extends Component {
 
 
     render() {
-        let color = "red";
-        const size = "30";
+        let color = "#33";
+        let size = "30";
         const {reqstate} = this.props;
+        if(this.props.size) {
+            size = this.props.size;
+        }
 
 
         if (reqstate === '전체') {
             return (
                 <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} fill="#BDACFC"
-                    className="bi bi-clipboard" viewBox="0 0 16 16">
+                     className="bi bi-clipboard" viewBox="0 0 16 16">
                     <path
                         d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/>
                     <path
@@ -22,7 +25,7 @@ class DocumentIcon extends Component {
         } else if (reqstate === '승인') {
             return (
                 <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} fill="#75A2FF"
-                    className="bi bi-clipboard-check-fill" viewBox="0 0 16 16">
+                     className="bi bi-clipboard-check-fill" viewBox="0 0 16 16">
                     <path
                         d="M6.5 0A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3Zm3 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3Z"/>
                     <path
@@ -37,6 +40,47 @@ class DocumentIcon extends Component {
                         d="M6.5 0A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3Zm3 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3Z"/>
                     <path
                         d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1A2.5 2.5 0 0 1 9.5 5h-3A2.5 2.5 0 0 1 4 2.5v-1Zm4 7.793 1.146-1.147a.5.5 0 1 1 .708.708L8.707 10l1.147 1.146a.5.5 0 0 1-.708.708L8 10.707l-1.146 1.147a.5.5 0 0 1-.708-.708L7.293 10 6.146 8.854a.5.5 0 1 1 .708-.708L8 9.293Z"/>
+                </svg>
+            );
+        } else if (reqstate === '구매완료') {
+            return (
+                <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} fill="#75A2FF"
+                     className="bi bi-wallet2"
+                     viewBox="0 0 16 16">
+                    <path
+                        d="M12.136.326A1.5 1.5 0 0 1 14 1.78V3h.5A1.5 1.5 0 0 1 16 4.5v9a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 13.5v-9a1.5 1.5 0 0 1 1.432-1.499L12.136.326zM5.562 3H13V1.78a.5.5 0 0 0-.621-.484L5.562 3zM1.5 4a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5h-13z"/>
+                </svg>
+            );
+        } else if (reqstate === '배송완료') {
+            return (
+                <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} fill="#6CC2CD"
+                     className="bi bi-truck" viewBox="0 0 16 16">
+                    <path
+                        d="M0 3.5A1.5 1.5 0 0 1 1.5 2h9A1.5 1.5 0 0 1 12 3.5V5h1.02a1.5 1.5 0 0 1 1.17.563l1.481 1.85a1.5 1.5 0 0 1 .329.938V10.5a1.5 1.5 0 0 1-1.5 1.5H14a2 2 0 1 1-4 0H5a2 2 0 1 1-3.998-.085A1.5 1.5 0 0 1 0 10.5v-7zm1.294 7.456A1.999 1.999 0 0 1 4.732 11h5.536a2.01 2.01 0 0 1 .732-.732V3.5a.5.5 0 0 0-.5-.5h-9a.5.5 0 0 0-.5.5v7a.5.5 0 0 0 .294.456zM12 10a2 2 0 0 1 1.732 1h.768a.5.5 0 0 0 .5-.5V8.35a.5.5 0 0 0-.11-.312l-1.48-1.85A.5.5 0 0 0 13.02 6H12v4zm-9 1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm9 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"/>
+                </svg>
+            );
+        } else if (reqstate === '불출완료') {
+            return (
+                <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} fill="#96B6DC"
+                     className="bi bi-check-circle-fill" viewBox="0 0 16 16">
+                    <path
+                        d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+                </svg>
+            );
+        } else if (reqstate === '기간아님') {
+            return (
+                <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} fill="#6CC2CD"
+                     className="bi bi-exclamation-octagon-fill" viewBox="0 0 16 16">
+                    <path
+                        d="M11.46.146A.5.5 0 0 0 11.107 0H4.893a.5.5 0 0 0-.353.146L.146 4.54A.5.5 0 0 0 0 4.893v6.214a.5.5 0 0 0 .146.353l4.394 4.394a.5.5 0 0 0 .353.146h6.214a.5.5 0 0 0 .353-.146l4.394-4.394a.5.5 0 0 0 .146-.353V4.893a.5.5 0 0 0-.146-.353L11.46.146zM8 4c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995A.905.905 0 0 1 8 4zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+                </svg>
+            );
+        } else if (reqstate === '기간') {
+            return (
+                <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} fill="#1C91FB"
+                     className="bi bi-check-circle-fill" viewBox="0 0 16 16">
+                    <path
+                        d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
                 </svg>
             );
         } else {

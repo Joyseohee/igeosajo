@@ -2,10 +2,15 @@ tr {
     text-align: center;
 }
 th{
-    font-size: 1.2rem;
+    /*font-size: 1.2rem;*/
+    font-size: 15px;
 }
 td{
-    font-size: 1.1rem;
+    /*font-size: 1.1rem;*/
+    font-size: 15px;
+}
+.doc-filter-wrapper {
+    box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.2);
 }
 
 .docPaymentTable{

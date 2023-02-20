@@ -6,6 +6,7 @@ import Card from "react-bootstrap/Card";
 import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import TotalPrice from "./TotalPrice";
+import Paging from "../layout/Paging";
 
 let checklist = []
 
@@ -13,7 +14,6 @@ class OrderView extends Component {
     constructor(props) {
         super(props);
         this.state = {
-
         }
     }
 

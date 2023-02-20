@@ -99,7 +99,6 @@ a:link, a:visited, a:hover {
 /*}*/
 
 .menu1, .menu2 {
-    /*color: rgb(80, 160, 255);*/
     cursor: pointer;
     transition: background-color 0.2s ease;
 }
@@ -115,6 +114,7 @@ a:link, a:visited, a:hover {
 
 .sidebar-wrapper .sidebar {
     padding: 20px;
+    flex: 2;
 }
 
 .sidebar-wrapper .menu-wrapper {
