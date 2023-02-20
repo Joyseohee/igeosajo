@@ -184,7 +184,7 @@ class ReqList extends Component {
                             </tbody> :
                             <tbody>
                             <tr>
-                                <td colSpan={9}>신청 내역이 없습니다.</td>
+                                <td colSpan={10}>신청 내역이 없습니다.</td>
                             </tr>
                             </tbody>
                         }
