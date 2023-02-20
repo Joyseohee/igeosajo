@@ -22,7 +22,8 @@ class Header extends Component {
                 <Container fluid style={{minWidth:"1080px", padding:0}}>
                     <Row className="header-wrapper">
                         <Col xs="9" className="logo-wrapper">
-                            <Link to="/main"><img src={"/logo.png"} className="logo"></img></Link>
+                            {user !== "user" && <Link to="/main"><img src={"/logo.png"} className="logo"></img></Link>}
+                            {user === "user" && <Link to="/"><img src={"/logo.png"} className="logo"></img></Link>}
                         </Col>
                         <Col xs="2" className="profile">
                             <Row>

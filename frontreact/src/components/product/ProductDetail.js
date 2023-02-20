@@ -101,7 +101,7 @@ class ProductDetail extends Component {
                                     onChange={(e) => {
                                         this.choiceUnit(e.target.checked, e.target.value);
                                     }} disabled={!list.ccount}/></td>
-                    <td className='prdth2'>{idx + 1}</td>
+                    <td className='prdth2'>{idx + (this.props.pagenum-1)*5 +1}</td>
                     <td className='prdth1'><img className='img1' src={list.prodimg}/></td>
                     <td className='prdth3' style={{textAlign: "left"}}><div style={{fontSize: "20px"}}>{list.prodname}</div>
                         <div style={{fontSize: "15px"}}> [{list.category1name}&nbsp;>>&nbsp;{list.category2name}]</div>

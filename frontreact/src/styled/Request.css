@@ -44,9 +44,10 @@ p {
 .reqfilter-box-wrapper:last-child {
     margin-right: 0;
 }
+
 .reqfilter-box-wrapper:hover {
-    box-shadow: 0 0 0 2px rgb(84,197,245) inset;
-    cursor:pointer;
+    box-shadow: 0 0 0 2px rgb(84, 197, 245) inset;
+    cursor: pointer;
     transition: all 0.5s cubic-bezier(.5, .24, 0, 1);
 }
 
@@ -166,4 +167,24 @@ thead > tr > td, tbody > tr > td {
 
 .request-list-click.able {
     cursor: pointer;
+}
+
+.request-alert-wrapper {
+    border: 1px solid rgb(224, 224, 224);
+    box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    padding: 10px;
+    display: flex;
+    flex-direction: row;
+    height: 70px;
+}
+
+.request-alert-icon {
+    flex: 1;
+    text-align: center;
+}
+.request-alert-text {
+    margin-left: 10px;
+    flex: 10;
+    align-content: center;
 }

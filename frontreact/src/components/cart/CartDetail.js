@@ -168,7 +168,7 @@ class CartDetail extends Component {
 
                 <tbody key={list.prodnum}>
                 <tr>
-                    <td className='cartth2'>{idx + 1}</td>
+                    <td className='cartth2'>{idx + 1+ (this.props.pagenum-1) *5}</td>
                     <td className='cartth1'><img className='img2' src={list.prodimg}/></td>
                     <td className='cartth3'>{list.prodname}</td>
                     <td className='cartth5'>\ {new CommonUtil().numberComma(list.prodprice)}</td>

@@ -256,6 +256,7 @@ class Product extends Component {
                     <ProductDetail productItemList={this.state.productItemList}
                                    prodnumList={this.state.prodnumList}
                                    usernum={this.props.usernum}
+                                   pagenum={this.state.pageNum}
                                    func1={this.checksend}
                                    ref={this.ref}
                                    callback1={{handleIncrease: this.handleIncrease}}

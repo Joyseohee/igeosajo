@@ -198,6 +198,7 @@ class Cart extends Component {
                     <CartDetail items={this.state.items} func1={this.checksend1}
                                 ref={this.ref}
                                 message={this.state.message}
+                                pagenum={this.state.pageNum}
                     />
                     <Paging
                         showNum={5}
