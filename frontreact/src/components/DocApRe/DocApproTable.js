@@ -119,11 +119,11 @@ class DocPaymentTable extends Component {
                     </tr>
                     <tr>
                         <td>기안자</td>
-                        <td>성은 기 이름은 안자 이름하여 기안자</td>
+                        <td>진도준</td>
                     </tr>
                     <tr>
                         <td>결재자</td>
-                        <td>김해 결씨 재자 돌림으로 재자 이름하여 결재자</td>
+                        <td>진양철</td>
                     </tr>
                     <tr>
                         <td>상품명</td>

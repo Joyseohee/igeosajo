@@ -48,7 +48,6 @@ class Paging extends Component {
 
     componentDidUpdate(prevProps) {
         if (Math.ceil(prevProps.pageNum / 10) != Math.ceil(this.props.pageNum / 10)) {
-            console.log(Math.ceil(prevProps.pageNum / 10), Math.ceil(this.props.pageNum / 10))
             this.setState({
                 start: this.props.pageNum,
             })
@@ -56,24 +55,27 @@ class Paging extends Component {
     }
 
     handlePrevClick = (pageNum) => {
-        if (pageNum > 1) {
-            this.props.setPageNum(Math.ceil(pageNum / 10) * 10 - 10);
+        if ((pageNum - 10) > 0) {
+            this.props.setPageNum((Math.floor(pageNum / 10) - 1) * 10 + 1);
         }
-        this.setState({
-            start: Math.max(1, this.state.start - 10),
-        });
+
+        // this.setState({
+        //     start: Math.max(1, this.state.start - 10),
+        // });
     };
 
     handleNextClick = (pageNum, pageCount) => {
-        if (pageNum < Math.ceil(pageCount / 10)) {
+        if (pageNum < Math.ceil(pageCount / this.props.showNum)
+            && Math.floor((pageNum - 1) / 10) < Math.floor((Math.ceil(pageCount / this.props.showNum) - 1) / 10)
+        ) {
             this.props.setPageNum(Math.ceil(pageNum / 10) * 10 + 1);
         }
 
-        if ((this.state.start + 10) < Math.ceil(pageCount / this.props.showNum)) {
-            this.setState({
-                start: this.state.start + 10,
-            });
-        }
+        // if ((this.state.start + 10) < Math.ceil(pageCount / this.props.showNum)) {
+        //     this.setState({
+        //         start: this.state.start + 10,
+        //     });
+        // }
     };
 
     render() {

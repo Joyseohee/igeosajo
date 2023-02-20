@@ -1,7 +1,6 @@
 from django.views.decorators.csrf import csrf_protect, csrf_exempt
 from django.http import HttpResponse, JsonResponse
 from django.db import connection
-import bcrypt
 import jwt
 import time
 from datetime import datetime
@@ -96,9 +95,7 @@ def doc_view(self):
     elif self.method == 'POST':
         return post_doc(self)
     elif self.method == 'PUT':
-        docDetail = self.GET.get('docDetail')
-        if docDetail:
-            return put_put_doc(self)
+        return put_put_doc(self)
     elif self.method == 'DELETE':
         return delete_doc(self)
 
@@ -117,13 +114,6 @@ def doc_detail_view(self, DOCNUM):
 def main_view(self):
     if self.method == 'GET':
         return get_main(self)
-
-
-def accesstoken(request):
-    pw = '1234'
-    pw_hash = bcrypt.hashpw(pw.encode('utf-8'), bcrypt.gensalt())
-    pw_hash = pw_hash.decode('utf-8')
-
 
 # ---------------------------------------------------------------
 # ---------------------------------------------------------------
@@ -705,8 +695,6 @@ def get_doc(self):
     cursor = connection.cursor()
 
     data = self.GET.get('state')
-    startdate = self.GET.get('startdate')
-    enddate = self.GET.get('enddate')
     state = self.GET.get('docstate')
     docNum = self.GET.get('docNum')
 
@@ -922,8 +910,7 @@ def patch_doc_detail(self, DOCNUM):
     [
         {
         "state":"승인",
-        "reject": "",
-        "cancle": 0
+        "reject": ""
         }
     ]
     """
