@@ -60,10 +60,10 @@ class OrderSearch extends Component {
         return (
             <div className="containermargin">
 
-                <Row style={{width: '100%'}}>
-                    <Col>
+                <Row style={{width: '100%', marginTop: '3rem', marginLeft: '0'}}>
+                    <Col className="order-card-col">
                         <div className="cardcontain">
-                            <Card className="order-card" style={{width: '95%', backgroundColor: color[0]}}>
+                            <Card className="order-card" style={{width: '100%', backgroundColor: color[0]}}>
                                 <Card.Body onClick={(e) => {
                                     this.statechange(e, "allselect")
                                 }}>
@@ -83,9 +83,9 @@ class OrderSearch extends Component {
                             </Card>
                         </div>
                     </Col>
-                    <Col>
+                    <Col className="order-card-col">
                         <div className="cardcontain">
-                            <Card className="order-card" style={{width: '95%', backgroundColor: color[1]}}>
+                            <Card className="order-card" style={{width: '100%', backgroundColor: color[1]}}>
                                 <Card.Body onClick={(e) => {
                                     this.statechange(e, "parchase")
                                 }}>
@@ -107,9 +107,9 @@ class OrderSearch extends Component {
                             </Card>
                         </div>
                     </Col>
-                    <Col>
+                    <Col className="order-card-col">
                         <div className="cardcontain">
-                            <Card className="order-card" style={{width: '95%', backgroundColor: color[2]}}>
+                            <Card className="order-card" style={{width: '100%', backgroundColor: color[2]}}>
                                 <Card.Body onClick={(e) => {
                                     this.statechange(e, "deliver")
                                 }}>
@@ -129,9 +129,9 @@ class OrderSearch extends Component {
                             </Card>
                         </div>
                     </Col>
-                    <Col>
+                    <Col className="order-card-col">
                         <div className="cardcontain">
-                            <Card className="order-card" style={{width: '95%', backgroundColor: color[3]}}>
+                            <Card className="order-card" style={{width: '100%', backgroundColor: color[3]}}>
                                 <Card.Body onClick={(e) => {
                                     this.statechange(e, "finish")
                                 }}>

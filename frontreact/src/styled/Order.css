@@ -10,7 +10,8 @@
 }
 
 .cardcontainprogress{
-    margin-left: 30px;
+    /*margin-left: 30px;*/
+    padding: 0;
     margin-bottom: 20px;
 }
 .maincardcontainfirst{
@@ -52,7 +53,7 @@
     margin-bottom: 5px;
 }
 .btndivmargin{
-    margin-right: 20px;
+    /*margin-right: 20px;*/
     margin-bottom: 20px;
 
 }
@@ -62,34 +63,37 @@
 }
 .submitbutton{
     float: right;
-    margin:10px;
-    margin-right : 37px;
+    margin:10px 0;
+    /*margin-right : 37px;*/
 }
 
 .searchdatemargin{
     display: flex;
-    margin:30px;
+    margin-top: 14px;
     margin-bottom: 30px;
     text-align: left;
-    margin-right: 17px;
 }
 .searchdatemarginreq{
     display: flex;
-    margin:14px;
+    margin-top: 14px;
     margin-bottom: 30px;
     text-align: left;
-    margin-right: 17px;
 }
 .subtablemargin{
     display: flex;
-    margin:30px;
+    /*margin:30px;*/
     margin-bottom: 30px;
     text-align: left;
 }
 .subtitle{
     display: flex;
     text-align: left;
-    margin-left: 30px;
+    justify-content: flex-end;
+    margin-bottom: 20px;
+}
+.subtitle>.subtitle {
+    margin: 0;
+    padding: 0;
 }
 .dotmargin{
     margin : auto;
@@ -173,7 +177,6 @@
     padding-left: 10px;
 }
 .orderallselect{
-    margin-left: 35px;
     padding-top: 25px;
     font-size: 17px;
     font-weight: bold;
@@ -296,10 +299,26 @@
     margin-right: 20px;
     margin-bottom: 10px;
 }
+.order-card-col.col {
+    margin-right: 30px;
+    padding: 0;
+}
+
+.order-card-col.col:last-child {
+    margin-right: 0;
+    padding: 0;
+}
+.order-card.card {
+    margin-right: 0;
+}
 
 .input-group-text {
     background-color: #8EA6C0;
     border: none;
     color:white;
     border-radius: 5px 0 0 5px;
+}
+
+.input-group.rowDiv {
+    padding: 0;
 }

@@ -33,7 +33,7 @@ class OrderCountCard extends Component {
                 <Row style={{width: '100%'}}>
                     <Col>
                         <div className="maincardcontainfirst">
-                            <Card className="main-card" style={{width: '100%'}}>
+                            <Card className="main-card" style={{width: '100%', height:'150px'}}>
                                 <Card.Body  onClick={(e) => {this.props.routerpath(e,"/orderreq")}}>
                                     <Card.Text className=" cardtitletext">구매 대기</Card.Text>
                                         <Container>
@@ -48,7 +48,7 @@ class OrderCountCard extends Component {
                     </Col>
                     <Col>
                         <div className="maincardcontainetc">
-                            <Card className="main-card" style={{width: '100%'}}>
+                            <Card className="main-card" style={{width: '100%', height:'150px'}}>
                                 <Card.Body  onClick={(e) => {this.props.routerpath(e,"/order")}}>
                                     <Card.Text className="cardtitletext">배송 완료</Card.Text>
 

@@ -148,6 +148,7 @@ class ReqList extends Component {
                             <th className="request-list-table-col date">승인일자</th>
                             <th className="request-list-table-col writer">요청자</th>
                             <th className="request-list-table-col state">상태</th>
+                            <th className="request-list-table-col staging">처리상태</th>
                         </tr>
                         </thead>
                         {pages.length > 0 ?
@@ -176,6 +177,7 @@ class ReqList extends Component {
                                         <td>{request.reqapvdate ? request.reqapvdate : "신청 처리 전"}</td>
                                         <td>{request.username}</td>
                                         <td>{request.reqstate}</td>
+                                        <td>{request.reqstaging}</td>
                                     </tr>
                                 );
                             })}

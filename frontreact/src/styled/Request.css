@@ -126,7 +126,7 @@ p {
 }
 
 .request-list-table-col.name {
-    width: 44%;
+    width: 42%;
 }
 
 .request-list-table-col.count {
@@ -142,12 +142,13 @@ p {
 }
 
 .request-list-table-col.writer {
-    width: 8%;
-}
-
-.request-list-table-col.state {
     width: 5%;
 }
+
+.request-list-table-col.state, .staging {
+    width: 5%;
+}
+
 
 thead > tr > td, tbody > tr > td {
     font-size: 15px;
