@@ -15,7 +15,6 @@ urlpatterns = [
     path('document', views.doc_view),
     path('document/<int:DOCNUM>', views.doc_detail_view),
     path('login', views.login_view),
-    path('token', views.accesstoken),
     path('category1', views.get_category1),
     path('category2', views.get_category2),
     path('main', views.main_view),
