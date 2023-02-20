@@ -83,7 +83,13 @@ class ProductPost extends Component {
 
     render() {
         const {posted, gocart} = this.state
-        const {prodnumList} = this.props
+        const {prodnumList,productItemList} = this.props
+        let j=0;
+        for (let i=0; i<productItemList.length; i++){
+         if ( productItemList[i].ccount!=0){
+          j++;
+         }
+        }
 
         return (
             <div>
@@ -105,7 +111,7 @@ class ProductPost extends Component {
                                           handleConfirm={this.handleConfirm}
                                           modalInfo={this.props.modalInfo}
                 />}
-                {posted && prodnumList.length === 0 && <PostCartModal show={true} id={3}
+                {posted && (prodnumList.length === 0 ||j==0) && <PostCartModal show={true} id={3}
                                                                       confirm={"확인"} handleClose={this.handleClose}
                                                                       handleConfirm={this.handleClose}
                                                                       modalInfo={this.props.modalInfo}
