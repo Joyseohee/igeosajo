@@ -31,7 +31,7 @@ class DocCountCard extends Component {
                 <Row style={{width: '100%'}}>
                     <Col>
                         <div className="maincardcontainfirst">
-                            <Card className="main-card" style={{width: '100%'}}>
+                            <Card className="main-card" style={{width: '100%', height:'150px'}}>
                                 <Card.Body   onClick={(e) => {this.props.routerpath(e,"/docsubmit")}}>
                                     <Card.Text className=" cardtitletext">상신 완료</Card.Text>
                                         <Container>
@@ -46,7 +46,7 @@ class DocCountCard extends Component {
                     </Col>
                     <Col>
                         <div className="maincardcontainetc">
-                            <Card className="main-card" style={{width: '100%'}}>
+                            <Card className="main-card" style={{width: '100%', height:'150px'}}>
                                 <Card.Body  onClick={(e) => {this.props.routerpath(e,"/docreject")}}>
                                     <Card.Text className="cardtitletext">결재 반려</Card.Text>
 
@@ -62,7 +62,7 @@ class DocCountCard extends Component {
                     </Col>
                     <Col>
                         <div className="maincardcontainetc">
-                            <Card className="main-card" style={{width: '100%'}}>
+                            <Card className="main-card" style={{width: '100%', height:'150px'}}>
                                 <Card.Body  onClick={(e) => {this.props.routerpath(e,"/docapproval")}}>
                                     <Card.Text className="cardtitletext">결재 완료</Card.Text>
                                         <Container>

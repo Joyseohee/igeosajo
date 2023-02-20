@@ -2,10 +2,6 @@ import React, {Component} from 'react';
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Card from "react-bootstrap/Card";
-import all from "../../img/allicon.png";
-import parchase from "../../img/iconsparchase.png";
-import deliver from "../../img/iconsdeliver.png";
-import finish from "../../img/iconsfinish.png";
 import DocumentIcon from "../../storage/Icon";
 
 class DocListKind extends Component {
@@ -24,12 +20,11 @@ class DocListKind extends Component {
         let listState = this.props.listState;
         return (
             <div className="containermargin">
-
-                <Row style={{width: '100%', marginTop: '3rem', marginLeft: '0px'}}>
-                    <Col>
+                <Row style={{width: '100%', marginTop: '3rem', marginLeft: '0'}}>
+                    <Col className="doc-card-col">
                         <div className="cardcontain">
                             <Card className="doc-filter-wrapper" style={{
-                                width: '95%',
+                                width: '100%',
                                 backgroundColor: listState === "allselect" ? "#FAFBFF" : "rgb(224, 224, 224)"
                             }}>
                                 <Card.Body onClick={(e) => {
@@ -51,10 +46,10 @@ class DocListKind extends Component {
                         </div>
                     </Col>
 
-                    <Col>
+                     <Col className="doc-card-col">
                         <div className="cardcontain">
                             <Card className="doc-filter-wrapper" style={{
-                                width: '95%',
+                                width: '100%',
                                 backgroundColor: listState === "대기" ? "#FAFBFF" : "rgb(224, 224, 224)"
                             }}>
                                 <Card.Body onClick={(e) => {
@@ -76,10 +71,10 @@ class DocListKind extends Component {
                         </div>
                     </Col>
 
-                    <Col>
+                     <Col className="doc-card-col">
                         <div className="cardcontain">
                             <Card className="doc-filter-wrapper" style={{
-                                width: '95%',
+                                width: '100%',
                                 backgroundColor: listState === "승인" ? "#FAFBFF" : "rgb(224, 224, 224)"
                             }}>
                                 <Card.Body onClick={(e) => {
@@ -102,10 +97,10 @@ class DocListKind extends Component {
                         </div>
                     </Col>
 
-                    <Col>
+                     <Col className="doc-card-col">
                         <div className="cardcontain">
                             <Card className="doc-filter-wrapper" style={{
-                                width: '95%',
+                                width: '100%',
                                 backgroundColor: listState === "반려" ? "#FAFBFF" : "rgb(224, 224, 224)"
                             }}>
                                 <Card.Body onClick={(e) => {

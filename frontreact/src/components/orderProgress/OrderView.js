@@ -153,6 +153,7 @@ class OrderView extends Component {
 
     render() {
         const  ordernum  = this.props.ordernum
+        console.log(ordernum)
         return (
             <div>
                 <Row>
@@ -161,9 +162,9 @@ class OrderView extends Component {
                 <div className="orderviewmargin">
                     {this.dataempty(ordernum)}
                     {ordernum && ordernum.map((num,i) => (
-                        <Row style={{width: '101.5%'}} key={num.ordernum}>
+                        <Row style={{width: '100%', margin:'0'}} key={num.ordernum}>
                         <div className="cardcontainprogress" >
-                            <Card style={{width: '95%'}}>
+                            <Card style={{width: '100%'}}>
                                 <Card.Body>
                                     <Container className="containermargin">
                                         <Row>

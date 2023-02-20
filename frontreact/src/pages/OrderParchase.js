@@ -167,7 +167,7 @@ class OrderParchase extends Component {
                     <Goal comment={"배송지 입력"}/>
                     <OrderDataInput handleShow={this.handleShow} fullAddress={fullAddress} zoneCode={zoneCode}></OrderDataInput>
                     <OrderTotalReq reqdata={reqdata} totalprice={totalprice}></OrderTotalReq>
-                    <Button  onClick={this.payment} style={{width: '93%',margin:"auto",marginLeft:"28px", height:"50px"}}>결제하기</Button>
+                    <Button onClick={this.payment} style={{width: '93%',margin:"auto",marginLeft:"28px", height:"50px"}}>결제하기</Button>
                 </Container>
                 <Modal
                     show={show}

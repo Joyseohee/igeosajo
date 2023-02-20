@@ -11,6 +11,14 @@ td{
 }
 .doc-filter-wrapper {
     box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.2);
+    margin-right: 0;
+    padding-right: 0;
+}
+.doc-card-col {
+    padding: 0 15px 0 0;
+}
+.doc-card-col:last-child {
+    padding: 0;
 }
 
 .docPaymentTable{
