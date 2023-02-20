@@ -25,7 +25,7 @@ class DocListKind extends Component {
         return (
             <div className="containermargin">
 
-                <Row style={{width: '100%', marginTop: '3rem'}}>
+                <Row style={{width: '100%', marginTop: '3rem', marginLeft: '0px'}}>
                     <Col>
                         <div className="cardcontain">
                             <Card className="doc-filter-wrapper" style={{
@@ -37,7 +37,9 @@ class DocListKind extends Component {
                                 }}>
                                     <Card.Text className=" cardtitletext">전체</Card.Text>
                                     <Row>
-                                        <Col className="cardtext">{allcnt}</Col>
+                                        <Col className="cardtext">{allcnt}
+                                            <span>{" "}</span>
+                                            <span style={{fontSize: "17px", fontWeight: "bold"}}>건</span></Col>
                                         <Col className="cardicon">
                                             <div className="order-search-box-icon">
                                                 <DocumentIcon reqstate="전체"/>
@@ -60,7 +62,9 @@ class DocListKind extends Component {
                                 }}>
                                     <Card.Text className="cardtitletext">{this.props.cardMent[2]}</Card.Text>
                                     <Row>
-                                        <Col className="cardtext">{waitcnt}</Col>
+                                        <Col className="cardtext">{waitcnt}
+                                            <span>{" "}</span>
+                                            <span style={{fontSize: "17px", fontWeight: "bold"}}>건</span></Col>
                                         <Col className="cardicon">
                                             <div className="order-search-box-icon">
                                                 <DocumentIcon/>
@@ -83,7 +87,9 @@ class DocListKind extends Component {
                                 }}>
                                     <Card.Text className="cardtitletext">{this.props.cardMent[0]}</Card.Text>
                                     <Row>
-                                        <Col className="cardtext">{approvalcnt}</Col>
+                                        <Col className="cardtext">{approvalcnt}
+                                            <span>{" "}</span>
+                                            <span style={{fontSize: "17px", fontWeight: "bold"}}>건</span></Col>
                                         <Col className="cardicon">
                                             <div className="order-search-box-icon">
                                                 <DocumentIcon reqstate="승인"/>
@@ -107,7 +113,9 @@ class DocListKind extends Component {
                                 }}>
                                     <Card.Text className="cardtitletext">{this.props.cardMent[1]}</Card.Text>
                                     <Row>
-                                        <Col className="cardtext">{rejectcnt}</Col>
+                                        <Col className="cardtext">{rejectcnt}
+                                            <span>{" "}</span>
+                                            <span style={{fontSize: "17px", fontWeight: "bold"}}>건</span></Col>
                                         <Col className="cardicon">
                                             <div className="order-search-box-icon">
                                                 <DocumentIcon reqstate="반려"/>

@@ -31,7 +31,7 @@ class UserMain extends Component {
         // 장바구니 건수
         await Promise.all([
             fetch('http://127.0.0.1:8000/api/reqterm/' + nowdate),
-            fetch('http://127.0.0.1:8000/api/request?usernum=' + this.props.user.usernum.toString()),
+            fetch('http://127.0.0.1:8000/api/request?usernum=' + this.props.user.usernum.toString() + '&termyearmonth=' + nowdate),
             fetch('http://127.0.0.1:8000/api/cart?usernum=' + this.props.user.usernum.toString())
         ])
             .then(([response1, response2, response3]) =>
