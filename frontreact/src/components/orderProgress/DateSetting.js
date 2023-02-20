@@ -28,28 +28,26 @@ class DateSetting extends Component {
     }
     onChangeDateSet = () => {
 
-        let startyear = document.getElementById("startyear").value
-        let startmonth = document.getElementById("startmonth").value
-        let endyear = document.getElementById("endyear").value
-        let endmonth = document.getElementById("endmonth").value
+         let startyear = parseInt(document.getElementById("startyear").value)
+         let startmonth = parseInt(document.getElementById("startmonth").value)
+         let endyear = parseInt(document.getElementById("endyear").value)
+         let endmonth = parseInt(document.getElementById("endmonth").value)
 
-        let now = new Date();
-        if (startyear == "" | startmonth == "" | endyear == "" | endmonth == "") {
-            this.props.handleshow(true, "시작일과 마감일을 정확하게 입력해주세요.")
-        } else if ((startyear > endyear) | startmonth < 1 | startmonth > 12 | endmonth < 1 | endmonth > 12) {
-            this.props.handleshow(true, "시작일과 마감일을 정확하게 입력해주세요.")
-        } else if ((startyear = endyear) && (startmonth > endmonth)) {
-            this.props.handleshow(true, "시작일과 마감일을 정확하게 입력해주세요.")
-        } else {
-            this.setState({
-                startyear: startyear,
-                startmonth: startmonth,
-                endyear: endyear,
-                endmonth: endmonth
-            });
-            this.props.datesetting(startyear, startmonth, endyear, endmonth)
-            this.props.handleshow(true, "조회기간이 정상적으로 설정되었습니다.")
-        }
+         let now = new Date();
+         if (startyear == "" | startmonth == ""|endyear == ""|endmonth == ""){this.props.handleshow(true,"시작일과 마감일을 정확하게 입력해주세요.")}
+         else if((startyear>endyear)| startmonth < 1 | startmonth>12 | endmonth < 1 | endmonth>12){this.props.handleshow(true,"시작일과 마감일을 정확하게 입력해주세요.")}
+         else if((startyear==endyear) &&(startmonth> endmonth)){this.props.handleshow(true,"시작일과 마감일을 정확하게 입력해주세요.")}
+         else{
+             this.setState({
+                 startyear: startyear,
+                 startmonth: startmonth,
+                 endyear: endyear,
+                 endmonth: endmonth
+             });
+             this.props.datesetting(startyear,startmonth,endyear,endmonth)
+             this.props.handleshow(true,"조회기간이 정상적으로 설정되었습니다.")
+         }
+
     }
 
     render() {
