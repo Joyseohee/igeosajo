@@ -149,11 +149,7 @@ class OrderParchase extends Component {
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify({deliverdata: this.state.deliverdata, reqdata: this.props.location.state.data})
-                }).then(response => response.json())
-                .then(response => {
-                    this.setState({reqdata: response});
-                });
-
+                })
                 this.props.history.push({
                 pathname: "/Order",
                 })
