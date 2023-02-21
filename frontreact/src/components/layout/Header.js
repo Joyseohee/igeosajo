@@ -9,7 +9,7 @@ class Header extends Component {
     }
 
     logout = () => {
-        localStorage.removeItem('secretcode');
+        sessionStorage.removeItem('secretcode');
         window.location.assign("http://localhost:3000");
     }
 

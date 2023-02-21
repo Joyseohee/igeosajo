@@ -21,7 +21,6 @@ export default class CommonUtil extends Component {
     }
 
     convertCalenderDateToReqtermPK = (date) => {
-        console.log(date);
         let StringDate = date.toString();
         return StringDate.slice(0, 4)+ StringDate.slice(5, 7);
     }
