@@ -86,17 +86,6 @@ class OrderTable extends Component {
                 </tr>
                 </thead>
                 {this.tableView()}
-                {/*<tbody>*/}
-                {/*    {reqdata && reqdata.map((num, i) => (*/}
-                {/*    <tr key={num+i}>*/}
-                {/*        <td style={{fontSize:"15px"}}> {i+1} </td>*/}
-                {/*        <td style={{fontSize:"15px"}}>{num.prodname}</td>*/}
-                {/*        <td style={{fontSize:"15px"}}>{num.reqcount+"개"}</td>*/}
-                {/*        <td style={{fontSize:"15px"}}>{num.reqprice && new CommonUtil().numberComma(num.reqprice)+"원"}</td>*/}
-                {/*        <td style={{fontSize:"15px"}}>{num.username}</td>*/}
-                {/*    </tr>*/}
-                {/*))}*/}
-                {/*</tbody>*/}
             </Table>
                  <Paging
                      pageNum={this.state.pageNum}
