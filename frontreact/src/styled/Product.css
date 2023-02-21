@@ -7,9 +7,11 @@
 .inline {
     display: inline-flex;
 }
+
 .display_btn {
     display: inline-flex;
 }
+
 .doclistTh {
     background-color: #848484;
     color: white;
@@ -25,7 +27,7 @@
 }
 
 .button_cart {
-padding: 7px;
+    padding: 7px;
     color: white;
     display: flex;
     justify-content: center;
@@ -46,50 +48,73 @@ padding: 7px;
     /*text-align: center;*/
     /*place-self: center*/
 }
-.textsize1{
+
+.textsize1 {
     margin: 0;
     padding: 0;
 }
 
-.td1{
+.td1 {
     vertical-align: middle;
 }
-.table1{
+
+.table1 {
     width: 100%;
 }
-.prdth1{
-        width: 15%;
-        vertical-align: middle;
+
+.prdth1 {
+    width: 15%;
+    vertical-align: middle;
 }
-.prdth2{
-        width: 5%;
-        vertical-align: middle;
+
+.prdth2 {
+    width: 5%;
+    vertical-align: middle;
 }
-.prdth3{
-        width: 45%;
-        vertical-align: middle;
+
+.prdth3 {
+    width: 45%;
+    vertical-align: middle;
 }
 
 
-.tr1{
+.tr1 {
     height: 130px;
 }
-.margin1{
+
+.margin1 {
     margin-right: 30px;
 }
-.input1{
-  width: 300px;
-  height: 45px;
-  font-size: 15px;
-  border: 0;
-  border-radius: 15px;
-  outline: none;
-  padding-left: 23px;
-  background-color: rgb(233, 233, 233);
+
+.input1 {
+    width: 300px;
+    height: 45px;
+    font-size: 15px;
+    border: 0;
+    border-radius: 15px;
+    outline: none;
+    padding-left: 23px;
+    background-color: rgb(233, 233, 233);
 
 }
 
 .nonefoundmsg {
-font-size: xx-large;
-   text-align: center;
+    font-size: xx-large;
+    text-align: center;
+}
+
+.ordertxt {
+    cursor: pointer;
+    hover: blue;
+}
+
+.ordertxt:hover {
+    color: dodgerblue;
+}
+
+.orderbind {
+    text-align: right;
+    font-size: 16px;
+    color: grey;
+    margin: 10px 0px;
 }
