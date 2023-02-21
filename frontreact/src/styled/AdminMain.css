@@ -1,0 +1,108 @@
+p, div, span {
+    margin: 0;
+}
+
+.main-req-order-wrapper {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.main-req-wrapper {
+    flex: 1;
+    margin-right: 30px;
+}
+
+.main-order-wrapper {
+    flex: 1;
+}
+
+.main-order-content {
+    display: flex;
+}
+
+.main-order-box {
+    flex: 1;
+    margin-right: 30px;
+}
+
+.main-card-title {
+    color: #666;
+}
+
+.main-card-count {
+    font-size: 2rem;
+    text-align: end;
+}
+
+.main-card-count.request,
+.main-card-text.request {
+    color: #BDACFC
+}
+
+.main-card-count-text-wrapper {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    text-align: end;
+}
+
+.main-card-icon {
+    align-items: end;
+    margin-bottom: 10px;
+}
+
+.wait {
+    color: #F8676A;
+}
+
+.deliver {
+    color: #6CC2CD;
+}
+
+.reject {
+    color: #6CC2CD;
+}
+
+.approve {
+    color: #75A2FF;
+}
+
+.main-card:hover {
+    box-shadow: 0 0 0 2px rgb(84, 197, 245) inset;
+    cursor: pointer;
+    transition: all 0.5s cubic-bezier(.5, .24, 0, 1);
+}
+
+.main-order-box:last-child {
+    margin-right: 0;
+}
+
+.main-card {
+    border-radius: 5px / 5px;
+    box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
+    border: 0.5px solid rgba(222, 222, 222);
+    padding: 20px 40px;
+}
+
+.main-card {
+
+}
+
+.card-body {
+    align-content: flex-end;
+}
+
+.main-card-title {
+    margin-bottom: 20px;
+    font-size: 1.2rem;
+}
+
+.subGoalDiv {
+    margin: 30px 0;
+}
+
+.main-card:hover {
+    box-shadow: 0 0 0 2px rgb(84,197,245) inset;
+    cursor:pointer;
+    transition: all 0.5s cubic-bezier(.5, .24, 0, 1);
+}

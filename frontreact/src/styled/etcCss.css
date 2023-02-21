@@ -32,13 +32,3 @@
 .pagingDiv:hover, .modal1btn:hover {
     cursor: pointer;
 }
-
-.main-card {
-    border-radius: 5px / 5px;
-    box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
-    border: 0.5px solid rgba(222, 222, 222);
-}
-
-.card-body {
-    align-content: flex-end;
-}
