@@ -125,9 +125,9 @@ def get_user(self):
     cursor = connection.cursor()
     query = ''
     if usernum is not None:
-        query = 'SELECT * FROM users WHERE usernum= ' + usernum
+        query = 'SELECT usernum, userid, username, userathority, userposition, userdept FROM users WHERE usernum= ' + usernum
     else:
-        query = 'SELECT * FROM users'
+        query = 'SELECT usernum, userid, username, userathority, userposition, userdept FROM users'
     cursor.execute(query)
     data = dictfetchall(cursor)
     response = JsonResponse(data, safe=False)
