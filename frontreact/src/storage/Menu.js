@@ -61,11 +61,6 @@ export default class Menu {
                     name: "구매 진행 현황",
                     path: "/order"
                 },
-                // {
-                //     index: "depth2-7",
-                //     name: "과거 구매 신청",
-                //     path: "/orderparchase"
-                // }
             ]
         }
     ];
@@ -78,12 +73,12 @@ export default class Menu {
             path: "/product",
             menu2: [
                 {
-                    index: "depth2-8",
+                    index: "depth2-7",
                     name: "물품보기",
                     path: "/product"
                 },
                 {
-                    index: "depth2-9",
+                    index: "depth2-8",
                     name: "장바구니",
                     path: "/cart"
                 }
