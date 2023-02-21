@@ -11,7 +11,6 @@ class CartDetail extends Component {
             prodnumList: [],
             reqcountList: [],
             reqpriceList: [],
-            // prodnum2: [],
 
             items: ['hello']
         };
@@ -43,10 +42,6 @@ class CartDetail extends Component {
             reqpriceList: reqpriceList
 
         }, () => {
-            console.log(prodnumList)
-               console.log(reqcountList)
-               console.log(reqpriceList)
-
             this.props.func1(
                 this.state.prodnumList,
                 this.state.reqcountList,
@@ -76,23 +71,16 @@ class CartDetail extends Component {
         const prodnumList = this.state.prodnumList;
         const reqcountList = this.state.reqcountList;
         const reqpriceList = this.state.reqpriceList;
-        console.log(check)
-        console.log(val1);
-        console.log(val2);
-        console.log(val3);
 
         if (check) {
             prodnumList.push(parseInt(val1));
             reqcountList.push(parseInt(val2));
             reqpriceList.push(parseInt(val3) * parseInt(val2));
-            console.log(prodnumList)
-            console.log(reqcountList)
-            console.log(reqpriceList)
+
         } else {
             for (let i = 0; i < prodnumList.length; i++) {
 
                 if (prodnumList[i] === val1) {
-                    console.log("here")
                     prodnumList.splice(i, 1);
                     reqcountList.splice(i, 1);
                     reqpriceList.splice(i, 1);
@@ -100,7 +88,6 @@ class CartDetail extends Component {
                 }
             }
         }
-        console.log(prodnumList)
         this.setState({
             prodnumList: prodnumList,
             reqcountList: reqcountList,

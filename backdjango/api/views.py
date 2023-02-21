@@ -115,6 +115,7 @@ def main_view(self):
     if self.method == 'GET':
         return get_main(self)
 
+
 # ---------------------------------------------------------------
 # ---------------------------------------------------------------
 
@@ -214,11 +215,11 @@ def get_cart(self):
     query = 'SELECT *, (SELECT prodname FROM product WHERE prodnum = cartinfo.prodnum),' \
             '(SELECT prodimg FROM product WHERE prodnum = cartinfo.prodnum), ' \
             '(SELECT prodprice FROM product WHERE prodnum = cartinfo.prodnum) ' \
-            'FROM cart AS cartinfo WHERE usernum = '+str(usernum)+' ORDER BY prodnum DESC '
+            'FROM cart AS cartinfo WHERE usernum = ' + str(usernum) + ' ORDER BY prodnum DESC '
 
     if pagenum:
         query += 'limit 5 offset ' + str((int(pagenum) - 1) * 5)
-   
+
     cursor.execute(query)
     data = dictfetchall(cursor)
     response = JsonResponse(data, safe=False)
@@ -278,16 +279,17 @@ def get_product(self):
     category2code = self.GET.get('category2code', None)
     prodname = self.GET.get('prodname', None)
     pagenum = self.GET.get('pagenum', None)
+    order = self.GET.get('order', None)
 
     cursor = connection.cursor()
     if prodname is None and category1code is None and category2code is None:
         query = 'SELECT p.*, ct.category2name, co.category1name FROM product p ' \
                 'JOIN category2 ct on ct.category2code= p.category2code ' \
-                'JOIN category1 co on ct.category1code=co.category1code ORDER BY prodnum'
+                'JOIN category1 co on ct.category1code=co.category1code '
         val = '',
 
     elif prodname is None and category2code is not None:
-        query = 'SELECT p.*, ct.category2name, co.category1name FROM product p JOIN category2 ct ON ct.category2code= p.category2code JOIN category1 co ON ct.category1code=co.category1code WHERE p.category2code= %s ORDER BY prodnum '
+        query = 'SELECT p.*, ct.category2name, co.category1name FROM product p JOIN category2 ct ON ct.category2code= p.category2code JOIN category1 co ON ct.category1code=co.category1code WHERE p.category2code= %s  '
         val = category2code,
 
 
@@ -296,7 +298,7 @@ def get_product(self):
                 ' FROM product p' \
                 ' JOIN category2 ct ON ct.category2code= p.category2code' \
                 ' JOIN category1 co ON ct.category1code=co.category1code ' \
-                ' WHERE co.category1code = %s ORDER BY prodnum'
+                ' WHERE co.category1code = %s '
 
         val = category1code,
 
@@ -306,7 +308,7 @@ def get_product(self):
                 'FROM product p ' \
                 'JOIN category2 ct ON ct.category2code= p.category2code ' \
                 'JOIN category1 co ON ct.category1code=co.category1code ' \
-                'WHERE p.prodname LIKE %s ORDER BY prodnum'
+                'WHERE p.prodname LIKE %s '
 
         val = '%' + prodname + '%',
 
@@ -316,7 +318,7 @@ def get_product(self):
                 'FROM product p ' \
                 'JOIN category2 ct ON ct.category2code= p.category2code ' \
                 'JOIN category1 co ON ct.category1code=co.category1code ' \
-                'WHERE co.category1code = %s and p.prodname LIKE %s ORDER BY prodnum'
+                'WHERE co.category1code = %s and p.prodname LIKE %s '
         val = (category1code, '%' + prodname + '%')
 
     elif prodname is not None and category2code is not None:
@@ -324,8 +326,17 @@ def get_product(self):
                 'FROM product p ' \
                 'JOIN category2 ct ON ct.category2code= p.category2code ' \
                 'JOIN category1 co ON ct.category1code=co.category1code ' \
-                'WHERE ct.category2code= %s and p.prodname LIKE %s ORDER BY prodnum '
+                'WHERE ct.category2code= %s and p.prodname LIKE %s '
         val = (category2code, '%' + prodname + '%')
+
+    if order == 'recent':
+        query += ' ORDER BY prodnum desc'
+    elif order == 'old':
+        query += ' ORDER BY prodnum'
+    elif order == 'expen':
+        query += ' ORDER BY prodprice desc'
+    elif order == 'cheap':
+        query += ' ORDER BY prodprice'
 
     if pagenum:
         query += ' limit 5 offset ' + str((int(pagenum) - 1) * 5)
@@ -334,6 +345,7 @@ def get_product(self):
     data = dictfetchall(cursor)
     response = JsonResponse(data, safe=False)
     return response
+
 
 def get_request(self):
     termyearmonth = self.GET.get('termyearmonth', None)
@@ -382,6 +394,7 @@ def post_request(self):
     response = HttpResponse("성공")
     return response
 
+
 def put_request(self):
     request = json.loads(self.body)
     termyearmonth = request['termyearmonth']
@@ -392,8 +405,11 @@ def put_request(self):
     cursor.execute(query)
     response = HttpResponse("성공")
     return response
+
+
 def put_request_pk(self, pk):
     return request_update_query(self, str(pk))
+
 
 def get_request_pk(self, pk):
     usernum = self.GET.get('usernum', None)
@@ -403,8 +419,10 @@ def get_request_pk(self, pk):
         params['u.usernum'] = usernum
     return request_select_query(params)
 
+
 def put_request_pk(self, pk):
     return request_update_query(self, str(pk))
+
 
 def delete_request(self):
     reqnum = str(self.GET.get('reqnum', None))
@@ -530,7 +548,7 @@ def get_order_view(self):
     elif (func == 'orderreq'):
         if (state == 'all'):
             query = 'SELECT r.reqnum,r.prodnum,p.prodname,r.reqcount,r.reqprice,r.reqdate,u.username,r.reqorder FROM request r JOIN users u on u.usernum = r.usernum JOIN product p on p.prodnum = r.prodnum WHERE (reqstaging= %s  or reqstaging = %s) and termyearmonth=%s and (reqorder = %s or reqorder = %s)'
-            val = ("처리중", "처리완료", termyearmonth,"구매전","구매완료")
+            val = ("처리중", "처리완료", termyearmonth, "구매전", "구매완료")
             cursor.execute(query, val)
             reqnumarray = dictfetchall(cursor)
             templen = len(reqnumarray)
@@ -551,7 +569,7 @@ def get_order_view(self):
     elif (func == 'orderreqcount'):
         resultdata = []
         query = 'SELECT COUNT(*) FROM request r JOIN users u on u.usernum = r.usernum JOIN product p on p.prodnum = r.prodnum WHERE (reqstaging= %s  or reqstaging = %s) and termyearmonth=%s and (reqorder = %s or reqorder = %s)'
-        val = ("처리중", "처리완료", termyearmonth,"구매전","구매완료")
+        val = ("처리중", "처리완료", termyearmonth, "구매전", "구매완료")
         cursor.execute(query, val)
         reqnumarray = dictfetchall(cursor)
         resultdata.append(reqnumarray[0]['count'])
@@ -825,7 +843,8 @@ def post_doc(self):
 
         reqnumword = str(i) + ','
         wait = '\'대기\''
-        query = 'insert into doc values (' + lastnum + reqnumword + date + 'null,' + wait + ', null,' + str(usernum) + ')'
+        query = 'insert into doc values (' + lastnum + reqnumword + date + 'null,' + wait + ', null,' + str(
+            usernum) + ')'
         connection.commit()
         cursor.execute(query)
 
@@ -839,6 +858,7 @@ def post_doc(self):
     response = HttpResponse("성공")
 
     return response
+
 
 @csrf_exempt
 def put_put_doc(self):
@@ -857,6 +877,7 @@ def put_put_doc(self):
 
     response = HttpResponse("성공")
     return response
+
 
 @csrf_exempt
 def delete_doc(self):
@@ -1072,7 +1093,7 @@ def get_category2(self):
 
     query = 'SELECT * FROM CATEGORY2'
     if (category1code != ''):
-        query += ' WHERE CATEGORY1CODE =' + str(category1code) +'ORDER BY category2code'
+        query += ' WHERE CATEGORY1CODE =' + str(category1code) + 'ORDER BY category2code'
 
     cursor.execute(query)
     data = dictfetchall(cursor)
