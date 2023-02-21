@@ -1,5 +1,4 @@
 import React, {Component} from "react";
-
 import "../../styled/UserMain.css"
 import DocumentIcon from "../../storage/Icon";
 
@@ -9,29 +8,21 @@ class CheckPeriod extends Component {
     }
 
     renderContent = (items) => {
-
-        if (items.length === 0) {
-            return (
-                <div>
-                    <div><DocumentIcon reqstate="기간아님"/>사무용품 신청기간이 아닙니다</div>
-                    <div></div>
-                </div>
-            );
-        } else {
+        if (items.length !== 0) {
             return items[0].termavailable === 1 ?
-                <div>
-                    <div><DocumentIcon reqstate="기간"/>사무용품 신청기간입니다.</div>
-                    <div>
+                <>
+                    <div className="period-alarm"><DocumentIcon reqstate="기간"/>&nbsp;&nbsp;사무용품 신청기간입니다.</div>
+                    <div className="period">
                         신청기간 : {items[0].termstartdate} ~ {items[0].termenddate}
                     </div>
-                </div>
+                </>
                 :
-                <div>
-                    <div><DocumentIcon reqstate="기간"/>사무용품 신청기간이 아닙니다</div>
-                    <div>
+                <>
+                    <div className="period-alarm"><DocumentIcon reqstate="기간아님"/>&nbsp;&nbsp;사무용품 신청기간이 아닙니다</div>
+                    <div className="period">
                         신청기간 : {items[0].termstartdate} ~ {items[0].termenddate}
                     </div>
-                </div>
+                </>
         }
     }
 

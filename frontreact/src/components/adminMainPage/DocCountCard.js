@@ -1,11 +1,4 @@
 import React, {Component} from 'react';
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
-import Card from "react-bootstrap/Card";
-import Container from "react-bootstrap/Container";
-import DocSubmit from "../../img/icondocsubmit.png";
-import DocCancel from "../../img/icondoccancel.png";
-import DocApproval from "../../img/icondocapproval.png";
 import "../../styled/etcCss.css"
 import DocumentIcon from "../../storage/Icon";
 
@@ -13,13 +6,6 @@ class DocCountCard extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-
-        }
-
-    }
-
-    componentDidMount() {
     }
 
     render() {
@@ -27,56 +13,49 @@ class DocCountCard extends Component {
         let reject = this.props.reject
         let approval = this.props.approval
         return (
-            <div className={"DocCountCardDiv"}>
-                <Row style={{width: '100%'}}>
-                    <Col>
-                        <div className="maincardcontainfirst">
-                            <Card className="main-card" style={{width: '100%', height:'150px'}}>
-                                <Card.Body   onClick={(e) => {this.props.routerpath(e,"/docsubmit")}}>
-                                    <Card.Text className=" cardtitletext">상신 완료</Card.Text>
-                                        <Container>
-                                            <Row>
-                                                <Col className="cardtext" xs={"8"}><span>{docsubmit}</span><span>{" "}</span><span style={{fontSize:"17px",fontWeight:"bold"}}>건</span></Col>
-                                                <Col xs={"4"}><DocumentIcon reqstate="대기" size={50}/></Col>
-                                            </Row>
-                                        </Container>
-                                </Card.Body>
-                            </Card>
+            <div className="main-order-content">
+                <div className="main-order-box">
+                    <div className="main-card" onClick={(e) => {
+                        this.props.routerpath(e, "/docsubmit")
+                    }}>
+                        <div className="main-card-title">상신 완료</div>
+                        <div className="main-card-count-text-wrapper">
+                            <p>
+                                <span className="main-card-count wait">{docsubmit}</span><span>{" "}</span>
+                                <span className="main-card-text wait">건</span>
+                            </p>
+                            <div className="main-card-icon"><DocumentIcon reqstate="대기" size={50}/></div>
                         </div>
-                    </Col>
-                    <Col>
-                        <div className="maincardcontainetc">
-                            <Card className="main-card" style={{width: '100%', height:'150px'}}>
-                                <Card.Body  onClick={(e) => {this.props.routerpath(e,"/docreject")}}>
-                                    <Card.Text className="cardtitletext">결재 반려</Card.Text>
-
-                                        <Container>
-                                            <Row>
-                                                <Col className="cardtext" xs={"8"}><span>{reject}</span><span>{" "}</span><span style={{fontSize:"17px",fontWeight:"bold"}}>건</span></Col>
-                                                <Col xs={"4"}><DocumentIcon reqstate="반려" size={50}/></Col>
-                                            </Row>
-                                        </Container>
-                                </Card.Body>
-                            </Card>
+                    </div>
+                </div>
+                <div className="main-order-box">
+                    <div className="main-card" onClick={(e) => {
+                        this.props.routerpath(e, "/docreject")
+                    }}>
+                        <div className="main-card-title">결재 반려</div>
+                        <div className="main-card-count-text-wrapper">
+                            <p>
+                                <span className="main-card-count reject">{reject}</span><span>{" "}</span>
+                                <span className="main-card-text reject">건</span>
+                            </p>
+                            <div className="main-card-icon"><DocumentIcon reqstate="반려" size={50}/></div>
                         </div>
-                    </Col>
-                    <Col>
-                        <div className="maincardcontainetc">
-                            <Card className="main-card" style={{width: '100%', height:'150px'}}>
-                                <Card.Body  onClick={(e) => {this.props.routerpath(e,"/docapproval")}}>
-                                    <Card.Text className="cardtitletext">결재 완료</Card.Text>
-                                        <Container>
-                                            <Row>
-                                                <Col className="cardtext" xs={"8"}><span>{approval}</span><span>{" "}</span><span style={{fontSize:"17px",fontWeight:"bold"}}>건</span></Col>
-                                                <Col xs={"4"}><DocumentIcon reqstate="승인" size={50}/></Col>
-                                            </Row>
-                                        </Container>
-                                </Card.Body>
-                            </Card>
+                    </div>
+                </div>
+                <div className="main-order-box">
+                    <div className="main-card" onClick={(e) => {
+                        this.props.routerpath(e, "/docapproval")
+                    }}>
+                        <div className="main-card-title">결재 완료</div>
+                        <div className="main-card-count-text-wrapper">
+                            <p>
+                                <span className="main-card-count approve">{approval}</span><span>{" "}</span>
+                                <span className="main-card-text approve">건</span>
+                            </p>
+                            <div className="main-card-icon"><DocumentIcon reqstate="승인" size={50}/></div>
                         </div>
-                    </Col>
-                </Row>
-
+                    </div>
+                </div>
             </div>
         )
     }
