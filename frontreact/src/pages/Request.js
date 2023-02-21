@@ -162,7 +162,7 @@ class Request extends Component {
                             {available === 1 && (requestFilter === '대기' || requestFilter === '전체') &&
                                 <RequestButtons updateState={this.updateState} checkedRequest={checkedRequest}/>
                             }
-                            {available === 0 &&
+                            {available === 0 && reqtermList[0] !== 'reqtermList' &&
                                 <div className="request-alert-wrapper">
                                     <div className="request-alert-icon">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="1rem" height="1rem"
