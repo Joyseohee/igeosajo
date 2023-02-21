@@ -48,24 +48,33 @@ class DocList extends Component {
                         <th>결재 일자</th>
                     </tr>
                     </thead>
-                    <tbody>
                     {
-                        doclist.map((data, i) => (
-                            <tr className={"doclistTd"} key={`docreq${data.reqnum}`+i} value={data.docnum} onClick={(e) => {
-                                this.moveDocDetail(data.docnum)
-                            }}>
-                                <td> {(pageNum - 1) * 10 + i + 1} </td>
-                                <td>결재요청</td>
-                                <td>진도준</td>
-                                <td>진양철</td>
-                                <td>{data.docstate}</td>
-                                <td>{data.docwdate}</td>
-                            </tr>
+                        doclist.length !== 0
+                            ? <tbody>
+                            {
+                                doclist.map((data, i) => (
+                                    <tr className={"doclistTd"} key={`docreq${data.reqnum}` + i} value={data.docnum}
+                                        onClick={(e) => {
+                                            this.moveDocDetail(data.docnum)
+                                        }}>
+                                        <td> {(pageNum - 1) * 10 + i + 1} </td>
+                                        <td>결재요청</td>
+                                        <td>진도준</td>
+                                        <td>진양철</td>
+                                        <td>{data.docstate}</td>
+                                        <td>{data.docwdate}</td>
+                                    </tr>
 
-                        ))
+                                ))
+                            }
+                            </tbody>
+                            : <tbody>
+                            <tr>
+                                <td colSpan={6}>데이터가 없습니다.</td>
+                            </tr>
+                            </tbody>
                     }
 
-                    </tbody>
                 </Table>
             </div>);
     }
