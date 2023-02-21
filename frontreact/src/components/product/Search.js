@@ -22,7 +22,6 @@ class Search extends Component {
 
     setSearch = () => {
         if (this.state.prodname === '') {
-            console.log('search')
             this.sendSearch()
         }
     }

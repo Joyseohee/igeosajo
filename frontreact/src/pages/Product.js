@@ -8,6 +8,7 @@ import Paging from "../components/layout/Paging";
 import "../styled/Product.css";
 import Goal from "../components/Goal";
 import CheckPeriod from "../components/userMainPage/CheckPeriod";
+import ProductOrder from "../components/product/ProductOrder";
 
 
 class Product extends Component {
@@ -56,7 +57,8 @@ class Product extends Component {
             pageCount: 1,
             items2: [],
             dates: [],
-            message: ''
+            message: '',
+            res: 'recent'
         };
         this.checksend = this.checksend.bind(this);
         this.postcheck = this.postcheck.bind(this);
@@ -104,6 +106,8 @@ class Product extends Component {
         const category2code = this.state.category2code;
         const prodname = this.state.prodname;
         const pagenum = this.state.pageNum;
+        const order = this.state.order;
+        const res = this.state.res;
 
         try {
             let url = 'http://127.0.0.1:8000/api/product?';
@@ -116,6 +120,9 @@ class Product extends Component {
             if (prodname !== '') {
                 url += '&prodname=' + prodname
             }
+
+            url += '&order=' + order
+
 
             const res = await fetch(url);
             const items2 = await res.json();
@@ -132,14 +139,14 @@ class Product extends Component {
                     message: '상품이 없습니다.',
                     productItemList: productItemList,
                     pageCount: items2.length,
-                   // prodname:''
+                    // prodname:''
                 });
             } else {
                 await this.setState({
                     productItemList: productItemList,
                     pageCount: items2.length,
                     message: '',
-                   // prodname:''
+                    // prodname:''
                 });
             }
         } catch (e) {
@@ -210,7 +217,10 @@ class Product extends Component {
                 pageCount: res2
 
             },
-            () => this.getlist())
+            () => {
+                this.ref.current.checkcleanall();
+                this.getlist()
+            })
     }
 
     callbackFilter = (res1, res2, res3) => {
@@ -220,8 +230,24 @@ class Product extends Component {
                 pageNum: res3,
                 pageCount: res3
             },
-            () => {  this.ref.current.checkcleanall(); this.getlist();})
+            () => {
+                this.ref.current.checkcleanall();
+                this.getlist();
+            })
     }
+
+    callbackOrder = (res1) => {
+        this.setState({
+                order: res1,
+                pageNum: 1
+            },
+            () => {
+                this.ref.current.checkcleanall();
+                this.getlist();
+            })
+    }
+
+
     setPageNum = (e) => {
         const pageNum = this.state.pageNum
         if (e !== pageNum) {
@@ -251,8 +277,9 @@ class Product extends Component {
                             &nbsp;&nbsp;&nbsp;
                             <ProductFilter callbackFilter={this.callbackFilter}/></div>
                     </div>
+                    <br/><br/>
+                    <ProductOrder callbackOrder={this.callbackOrder}/>
 
-                    <br/><br/><br/>
                     <ProductDetail productItemList={this.state.productItemList}
                                    prodnumList={this.state.prodnumList}
                                    usernum={this.props.usernum}
