@@ -44,7 +44,7 @@ class App extends Component {
     }
 
     changeLogined = (logined) => {
-        const token = localStorage.getItem('secretcode');
+        const token = sessionStorage.getItem('secretcode');
         const decoded = jwt_decode(token);
         const params = {usernum: decoded.usernum};
         new Api().read("user", params, null)

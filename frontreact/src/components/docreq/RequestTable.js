@@ -86,7 +86,7 @@ class requestTable extends Component {
             await this.props.history.push({
                 pathname: "/docreqdetail"
             })
-        }else{
+        } else {
             await this.closeState(false);
             await this.reqSendClick(false);
         }
@@ -120,25 +120,35 @@ class requestTable extends Component {
                     <th>요청자</th>
                 </tr>
                 </thead>
-                <tbody>
-                {
-                    items.map((list, idx) => {
-                        return (
-                            <tr key={list.reqnum}>
-                                <td>{(pageNum - 1) * 10 + idx + 1}</td>
-                                <td><Form.Check aria-label="option 1" name={"select"} value={list.reqnum}
-                                                onChange={(e) => {
-                                                    this.choiceUnit(e.target.checked, e.target.value);
-                                                }}/></td>
-                                <td>{list.prodname}</td>
-                                <td>{list.reqcount}</td>
-                                <td>{list.reqapvdate}</td>
-                                <td>{list.username}</td>
-                            </tr>
-                        )
-                    })
+
+                {items.length !== 0
+                    ? <tbody>
+                    {
+                        items.map((list, idx) => {
+                            return (
+                                <tr key={list.reqnum}>
+                                    <td>{(pageNum - 1) * 10 + idx + 1}</td>
+                                    <td><Form.Check aria-label="option 1" name={"select"} value={list.reqnum}
+                                                    onChange={(e) => {
+                                                        this.choiceUnit(e.target.checked, e.target.value);
+                                                    }}/></td>
+                                    <td>{list.prodname}</td>
+                                    <td>{list.reqcount}</td>
+                                    <td>{list.reqapvdate}</td>
+                                    <td>{list.username}</td>
+                                </tr>
+                            )
+                        })
+                    }
+                    </tbody>
+                    : <tbody>
+                    <tr>
+                        <td colSpan={6}>데이터가 없습니다.</td>
+                    </tr>
+                    </tbody>
                 }
-                </tbody>
+
+
             </Table>
         )
     }
