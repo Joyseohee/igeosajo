@@ -58,7 +58,7 @@ class Product extends Component {
             items2: [],
             dates: [],
             message: '',
-            res: 'recent'
+            order: 'recent'
         };
         this.checksend = this.checksend.bind(this);
         this.postcheck = this.postcheck.bind(this);
@@ -107,7 +107,7 @@ class Product extends Component {
         const prodname = this.state.prodname;
         const pagenum = this.state.pageNum;
         const order = this.state.order;
-        const res = this.state.res;
+
 
         try {
             let url = 'http://127.0.0.1:8000/api/product?';
