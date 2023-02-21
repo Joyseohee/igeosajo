@@ -125,9 +125,9 @@ def get_user(self):
     cursor = connection.cursor()
     query = ''
     if usernum is not None:
-        query = 'SELECT * FROM users WHERE usernum= ' + usernum
+        query = 'SELECT usernum, userid, username, userathority, userposition, userdept FROM users WHERE usernum= ' + usernum
     else:
-        query = 'SELECT * FROM users'
+        query = 'SELECT usernum, userid, username, userathority, userposition, userdept FROM users'
     cursor.execute(query)
     data = dictfetchall(cursor)
     response = JsonResponse(data, safe=False)
@@ -492,7 +492,7 @@ def get_order_view(self):
         cursor.execute(query, val)
         data = dictfetchall(cursor)
         response = JsonResponse(data, safe=False)
-    # todo 중복 제거
+    
     elif (func == 'distinctordernum'):
         if (orderstate == 'allselect'):
             query = 'SELECT DISTINCT ordernum,orderdate,orderstate FROM "order" WHERE "orderdate" > %s AND "orderdate" < %s ORDER BY "ordernum" DESC'
@@ -529,7 +529,7 @@ def get_order_view(self):
             reqnumarray = dictfetchall(cursor)
             resultdata.append(reqnumarray[0]['count'])
         response = JsonResponse(resultdata, safe=False)
-    # todo 중복 제거 후 get 해오기
+    
     elif (func == 'reqdataget'):
         query = 'SELECT reqnum FROM "order" WHERE "ordernum" = ' + str(ordernum)
         cursor.execute(query)

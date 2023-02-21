@@ -2,7 +2,6 @@ import React, {Component} from "react";
 
 class DocumentIcon extends Component {
 
-
     render() {
         let color = "#33";
         let size = "30";
@@ -10,7 +9,6 @@ class DocumentIcon extends Component {
         if(this.props.size) {
             size = this.props.size;
         }
-
 
         if (reqstate === '전체') {
             return (

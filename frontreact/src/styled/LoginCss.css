@@ -21,14 +21,9 @@
     opacity: 1;
 }
 
-
 .d-grid {
     width: 18.5rem;
 }
-
-/*.login-img:before {*/
-/*    c*/
-/*}*/
 
 Form {
     display: flex;
