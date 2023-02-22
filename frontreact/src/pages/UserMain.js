@@ -12,8 +12,8 @@ class UserMain extends Component {
 
         this.state = {
             items: [],
-            reqCount: 0,
-            reqBasket: 0
+            reqCount: -1,
+            reqBasket: -1
         };
     }
 
