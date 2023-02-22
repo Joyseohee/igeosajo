@@ -8,6 +8,7 @@ import '../styled/Cart.css';
 import Paging from "../components/layout/Paging";
 import Goal from "../components/Goal";
 import CheckPeriod from "../components/userMainPage/CheckPeriod";
+import CartPostAll from "../components/cart/CartPostAll";
 
 
 class Cart extends Component {
@@ -47,12 +48,19 @@ class Cart extends Component {
                     type: 'confirm',
                     text: "선택하신 항목을 장바구니에서 삭제하시겠습니까??",
                     path: ""
+                }, {
+                    id: 5,
+                    type: 'confirm',
+                    text: "전체 항목을 승인신청 하시겠습니까??",
+                    path: ""
                 }
+
             ],
             available: 1,
             termyearmonth: '',
             pageNum: 1,
             pageCount: 1,
+            items2: [],
             dates: [],
             message: ''
         };
@@ -75,32 +83,33 @@ class Cart extends Component {
         try {
             let res2 = await fetch('http://127.0.0.1:8000/api/cart?usernum=' + usernum)
             let items2 = await res2.json();
-
             let res = await fetch('http://127.0.0.1:8000/api/cart?usernum=' + usernum + '&pagenum=' + pagenum);
             let items = await res.json();
             if (items2.length === 0) {
                 await this.setState({
                     items: items,
                     pageCount: items2.length,
+                    items2: items2,
                     message: '장바구니가 비었습니다.'
                 });
             } else {
                 if (items.length !== 0) {
                     await this.setState({
+                        items2: items2,
                         items: items,
                         pageCount: items2.length,
 
                     });
                 } else {
-                     console.log('모자라니?');
-                     res2 = await fetch('http://127.0.0.1:8000/api/cart?usernum=' + usernum)
-                     items2 = await res2.json();
-                     res = await fetch('http://127.0.0.1:8000/api/cart?usernum=' + usernum + '&pagenum=' + (pagenum-1));
-                     items = await res.json();
+                    res2 = await fetch('http://127.0.0.1:8000/api/cart?usernum=' + usernum)
+                    items2 = await res2.json();
+                    res = await fetch('http://127.0.0.1:8000/api/cart?usernum=' + usernum + '&pagenum=' + (pagenum - 1));
+                    items = await res.json();
                     await this.setState({
                         items: items,
                         pageCount: items2.length - 1,
-                        pageNum: pagenum-1
+                        pageNum: pagenum - 1,
+                        items2: items2,
 
                     });
                 }
@@ -122,7 +131,7 @@ class Cart extends Component {
         const termyearmonth = year + '' + month
 
         let available = this.state.available
-         let dates = this.state.dates
+        let dates = this.state.dates
         new Api().read("reqterm", null, null)
             .then((response) => {
                 return response.json();
@@ -133,7 +142,7 @@ class Cart extends Component {
                 this.setState({
                     available: available,
                     termyearmonth: termyearmonth,
-                    dates:dates
+                    dates: dates
                 })
             });
     }
@@ -145,12 +154,6 @@ class Cart extends Component {
             reqpriceList: res3,
         })
     }
-
-    // checksend2 = (res) => {
-    //     this.setState({
-    //         prodnum2: res
-    //     })
-    // }
 
     postcheck = () => {
         this.getlist();
@@ -191,7 +194,12 @@ class Cart extends Component {
                                            reqcountList={this.state.reqcountList}
                                            reqpriceList={this.state.reqpriceList}
                                            posted={this.state.posted}
-                                           modalInfo={this.state.modalInfo}/>&nbsp;&nbsp;&nbsp; </div>
+                                           modalInfo={this.state.modalInfo}/>&nbsp;&nbsp;&nbsp;
+                        <CartPostAll
+                            items2={this.state.items2} postcheck={this.postcheck}
+                            usernum={this.props.usernum}
+                            posted={this.state.posted}
+                            modalInfo={this.state.modalInfo}/></div>
 
                     <br/><br/>
 
