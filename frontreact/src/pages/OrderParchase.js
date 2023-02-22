@@ -216,8 +216,8 @@ class OrderParchase extends Component {
                         {paymentcheckcontent}
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button onClick={this.purchaseConfirmationCheck}>확인</Button>
                         <Button onClick={this.handleClose}>취소</Button>
+                        <Button onClick={this.purchaseConfirmationCheck}>확인</Button>
                     </Modal.Footer>
                  </Modal>
             </div>
