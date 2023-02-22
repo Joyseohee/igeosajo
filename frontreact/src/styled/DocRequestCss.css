@@ -35,6 +35,10 @@ td{
     padding-left: 2.5rem;
 }
 
+.prodnameTable td:nth-child(even){
+    padding-left: 0;
+}
+
 .sidebarDisplay{
     display: flex;
 }
@@ -82,6 +86,7 @@ td{
 
 .prodnameTable td:nth-child(even){
     text-align: center;
+    width: 20%;
 }
 
 .prodnameTable tr:first-child{

@@ -738,17 +738,20 @@ def get_doc(self):
             docreqList = []  # 요청 번호
             prodList = []  # 상품명
             prodCount = []  # 상품갯수
+            prodMoney = [] # 상품마다 가격
             sum = 0  # 총합
 
             for r in docreq:
                 docreqList.append(r[1])
                 sum += r[6]
+                prodMoney.append(r[6])
 
                 if r[3] not in prodList:
                     prodList.append(r[3])
                     prodCount.append(r[5])
                 else:
                     prodCount[prodList.index(r[3])] += r[5]
+
 
             wdate = docreq[0][2]  # 작성일자
             rdate = docreq[0][9]
@@ -758,7 +761,7 @@ def get_doc(self):
             passString = '{"reqnum": ' + str(docreqList) + ', "wdate" : "' + str(wdate) + '", "prodname":' + str(
                 prodList) + ', "prodcount":' + str(prodCount) + ', "sum":' + str(sum) + ', "docstate": "' \
                          + str(docreq[0][7]) + '", "rejectreason": "' + str(docreq[0][8]) + '", "rdate": "' + str(
-                rdate) + '"}'
+                rdate) + '", "prodMoney": ' + str(prodMoney) + '}'
             data = json.loads(passString)
             response = JsonResponse(data, safe=False)
 
