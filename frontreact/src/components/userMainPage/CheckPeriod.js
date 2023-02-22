@@ -23,6 +23,12 @@ class CheckPeriod extends Component {
                         신청기간 : {items[0].termstartdate} ~ {items[0].termenddate}
                     </div>
                 </>
+        } else {
+            return (
+                <>
+                    <div className="period-alarm"><DocumentIcon reqstate="기간아님"/>&nbsp;&nbsp;사무용품 신청기간이 아닙니다</div>
+                </>
+            );
         }
     }
 
