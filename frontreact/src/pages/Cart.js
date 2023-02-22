@@ -155,12 +155,6 @@ class Cart extends Component {
         })
     }
 
-    // checksend2 = (res) => {
-    //     this.setState({
-    //         prodnum2: res
-    //     })
-    // }
-
     postcheck = () => {
         this.getlist();
         this.ref.current.checkcleanall();
