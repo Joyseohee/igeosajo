@@ -141,16 +141,16 @@ class OrderParchase extends Component {
         this.setState({paymentcheckshow:false,paymentconfirmationshow:true,paymentconfirmationcontent:text})
         
     }
-    purchaseConfirmation=()=>{
-        this.setState({paymentconfirmationshow:false})
-        fetch("http://127.0.0.1:8000/api/order", {
+    purchaseConfirmation=async ()=>{
+        await this.setState({paymentconfirmationshow:false})
+        await fetch("http://127.0.0.1:8000/api/order", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify({deliverdata: this.state.deliverdata, reqdata: this.props.location.state.data})
                 })
-                this.props.history.push({
+                await this.props.history.push({
                 pathname: "/Order",
                 })
     }
