@@ -122,11 +122,11 @@ p {
 }
 
 .request-list-table-col.num {
-    width: 5%;
+    width: 3%;
 }
 
 .request-list-table-col.name {
-    width: 42%;
+    width: 40%;
 }
 
 .request-list-table-col.count {
@@ -145,8 +145,11 @@ p {
     width: 5%;
 }
 
-.request-list-table-col.state, .staging {
+.request-list-table-col.state {
     width: 5%;
+}
+.request-list-table-col.staging {
+    width: 9%;
 }
 
 
