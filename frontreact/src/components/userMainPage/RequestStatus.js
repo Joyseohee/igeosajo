@@ -13,7 +13,9 @@ class RequestStatus extends Component {
                 this.props.history.push(route)
             }}>
                 <div><li>{title}</li></div>
-                <div>{count}건</div>
+                {
+                    count !== -1 ? <div>{count}건</div> : <div></div>
+                }
             </div>
         );
     }
