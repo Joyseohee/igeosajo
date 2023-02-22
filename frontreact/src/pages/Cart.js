@@ -17,7 +17,7 @@ class Cart extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            items: [],
+            items: ['items'],
             select: "False",
             posted: false,
             prodnumList: [],
@@ -183,7 +183,8 @@ class Cart extends Component {
         return (
             <div>
                 <Goal comment={"장바구니"}/>
-                {available ? <div>
+                {this.state.items[0]!=='items' && (available ? <div>
+
                     <div className='display_btn2'>
                         <DeleteCart style={{float: 'right'}} usernum={this.props.usernum}
                                     prodnumList={this.state.prodnumList}
@@ -214,7 +215,7 @@ class Cart extends Component {
                         setPageNum={this.setPageNum}
                         pageCount={this.state.pageCount}
                     />
-                </div> : <CheckPeriod items={this.state.dates}/>}
+                </div> : <CheckPeriod items={this.state.dates}/>)}
             </div>
         );
     }
