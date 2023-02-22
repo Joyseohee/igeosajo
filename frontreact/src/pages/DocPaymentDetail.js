@@ -26,7 +26,6 @@ class DocPaymentDetail extends Component {
     };
 
     printArr = () => {
-        let word = "";
         let prodnamearr = [];
         let countarr = [];
 

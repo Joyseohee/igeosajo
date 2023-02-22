@@ -133,6 +133,7 @@ class DocPaymentTable extends Component {
                                 <tr>
                                     <td>상품명</td>
                                     <td>수량</td>
+                                    <td>금액</td>
                                 </tr>
                                 {
                                     prodnamearr.map((prodname, idx) => {
@@ -140,6 +141,10 @@ class DocPaymentTable extends Component {
                                             <tr key={prodname}>
                                                 <td>{prodname}</td>
                                                 <td>{countarr[idx]}</td>
+                                                <td>{
+                                                    items["prodMoney"] &&
+                                                    new CommonUtil().numberComma(items["prodMoney"][idx])
+                                                }원</td>
                                             </tr>
                                         )
                                     })
