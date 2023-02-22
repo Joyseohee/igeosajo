@@ -32,8 +32,7 @@ class OrderSearch extends Component {
 
     render() {
         // rgb(52,152,219)
-        const ordercnt = this.props.ordercnt
-
+        let ordercnt = this.props.ordercnt
         let color = ["transparent", "transparent", "transparent", "transparent"]
         if (this.props.orderstate == "allselect") {
             color[0] = '#FAFBFF';

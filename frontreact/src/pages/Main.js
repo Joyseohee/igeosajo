@@ -1,5 +1,4 @@
 import React, {Component} from "react";
-// import "../styled/Layouts.css"
 import UserMain from "./UserMain";
 import AdminMain from "./AdminMain";
 import DocApproval from "./DocApproval";
