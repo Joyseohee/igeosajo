@@ -7,7 +7,7 @@ class Goal extends Component {
         const {comment, subtitle} = this.props;
 
         return (
-            <div className={"goalDiv"}>
+            <div className="goalDiv">
                 {comment}
                 {subtitle !== null && <div style={{fontSize: "1rem"}}>{subtitle}</div>}
             </div>

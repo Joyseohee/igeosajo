@@ -379,6 +379,7 @@ def post_request(self):
     reqprice = request['reqprice']
     usernum = request['usernum']
     termyearmonth = request['termyearmonth']
+
     cursor = connection.cursor()
 
     for num, count, price in zip(prodnum, reqcount, reqprice):
