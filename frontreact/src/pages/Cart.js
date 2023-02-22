@@ -83,8 +83,6 @@ class Cart extends Component {
         try {
             let res2 = await fetch('http://127.0.0.1:8000/api/cart?usernum=' + usernum)
             let items2 = await res2.json();
-            console.log(items2)
-
             let res = await fetch('http://127.0.0.1:8000/api/cart?usernum=' + usernum + '&pagenum=' + pagenum);
             let items = await res.json();
             if (items2.length === 0) {
