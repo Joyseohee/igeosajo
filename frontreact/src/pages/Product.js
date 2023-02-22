@@ -24,7 +24,7 @@ class Product extends Component {
             prodname: '',
             category2code: '',
             category1code: '',
-            productItemList: [],
+            productItemList: ['productItemList'],
             prodnumList: [],
             prodnumList2: [],
             cartcountList: [],
@@ -261,16 +261,16 @@ class Product extends Component {
     render() {
         const {
             available,
-            prodnumList
+            prodnumList,productItemList
         } = this.state
         return (
             <div>
                 <Goal comment={"물품보기"}/> <br/>
-                {available ? <div>
+               {productItemList[0]!=='productItemList' && (available ? <div>
                     <div>
                         <div style={{float: "left"}}><Search callbackSearch={this.callbackSearch}/></div>
                         <div style={{float: "right"}} className="display_btn"><ProductPost postcheck={this.postcheck}
-                                                                                           productItemList={this.state.productItemList}
+                                                                                           productItemList={productItemList}
                                                                                            prodnumList={prodnumList}
                                                                                            usernum={this.props.usernum}
                                                                                            modalInfo={this.state.modalInfo}/>
@@ -298,7 +298,7 @@ class Product extends Component {
                         setPageNum={this.setPageNum}
                         pageCount={this.state.pageCount}
                     />
-                </div> : this.state.dates !== [] && <CheckPeriod items={this.state.dates}/>}
+                </div> : this.state.dates !== [] && <CheckPeriod items={this.state.dates}/>)}
             </div>
         );
     }
