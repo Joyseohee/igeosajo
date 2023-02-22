@@ -109,12 +109,10 @@ class OrderRequestList extends Component {
     }
     handleClose = () => {
         this.setState({show:false})
-        this.closePostCode()
     }
     handleShow = (state,content) => {
         this.setState({show:state})
         this.setState({content:content})
-        this.openPostCode()
     }
 
 
