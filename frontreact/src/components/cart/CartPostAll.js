@@ -29,7 +29,7 @@ class CartPostAll extends Component {
         for (let i = 0; i < items2.length; i++) {
             prodnumList.push(parseInt(items2[i].prodnum));
             reqcountList.push(parseInt(items2[i].cartcount));
-            reqpriceList.push(parseInt(items2[i].prodprice));
+            reqpriceList.push(parseInt(items2[i].prodprice)*parseInt(items2[i].cartcount));
 
         }
 
