@@ -31,7 +31,7 @@ class Request extends Component {
                 {
                     id: 1,
                     type: 'confirm',
-                    text: "선택하신 신청을 휘소하시겠습니까?",
+                    text: "선택하신 신청을 취소하시겠습니까?",
                     path: ''
 
                 }, {
