@@ -6,7 +6,6 @@ class ProductOrder extends Component {
 
         this.state = {
             order: ''
-
         }
     }
 
@@ -30,7 +29,6 @@ class ProductOrder extends Component {
             order: 'cheap'
         }, () => ( this.props.callbackOrder(this.state.order)))
     }
-
 
     render() {
         return (
