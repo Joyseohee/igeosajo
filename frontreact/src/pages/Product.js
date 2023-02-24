@@ -60,10 +60,6 @@ class Product extends Component {
             message: '',
             order: 'recent'
         };
-        this.checksend = this.checksend.bind(this);
-        this.postcheck = this.postcheck.bind(this);
-        this.getlist = this.getlist.bind(this);
-        this.checkterm = this.checkterm.bind(this)
         this.props.setpagename("물품보기");
 
     }
@@ -73,7 +69,7 @@ class Product extends Component {
         this.checkterm();
     }
 
-    checkterm() {
+    checkterm=() =>{
         let now = new Date();
         let year = now.getFullYear()
         let month = now.getMonth() + 1
@@ -100,7 +96,7 @@ class Product extends Component {
             });
     }
 
-    async getlist() {
+     getlist=async()=>{
 
         const category1code = this.state.category1code;
         const category2code = this.state.category2code;
@@ -108,8 +104,6 @@ class Product extends Component {
         const pagenum = this.state.pageNum;
         const order = this.state.order;
 
-
-        try {
             let url = 'http://127.0.0.1:8000/api/product?';
             if (category1code !== '') {
                 url += '&category1code=' + category1code
@@ -149,9 +143,6 @@ class Product extends Component {
                     // prodname:''
                 });
             }
-        } catch (e) {
-            console.log(e);
-        }
     }
 
     postcheck = (posted) => {
@@ -246,7 +237,6 @@ class Product extends Component {
                 this.getlist();
             })
     }
-
 
     setPageNum = (e) => {
         const pageNum = this.state.pageNum

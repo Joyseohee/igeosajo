@@ -260,7 +260,6 @@ def post_cart(self):
 def delete_cart(self):
     prodnum = self.GET.get('prodnum', None)
     prodnumList = prodnum.split(',')
-    # prodnum = [10, 2]
     usernum = str(self.GET.get('usernum', None))
 
     cursor = connection.cursor()
@@ -273,7 +272,6 @@ def delete_cart(self):
     return response
 
 
-@csrf_exempt
 def get_product(self):
     category1code = self.GET.get('category1code', None)
     category2code = self.GET.get('category2code', None)

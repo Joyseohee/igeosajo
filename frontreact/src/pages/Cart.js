@@ -64,7 +64,6 @@ class Cart extends Component {
             dates: [],
             message: ''
         };
-        this.getlist = this.getlist.bind(this);
         this.props.setpagename("장바구니");
     }
 
@@ -74,13 +73,11 @@ class Cart extends Component {
     }
 
 
-    async getlist() {
+     getlist=async()=>{
 
         const usernum = this.props.usernum;
         const pagenum = this.state.pageNum;
 
-
-        try {
             let res2 = await fetch('http://127.0.0.1:8000/api/cart?usernum=' + usernum)
             let items2 = await res2.json();
             let res = await fetch('http://127.0.0.1:8000/api/cart?usernum=' + usernum + '&pagenum=' + pagenum);
@@ -114,11 +111,6 @@ class Cart extends Component {
                     });
                 }
             }
-
-
-        } catch (e) {
-            console.log(e);
-        }
     }
 
     checkterm = () => {
