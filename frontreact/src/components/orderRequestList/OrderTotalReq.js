@@ -7,14 +7,9 @@ import CommonUtil from "../../util/CommonUtil";
 class OrderTotalReq extends Component {
     constructor(props) {
         super(props);
-        const date = new Date()
         this.state = {
             reqdata: this.props.reqdata
         }
-
-    }
-
-    componentDidMount() {
 
     }
 

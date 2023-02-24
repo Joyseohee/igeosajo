@@ -41,7 +41,7 @@ class OrderRequestList extends Component {
         }
     }
     componentDidMount() {
-        fetch('http://127.0.0.1:8000/api/order?func=orderreq&&termyearmonth=' + this.state.reqterm+'&&state=' +this.state.orderreqstate)
+        fetch('http://127.0.0.1:8000/api/order?func=orderreq&termyearmonth=' + this.state.reqterm+'&state=' +this.state.orderreqstate)
             .then(res => res.json())
             .then(data => {
                     this.setState({reqdata: data})
@@ -99,7 +99,7 @@ class OrderRequestList extends Component {
 
 
     orderdocsearchstate = (state) => {
-        fetch('http://127.0.0.1:8000/api/order?func=orderreq&&termyearmonth=' + this.state.reqterm+'&&state=' +state)
+        fetch('http://127.0.0.1:8000/api/order?func=orderreq&termyearmonth=' + this.state.reqterm+'&state=' +state)
             .then(res => res.json())
             .then(data => {
                     this.setState({reqdata: data,orderreqstate:state})

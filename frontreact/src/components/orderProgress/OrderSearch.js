@@ -3,7 +3,6 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Card from "react-bootstrap/Card";
 import Container from "react-bootstrap/Container";
-import all from "../../img/allicon.png";
 import parchase from "../../img/iconsparchase.png";
 import deliver from "../../img/iconsdeliver.png";
 import finish from "../../img/iconsfinish.png";
@@ -21,15 +20,7 @@ class OrderSearch extends Component {
     statechange = (e, state) => {
         this.props.orderearchstate(state);
     }
-
-    componentDidMount() {
-
-    }
-
-    componentDidUpdate(prevProps) {
-
-    }
-
+    
     render() {
         // rgb(52,152,219)
         let ordercnt = this.props.ordercnt

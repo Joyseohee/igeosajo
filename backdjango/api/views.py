@@ -552,19 +552,19 @@ def get_order_view(self):
             val = ("처리중", "처리완료", termyearmonth, "구매전", "구매완료")
             cursor.execute(query, val)
             reqnumarray = dictfetchall(cursor)
-            templen = len(reqnumarray)
+
         elif (state == 'prevparchase'):
             query = 'SELECT r.reqnum,r.prodnum,p.prodname,r.reqcount,r.reqprice,r.reqdate,u.username,r.reqorder FROM request r JOIN users u on u.usernum = r.usernum JOIN product p on p.prodnum = r.prodnum WHERE (reqstaging= %s  or reqstaging = %s) and termyearmonth=%s and reqorder = %s'
             val = ("처리중", "처리완료", termyearmonth, "구매전")
             cursor.execute(query, val)
             reqnumarray = dictfetchall(cursor)
-            templen = len(reqnumarray)
+
         elif (state == 'parchase'):
             query = 'SELECT r.reqnum,r.prodnum,p.prodname,r.reqcount,r.reqprice,r.reqdate,u.username,r.reqorder FROM request r JOIN users u on u.usernum = r.usernum JOIN product p on p.prodnum = r.prodnum WHERE (reqstaging= %s  or reqstaging = %s) and termyearmonth=%s and reqorder = %s'
             val = ("처리중", "처리완료", termyearmonth, "구매완료")
             cursor.execute(query, val)
             reqnumarray = dictfetchall(cursor)
-            templen = len(reqnumarray)
+
         response = JsonResponse(reqnumarray, safe=False)
 
     elif (func == 'orderreqcount'):
@@ -635,8 +635,6 @@ def post_order_view(self):
         data = {}
         resultdata = []
         if reqdata:
-
-            datalen = len(reqdata)
 
             for i in reqdata:
                 reqnum = i

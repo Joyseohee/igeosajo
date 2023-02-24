@@ -14,14 +14,6 @@ class OrderReqDate extends Component {
             endmonth: (date.getMonth()+1)
         }
     }
-    
-    componentDidMount() {
-
-    }
-    onChangeDate = (e) => {
-        console.log(e.target)
-        e.target.value = e.target.value.replace(/[^0-9]/g, "")
-    }
 
     render() {
 

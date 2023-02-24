@@ -14,9 +14,6 @@ class OrderTable extends Component {
 
         }
     }
-    componentDidMount() {
-
-    }
 
     statebtn=(state)=>{
         if(state=="all") {

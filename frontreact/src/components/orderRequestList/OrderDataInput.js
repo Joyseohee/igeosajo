@@ -18,10 +18,6 @@ class OrderDataInput extends Component {
         }
     }
 
-    componentDidMount() {
-
-    }
-
     modalshow= () =>{
         this.props.handleShow(true,"deliver")
     }

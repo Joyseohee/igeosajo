@@ -110,9 +110,7 @@ class OrderView extends Component {
         if(state=="allselect") {
             return (
                 <div className="btndivmargin">
-                    {/*<Form.Check className="orderallselect" inline label="전체선택" name="checkall" id={`1`} onClick={this.checkall}/>*/}
-                    {/*<button type="button" className="btn btn-success submitbutton" id={'finish'} onClick={(e) => {this.changeorderstate(e.target.id)}}>불출완료</button>*/}
-                    {/*<button type="button" className="btn btn-primary deliverbutton" id={'deliver'} onClick={(e) => {this.changeorderstate(e.target.id)}}>배송완료</button>*/}
+
                 </div>
             )
         }
@@ -169,7 +167,7 @@ class OrderView extends Component {
                                     <Container className="containermargin" >
                                         <Row>
                                             {this.checkenable(num.orderstate,num.ordernum)}
-                                            <Col xs lg="2" tyle={{width:"10%"}}><span className="ordercardtext">{num.orderdate}</span></Col>
+                                            <Col xs lg="2" style={{width:"20%"}}><span className="ordercardtext">{num.orderdate}</span></Col>
                                             <Col xs lg="2" style={{width:"10%"}}><span className="ordercardtext">{num.orderstate}</span></Col>
                                         </Row>
                                     </Container>

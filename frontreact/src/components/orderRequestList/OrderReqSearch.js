@@ -26,7 +26,7 @@ class OrderReqSearch extends Component {
     }
 
     componentDidMount() {
-        fetch('http://127.0.0.1:8000/api/order?func=orderreqcount&&termyearmonth=' + this.state.reqterm + '&&state=parchase')
+        fetch('http://127.0.0.1:8000/api/order?func=orderreqcount&termyearmonth=' + this.state.reqterm + '&state=parchase')
             .then(res => res.json())
             .then(data => {
                 this.setState({allcnt: data[0], prevparchasecnt: data[1], parchasecnt: data[2],})
