@@ -78,6 +78,7 @@ DATABASES = {
         'USER': 'postgres',
         'PASSWORD': 'xxxxxxAt22cc',
         'HOST': '112.221.225.165',
+        # 'HOST': 'postgres.cw8xahg593t5.ap-northeast-2.rds.amazonaws.com',
         'PORT': '55432',
     }
 }
