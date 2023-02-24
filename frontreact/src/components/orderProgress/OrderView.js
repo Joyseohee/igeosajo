@@ -61,7 +61,7 @@ class OrderView extends Component {
     checkenable=(state,ordernum)=>{
         if(state=="불출완료") {
             return (
-                <Col><Form.Check className="ordercardtext" inline label={"문서번호 : " + ordernum} name="check"
+                <Col xs lg="8"><Form.Check className="ordercardtext" inline label={"구매번호 : " + ordernum} name="check"
                                  id={ordernum} onChange={(e) => {
                     this.checkindividal(e.target.checked, e.target.id)
                 }} disabled/></Col>
@@ -69,8 +69,8 @@ class OrderView extends Component {
         }
         else {
             return(
-            <Col>
-                <Form.Check className="ordercardtext" inline label={"문서번호 : " + ordernum} name="check" id={ordernum}
+            <Col xs lg="8">
+                <Form.Check className="ordercardtext" inline label={"구매번호 : " + ordernum} name="check" id={ordernum}
                              onChange={(e) => {
                                  this.checkindividal(e.target.checked, e.target.id)
                              }} />
@@ -166,7 +166,7 @@ class OrderView extends Component {
                         <div className="cardcontainprogress" >
                             <Card style={{width: '100%'}}>
                                 <Card.Body>
-                                    <Container className="containermargin">
+                                    <Container className="containermargin" >
                                         <Row>
                                             {this.checkenable(num.orderstate,num.ordernum)}
                                             <Col xs lg="2" tyle={{width:"10%"}}><span className="ordercardtext">{num.orderdate}</span></Col>

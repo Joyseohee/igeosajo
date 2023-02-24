@@ -743,13 +743,14 @@ def get_doc(self):
             for r in docreq:
                 docreqList.append(r[1])
                 sum += r[6]
-                prodMoney.append(r[6])
 
                 if r[3] not in prodList:
                     prodList.append(r[3])
                     prodCount.append(r[5])
+                    prodMoney.append(r[6])
                 else:
                     prodCount[prodList.index(r[3])] += r[5]
+                    prodMoney[prodList.index(r[3])] += r[6]
 
 
             wdate = docreq[0][2]  # 작성일자

@@ -30,10 +30,12 @@ class DocReqDetail extends Component {
     printArr = () => {
         let prodnamearr = [];
         let countarr = [];
+        let prodMoney = [];
 
         for (let i = 0; i < this.state.items["prodname"].length; i++) {
             prodnamearr.push(this.state.items["prodname"][i]);
             countarr.push(this.state.items["prodcount"][i]);
+            // prodMoney.push(this.state.items)
         }
         this.setState({prodnamearr: prodnamearr, countarr: countarr})
     }
