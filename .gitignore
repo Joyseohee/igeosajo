@@ -1,0 +1,13 @@
+node_modules
+
+.vscode
+package-lock.json
+
+yarn.lock
+
+//빌드 관련된 파일은 모두 ignore 처리
+build-*
+
+.eslintcache
+
+.idea
