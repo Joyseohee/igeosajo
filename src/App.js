@@ -3,39 +3,39 @@ import { IntlProvider } from "react-intl";
 
 import Test from "pages/Test";
 
-// import Sangmik from "pages/Sangmik";
-// import Sij919 from "pages/Sij919";
-// import Judylee from "pages/Judylee";
-// import Goeunlee from "pages/Goeunlee";
-// import Aminiyolo from "pages/Aminiyolo";
-// import Sk74575 from "pages/Sk74575";
-// import Clarities from "pages/Clarities";
-// import Ssy0409 from "pages/Ssy0409";
-// import Janghyeon from "pages/Janghyeon";
-// import Yeo72 from "pages/Yeo72";
-// import Hyeeun from "pages/Hyeeun";
-// import Ryuhj51 from "pages/Ryuhj51";
-// import Skylife05 from "pages/Skylife05";
-// import Wlgns6147 from "pages/Wlgns6147";
-// import Kmc0541 from "pages/Kmc0541";
-// import Rhj1216 from "pages/Rhj1216";
-// import Faigi from "pages/Faigi";
-// import Kjk81 from "pages/Kjk81";
-// import Vcld22 from "pages/Vcld22";
-// import Luxury369 from "pages/Luxury369";
-// import Dotochan1 from "pages/Dotochan1";
-// import Si0852 from "pages/Si0852";
-// import Young0708 from "pages/Young0708";
-// import Ant9406 from "pages/Ant9406";
-// import Dohee3959 from "pages/Dohee3959";
-// import Kimryeongeun from "pages/Kimryeongeun";
-// import Khgkjg12 from "pages/Khgkjg12";
-// import Egbrother from "pages/Egbrother";
+import Sangmik from "pages/Sangmik";
+import Sij919 from "pages/Sij919";
+import Judylee from "pages/Judylee";
+import Goeunlee from "pages/Goeunlee";
+import Aminiyolo from "pages/Aminiyolo";
+import Sk74575 from "pages/Sk74575";
+import Clarities from "pages/Clarities";
+import Ssy0409 from "pages/Ssy0409";
+import Janghyeon from "pages/Janghyeon";
+import Yeo72 from "pages/Yeo72";
+import Hyeeun from "pages/Hyeeun";
+import Ryuhj51 from "pages/Ryuhj51";
+import Skylife05 from "pages/Skylife05";
+import Wlgns6147 from "pages/Wlgns6147";
+import Kmc0541 from "pages/Kmc0541";
+import Rhj1216 from "pages/Rhj1216";
+import Faigi from "pages/Faigi";
+import Kjk81 from "pages/Kjk81";
+import Vcld22 from "pages/Vcld22";
+import Luxury369 from "pages/Luxury369";
+import Dotochan1 from "pages/Dotochan1";
+import Si0852 from "pages/Si0852";
+import Young0708 from "pages/Young0708";
+import Ant9406 from "pages/Ant9406";
+import Dohee3959 from "pages/Dohee3959";
+import Kimryeongeun from "pages/Kimryeongeun";
+import Khgkjg12 from "pages/Khgkjg12";
+import Egbrother from "pages/Egbrother";
 import Jinhankim988 from "pages/Jinhankim988";
-// import Kkbm0225 from "pages/Kkbm0225";
-// import Dreamtree from "pages/Dreamtree";
-// import Yujeans23 from "pages/Yujeans23";
-// import Kevin3918 from "pages/Kevin3918";
+import Kkbm0225 from "pages/Kkbm0225";
+import Dreamtree from "pages/Dreamtree";
+import Yujeans23 from "pages/Yujeans23";
+import Kevin3918 from "pages/Kevin3918";
 
 import SinglePage from "components/Layout/SinglePage";
 
@@ -56,7 +56,7 @@ function App() {
             <SinglePage>
               <Routes>
                 <Route path="/" element={<Test />} />
-                {/* <Route path="/Sangmik" element={<Sangmik />} />
+                <Route path="/Sangmik" element={<Sangmik />} />
                 <Route path="/Sij919" element={<Sij919 />} />
                 <Route path="/Judylee" element={<Judylee />} />
                 <Route path="/Goeunlee" element={<Goeunlee />} />
@@ -83,12 +83,12 @@ function App() {
                 <Route path="/Dohee3959" element={<Dohee3959 />} />
                 <Route path="/Kimryeongeun" element={<Kimryeongeun />} />
                 <Route path="/Khgkjg12" element={<Khgkjg12 />} />
-                <Route path="/Egbrother" element={<Egbrother />} /> */}
+                <Route path="/Egbrother" element={<Egbrother />} />
                 <Route path="/Jinhankim988" element={<Jinhankim988 />} />
-                {/* <Route path="/Kkbm0225" element={<Kkbm0225 />} />
+                <Route path="/Kkbm0225" element={<Kkbm0225 />} />
                 <Route path="/Dreamtree" element={<Dreamtree />} />
                 <Route path="/Yujeans23" element={<Yujeans23 />} />
-                <Route path="/Kevin3918" element={<Kevin3918 />} /> */}
+                <Route path="/Kevin3918" element={<Kevin3918 />} />
               </Routes>
             </SinglePage>
           </HashRouter>
