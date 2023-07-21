@@ -9,7 +9,7 @@ const globals = {
   wehago_backend: `http://dev.api.wehago.com`,
   backendUrl_local: `http://local.wehago.com:8080/serviceName`,
   file_storage: `http://dev.api0.wehago.com/DCloudStorageServer/WehagoIMG`,
-  wehagoTask: `http://localhost:8080/wehago-task1`,
+  wehago_task1: `http://localhost:8080`,
 };
 
 module.exports = globals;
