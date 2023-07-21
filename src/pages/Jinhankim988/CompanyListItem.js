@@ -1,3 +1,5 @@
+import jinhankim988Store from "services/store/zustand/Jinhankim988";
+
 export const CompanyListItem = ({ data }) => {
   const {
     company_no,
@@ -7,8 +9,19 @@ export const CompanyListItem = ({ data }) => {
     user_contact,
     user_email,
   } = data;
+
+  const [setIsDialogOpen, getCompanyDetails] = jinhankim988Store((state) => [
+    state.setIsDialogOpen,
+    state.getCompanyDetails,
+  ]);
+
+  const handleClick = async () => {
+    await getCompanyDetails(company_no);
+    await setIsDialogOpen(true);
+  };
+
   return (
-    <div className="row">
+    <div className="row" onClick={handleClick}>
       <div className="col1">
         <p className="ellipsis">
           {company_no}

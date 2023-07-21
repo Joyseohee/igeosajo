@@ -5,7 +5,8 @@ import {
   LUXInputField,
   LUXMSelectField,
 } from "luna-rocket";
-import jinhankim988Store from "services/store/zustand/jinhankim988";
+import jinhankim988Store from "services/store/zustand/Jinhankim988";
+import shallow from "zustand/shallow";
 
 const firstDateOfMonth = (date) => {
   date.setDate(1);
@@ -31,13 +32,12 @@ const init = {
 };
 
 const reducer = function (state, action) {
-  // console.log("Search Panel reducer", action);
+  console.log("Search Panel reducer", action);
   switch (action.type) {
     case "change/date": {
       return {
         ...state,
-        dateFrom: action.payload.from,
-        dateTo: action.payload.to,
+        ...action.payload,
       };
     }
     case "change/company_reg_no": {
@@ -61,8 +61,10 @@ const reducer = function (state, action) {
 
 export const SearchPanel = () => {
   const [state, dispatch] = useReducer(reducer, init);
-  const getCompanyList = jinhankim988Store((state) => state.getCompanyList);
-
+  const getCompanyList = jinhankim988Store(
+    (state) => state.getCompanyList,
+    shallow
+  );
   useEffect(() => {
     getCompanyList(init);
   }, [getCompanyList]);
@@ -83,7 +85,7 @@ export const SearchPanel = () => {
     dispatch({ type: "initialize" });
   };
   const handleClickSearch = (e) => {
-    getCompanyList(state).then(() => dispatch({ type: "initialize" }));
+    getCompanyList(state);
   };
 
   return (
@@ -101,9 +103,10 @@ export const SearchPanel = () => {
             </dd>
           </div>
           <div className="division">
-            <dt>사업자 등록번호</dt>
+            <dt>사업자 번호</dt>
             <dd>
               <LUXInputField
+                style={{ width: "100%" }}
                 value={state.company_reg_no}
                 hintText="사업자번호를 입력하세요."
                 onChange={handleChangeRegNo}
@@ -114,11 +117,14 @@ export const SearchPanel = () => {
             <dt>회사 상태</dt>
             <dd>
               <LUXMSelectField
+                style={{ width: "100%" }}
                 data={state.company_state}
                 onChange={handleChangeState}
               />
             </dd>
           </div>
+        </dl>
+        <dl className="searchBox__item">
           <div className="division">
             <dt>회사명</dt>
             <dd className="division division--justify">
@@ -128,19 +134,27 @@ export const SearchPanel = () => {
               />
             </dd>
           </div>
+          <div className="division"></div>
+          <div className="division">
+            <dd
+              className="division"
+              style={{ display: "flex", "justify-content": "flex-end" }}
+            >
+              <LUXButton
+                onClick={handleClickInitialize}
+                type="confirm"
+                label="초기화"
+              />
+              <LUXButton
+                onClick={handleClickSearch}
+                type="confirm"
+                blue={true}
+                label="조회"
+              />
+            </dd>
+          </div>
         </dl>
       </div>
-      <LUXButton
-        onClick={handleClickInitialize}
-        type="confirm"
-        label="초기화"
-      />
-      <LUXButton
-        onClick={handleClickSearch}
-        type="confirm"
-        blue={true}
-        label="조회"
-      />
     </div>
   );
 };

@@ -1,4 +1,4 @@
-import jinhankim988Store from "services/store/zustand/jinhankim988";
+import jinhankim988Store from "services/store/zustand/Jinhankim988";
 import { TableHeader } from "./TableHeader";
 import { TableBody } from "./TableBody";
 import { SearchPanel } from "./SearchPanel";
@@ -14,7 +14,6 @@ const columns = [
 
 export const Content = () => {
   const companyList = jinhankim988Store((state) => state.companyList);
-
   return (
     <div className="pageLayout__content">
       <SearchPanel />

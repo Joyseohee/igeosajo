@@ -1,10 +1,12 @@
 import { Subheader } from "./Subheader";
 import { Title } from "./Title";
 import { Content } from "./Content";
+import { CompanyDetailDialog } from "./CompanyDetailDialog";
+import "./cs_renewal.css";
 
 const Jinhankim988 = () => {
   return (
-    <div className="snbnext">
+    <>
       <div className="container">
         <div className="containerin">
           <div className="content">
@@ -22,7 +24,8 @@ const Jinhankim988 = () => {
           </div>
         </div>
       </div>
-    </div>
+      <CompanyDetailDialog />
+    </>
   );
 };
 
