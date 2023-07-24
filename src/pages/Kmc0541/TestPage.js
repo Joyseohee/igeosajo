@@ -256,6 +256,7 @@ export default function TestPage(props) {
                                 onClick={() => {
                                   selectDetail(item.company_no);
                                 }}
+                                key={item.company_no}
                               >
                                 <div className="col1">
                                   <p className="ellipsis">{item.company_no}</p>
