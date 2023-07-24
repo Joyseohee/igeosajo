@@ -257,6 +257,7 @@ export default function TestPage(props) {
                                   selectDetail(item.company_no);
                                 }}
                                 key={item.company_no}
+                                style={{cursor: 'pointer'}}
                               >
                                 <div className="col1">
                                   <p className="ellipsis">{item.company_no}</p>
