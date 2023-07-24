@@ -290,7 +290,7 @@ export default function TestPage(props) {
         </div>
       </div>
       <LUXDialog
-          onRequestClose={handleOnReqeustClose}
+          onRequestClose={true}
           handleOnReqeustClose={handleOnReqeustClose}
           handleOnEscClose={handleOnEscClose}
           dialogOpen={state.isOpenDialog}
