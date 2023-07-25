@@ -1,4 +1,4 @@
-import {LUXDatePicker, LUXPeriodDatePicker} from 'luna-rocket';
+import {LUXDatePicker, LUXPeriodDatePicker,LUXSelectField} from 'luna-rocket';
 import moment from 'moment'
 import callApi from 'services/apis/Kkbm0225'
 import React, {useState, useEffect} from 'react';
@@ -16,14 +16,25 @@ export const CompanySearch = ({  }) => {
         compList: [],
     
         isOpenDialog: false,
+        defaultData :2
       })
-    
+      const selectFieldDataObject = [
+        { value: 2, text: '전체' },
+        { value: 0, text: '사용' },
+        { value: 1, text: '중지' },
+      ];
+      
       const handleChange = (dateFrom, dateTo, position) => {
         console.log(dateFrom, '~', dateTo, position);
     
         setState({...state,dateFrom:dateFrom, dateTo});
        
         
+      };
+
+      const  handleChoiceDataObject = (value, text) => {
+        console.log('SelectField: ', value, text);
+        setState({ ...state,defaultData: value });
       };
     return ( <div className="section">
     <div className="searchBox">
@@ -55,7 +66,7 @@ export const CompanySearch = ({  }) => {
         <div className="division">
           <dt>사업자번호</dt>
           <dd>
-            <div className="LUX_basic_select LUX_renewal" style={{float: 'left', width: '100%', minWidth: '75px'}}>
+            {/* <div className="LUX_basic_select LUX_renewal" style={{float: 'left', width: '100%', minWidth: '75px'}}>
               <div className="searchbx">
                 <span className="inpbx">
                   <span className="placeholder text_black" style={{fontFamily: 'douzone !important', fontSize: '14px'}}>전체</span>
@@ -63,7 +74,7 @@ export const CompanySearch = ({  }) => {
                 <button type="button" className="btn"><span className="sp_lux">검색</span></button>
               </div>
               <div className="resultbx">
-                <div className="result_scrall" style={{maxHeight: '100px'}}>{/* 스크롤 생성 height 높이값 제어 */}
+                <div className="result_scrall" style={{maxHeight: '100px'}}>
                   <div className="result_scrallin">
                     <ul className="result_lst">
                       <li><a href="#"><div>개인</div></a></li>
@@ -72,13 +83,19 @@ export const CompanySearch = ({  }) => {
                   </div>
                 </div>
               </div>
+            </div> */}
+             <div className="LUX_basic_text LUX_renewal" style={{width: '310px', marginLeft: '4px'}}>
+              {/* 입력창에 포커스 - inpbx class="on" 추가  */}
+              <div className="inpbx">
+                <input type="text" id="libText1" style={{fontFamily: 'douzone !important', fontSize: '14px'}} defaultValue='' placeholder="사업자번호를 입력해주세요." title="내용입력" />
+              </div>
             </div>
           </dd>
         </div>
         <div className="division">
-          <dt>기능</dt>
+          <dt>회사상태</dt>
           <dd>
-            <div className="LUX_basic_select LUX_renewal" style={{float: 'left', width: '100%', minWidth: '75px'}}>
+            {/* <div className="LUX_basic_select LUX_renewal" style={{float: 'left', width: '100%', minWidth: '75px'}}>
               <div className="searchbx">
                 <span className="inpbx">
                   <span className="placeholder text_black" style={{fontFamily: 'douzone !important', fontSize: '14px'}}>전체</span>
@@ -86,16 +103,22 @@ export const CompanySearch = ({  }) => {
                 <button type="button" className="btn"><span className="sp_lux">검색</span></button>
               </div>
               <div className="resultbx">
-                <div className="result_scrall" style={{maxHeight: '100px'}}>{/* 스크롤 생성 height 높이값 제어 */}
+                <div className="result_scrall" style={{maxHeight: '100px'}}>스크롤 생성 height 높이값 제어
                   <div className="result_scrallin">
                     <ul className="result_lst">
-                      <li><a href="#"><div>일반</div></a></li>
-                      <li><a href="#"><div>국가</div></a></li>
+                      <li><div>사용</div></li>
+                      <li><div>국가</div></li>
                     </ul>
                   </div>
                 </div>
               </div>
-            </div>
+            </div> */}
+            <LUXSelectField
+          checkObjectList={true}
+          selectFieldData={selectFieldDataObject}
+          defaultData={state.defaultData}
+          handleChoiceData={handleChoiceDataObject}
+        />
           </dd>
         </div>
       </dl>
@@ -103,7 +126,7 @@ export const CompanySearch = ({  }) => {
         <dt>회사명</dt>
         <dd className="division division--justify">
           <div className="bundle">
-            <div className="LUX_basic_select LUX_renewal" style={{width: '85px'}}>
+            {/* <div className="LUX_basic_select LUX_renewal" style={{width: '85px'}}>
               <div className="searchbx">
                 <span className="inpbx">
                   <span className="placeholder text_black" style={{fontFamily: 'douzone !important', fontSize: '14px'}}>전체</span>
@@ -111,7 +134,7 @@ export const CompanySearch = ({  }) => {
                 <button type="button" className="btn"><span className="sp_lux">검색</span></button>
               </div>
               <div className="resultbx">
-                <div className="result_scrall" style={{maxHeight: '100px'}}>{/* 스크롤 생성 height 높이값 제어 */}
+                <div className="result_scrall" style={{maxHeight: '100px'}}>
                   <div className="result_scrallin">
                     <ul className="result_lst">
                       <li><a href="#"><div>메뉴1</div></a></li>
@@ -120,11 +143,12 @@ export const CompanySearch = ({  }) => {
                   </div>
                 </div>
               </div>
-            </div>
+            </div> */}
+            
             <div className="LUX_basic_text LUX_renewal" style={{width: '210px', marginLeft: '4px'}}>
               {/* 입력창에 포커스 - inpbx class="on" 추가  */}
               <div className="inpbx">
-                <input type="text" id="libText1" style={{fontFamily: 'douzone !important', fontSize: '14px'}} defaultValue placeholder="검색어를 입력해주세요." title="내용입력" />
+                <input type="text" id="libText1" style={{fontFamily: 'douzone !important', fontSize: '14px'}} defaultValue=''  placeholder="회사명을 입력해주세요." title="내용입력" />
               </div>
             </div>
           </div>

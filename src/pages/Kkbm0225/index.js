@@ -51,24 +51,7 @@ const Kkbm0225 = () => {
                   <div className="sub_menu">
                     <ul className="tabs_wrap">
                       {/* [D] li 테그에 hover, focus 되면 li 테그에 open 클래스 추가 */}
-                      <li className="no_depth">
-                        <a href="#">회사정보관리</a>
-                      </li>
-                      <li className="no_depth">
-                        <a href="#">조직/사용자관리</a>
-                      </li>
-                      <li className="no_depth">
-                        <a href="#">서비스관리</a>
-                      </li>
-                      <li className="no_depth">
-                        <a href="#">도메인설정</a>
-                      </li>
-                      <li className="no_depth">
-                        <a href="#">요금 및 결제 관리</a>
-                      </li>
-                      <li className="no_depth">
-                        <a href="#">활동기록</a>
-                      </li>
+        
                     </ul>
                   </div></div>
                 <div className="cs_container">
