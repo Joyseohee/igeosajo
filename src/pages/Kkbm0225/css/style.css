@@ -1130,7 +1130,7 @@ button:active,button:focus {
 
 .cs_renewal .cs_tbl_04_02 .list_body .col1 {
     text-align: left;
-    padding-left: 30px
+    padding-left: 30px;
 }
 
 .cs_renewal .cs_tbl_04_02 .list_body .title__text {
@@ -1319,27 +1319,27 @@ button:active,button:focus {
     width: 40%
 }
 
-.cs_renewal .cs_tbl_08_02 .col1 {
-    width: 20%
-}
-
-.cs_renewal .cs_tbl_08_02 .col2 {
+.cs_renewal .cs_tbl_08_02 .kkbm0225col1 {
     width: 10%
 }
 
-.cs_renewal .cs_tbl_08_02 .col3 {
+.cs_renewal .cs_tbl_08_02 .kkbm0225col2 {
+    width: 10%
+}
+
+.cs_renewal .cs_tbl_08_02 .kkbm0225col3 {
     width: 30%
 }
 
-.cs_renewal .cs_tbl_08_02 .col4 {
+.cs_renewal .cs_tbl_08_02 .kkbm0225col4 {
     width: 15%
 }
 
-.cs_renewal .cs_tbl_08_02 .col5 {
+.cs_renewal .cs_tbl_08_02 .kkbm0225col5 {
     width: 10%
 }
 
-.cs_renewal .cs_tbl_08_02 .col6 {
+.cs_renewal .cs_tbl_08_02 .kkbm0225col6 {
     width: 25%
 }
 
@@ -2713,7 +2713,7 @@ button:active,button:focus {
     box-sizing: border-box
 }
 
-.cs_renewal .searchBox__item {
+.cs_renewal .kk_searchBox__item {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -2723,25 +2723,25 @@ button:active,button:focus {
     margin-top: 14px
 }
 
-.cs_renewal .searchBox__item:first-of-type {
+.cs_renewal .kk_searchBox__item:first-of-type {
     margin-top: 0
 }
 
-.cs_renewal .searchBox__item .division {
+.cs_renewal .kk_searchBox__item .division {
     -webkit-box-flex: 1;
     -ms-flex: 1;
     flex: 1
 }
 
-.cs_renewal .searchBox__item .division+.division {
+.cs_renewal .kk_searchBox__item .division+.division {
     margin-left: 24px
 }
 
-.cs_renewal .searchBox__item .division:first-of-type {
+.cs_renewal .kk_searchBox__item .division:first-of-type {
     margin-left: 0
 }
 
-.cs_renewal .searchBox__item dt {
+.cs_renewal .kk_searchBox__item dt {
     min-width: 66px;
     font-size: 14px;
     font-weight: 700;
@@ -2749,13 +2749,13 @@ button:active,button:focus {
     letter-spacing: -.7px
 }
 
-.cs_renewal .searchBox__item dd {
+.cs_renewal .kk_searchBox__item dd {
     -webkit-box-flex: 1;
     -ms-flex: 1;
     flex: 1
 }
 
-.cs_renewal .searchBox__item .bundle {
+.cs_renewal .kk_searchBox__item .bundle {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex

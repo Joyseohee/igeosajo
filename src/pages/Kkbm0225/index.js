@@ -1,44 +1,47 @@
 import React, {useState, useEffect} from 'react';
-import Header from './Header';
-import Select from './Select';
-import Lang from './Lang';
-import Globals from './Globals';
-import ZustandTest from './ZustandTest';
-import CommonLUXComponentTest from './CommonLUXComponentTest';
-import style from './style.css'
+
+import './css/style.css'
 import moment from 'moment'
 import callApi from 'services/apis/Kkbm0225'
 
 import { CompanyList } from './CompanyList';
 import { CompanySearch } from './CompanySearch';
-
+import { Dialog } from './Dialog';
 
 const Kkbm0225 = () => {
 
 
 
   const [state, setState] = useState({
-    dateFrom: new Date(),
-    dateTo: new Date(),
-    company_reg_no: '',
-    company_name_kr: '',
-    company_state: 0,
+ 
 
     compList: [],
 
     isOpenDialog: false,
   })
+  const d = new Date();
 
-  const handleChange = (dateFrom, dateTo, position) => {
-    console.log(dateFrom, '~', dateTo, position);
+  const [searchData, setSearchData] = useState({
 
-    setState({...state,dateFrom:dateFrom, dateTo});
-   
-    
-  };
+    dateFrom:new Date(d.setFullYear(d.getFullYear() - 1)),
+    dateTo: new Date(),
+    company_reg_no: '',
+    company_name_kr: '',
+    company_state: 2,
+  })
+  const [selectedCompany , setSelectedCompany]=useState('');
 
 
+  const handleSearch =(searchData)=>{
   
+    setSearchData( searchData)
+  }
+
+  const handleSelect=(selectedCompany)=>{
+  
+    setSelectedCompany( selectedCompany)
+  }
+  useEffect(()=>{console.log('useeffect');console.log(searchData)},[])
     return (
 
         <div className="container">
@@ -67,8 +70,11 @@ const Kkbm0225 = () => {
                       {/* 리스트 영역 노출 --division01 */}
                       {/* 조직도 영역 노출 --division02 */}
                       <div className="pageLayout__content">
-                       <CompanySearch/>
-                    <CompanyList/>
+                       <CompanySearch handleSearch ={handleSearch} searchData ={searchData}/>
+                    <CompanyList searchData ={searchData} handleSelect={handleSelect}/>
+                    {selectedCompany!=='' ?<Dialog selectedCompany={selectedCompany} handleSelect={handleSelect}/> :<></>}
+              
+  
                       </div>
                     </div>
                   </div>
